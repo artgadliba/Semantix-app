@@ -107,7 +107,7 @@ const GlobalStyle = createGlobalStyle`
       font-size: 15px;
     }
     @media(max-width: 400px) {
-      font-size: 14px;
+      font-size: 13px;
     }
     @media(max-width: 350px) {
       font-size: 12px;
