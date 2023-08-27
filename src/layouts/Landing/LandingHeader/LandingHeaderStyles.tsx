@@ -16,6 +16,10 @@ const LandingHeaderBody = styled.div`
   height: 100%;
   margin-top: ${pxIntoRem(20)};
   margin-bottom: ${pxIntoRem(12)};
+  @media (max-width: 500px) {
+    margin-top: ${pxIntoRem(20)};
+    margin-bottom: ${pxIntoRem(22)};
+  }
 `;
 
 const LandingHeaderLogoBlock = styled.div`
@@ -99,7 +103,7 @@ const LandingHeaderButton = styled(Link)`
   gap: ${pxIntoRem(10)};
   font-family: "Mulish";
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-size: ${pxIntoRem(14)};
   line-height: normal;
   color: #ffffff;
@@ -114,6 +118,7 @@ const LandingHeaderButton = styled(Link)`
     height: ${pxIntoRem(32)};
     font-size: ${pxIntoRem(12)};
     margin-right: ${pxIntoRem(22)};
+    padding: 0;
   }
 `;
 

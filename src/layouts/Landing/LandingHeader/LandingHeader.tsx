@@ -49,9 +49,7 @@ const LandingHeader: FC = () => {
                 Контакты
               </LandingHeaderNavigationLink>
             </LandingHeaderNavigation>
-          <LandingHeaderButton to={"/"}>
-            Войти
-          </LandingHeaderButton>
+          <LandingHeaderButton to={"/"}>Войти</LandingHeaderButton>
           <HeaderBurger />
         </LandingHeaderBody>
       </Container>

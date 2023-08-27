@@ -6,8 +6,7 @@ import { App } from "./App";
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@700&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@500;600;700&display=swap');
 
   * {
     margin: 0;
@@ -145,9 +144,9 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Mulish';
     src: local('Mulish'),
-        url('/fonts/Mulish-Semibold.ttf') format('woff2');
-        url('/fonts/Mulish-Semibold.ttf') format('woff');
-        url('/fonts/Mulish-Semibold.ttf') format('truetype');
+        url('/fonts/Mulish-SemiBold.ttf') format('woff2');
+        url('/fonts/Mulish-SemiBold.ttf') format('woff');
+        url('/fonts/Mulish-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
     font-display: swap;

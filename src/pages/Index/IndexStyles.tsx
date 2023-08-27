@@ -100,6 +100,10 @@ const IndexGreetingTitleBox = styled.div`
     height: ${pxIntoRem(34)};
     border-radius: ${pxIntoRem(8.229)};
     padding-top: ${pxIntoRem(0)};
+    border: 1px solid #202230B2;
+    &:before {
+      display: none;
+    }
   }
 `;
 
@@ -706,6 +710,7 @@ const IndexPaymentBackgroundBlock = styled.div`
     margin-top: ${pxIntoRem(-44)};
     padding-left: ${pxIntoRem(0)};
     padding-right: ${pxIntoRem(0)};
+    height: ${pxIntoRem(820)};
   }
 `;
 
@@ -729,16 +734,17 @@ const IndexPaymentBackground = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    height: ${pxIntoRem(880)};
+    display: none;
   }
 `;
 
 const IndexPaymentMobileBackground = styled.img`
   width: 100%;
+  filter: drop-shadow(0px ${pxIntoRem(24)} ${pxIntoRem(234)} rgba(0, 0, 0, 0.20));
   z-index: 99;
   display: none;
   @media (max-width: 500px) {
-    // display: flex;
+    display: flex;
   }
 `;
 
@@ -761,6 +767,9 @@ const IndexPaymentUpperBlurredEllipse = styled.div`
   background: #1683E2;
   filter: blur(167px);
   margin-top: ${pxIntoRem(-200)};
+  @media (max-width: 500px) {
+    margin: ${pxIntoRem(-150)} auto;
+  }
 `;
 
 const IndexPaymentLowerBlurredEllipse = styled.div`
@@ -772,6 +781,9 @@ const IndexPaymentLowerBlurredEllipse = styled.div`
   background: #1683E2;
   filter: blur(167px);
   margin-top: ${pxIntoRem(770)};
+  @media (max-width: 500px) {
+    margin: ${pxIntoRem(990)} auto;
+  }
 `;
 
 const IndexPaymentTopBackgroundImage = styled.img`
