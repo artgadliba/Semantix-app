@@ -252,9 +252,13 @@ function Index() {
           <IndexLowerBackgroundBlock>
             <IndexLowerBackgroundImage alt="background" src="/images/lower-bg.svg" />
             {/* <IndexLowerMobileBackgroundImage alt="background" src="/images/lower-mobile-bg.svg" /> */}
-            <IndexLowerMobileBackgroundImage width="320" height="192" viewBox="0 0 320 192" transform="scale(1,-1)" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* <IndexLowerMobileBackgroundImage width="320" height="192" viewBox="0 0 320 192" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M320 152c0 22.091-17.909 40-40 40H40c-22.091 0-40-17.909-40-40V40C0 17.909 17.909 0 40 0h240c22.091 0 40 17.909 40 40v112Z" fill="url(#a)" fill-opacity=".5"/>
               <path d="M319.5 152c0 21.815-17.685 39.5-39.5 39.5H40C18.185 191.5.5 173.815.5 152V40C.5 18.185 18.185.5 40 .5h240c21.815 0 39.5 17.685 39.5 39.5v112Z" stroke="url(#b)" stroke-opacity=".7"/><defs><linearGradient id="a" x1="160" y1="192" x2="160" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#10111D"/><stop offset=".886" stop-color="#030512" stop-opacity="0"/></linearGradient><linearGradient id="b" x1="106.435" y1="188.993" x2="79.694" y2="107.905" gradientUnits="userSpaceOnUse"><stop stop-color="#202230"/><stop offset="1" stop-color="#202129" stop-opacity="0"/></linearGradient></defs>
+            </IndexLowerMobileBackgroundImage> */}
+            <IndexLowerMobileBackgroundImage width="320" height="192" viewBox="0 0 320 192" transform="scale(1,-1)" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 40C0 17.909 17.909 0 40 0h240c22.091 0 40 17.909 40 40v112c0 22.091-17.909 40-40 40H40c-22.091 0-40-17.909-40-40V40Z" fill="url(#a)" fill-opacity=".5"/>
+              <path d="M.5 40C.5 18.185 18.185.5 40 .5h240c21.815 0 39.5 17.685 39.5 39.5v112c0 21.815-17.685 39.5-39.5 39.5H40C18.185 191.5.5 173.815.5 152V40Z" stroke="url(#b)" stroke-opacity=".7"/><defs><linearGradient id="a" x1="160" y1="0" x2="160" y2="192" gradientUnits="userSpaceOnUse"><stop stop-color="#10111D"/><stop offset=".886" stop-color="#030512" stop-opacity="0"/></linearGradient><linearGradient id="b" x1="213.565" y1="3.007" x2="240.306" y2="84.095" gradientUnits="userSpaceOnUse"><stop stop-color="#202230"/><stop offset="1" stop-color="#202129" stop-opacity="0"/></linearGradient></defs>
             </IndexLowerMobileBackgroundImage>
             <IndexHowItWorksContent>
               <IndexHowItWorksTitle>

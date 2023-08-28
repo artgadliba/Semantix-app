@@ -123,6 +123,14 @@ const LandingFooterContactTelegramBlock = styled(Link)`
     color: #1683E2;
     transition: 0.3s;
   }
+  &:active ${LandingFooterTelegramIcon} {
+    fill: #1683E2;
+    transition: 0.3s;
+  }
+  &:active ${LandingFooterTelegramTitle} {
+    color: #1683E2;
+    transition: 0.3s;
+  }
 `;
 
 const LandingFooterEmailIcon = styled.svg`
@@ -151,6 +159,14 @@ const LandingFooterContactEmailBlock = styled.div`
     transition: 0.3s;
   }
   &:hover ${LandingFooterEmailTitle} {
+    color: #1683E2;
+    transition: 0.3s;
+  }
+  &:active ${LandingFooterEmailIcon} {
+    fill: #1683E2;
+    transition: 0.3s;
+  }
+  &:active ${LandingFooterEmailTitle} {
     color: #1683E2;
     transition: 0.3s;
   }
