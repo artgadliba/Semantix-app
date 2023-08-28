@@ -1139,18 +1139,6 @@ const IndexCallToActionContent = styled.div`
   z-index: 99;
 `;
 
-const IndexCallToActionLogo = styled.img`
-  display: flex;
-  align-items: center;
-  width: ${pxIntoRem(129)};
-  height: ${pxIntoRem(187)};
-  margin-top: ${pxIntoRem(40)};
-  @media (max-width: 500px) {
-    width: ${pxIntoRem(129 * 1.1)};
-    height: ${pxIntoRem(187 * 1.1)};
-  }
-`;
-
 const IndexCallToActionContentTitle = styled.h2`
   font-family: "Mulish";
   font-style: normal;
@@ -1304,7 +1292,6 @@ export {
   IndexCallToAction,
   IndexCallToActionContent,
   IndexCallToActionBody,
-  IndexCallToActionLogo,
   IndexCallToActionContentTitle,
   IndexCallToActionContentText,
   IndexBottomLeftBlurredCircle,

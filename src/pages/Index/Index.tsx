@@ -78,12 +78,12 @@ import {
   IndexCallToAction,
   IndexCallToActionContent,
   IndexCallToActionBody,
-  IndexCallToActionLogo,
   IndexCallToActionContentTitle,
   IndexCallToActionContentText,
   IndexBottomLeftBlurredCircle,
   IndexBottomRightBlurredCircle
 } from "./IndexStyles";
+import FlashLogo from "../../components/SvgComponents/FlashLogo";
 
 function Index() {
   return (
@@ -343,7 +343,7 @@ function Index() {
             <IndexCallToActionContent>
               <IndexCallToAction>
                 <IndexCallToActionBody>
-                  <IndexCallToActionLogo alt="logo" src="/images/logo-flash.svg" />
+                  <FlashLogo />
                   <IndexCallToActionContentTitle>Оцените качество<br className="mobile-break"></br> расшифровки</IndexCallToActionContentTitle>
                   <IndexCallToActionContentText>Получите <span>15 пробных минут</span></IndexCallToActionContentText>
                   <IndexGreetingTryFreeButton to="">
