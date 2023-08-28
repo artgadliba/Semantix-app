@@ -914,12 +914,13 @@ const IndexPaymentOptionTableBackground = styled.div`
 
 const IndexPaymentBlurredEllipseLeft = styled.div`
   position: absolute;
-  left: 23%;
-  top: 3%;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
   filter: blur(50px);
   width: ${pxIntoRem(172)};
   height: ${pxIntoRem(58)};
-  margin: 0 auto;
   border-radius: ${pxIntoRem(172)};
   opacity: 0.6;
   background: #1683E2;
@@ -931,12 +932,13 @@ const IndexPaymentBlurredEllipseLeft = styled.div`
 
 const IndexPaymentBlurredEllipseMiddle = styled.div`
   position: absolute;
-  left: 23%;
-  top: 3%;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
   filter: blur(50px);
   width: ${pxIntoRem(172)};
   height: ${pxIntoRem(58)};
-  margin: 0 auto;
   border-radius: ${pxIntoRem(172)};
   opacity: 0.6;
   background: #1683E2;
@@ -948,12 +950,13 @@ const IndexPaymentBlurredEllipseMiddle = styled.div`
 
 const IndexPaymentBlurredEllipseRight = styled.div`
   position: absolute;
-  left: 23%;
-  top: 3%;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
   filter: blur(50px);
   width: ${pxIntoRem(172)};
   height: ${pxIntoRem(58)};
-  margin: 0 auto;
   border-radius: ${pxIntoRem(172)};
   opacity: 0.6;
   background: #D33229;
