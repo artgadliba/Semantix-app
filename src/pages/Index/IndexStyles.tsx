@@ -319,7 +319,7 @@ const IndexLowerBackgroundImage = styled.img`
   }
 `;
 
-const IndexLowerMobileBackgroundImage = styled.svg`
+const IndexLowerMobileBackgroundImage = styled.img`
   width: 100%;
   height: ${pxIntoRem(279)};
   z-index: 99;
