@@ -33,7 +33,7 @@ const LandingFooter: FC = () => {
 
   return (
     <LandingFooterBlock>
-      <Container maxWidth={1440}>
+      {/* <Container maxWidth={1440}> */}
         <LandingFooterBody>
           <LandingFooterTop />
           <LandingFooterStamp>Москва - 2023 Semantix</LandingFooterStamp>
@@ -58,7 +58,7 @@ const LandingFooter: FC = () => {
             </LandingFooterContactEmailBlock>
           </LandingFooterContactsBlock>
         </LandingFooterBody>
-      </Container>
+      {/* </Container> */}
     </LandingFooterBlock>
   );
 }

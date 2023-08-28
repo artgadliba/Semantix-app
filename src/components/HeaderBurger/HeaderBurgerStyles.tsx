@@ -30,6 +30,7 @@ const HeaderBurgerContent = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100%;
   background-color: #040512;
   padding: ${pxIntoRem(24)} ${pxIntoRem(15)} ${pxIntoRem(24)};
   gap: ${pxIntoRem(140)};
@@ -91,6 +92,10 @@ const HeaderBurgerContentNavigation = styled.nav`
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 const HeaderBurgerContentNavigationLink = styled(NavLink)`
@@ -102,6 +107,7 @@ const HeaderBurgerContentNavigationLink = styled(NavLink)`
   font-weight: 500;
   line-height: normal;
   margin-top: ${pxIntoRem(32)};
+  transition: 0.3s;
   &:first-of-type {
     margin-top: 0px;
   }
@@ -118,7 +124,13 @@ const HeaderBurgerContentNavigationLink = styled(NavLink)`
 const HeaderBurgerContentIcons = styled.div`
   display: flex;
   align-items: center;
-  margin-top: ${pxIntoRem(6)};
+  margin-top: auto;
+  margin-bottom: ${pxIntoRem(24)};
+`;
+
+const HeaderBurgerContentIcon = styled.svg`
+  width: ${pxIntoRem(27)};
+  fill: white;
 `;
 
 const HeaderBurgerContentIconBlock = styled(Link)`
@@ -129,43 +141,18 @@ const HeaderBurgerContentIconBlock = styled(Link)`
   height: ${pxIntoRem(42)};
   border-radius: 50%;
   background: #171828;
-  margin-left: ${pxIntoRem(27)};
+  margin-left: ${pxIntoRem(12)};
+  transition: 0.3s;
   &:first-of-type {
     margin-left: 0px;
   }
-`;
-
-const HeaderBurgerContentIcon = styled.svg`
-  width: ${pxIntoRem(27)};
-  fill: white;
-  &:hover {
+  &:hover ${HeaderBurgerContentIcon} {
     fill: #1683E2;
     transition: 0.3s;
   }
-  &:active {
+  &:active ${HeaderBurgerContentIcon} {
     fill: #1683E2;
     transition: 0.3s;
-  }
-`;
-
-const HeaderBurgerContentLinks = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-top: ${pxIntoRem(20)};
-`;
-
-const HeaderBurgerContentLink = styled(Link)`
-  font-family: "Gilroy";
-  font-style: normal;
-  font-weight: 500;
-  font-size: ${pxIntoRem(18)};
-  line-height: 172.52%;
-  color: #874dec;
-  margin-top: ${pxIntoRem(5)};
-  &:first-of-type {
-    margin-top: 0px;
   }
 `;
 
@@ -215,7 +202,5 @@ export {
   HeaderBurgerContentIcons,
   HeaderBurgerContentNavigation,
   HeaderBurgerContentNavigationLink,
-  HeaderBurgerContentLinks,
-  HeaderBurgerContentLink,
   HeaderBurgerButton
 };

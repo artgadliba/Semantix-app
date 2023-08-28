@@ -29,30 +29,28 @@ const LandingHeader: FC = () => {
 
   return (
     <LandingHeaderBlock>
-      <Container maxWidth={1440} >
-        <LandingHeaderBody>
-          <LandingHeaderBlurredCircle />
-          <LandingHeaderLogoBlock>
-            <LandingHeaderLogo alt="Semantix logo" src="/images/Main-logo.svg" />
-          </LandingHeaderLogoBlock>
-            <LandingHeaderNavigation>
-              <LandingHeaderNavigationLink to={"/"} >
-                Возможности
-              </LandingHeaderNavigationLink>
-              <LandingHeaderNavigationLink to={"/"} >
-                Как это работает
-              </LandingHeaderNavigationLink>
-              <LandingHeaderNavigationLink to={"/"} >
-                Стоимость
-              </LandingHeaderNavigationLink>
-              <LandingHeaderNavigationLink to={"/"} >
-                Контакты
-              </LandingHeaderNavigationLink>
-            </LandingHeaderNavigation>
-          <LandingHeaderButton to={"/"}>Войти</LandingHeaderButton>
-          <HeaderBurger />
-        </LandingHeaderBody>
-      </Container>
+      <LandingHeaderBody>
+        <LandingHeaderBlurredCircle />
+        <LandingHeaderLogoBlock>
+          <LandingHeaderLogo alt="Semantix logo" src="/images/main-logo.svg" />
+        </LandingHeaderLogoBlock>
+          <LandingHeaderNavigation>
+            <LandingHeaderNavigationLink to={"/"} >
+              Возможности
+            </LandingHeaderNavigationLink>
+            <LandingHeaderNavigationLink to={"/"} >
+              Как это работает
+            </LandingHeaderNavigationLink>
+            <LandingHeaderNavigationLink to={"/"} >
+              Стоимость
+            </LandingHeaderNavigationLink>
+            <LandingHeaderNavigationLink to={"/"} >
+              Контакты
+            </LandingHeaderNavigationLink>
+          </LandingHeaderNavigation>
+        <LandingHeaderButton to={"/"}>Войти</LandingHeaderButton>
+        <HeaderBurger />
+      </LandingHeaderBody>
     </LandingHeaderBlock>
   );
 }

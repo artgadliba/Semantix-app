@@ -177,14 +177,21 @@ const IndexGreetingTryFreeButton = styled(Link)`
   gap: ${pxIntoRem(10)};
   justify-content: center;
   cursor: pointer;
+  transition: 0.3s;
   &:hover {
     background: #1668E2;
     box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.5s;
+    transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: ${pxIntoRem(290)};
+    width: 80vw;
   }
+`;
+
+const IndexGreetingTelegramLinkIcon = styled.svg`
+  width: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
+  fill: #FFF;
 `;
 
 const IndexGreetingTelegramLinkBlock = styled(Link)`
@@ -199,19 +206,20 @@ const IndexGreetingTelegramLinkBlock = styled(Link)`
   margin-top: ${pxIntoRem(608)};
   right: 5%;
   z-index: 999999;
+  transition: 0.3s;
+  &:hover ${IndexGreetingTelegramLinkIcon} {
+    fill: #1683E2;
+    transition: 0.3s;
+  }
   @media (max-width: 500px) {
     display: none;
   }
 `;
 
-const IndexGreetingTelegramLinkIcon = styled.svg`
+const IndexGreetingEmailLinkIcon = styled.svg`
   width: ${pxIntoRem(20)};
   height: ${pxIntoRem(20)};
   fill: #FFF;
-  &:hover {
-    fill: #1683E2;
-    transition: 0.5s;
-  }
 `;
 
 const IndexGreetingEmailLinkBlock = styled(Link)`
@@ -226,18 +234,13 @@ const IndexGreetingEmailLinkBlock = styled(Link)`
   background: #171828;
   right: 5%;
   z-index: 999999;
+  transition: 0.3s;
+  &:hover ${IndexGreetingEmailLinkIcon} {
+    fill: #1683E2;
+    transition: 0.3s;
+  }
   @media (max-width: 500px) {
     display: none;
-  }
-`;
-
-const IndexGreetingEmailLinkIcon = styled.svg`
-  width: ${pxIntoRem(20)};
-  height: ${pxIntoRem(20)};
-  fill: #FFF;
-  &:hover {
-    fill: #1683E2;
-    transition: 0.5s;
   }
 `;
 
@@ -250,6 +253,7 @@ const IndexUpperBackgroundBlock = styled.div`
   margin-top: ${pxIntoRem(-29)};
   @media (max-width: 500px) {
     margin-top: ${pxIntoRem(5)};
+    height: auto;
   }
 `;
 
@@ -267,12 +271,13 @@ const IndexUpperBackgroundImage = styled.img`
 
 const IndexUpperMobileBackgroundImage = styled.img`
   width: 100%;
-  height: ${pxIntoRem(279)};
+  height: auto;
   z-index: 99;
   display: none;
   @media (max-width: 500px) {
     display: flex;
     filter: drop-shadow(0px 24px 234px rgba(0, 0, 0, 0.20));
+    position: absolute;
   }
 `;
 
@@ -280,7 +285,7 @@ const IndexUpperBlurredCircle = styled.div`
   position: absolute;
   width: ${pxIntoRem(100)};
   height: ${pxIntoRem(100)};
-  top: ${pxIntoRem(582)};
+  top: 17%;
   right: ${pxIntoRem(-50)};
   border-radius: 50%;
   background: #1683E2;
@@ -296,13 +301,13 @@ const IndexLowerBackgroundBlock = styled.div`
   margin-top: ${pxIntoRem(23)};
   @media (max-width: 500px) {
     margin-top: ${pxIntoRem(100)};
-    height: ${pxIntoRem(1061)};
+    height: auto;
   }
 `;
 
 const IndexLowerBackgroundImage = styled.img`
   width: 100%;
-  height: ${pxIntoRem(804)};
+  height: auto;
   padding-left: ${pxIntoRem(35)};
   padding-right: ${pxIntoRem(35)};
   z-index: 99;
@@ -320,7 +325,9 @@ const IndexLowerMobileBackgroundImage = styled.img`
   @media (max-width: 500px) {
     display: flex;
     filter: drop-shadow(0px 24px 234px rgba(0, 0, 0, 0.20));
-    margin-top: ${pxIntoRem(698)};
+    bottom: 0px;
+    height: auto;
+    position: absolute;
   }
 `;
 
@@ -328,7 +335,7 @@ const IndexLowerBlurredCircle = styled.div`
   position: absolute;
   width: ${pxIntoRem(100)};
   height: ${pxIntoRem(100)};
-  top: ${pxIntoRem(330)};
+  top: 52%;
   right: ${pxIntoRem(-50)};
   border-radius: 50%;
   background: #1683E2;
@@ -351,7 +358,6 @@ const IndexFeaturesBody = styled.div`
 
 const IndexFeaturesTitleContent = styled.div`
   z-index: 99;
-  margin-top: ${pxIntoRem(0)};
 `;
 
 const IndexFeaturesTitle = styled.h2`
@@ -364,7 +370,7 @@ const IndexFeaturesTitle = styled.h2`
   color: #ffffff;
   margin-top: ${pxIntoRem(150)};
   @media (max-width: 500px) {
-    margin-top: ${pxIntoRem(-200)};
+    margin-top: 7.5%;
     font-size: ${pxIntoRem(24)};
   }
 `;
@@ -409,8 +415,7 @@ const IndexFeaturesTableSide = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    // width: ${pxIntoRem(290)};
-    width: 70vw;
+    width: 80vw;
     height: auto;
   }
 `;
@@ -447,8 +452,7 @@ const IndexFeaturesTableCenter = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    // width: ${pxIntoRem(290)};
-    width: 70vw;
+    width: 80vw;
     height: auto;
     top: ${pxIntoRem(0)};
   }
@@ -461,7 +465,6 @@ const IndexFeaturesTablePattern = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  // opacity: 0.6;
   & > img {
     width: 100%;
     height: 100%;
@@ -555,7 +558,7 @@ const IndexHowItWorksBody = styled.div`
 `;
 
 const IndexHowItWorksContent = styled.div`
-  position: absolute;
+  position: relative;
   z-index: 99;
 `;
 
@@ -657,8 +660,8 @@ const IndexHowItWorksImage = styled.img`
 `;
 
 const IndexHowItWorksMobileImage = styled.img`
-  width: ${pxIntoRem(290)};
-  heigth: ${pxIntoRem(215)};
+  width: 80vw;
+  heigth: auto;
   display: none;
   @media (max-width: 500px) {
     display: flex;
@@ -694,6 +697,9 @@ const IndexHowItWorksMobileText = styled.div`
   margin-top: ${pxIntoRem(16)};
   @media (max-width: 500px) {
     display: flex;
+    &:nth-of-type(5) {
+      margin-bottom: ${pxIntoRem(40)};
+    }
   }
 `;
 
@@ -707,7 +713,7 @@ const IndexPaymentBackgroundBlock = styled.div`
   padding-left: ${pxIntoRem(35)};
   padding-right: ${pxIntoRem(35)};
   @media (max-width: 500px) {
-    margin-top: ${pxIntoRem(-44)};
+    margin-top: ${pxIntoRem(40)};
     padding-left: ${pxIntoRem(0)};
     padding-right: ${pxIntoRem(0)};
     height: ${pxIntoRem(820)};
@@ -884,7 +890,7 @@ const IndexPaymentOptionTable = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    width: ${pxIntoRem(290)};
+    width: 80vw;
     height: ${pxIntoRem(227)};
   }
 `;
@@ -900,8 +906,8 @@ const IndexPaymentOptionTableBackground = styled.div`
   overflow: hidden;
   backdrop-filter: blur(60px);
   @media (max-width: 500px) {
-    width: ${pxIntoRem(290)};
-    height: ${pxIntoRem(227)};
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -1040,13 +1046,14 @@ const IndexPaymentOptionPurchaseButton = styled.div`
   line-height: normal;
   margin-top: ${pxIntoRem(42)};
   cursor: pointer;
+  transition: 0.3s;
   &:hover {
     background: rgba(22, 131, 226, 0.10);
     box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
-    transition: 0.5s;
+    transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: ${pxIntoRem(242)};
+    width: 65vw;
     margin-top: ${pxIntoRem(24)};
   }
 `;
@@ -1071,12 +1078,13 @@ const IndexPaymentOptionClaimButton = styled.div`
   line-height: normal;
   margin-top: ${pxIntoRem(52)};
   cursor: pointer;
+  transition: 0.3s;
   &:hover {
     border: 1px solid #FFF;
-    transition: 0.5s;
+    transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: ${pxIntoRem(242)};
+    width: 65vw;
     margin-top: ${pxIntoRem(22)};
   }
 `;
@@ -1135,6 +1143,10 @@ const IndexCallToActionLogo = styled.img`
   width: ${pxIntoRem(129)};
   height: ${pxIntoRem(187)};
   margin-top: ${pxIntoRem(40)};
+  @media (max-width: 500px) {
+    width: ${pxIntoRem(129 * 1.1)};
+    height: ${pxIntoRem(187 * 1.1)};
+  }
 `;
 
 const IndexCallToActionContentTitle = styled.h2`
@@ -1181,7 +1193,7 @@ const IndexBottomLeftBlurredCircle = styled.div`
   position: absolute;
   width: ${pxIntoRem(100)};
   height: ${pxIntoRem(100)};
-  top: ${pxIntoRem(1994)};
+  top: 91%;
   left: ${pxIntoRem(-50)};
   border-radius: 50%;
   background: #1683E2;
@@ -1199,7 +1211,7 @@ const IndexBottomRightBlurredCircle = styled.div`
   position: absolute;
   width: ${pxIntoRem(100)};
   height: ${pxIntoRem(100)};
-  top: ${pxIntoRem(2011)};
+  top: 92%;
   right: ${pxIntoRem(-50)};
   border-radius: 50%;
   background: #1683E2;

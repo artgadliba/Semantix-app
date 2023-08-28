@@ -36,7 +36,7 @@ const LandingFooterStamp = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 150%;
-  margin-left: ${pxIntoRem(25)};
+  margin-left: ${pxIntoRem(70)};
   margin-top: ${pxIntoRem(24)};
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} auto;
@@ -65,6 +65,7 @@ const LandingFooterDocumentLink = styled.div`
   font-weight: 400;
   line-height: 150%;
   cursor: pointer;
+  transition: 0.3s;
   &:hover {
     color: #FFF;
     transition: 0.3s;
@@ -75,7 +76,7 @@ const LandingFooterContactsBlock = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: ${pxIntoRem(24)};
-  margin-right: ${pxIntoRem(25)};
+  margin-right: ${pxIntoRem(70)};
   margin-left: auto;
   width: auto;
   height: auto;
@@ -109,13 +110,14 @@ const LandingFooterContactTelegramBlock = styled(Link)`
   flex-direction: row;
   gap: ${pxIntoRem(10)};
   cursor: pointer;
+  transition: 0.3s;
   &:hover ${LandingFooterTelegramIcon} {
     fill: #1683E2;
-    transition: 0.5s;
+    transition: 0.3s;
   }
   &:hover ${LandingFooterTelegramTitle} {
     color: #1683E2;
-    transition: 0.5s;
+    transition: 0.3s;
   }
 `;
 
@@ -139,13 +141,14 @@ const LandingFooterContactEmailBlock = styled.div`
   flex-direction: row;
   gap: ${pxIntoRem(10)};
   cursor: pointer;
+  transition: 0.3s;
   &:hover ${LandingFooterEmailIcon} {
     fill: #1683E2;
-    transition: 0.5s;
+    transition: 0.3s;
   }
   &:hover ${LandingFooterEmailTitle} {
     color: #1683E2;
-    transition: 0.5s;
+    transition: 0.3s;
   }
 `;
 

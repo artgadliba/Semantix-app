@@ -89,11 +89,14 @@ function Index() {
   return (
     <Landing>
       <IndexBlock>
+      <IndexUpperBlurredCircle />
+      <IndexLowerBlurredCircle />
+      <IndexBottomLeftBlurredCircle />
+      <IndexBottomRightBlurredCircle />
         <Container maxWidth={1440}>
           <IndexGreetingBackgroundBlock>
             <IndexBlurredRectangle />
-            <IndexGreetingBackground alt="background" src="/images/Main-background.svg" />
-            <IndexUpperBlurredCircle />
+            <IndexGreetingBackground alt="background" src="/images/main-background.svg" />
             <IndexGreetingTelegramLinkBlock to="">
               <IndexGreetingTelegramLinkIcon width="20" height="20" viewBox="0 0 20 20"><g clip-path="url(#a)">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.48 3.692a1.25 1.25 0 0 1 1.72 1.355L16.31 16.51c-.184 1.106-1.397 1.74-2.412 1.189a48.711 48.711 0 0 1-3.241-1.912c-.567-.37-2.303-1.558-2.09-2.403.184-.723 3.1-3.438 4.767-5.052.654-.634.356-1-.416-.416-1.92 1.448-4.999 3.65-6.017 4.27-.898.547-1.367.64-1.927.547-1.021-.17-1.969-.433-2.742-.754-1.045-.433-.994-1.87-.001-2.288l14.25-6Z" /></g><defs><clipPath id="a">
@@ -145,7 +148,7 @@ function Index() {
                         Точность<br></br>расшифровки <span>95%</span>
                       </IndexFeaturesTableTitle>
                       <IndexFeaturesTableText>
-                        Автоматическая нейтрализация<br className="mobile-break"></br> посторонних шумов увеличивает<br className="mobile-break"></br> точность результата. 
+                        Автоматическая нейтрализация посторонних шумов увеличивает точность результата. 
                       </IndexFeaturesTableText>
                     </IndexFeaturesTableSide>
                     <IndexFeaturesTableCenter>
@@ -156,7 +159,7 @@ function Index() {
                         Обработка часовой<br className="mobile-break"></br> записи за <span>10 минут</span>
                       </IndexFeaturesTableTitle>
                       <IndexFeaturesTableText>
-                        При максимально высокой<br className="mobile-break"></br> плотности речи в записи.
+                        При максимально высокой плотности речи в записи.
                       </IndexFeaturesTableText>
                     </IndexFeaturesTableCenter>
                     <IndexFeaturesTableSide>
@@ -164,10 +167,10 @@ function Index() {
                       <IndexFeaturesTableIcon alt="punctuation" src="/images/feature-punctuation.svg" />
                       <IndexFeaturesTablePattern alt="pattern" src="/images/card-pattern.svg"/>
                       <IndexFeaturesTableTitle>
-                        Расстановка знаков<br className="mobile-break"></br> препинания
+                        Расстановка знаков<br></br> препинания
                       </IndexFeaturesTableTitle>
                       <IndexFeaturesTableText>
-                        Значительно улучшает удобство<br className="mobile-break"></br> восприятия текста
+                        Значительно улучшает удобство восприятия текста
                       </IndexFeaturesTableText>
                     </IndexFeaturesTableSide>
                     <IndexFeaturesTableSide>
@@ -178,7 +181,7 @@ function Index() {
                         Поддерживаемые<br></br>форматы
                       </IndexFeaturesTableTitle>
                       <IndexFeaturesTableText>
-                      Видео: <span>MP4, MKV, FLV, AVI, MOV,<br className="mobile-break"></br> WMV</span><br></br>Аудио: <span>M4A, MP3, OGG, AAC, WAV,<br className="mobile-break"></br> FLAC, WMA</span>
+                      Видео: <span>MP4, MKV, FLV, AVI, MOV, WMV</span><br></br>Аудио: <span>M4A, MP3, OGG, AAC, WAV, FLAC, WMA</span>
                       </IndexFeaturesTableText>
                     </IndexFeaturesTableSide>
                     <IndexFeaturesTableCenter>
@@ -189,7 +192,7 @@ function Index() {
                         Экспорт в форматах<br></br><span>docx, txt, srt</span>
                       </IndexFeaturesTableTitle>
                       <IndexFeaturesTableText>
-                        По запросу добавим удобный для<br className="mobile-break"></br> вас формат
+                        По запросу добавим удобный для вас формат
                       </IndexFeaturesTableText>
                     </IndexFeaturesTableCenter>
                     <IndexFeaturesTableSide>
@@ -200,7 +203,7 @@ function Index() {
                         Безопасность
                       </IndexFeaturesTableTitle>
                       <IndexFeaturesTableText>
-                        Мы дорожим безопасностью<br className="mobile-break"></br> ваших данных.<br className="desktop-break"></br>Все файлы<br className="mobile-break"></br> шифруются как при хранении,<br className="desktop-break"></br> так<br className="mobile-break"></br> и при передаче в соответствии с<br></br>лучшими практиками в индустрии.
+                        Мы дорожим безопасностью ваших данных. Все файлы шифруются как при хранении, так и при передаче в соответствии с лучшими практиками в индустрии.
                       </IndexFeaturesTableText>
                     </IndexFeaturesTableSide>
                     <IndexFeaturesTableSide>
@@ -211,7 +214,7 @@ function Index() {
                         Таймкоды
                       </IndexFeaturesTableTitle>
                       <IndexFeaturesTableText>
-                        Указание временных кодов в<br className="mobile-break"></br> тексте расшифровки для удобства<br className="mobile-break"></br> ориентации
+                        Указание временных кодов в тексте расшифровки для удобства ориентации
                       </IndexFeaturesTableText>
                     </IndexFeaturesTableSide>
                     <IndexFeaturesTableCenter>
@@ -219,10 +222,10 @@ function Index() {
                       <IndexFeaturesTableIcon alt="edit" src="/images/feature-edit.svg" />
                       <IndexFeaturesTablePattern alt="pattern" src="/images/card-pattern.svg"/>
                       <IndexFeaturesTableTitle>
-                        Редактирование<br className="mobile-break"></br> расшифровки
+                        Редактирование<br></br>расшифровки
                       </IndexFeaturesTableTitle>
                       <IndexFeaturesTableText>
-                        Прослушивайте и редактируйте<br className="mobile-break"></br> прямо в браузере
+                        Прослушивайте и редактируйте прямо в браузере
                       </IndexFeaturesTableText>
                     </IndexFeaturesTableCenter>
                     <IndexFeaturesTableSide>
@@ -244,9 +247,6 @@ function Index() {
           <IndexLowerBackgroundBlock>
             <IndexLowerBackgroundImage alt="background" src="/images/lower-bg.svg" />
             <IndexLowerMobileBackgroundImage alt="background" src="/images/lower-mobile-bg.svg" />
-            <IndexLowerBlurredCircle />
-            <IndexBottomLeftBlurredCircle />
-            <IndexBottomRightBlurredCircle />
             <IndexHowItWorksContent>
               <IndexHowItWorksTitle>
                 Как это работает?

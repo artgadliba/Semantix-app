@@ -25,7 +25,7 @@ const LandingHeaderBody = styled.div`
 const LandingHeaderLogoBlock = styled.div`
   width: ${pxIntoRem(138)};
   height: ${pxIntoRem(31)};
-  margin-left: ${pxIntoRem(25)};
+  margin-left: ${pxIntoRem(30)};
   @media (max-width: 500px) {
     width: ${pxIntoRem(116)};
     height: ${pxIntoRem(27)};
@@ -80,6 +80,7 @@ const LandingHeaderNavigationLink = styled(Link)`
   color: #79768B;
   text-align: center;
   margin-left: ${pxIntoRem(32)};
+  transition: 0.3s;
   &:first-of-type {
     margin-left: 0px;
   }
@@ -92,7 +93,7 @@ const LandingHeaderNavigationLink = styled(Link)`
 const LandingHeaderButton = styled(Link)`
   display: flex;
   margin-left: auto;
-  margin-right: ${pxIntoRem(25)};
+  margin-right: ${pxIntoRem(30)};
   align-items: center;
   justify-content: center;
   border: ${pxIntoRem(1)} solid #1683E2;
@@ -108,10 +109,11 @@ const LandingHeaderButton = styled(Link)`
   line-height: normal;
   color: #ffffff;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.3s;
   &:hover {
     background: rgba(22, 131, 226, 0.10);
     box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
+    transition: 0.3s;
   }
   @media (max-width: 500px) {
     width: ${pxIntoRem(76)};
