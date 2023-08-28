@@ -14,22 +14,16 @@ const LandingHeaderBody = styled.div`
   flex-direction: row;
   width: 100%;
   height: 100%;
-  margin-top: ${pxIntoRem(20)};
-  margin-bottom: ${pxIntoRem(12)};
-  @media (max-width: 500px) {
-    margin-top: ${pxIntoRem(20)};
-    margin-bottom: ${pxIntoRem(22)};
-  }
 `;
 
 const LandingHeaderLogoBlock = styled.div`
   width: ${pxIntoRem(138)};
   height: ${pxIntoRem(31)};
-  margin-left: ${pxIntoRem(30)};
+  margin: ${pxIntoRem(24)} 0 ${pxIntoRem(24)} ${pxIntoRem(30)};
   @media (max-width: 500px) {
     width: ${pxIntoRem(116)};
     height: ${pxIntoRem(27)};
-    margin-left: ${pxIntoRem(15)};
+    margin: ${pxIntoRem(24)} 0 ${pxIntoRem(24)} ${pxIntoRem(15)};
   }
 `;
 
@@ -91,8 +85,7 @@ const LandingHeaderNavigationLink = styled(Link)`
 
 const LandingHeaderButton = styled(Link)`
   display: flex;
-  margin-left: auto;
-  margin-right: ${pxIntoRem(30)};
+  margin: ${pxIntoRem(24)} ${pxIntoRem(30)} ${pxIntoRem(24)} auto;
   align-items: center;
   justify-content: center;
   border: ${pxIntoRem(1)} solid #1683E2;
@@ -118,7 +111,7 @@ const LandingHeaderButton = styled(Link)`
     width: ${pxIntoRem(76)};
     height: ${pxIntoRem(32)};
     font-size: ${pxIntoRem(12)};
-    margin-right: ${pxIntoRem(22)};
+    margin: ${pxIntoRem(23)} ${pxIntoRem(22)} ${pxIntoRem(24)} auto;
     padding: 0;
   }
 `;

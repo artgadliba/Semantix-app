@@ -184,7 +184,7 @@ const IndexGreetingTryFreeButton = styled(Link)`
     transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: 85vw;
+    width: 90vw;
   }
 `;
 
@@ -417,7 +417,7 @@ const IndexFeaturesTableSide = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    width: 85vw;
+    width: 90vw;
     height: auto;
   }
 `;
@@ -454,7 +454,7 @@ const IndexFeaturesTableCenter = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    width: 85vw;
+    width: 90vw;
     height: auto;
     top: ${pxIntoRem(0)};
   }
@@ -662,7 +662,7 @@ const IndexHowItWorksImage = styled.img`
 `;
 
 const IndexHowItWorksMobileImage = styled.img`
-  width: 85vw;
+  width: 90vw;
   heigth: auto;
   display: none;
   @media (max-width: 500px) {
@@ -891,7 +891,7 @@ const IndexPaymentOptionTable = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    width: 85vw;
+    width: 90vw;
     height: ${pxIntoRem(227)};
   }
 `;
@@ -1054,7 +1054,7 @@ const IndexPaymentOptionPurchaseButton = styled.div`
     transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: 75vw;
+    width: 80vw;
     margin-top: ${pxIntoRem(24)};
   }
 `;
@@ -1085,7 +1085,7 @@ const IndexPaymentOptionClaimButton = styled.div`
     transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: 75vw;
+    width: 80vw;
     margin-top: ${pxIntoRem(22)};
     padding: 0px;
   }
