@@ -64,7 +64,6 @@ const LandingHeaderBlurredCircle = styled.div`
 const LandingHeaderNavigation = styled.nav`
   position: absolute;
   margin: 0 auto;
-  display: inline-block;
   @media (max-width: 500px) {
     display: none;
   }

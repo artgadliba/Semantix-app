@@ -46,7 +46,7 @@ const LandingFooterStamp = styled.div`
 const LandingFooterDocumentsNavigation = styled.nav`
   display: flex;
   flex-direction: row;
-  margin-left: ${pxIntoRem(100)};
+  margin-left: 25%;
   margin-top: ${pxIntoRem(24)};
   gap: ${pxIntoRem(32)};
   @media (max-width: 500px) {

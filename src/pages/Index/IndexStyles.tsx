@@ -298,6 +298,7 @@ const IndexLowerBackgroundBlock = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
+  height: ${pxIntoRem(805)};
   margin-top: ${pxIntoRem(23)};
   @media (max-width: 500px) {
     margin-top: ${pxIntoRem(100)};
@@ -307,7 +308,8 @@ const IndexLowerBackgroundBlock = styled.div`
 
 const IndexLowerBackgroundImage = styled.img`
   width: 100%;
-  height: auto;
+  height: ${pxIntoRem(805)};
+  position: absolute;
   padding-left: ${pxIntoRem(35)};
   padding-right: ${pxIntoRem(35)};
   z-index: 99;
