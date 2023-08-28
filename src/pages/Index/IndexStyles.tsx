@@ -184,7 +184,7 @@ const IndexGreetingTryFreeButton = styled(Link)`
     transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: 80vw;
+    width: 85vw;
   }
 `;
 
@@ -269,7 +269,7 @@ const IndexUpperBackgroundImage = styled.img`
   }
 `;
 
-const IndexUpperMobileBackgroundImage = styled.img`
+const IndexUpperMobileBackgroundImage = styled.svg`
   width: 100%;
   height: auto;
   z-index: 99;
@@ -319,7 +319,7 @@ const IndexLowerBackgroundImage = styled.img`
   }
 `;
 
-const IndexLowerMobileBackgroundImage = styled.img`
+const IndexLowerMobileBackgroundImage = styled.svg`
   width: 100%;
   height: ${pxIntoRem(279)};
   z-index: 99;
@@ -417,7 +417,7 @@ const IndexFeaturesTableSide = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    width: 80vw;
+    width: 85vw;
     height: auto;
   }
 `;
@@ -454,7 +454,7 @@ const IndexFeaturesTableCenter = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    width: 80vw;
+    width: 85vw;
     height: auto;
     top: ${pxIntoRem(0)};
   }
@@ -662,7 +662,7 @@ const IndexHowItWorksImage = styled.img`
 `;
 
 const IndexHowItWorksMobileImage = styled.img`
-  width: 80vw;
+  width: 85vw;
   heigth: auto;
   display: none;
   @media (max-width: 500px) {
@@ -723,7 +723,6 @@ const IndexPaymentBackgroundBlock = styled.div`
 `;
 
 const IndexPaymentBackground = styled.div`
-  align-items: center;
   width: 100%;
   height: ${pxIntoRem(598)};
   filter: drop-shadow(0px ${pxIntoRem(24)} ${pxIntoRem(234)} rgba(0, 0, 0, 0.20));
@@ -746,7 +745,7 @@ const IndexPaymentBackground = styled.div`
   }
 `;
 
-const IndexPaymentMobileBackground = styled.img`
+const IndexPaymentMobileBackground = styled.svg`
   width: 100%;
   filter: drop-shadow(0px ${pxIntoRem(24)} ${pxIntoRem(234)} rgba(0, 0, 0, 0.20));
   z-index: 99;
@@ -892,7 +891,7 @@ const IndexPaymentOptionTable = styled.div`
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    width: 80vw;
+    width: 85vw;
     height: ${pxIntoRem(227)};
   }
 `;
@@ -1055,7 +1054,7 @@ const IndexPaymentOptionPurchaseButton = styled.div`
     transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: 65vw;
+    width: 75vw;
     margin-top: ${pxIntoRem(24)};
   }
 `;
@@ -1086,8 +1085,9 @@ const IndexPaymentOptionClaimButton = styled.div`
     transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: 65vw;
+    width: 75vw;
     margin-top: ${pxIntoRem(22)};
+    padding: 0px;
   }
 `;
 
@@ -1101,7 +1101,7 @@ const IndexCallToActionBackgroundBlock = styled.div`
   margin-top: ${pxIntoRem(0)};
   overflow: hidden;
   @media (max-width: 500px) {
-    margin-top: ${pxIntoRem(0)};
+    margin-top: ${pxIntoRem(24)};
     height: ${pxIntoRem(486)};
   }
 `;

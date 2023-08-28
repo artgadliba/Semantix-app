@@ -132,7 +132,12 @@ function Index() {
           </IndexGreetingBackgroundBlock>
           <IndexUpperBackgroundBlock>
             <IndexUpperBackgroundImage alt="background" src="/images/upper-bg.svg" />
-            <IndexUpperMobileBackgroundImage alt="background" src="/images/upper-mobile-bg.svg" />
+            {/* <IndexUpperMobileBackgroundImage alt="background" src="/images/upper-mobile-bg.svg" /> */}
+            <IndexUpperMobileBackgroundImage width="320" height="212" viewBox="0 0 320 212" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 48.555C0 32.785 12.784 20 28.555 20h82.752c8.4 0 16.125 4.795 19.924 12.286 11.994 23.651 46.013 23.82 57.758.045A22.135 22.135 0 0 1 208.835 20h82.887C307.339 20 320 32.66 320 48.279V172c0 22.091-17.909 40-40 40H40c-22.091 0-40-17.909-40-40V48.555Z" fill="url(#a)" fill-opacity=".5"/>
+              <path d="M319.5 48.279V172c0 21.815-17.685 39.5-39.5 39.5H40C18.185 211.5.5 193.815.5 172V48.555C.5 33.06 13.06 20.5 28.555 20.5h82.752c8.209 0 15.763 4.687 19.478 12.013 12.176 24.008 46.72 24.195 58.652.04A21.635 21.635 0 0 1 208.835 20.5h82.887c15.341 0 27.778 12.437 27.778 27.779Z" stroke="url(#b)" stroke-opacity=".7"/><g filter="url(#c)"><circle cx="160.5" cy="20.5" r="20.5" fill="url(#d)"/><circle cx="160.5" cy="20.5" r="20" stroke="url(#e)"/></g>
+              <path d="M160.5 25.348v-9.696m0 9.696 4.156-4.155m-4.156 4.155-4.155-4.155" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="a" x1="160" y1="20" x2="160" y2="212" gradientUnits="userSpaceOnUse"><stop stop-color="#10111D"/><stop offset=".886" stop-color="#030512" stop-opacity="0"/></linearGradient><linearGradient id="b" x1="213.565" y1="23.007" x2="240.306" y2="104.095" gradientUnits="userSpaceOnUse"><stop stop-color="#202230"/><stop offset="1" stop-color="#202129" stop-opacity="0"/></linearGradient><linearGradient id="d" x1="160.5" y1="0" x2="160.5" y2="41" gradientUnits="userSpaceOnUse"><stop stop-color="#10111D"/><stop offset="1" stop-color="#030512" stop-opacity="0"/></linearGradient><linearGradient id="e" x1="161.608" y1="-43.216" x2="162.439" y2="79.507" gradientUnits="userSpaceOnUse"><stop stop-color="#1683E2"/><stop offset=".619" stop-color="#1683E2" stop-opacity="0"/></linearGradient><filter id="c" x="136" y="-4" width="49" height="49" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feGaussianBlur in="BackgroundImageFix" stdDeviation="2"/><feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_432_1008"/><feBlend in="SourceGraphic" in2="effect1_backgroundBlur_432_1008" result="shape"/></filter></defs>
+            </IndexUpperMobileBackgroundImage>
             <IndexFeaturesTitleContent>
               <IndexFeatures>
                 <IndexFeaturesTitle>
@@ -246,7 +251,11 @@ function Index() {
           </IndexUpperBackgroundBlock>
           <IndexLowerBackgroundBlock>
             <IndexLowerBackgroundImage alt="background" src="/images/lower-bg.svg" />
-            <IndexLowerMobileBackgroundImage alt="background" src="/images/lower-mobile-bg.svg" />
+            {/* <IndexLowerMobileBackgroundImage alt="background" src="/images/lower-mobile-bg.svg" /> */}
+            <IndexLowerMobileBackgroundImage width="320" height="192" viewBox="0 0 320 192" transform="scale(1,-1)" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M320 152c0 22.091-17.909 40-40 40H40c-22.091 0-40-17.909-40-40V40C0 17.909 17.909 0 40 0h240c22.091 0 40 17.909 40 40v112Z" fill="url(#a)" fill-opacity=".5"/>
+              <path d="M319.5 152c0 21.815-17.685 39.5-39.5 39.5H40C18.185 191.5.5 173.815.5 152V40C.5 18.185 18.185.5 40 .5h240c21.815 0 39.5 17.685 39.5 39.5v112Z" stroke="url(#b)" stroke-opacity=".7"/><defs><linearGradient id="a" x1="160" y1="192" x2="160" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#10111D"/><stop offset=".886" stop-color="#030512" stop-opacity="0"/></linearGradient><linearGradient id="b" x1="106.435" y1="188.993" x2="79.694" y2="107.905" gradientUnits="userSpaceOnUse"><stop stop-color="#202230"/><stop offset="1" stop-color="#202129" stop-opacity="0"/></linearGradient></defs>
+            </IndexLowerMobileBackgroundImage>
             <IndexHowItWorksContent>
               <IndexHowItWorksTitle>
                 Как это работает?
@@ -293,7 +302,11 @@ function Index() {
             </IndexHowItWorksContent>
           </IndexLowerBackgroundBlock>
           <IndexPaymentBackgroundBlock>
-            <IndexPaymentMobileBackground alt="background" src="/images/payment-mobile-bg.svg" />
+            {/* <IndexPaymentMobileBackground alt="background" src="/images/payment-mobile-bg.svg" /> */}
+            <IndexPaymentMobileBackground width="320" height="192" viewBox="0 0 320 192" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 40C0 17.909 17.909 0 40 0h240c22.091 0 40 17.909 40 40v112c0 22.091-17.909 40-40 40H40c-22.091 0-40-17.909-40-40V40Z" fill="url(#a)" fill-opacity=".5"/>
+              <path d="M.5 40C.5 18.185 18.185.5 40 .5h240c21.815 0 39.5 17.685 39.5 39.5v112c0 21.815-17.685 39.5-39.5 39.5H40C18.185 191.5.5 173.815.5 152V40Z" stroke="url(#b)" stroke-opacity=".7"/><defs><linearGradient id="a" x1="160" y1="0" x2="160" y2="192" gradientUnits="userSpaceOnUse"><stop stop-color="#10111D"/><stop offset=".886" stop-color="#030512" stop-opacity="0"/></linearGradient><linearGradient id="b" x1="213.565" y1="3.007" x2="240.306" y2="84.095" gradientUnits="userSpaceOnUse"><stop stop-color="#202230"/><stop offset="1" stop-color="#202129" stop-opacity="0"/></linearGradient></defs>
+            </IndexPaymentMobileBackground>
             <IndexPaymentBackground>
               <IndexPaymentBackgroundLayer>
                 <IndexPaymentUpperBlurredEllipse />

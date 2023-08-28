@@ -4,7 +4,7 @@ import { Route } from "react-router";
 import { Routes } from "react-router-dom";
 
 // const Account = React.lazy(() => import("./pages/Account/Account"));
-// const Collection = React.lazy(() => import("./pages/Collection/Collection"));
+const Main = React.lazy(() => import("./pages/Main/Main"));
 const Index = React.lazy(() => import("./pages/Index/Index"));
 
 const AppBlock = styled.div`
@@ -25,7 +25,7 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route index element={<Index />} />
-            {/*<Route path="/account" element={<Account />} />*/}
+            <Route path="/main" element={<Main />} />
             {/*<Route path="/raffles/:id" element={<Collection />} />*/}
           </Routes>
         </Suspense>

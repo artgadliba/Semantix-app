@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren } from "react";
-// import Footer from "../../components/Footer/Footer";
 import LandingHeader from "./LandingHeader/LandingHeader";
 import LandingFooter from "./LandingFooter/LandingFooter";
 import { LandingBlock, LandingContent } from "./LandingStyles";
