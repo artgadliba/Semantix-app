@@ -973,10 +973,10 @@ const IndexPaymentOptionTableName = styled.div`
   font-weight: 600;
   line-height: 120%;
   margin-top: ${pxIntoRem(24)};
-  .type1 {
+  .advanced-type {
     color: #1683E2;
   }
-  .type2 {
+  .business-type {
     color: #FF7D75;
   }
   @media (max-width: 500px) {

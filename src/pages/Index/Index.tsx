@@ -319,7 +319,7 @@ function Index() {
                     <IndexPaymentOptionTable>
                       <IndexPaymentOptionTableBackground>
                         <IndexPaymentBlurredEllipseMiddle />
-                        <IndexPaymentOptionTableName><span className="type1">Продвинутый</span></IndexPaymentOptionTableName>
+                        <IndexPaymentOptionTableName><span className="advanced-type">Продвинутый</span></IndexPaymentOptionTableName>
                         <IndexPaymentOptionPrice>2₽/мин</IndexPaymentOptionPrice>
                         <IndexPaymentOptionPriceText>От 10 000 минут</IndexPaymentOptionPriceText>
                         <IndexPaymentOptionPurchaseButton>Приобрести</IndexPaymentOptionPurchaseButton>
@@ -328,7 +328,7 @@ function Index() {
                     <IndexPaymentOptionTable>
                       <IndexPaymentOptionTableBackground>
                         <IndexPaymentBlurredEllipseRight />
-                        <IndexPaymentOptionTableName><span className="type2">Бизнес</span></IndexPaymentOptionTableName>
+                        <IndexPaymentOptionTableName><span className="business-type">Бизнес</span></IndexPaymentOptionTableName>
                         <IndexPaymentOptionText>Отправьте заявку и мы<br></br>предложим специальные условия<br></br>под ваши задачи</IndexPaymentOptionText>
                         <IndexPaymentOptionClaimButton>Оставить заявку</IndexPaymentOptionClaimButton>
                       </IndexPaymentOptionTableBackground>

@@ -13,7 +13,13 @@ const LandingFooterBlock = styled.footer`
 
 const LandingFooterBody = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
   width: 100%;
+  height: 100%;
+  padding-top: ${pxIntoRem(24)};
+  padding-bottom: ${pxIntoRem(24)};
   @media (max-width: 500px) {
     flex-direction: column;
   }
@@ -29,7 +35,6 @@ const LandingFooterTop = styled.div`
 `;
 
 const LandingFooterStamp = styled.div`
-  align-items: center;
   color: #848097;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -37,7 +42,6 @@ const LandingFooterStamp = styled.div`
   font-weight: 400;
   line-height: 150%;
   margin-left: ${pxIntoRem(70)};
-  margin-top: ${pxIntoRem(24)};
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} auto;
   }
@@ -46,10 +50,11 @@ const LandingFooterStamp = styled.div`
 const LandingFooterDocumentsNavigation = styled.nav`
   display: flex;
   flex-direction: row;
-  margin-left: 25%;
-  margin-top: ${pxIntoRem(24)};
+  position: absolute;
+  margin: 0 auto;
   gap: ${pxIntoRem(32)};
   @media (max-width: 500px) {
+    position: relative;
     flex-direction: column;
     margin: 0 auto;
     align-items: center;
@@ -57,7 +62,7 @@ const LandingFooterDocumentsNavigation = styled.nav`
   }
 `;
 
-const LandingFooterDocumentLink = styled.div`
+const LandingFooterDocumentLink = styled(Link)`
   color: #848097;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -75,7 +80,6 @@ const LandingFooterDocumentLink = styled.div`
 const LandingFooterContactsBlock = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: ${pxIntoRem(24)};
   margin-right: ${pxIntoRem(70)};
   margin-left: auto;
   width: auto;
