@@ -3,9 +3,11 @@ import React, { Suspense, useEffect } from "react";
 import { Route } from "react-router";
 import { Routes } from "react-router-dom";
 
-// const Account = React.lazy(() => import("./pages/Account/Account"));
-const Main = React.lazy(() => import("./pages/Main/Main"));
+const Folder = React.lazy(() => import("./pages/AppFolderPage/AppFolderPage"))
+const Folders = React.lazy(() => import("./pages/AppMainPage/AppMainPage"));
+const Main = React.lazy(() => import("./pages/AppMainPage/AppMainPage"));
 const Index = React.lazy(() => import("./pages/Index/Index"));
+const File = React.lazy(() => import("./pages/AppFilePage/AppFilePage"))
 
 const AppBlock = styled.div`
   display: flex;
@@ -26,7 +28,9 @@ function App() {
           <Routes>
             <Route index element={<Index />} />
             <Route path="/main" element={<Main />} />
-            {/*<Route path="/raffles/:id" element={<Collection />} />*/}
+            <Route path="/folders/:folderName" element={<Folder />} />
+            <Route path="/folders" element={<Folders />} />
+            <Route path="/folders/:folderName/:fileName" element={<File />} />
           </Routes>
         </Suspense>
       </AppBlock>

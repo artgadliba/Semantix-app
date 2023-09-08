@@ -10,7 +10,7 @@ function UpperBackground() {
       <g filter="url(#filter0_d_466_88)" shapeRendering="crispEdges">
         <path
           fill="url(#paint0_linear_466_88)"
-          fillOpacity="0.5"
+          fill-opacity="0.5"
           d="M29 250c0-22.091 17.909-40 40-40h564.674c14.866 0 28.484 8.685 34.903 22.093 20.346 42.495 81.332 42.853 101.139.104A38.295 38.295 0 01804.463 210H1369c22.09 0 40 17.909 40 40v750c0 22.09-17.91 40-40 40H69c-22.091 0-40-17.91-40-40V250z"
         ></path>
         <path
@@ -57,8 +57,8 @@ function UpperBackground() {
           y2="1040"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#10111D"></stop>
-          <stop offset="0.886" stopColor="#030512" stopOpacity="0"></stop>
+          <stop stop-color="#10111D"></stop>
+          <stop offset="0.886" stop-color="#030512" stopOpacity="0"></stop>
         </linearGradient>
         <linearGradient
           id="paint1_linear_466_88"
@@ -68,8 +68,8 @@ function UpperBackground() {
           y2="573.368"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#202230"></stop>
-          <stop offset="1" stopColor="#202129" stopOpacity="0"></stop>
+          <stop stop-color="#202230"></stop>
+          <stop offset="1" stop-color="#202129" stopOpacity="0"></stop>
         </linearGradient>
       </defs>
     </svg>

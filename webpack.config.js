@@ -22,7 +22,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.css'],
-    modules: [path.resolve(__dirname, 'node_modules/@rainbow-me'), 'node_modules'],
     symlinks: false
   },
   watchOptions: {

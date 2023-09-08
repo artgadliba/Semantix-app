@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Creator: CorelDRAW 2017 -->
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="512px" height="512px" version="1.0" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="512px" height="512px" version="1.0" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fillRule:evenodd; clipRule:evenodd"
 viewBox="0 0 512 512"
  xmlns:xlink="http://www.w3.org/1999/xlink">
  <defs>
@@ -12,8 +12,8 @@ viewBox="0 0 512 512"
    ]]>
   </style>
   <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="216.58" y1="275.76" x2="511.68" y2="275.74">
-   <stop offset="0" style="stop-opacity:1; stop-color:#2499FF"/>
-   <stop offset="1" style="stop-opacity:1; stop-color:#7124FF"/>
+   <stop offset="0" style="stopOpacity:1; stop-color:#2499FF"/>
+   <stop offset="1" style="stopOpacity:1; stop-color:#7124FF"/>
   </linearGradient>
  </defs>
  <g id="Слой_x0020_1">

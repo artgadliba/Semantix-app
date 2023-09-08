@@ -42,8 +42,8 @@ function MainLogo() {
           y2="15.503"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#2499FF"></stop>
-          <stop offset="1" stopColor="#7124FF"></stop>
+          <stop stop-color="#2499FF"></stop>
+          <stop offset="1" stop-color="#7124FF"></stop>
         </linearGradient>
         <clipPath id="clip0_466_96">
           <path fill="#fff" d="M0 0H138V31H0z"></path>

@@ -44,8 +44,8 @@ function BlurredEllipseHeader() {
           y2="148.843"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#0781FE"></stop>
-          <stop offset="1" stopColor="#00C7B4"></stop>
+          <stop stop-color="#0781FE"></stop>
+          <stop offset="1" stop-color="#00C7B4"></stop>
         </linearGradient>
       </defs>
     </svg>

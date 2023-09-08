@@ -87,7 +87,7 @@ const IndexGreetingTitleBox = styled.div`
     position: absolute;
     inset: 0;
     border-radius: ${pxIntoRem(16)};
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
       linear-gradient(#fff 0 0) padding-box, 
@@ -159,7 +159,7 @@ const IndexGreetingText = styled.p`
   }
 `;
 
-const IndexGreetingTryFreeButton = styled(Link)`
+const IndexGreetingTryFreeButton = styled.button`
   width: ${pxIntoRem(251)};
   height: ${pxIntoRem(46)};
   background-color: #1683E2;
@@ -611,7 +611,7 @@ const IndexHowItWorksTable = styled.div`
     position: absolute;
     inset: 0;
     border-radius: ${pxIntoRem(20)};
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
       linear-gradient(#fff 0 0) padding-box, 
@@ -642,7 +642,7 @@ const IndexHowItWorksInnerFrame = styled.div`
   justify-items: center;
   align-items: center;
   margin: auto;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   width: ${pxIntoRem(400)};
   height: ${pxIntoRem(291)};
   border-radius: ${pxIntoRem(12)};
@@ -745,7 +745,7 @@ const IndexPaymentBackground = styled.div`
   }
 `;
 
-const IndexPaymentMobileBackground = styled.svg`
+const IndexPaymentMobileBackground = styled.img`
   width: 100%;
   filter: drop-shadow(0px ${pxIntoRem(24)} ${pxIntoRem(234)} rgba(0, 0, 0, 0.20));
   z-index: 99;
@@ -882,7 +882,7 @@ const IndexPaymentOptionTable = styled.div`
     position: absolute;
     inset: 0;
     border-radius: ${pxIntoRem(20)};
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
       linear-gradient(#fff 0 0) padding-box, 
@@ -907,8 +907,8 @@ const IndexPaymentOptionTableBackground = styled.div`
   overflow: hidden;
   backdrop-filter: blur(60px);
   @media (max-width: 500px) {
-    width: 100%;
-    height: 100%;
+    width: calc(90vw - 2px);
+    height: calc(${pxIntoRem(227)} - 2px);
   }
 `;
 
@@ -1182,6 +1182,14 @@ const IndexCallToActionContentText = styled.h2`
   }
 `;
 
+const IndexCallToActionLogoBlock = styled.div`
+  display: flex;
+  align-items: center;
+  width: ${pxIntoRem(129)};
+  height: ${pxIntoRem(187)};
+  margin-top: ${pxIntoRem(26)};
+`;
+
 const IndexBottomLeftBlurredCircle = styled.div`
   position: absolute;
   width: ${pxIntoRem(100)};
@@ -1297,6 +1305,7 @@ export {
   IndexCallToActionBody,
   IndexCallToActionContentTitle,
   IndexCallToActionContentText,
+  IndexCallToActionLogoBlock,
   IndexBottomLeftBlurredCircle,
   IndexBottomRightBlurredCircle
 };

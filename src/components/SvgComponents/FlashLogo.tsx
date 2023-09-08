@@ -36,7 +36,7 @@ const FlashLogo = (props) => (
           width={50}
           height={152}
           fill="url(#paint2_linear_528_1654)"
-          fillOpacity={0.9}
+          fill-opacity={0.9}
         />
       </g>
       <rect
@@ -230,7 +230,7 @@ const FlashLogo = (props) => (
         y2={101.212}
         gradientUnits="userSpaceOnUse"
       >
-        <stop stopColor="#1683E2" />
+        <stop stop-color="#1683E2" />
         <stop offset={1} stopOpacity={0} />
       </linearGradient>
       <linearGradient
@@ -241,7 +241,7 @@ const FlashLogo = (props) => (
         y2={139.125}
         gradientUnits="userSpaceOnUse"
       >
-        <stop stopColor="#1683E2" />
+        <stop stop-color="#1683E2" />
         <stop offset={1} stopOpacity={0} />
       </linearGradient>
       <linearGradient
@@ -252,8 +252,8 @@ const FlashLogo = (props) => (
         y2={50}
         gradientUnits="userSpaceOnUse"
       >
-        <stop stopColor="#2499FF" />
-        <stop offset={1} stopColor="#7124FF" stopOpacity={0} />
+        <stop stop-color="#2499FF" />
+        <stop offset={1} stop-color="#7124FF" stopOpacity={0} />
       </linearGradient>
       <linearGradient
         id="paint3_linear_528_1654"
@@ -263,8 +263,8 @@ const FlashLogo = (props) => (
         y2={90.2625}
         gradientUnits="userSpaceOnUse"
       >
-        <stop stopColor="#2499FF" />
-        <stop offset={1} stopColor="#7124FF" stopOpacity={0} />
+        <stop stop-color="#2499FF" />
+        <stop offset={1} stop-color="#7124FF" stopOpacity={0} />
       </linearGradient>
       <linearGradient
         id="paint4_linear_528_1654"
@@ -274,8 +274,8 @@ const FlashLogo = (props) => (
         y2={196.005}
         gradientUnits="userSpaceOnUse"
       >
-        <stop stopColor="#2499FF" />
-        <stop offset={1} stopColor="#7124FF" />
+        <stop stop-color="#2499FF" />
+        <stop offset={1} stop-color="#7124FF" />
       </linearGradient>
       <linearGradient
         id="paint5_linear_528_1654"
@@ -285,8 +285,8 @@ const FlashLogo = (props) => (
         y2={196.342}
         gradientUnits="userSpaceOnUse"
       >
-        <stop stopColor="#2499FF" />
-        <stop offset={1} stopColor="#7124FF" />
+        <stop stop-color="#2499FF" />
+        <stop offset={1} stop-color="#7124FF" />
       </linearGradient>
     </defs>
   </svg>
