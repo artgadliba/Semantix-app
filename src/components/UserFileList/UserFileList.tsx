@@ -78,13 +78,13 @@ const UserFileList: FC<IUserFilesList> = ({className, folder, linkState, items})
                                 )}
                                 <UserFileListItemContent>
                                     {linkState == "isInactive" ? (
-                                        <UserFileListItemIcon alt="complete" src="/images/file-processing.svg" />
+                                        <UserFileListItemIcon alt="processing" src="/images/file-processing.svg" />
                                     ) : (
                                         <UserFileListItemIcon alt="complete" src="/images/file-complete.svg" />
                                     )}
                                     <UserFileListItemInfoBlock>
                                         {linkState == "isInactive" ? (
-                                            <UserFileListItemMobileIcon alt="complete" src="/images/file-processing.svg" />
+                                            <UserFileListItemMobileIcon alt="processing" src="/images/file-processing.svg" />
                                         ) : (
                                             <UserFileListItemMobileIcon alt="complete" src="/images/file-complete.svg" />
                                         )}
@@ -97,10 +97,10 @@ const UserFileList: FC<IUserFilesList> = ({className, folder, linkState, items})
                                         </UserFileListItemInfoColumnWrapper>
                                     </UserFileListItemInfoBlock>
                                     {className != "folderPage" && (
-                                        <UserFileListItemFolderName to={`/folders/${folder}`}>{item.folderName}</UserFileListItemFolderName>
+                                        <UserFileListItemFolderName to={`/folders/${item.folderName}`}>{item.folderName}</UserFileListItemFolderName>
                                     )}
                                     <UserFileListItemInfoButtonsWrapper>
-                                        <UserFileListItemOpenButton className={linkState} to={`/folders/${folder}/${item.fileName}`}>Открыть</UserFileListItemOpenButton>
+                                        <UserFileListItemOpenButton className={linkState} to={`/folders/${item.folderName}/${item.fileName}`}>Открыть</UserFileListItemOpenButton>
                                         <UserFileListItemOptionsButton className={linkState} onClick={() => {toggleOptionMenu(idx)}}>
                                             <UserFileListItemOptionsButtonIcon className="circle" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <circle cx="20" cy="13" r="2" />

@@ -282,6 +282,132 @@ const UploadNewFileModalMobilInputWrapper = styled.div`
   flex-direction: row;
 `;
 
+const UploadNewFileModalFilesBlock= styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: ${pxIntoRem(4)};
+  margin-top: ${pxIntoRem(88)};
+`;
+
+const UploadNewFileModalFile = styled.div`
+  display: flex;
+  flex-direction: row;
+  border-radius: ${pxIntoRem(4)};
+  border: 1px solid #2D3042;
+  padding: ${pxIntoRem(4)} ${pxIntoRem(8)};
+  color: #79768B;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+const UploadNewFileModalFilesShortcut = styled.div`
+  display: flex;
+  flex-direction: row;
+  border-radius: ${pxIntoRem(4)};
+  border: 1px solid #2D3042;
+  padding: ${pxIntoRem(4)} ${pxIntoRem(8)};
+  color: #79768B;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+const UploadNewFileModalFileDeleteButton = styled.button`
+  width: ${pxIntoRem(15)};
+  height: ${pxIntoRem(15)};
+  background: transparent;
+  background: url("/images/small-close.svg");
+  background-position: center;
+  margin-left: ${pxIntoRem(4)};
+`;
+
+const UploadNewFileModalProgressBar = styled.progress`
+  position: relative;
+  -webkit-appearance: none;
+  appearance: none;
+  width: ${pxIntoRem(150)};
+  height: ${pxIntoRem(8)};
+  margin-top: ${pxIntoRem(16)};
+  &::-webkit-progress-bar {
+    border-radius: ${pxIntoRem(8)};
+    background: #1B1D2C;
+  }
+  &::-webkit-progress-value {
+    border-radius: ${pxIntoRem(8)};
+    background: #1683E2;
+  }
+  @media (max-width: 500px) {
+    margin: ${pxIntoRem(20)} auto ${pxIntoRem(20)} auto;
+    width: 80vw;
+  }
+`;
+
+const UploadNewFileModalCancelButton = styled.button`
+  display: flex;
+  position: relative;
+  width: ${pxIntoRem(149)};
+  height: ${pxIntoRem(38)};
+  padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
+  justify-content: center;
+  align-items: center;
+  border-radius: ${pxIntoRem(8)};
+  background: transparent;
+  border: 1px solid #2D3042;
+  margin-top: ${pxIntoRem(30)};
+  margin-bottom: ${pxIntoRem(24)};
+  color: #FFF;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(14)};
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    border: 1px solid #FFF;
+    transition: 0.3s;
+  }
+  @media (max-width: 500px) {
+    margin: auto auto 0 auto;
+    width: 80vw;
+  }
+`;
+
+const UploadNewFileModalFilesMobileBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: ${pxIntoRem(20)};
+`;
+
+const UploadNewFileModalFilesRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: ${pxIntoRem(6)};
+  margin-top: ${pxIntoRem(6)};
+  &:first-of-type {
+    margin-top: ${pxIntoRem(24)};
+  }
+`;
+
+const UploadNewFileModalFilesMobileWrapper = styled.div`
+  display: none;
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
 export {
   UploadNewFileModalBlock,
   UploadNewFileModalContent,
@@ -300,5 +426,14 @@ export {
   UploadNewFileModalLine,
   UploadNewFileModalClose,
   UploadNewFileModalCloseIcon,
-  UploadNewFileModalMobilInputWrapper
+  UploadNewFileModalMobilInputWrapper,
+  UploadNewFileModalFilesBlock,
+  UploadNewFileModalFile,
+  UploadNewFileModalFilesShortcut,
+  UploadNewFileModalFileDeleteButton,
+  UploadNewFileModalProgressBar,
+  UploadNewFileModalCancelButton,
+  UploadNewFileModalFilesMobileBlock,
+  UploadNewFileModalFilesRow,
+  UploadNewFileModalFilesMobileWrapper
 };
