@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { 
     AppMainPageBlock,
     AppMainPageTitle,
@@ -9,7 +9,11 @@ import {
 import AppInterface from "../../layouts/App/AppInterface";
 import UserFileList from "components/UserFileList/UserFileList";
 
-const AppMainPage: FC = () => {
+interface IAppMain {
+    query?: string;
+}
+
+const AppMain: FC<IAppMain> = ({query}) => {
     const items = [
         {
             fileName: "Имя файла 1",
@@ -65,18 +69,31 @@ const AppMainPage: FC = () => {
             folderName: "Папка 3"
         }
     ];
+    const filteredData = items.filter((item) => {
+        if (query === "") {
+            return item;
+        } else {
+            return item.fileName.toLowerCase().includes(query);
+        }
+    })
     return (
-        <AppInterface headerTitle="Главная" controlBar={true}>
-            <AppMainPageBlock>
+        <AppMainPageBlock>
             <AppMainPageTitle>Последние загруженные</AppMainPageTitle>
             <AppMainPageText>
                 В этом разделе отображаются файлы загруженные за последние 7 дней
             </AppMainPageText>
-            <UserFileList items={items}/>
+            <UserFileList items={filteredData}/>
             <AppMainPageBottomLineBlock>
                 <AppMainPageBottomLine />
             </AppMainPageBottomLineBlock>
-            </AppMainPageBlock>
+         </AppMainPageBlock>
+    );
+}
+
+const AppMainPage: FC<IAppMain> = () => {
+    return (
+        <AppInterface headerTitle="Главная" controlBar={true}>
+            <AppMain />
         </AppInterface>
     );
 }

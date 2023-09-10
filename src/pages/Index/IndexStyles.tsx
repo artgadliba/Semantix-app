@@ -61,10 +61,7 @@ const IndexBlurredRectangle = styled.div`
   flex-shrink: 0;
   background: #030512;
   filter: blur(42px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   @media (max-width: 500px) {
     display: none;
   }
@@ -86,10 +83,7 @@ const IndexGreetingTitleBox = styled.div`
   border-radius: ${pxIntoRem(16)};
   background: #171828;
   backdrop-filter: blur(3px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   border: 1px solid #202230;
   @media (max-width: 500px) {
     width: ${pxIntoRem(56)};
@@ -282,10 +276,7 @@ const IndexUpperBlurredCircle = styled.div`
   border-radius: 50%;
   background: #1683E2;
   filter: blur(176.5px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
 `;
 
 const IndexLowerBackgroundBlock = styled.div`
@@ -338,10 +329,7 @@ const IndexLowerBlurredCircle = styled.div`
   border-radius: 50%;
   background: #1683E2;
   filter: blur(176.5px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
 `;
 
 const IndexFeatures = styled.section`
@@ -648,10 +636,7 @@ const IndexHowItWorksInnerFrame = styled.div`
   border-radius: ${pxIntoRem(12)};
   box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(44)} 0px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(56.913185119628906px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   @media (max-width: 500px) {
     display:  none;
   }
@@ -732,7 +717,6 @@ const IndexPaymentBackground = styled.div`
   filter: drop-shadow(0px ${pxIntoRem(24)} ${pxIntoRem(234)} rgba(0, 0, 0, 0.20));
   box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(54)} 0px rgba(0, 0, 0, 0.20);
   position: relative;
-  overflow: hidden;
   &:before {
     content: "";
     position: absolute;
@@ -763,44 +747,45 @@ const IndexPaymentMobileBackground = styled.img`
 
 const IndexPaymentBackgroundLayer = styled.div`
   position: absolute;
+  display: flex;
   margin: 0 auto;
   width: 100%;
   height: 100%;
   background: linear-gradient(180deg, rgba(16, 17, 29, 0.50) 0%, rgba(16, 17, 29, 0.50) 100%);
   border-radius: ${pxIntoRem(35)};
-  // overflow: hidden;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
 `;
 
 const IndexPaymentUpperBlurredEllipse = styled.div`
+  position: absolute;
   width: ${pxIntoRem(1170)};
   height: ${pxIntoRem(170)};
-  margin: 0 auto;
+  top: ${pxIntoRem(-169)};
+  text-align: center;
   border-radius: ${pxIntoRem(1170)};
-  opacity: 0.6;
+  opacity: 0.3;
   background: #1683E2;
   filter: blur(167px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
-  margin-top: ${pxIntoRem(-200)};
+  -webkit-backface-visibility: hidden;
   @media (max-width: 500px) {
     margin: ${pxIntoRem(-150)} auto;
   }
 `;
 
 const IndexPaymentLowerBlurredEllipse = styled.div`
+  position: absolute;
   width: ${pxIntoRem(1170)};
   height: ${pxIntoRem(170)};
-  margin: 0 auto;
+  bottom: ${pxIntoRem(-169)};
   border-radius: ${pxIntoRem(1170)};
-  opacity: 0.6;
+  opacity: 0.3;
   background: #1683E2;
   filter: blur(167px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
   margin-top: ${pxIntoRem(770)};
   @media (max-width: 500px) {
     margin: ${pxIntoRem(990)} auto;
@@ -920,10 +905,7 @@ const IndexPaymentOptionTableBackground = styled.div`
   background: rgba(23, 24, 36, 0.25);
   overflow: hidden;
   backdrop-filter: blur(60px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   @media (max-width: 500px) {
     width: calc(90vw - 2px);
     height: calc(${pxIntoRem(227)} - 2px);
@@ -937,10 +919,7 @@ const IndexPaymentBlurredEllipseLeft = styled.div`
   margin-left: auto; 
   margin-right: auto; 
   filter: blur(50px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   width: ${pxIntoRem(172)};
   height: ${pxIntoRem(58)};
   border-radius: ${pxIntoRem(172)};
@@ -959,10 +938,7 @@ const IndexPaymentBlurredEllipseMiddle = styled.div`
   margin-left: auto; 
   margin-right: auto; 
   filter: blur(50px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   width: ${pxIntoRem(172)};
   height: ${pxIntoRem(58)};
   border-radius: ${pxIntoRem(172)};
@@ -981,10 +957,7 @@ const IndexPaymentBlurredEllipseRight = styled.div`
   margin-left: auto; 
   margin-right: auto; 
   filter: blur(50px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   width: ${pxIntoRem(172)};
   height: ${pxIntoRem(58)};
   border-radius: ${pxIntoRem(172)};
@@ -1072,10 +1045,7 @@ const IndexPaymentOptionPurchaseButton = styled.div`
   border: 1px solid #1683E2;
   background: rgba(22, 131, 226, 0.05);
   backdrop-filter: blur(3px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(16)};
@@ -1108,10 +1078,7 @@ const IndexPaymentOptionClaimButton = styled.div`
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #2D3042;
   backdrop-filter: blur(3px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(16)};
@@ -1237,10 +1204,7 @@ const IndexBottomLeftBlurredCircle = styled.div`
   border-radius: 50%;
   background: #1683E2;
   filter: blur(176.5px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
     height: ${pxIntoRem(80)};
@@ -1259,10 +1223,7 @@ const IndexBottomRightBlurredCircle = styled.div`
   border-radius: 50%;
   background: #1683E2;
   filter: blur(176.5px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
     height: ${pxIntoRem(80)};

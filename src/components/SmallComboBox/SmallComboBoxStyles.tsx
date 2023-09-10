@@ -11,7 +11,7 @@ const SmallComboBoxBlock = styled.div<ISmallComboBoxBlock>`
   height: ${pxIntoRem(102)};
   ${props => props.className === 'filelist-box' && css`
     top: ${pxIntoRem(82)};
-    right: ${pxIntoRem(47)};
+    right: ${pxIntoRem(22)};
   `}
   ${props => props.className === 'header-box' && css`
     top: ${pxIntoRem(71)};
@@ -48,12 +48,13 @@ const SmallComboBoxBackground = styled.div`
   width: 100%;
   height: 100%;
   padding: ${pxIntoRem(10)};
+  box-shadow: 0px 4px 40px 0px #00000026;
   &:before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: ${pxIntoRem(10)};
-    background: linear-gradient(90.77deg, rgba(255, 255, 255, 0.05) 5.42%, rgba(255, 255, 255, 0) 101.71%) border-box;
+    background: linear-gradient(90.77deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%) border-box;
     border: 2px solid transparent;
     -webkit-mask:
       linear-gradient(#fff 0 0) padding-box, 

@@ -237,7 +237,7 @@ const UserFileListItemOpenButton = styled(Link)`
   font-weight: 500;
   line-height: normal;
   margin-left: auto;
-  margin: ${pxIntoRem(38)} ${pxIntoRem(6)} ${pxIntoRem(38)} auto;
+  margin: ${pxIntoRem(38)} 0 ${pxIntoRem(38)} auto;
   cursor: pointer;
   transition: 0.3s;
   &:hover {
@@ -273,7 +273,7 @@ const UserFileListItemOptionsButton = styled.button`
   height: ${pxIntoRem(38)};
   border: 1px solid #2D3042;
   border-radius: ${pxIntoRem(8)};
-  margin: ${pxIntoRem(38)} ${pxIntoRem(24)} ${pxIntoRem(38)} ${pxIntoRem(6)};
+  margin: ${pxIntoRem(38)} 0 ${pxIntoRem(38)} ${pxIntoRem(12)};
   cursor: pointer;
   transition: 0.3s;
   &:hover ${UserFileListItemOptionsButtonIcon} {

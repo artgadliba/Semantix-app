@@ -23,8 +23,12 @@ import useModal from "hooks/useModal";
 import ExportModal from "components/Modals/ExportModal/ExportModal";
 import FileDeletePopup from "components/Popups/FileDeletePopup/FileDeletePopup";
 
-const AppFilePage: FC = () => {
-    const { folderName, fileName } = useParams();
+interface IAppFile {
+    folderName: string;
+    fileName: string;
+}
+
+const AppFile: FC<IAppFile> = ({folderName, fileName}) => {
     const [editFilePage, setEditFilePage] = useState<boolean>(false);
     const items = [
         {
@@ -61,46 +65,52 @@ const AppFilePage: FC = () => {
         openModal: openFileDeletePopup,
         modal: fileDeletePopup
     } = useModal(FileDeletePopup, {fileName});
-
     return (
-        <AppInterface headerTitle={folderName} controlBar={false}>
-            <AppFilePageBlock>
-                <AppFilePagePathBlock>
-                    <AppFilePagePathFolderTitle>{folderName}</AppFilePagePathFolderTitle>
-                    <AppFilePagePathArrow alt="right" src="/images/arrow-right.svg" />
-                    <AppFilePagePathFileTitle>{fileName}</AppFilePagePathFileTitle>
-                </AppFilePagePathBlock>
-                <AudioPlayer />
-                {editFilePage ? (
-                    <>
-                    <AppFileEditControlBlock>
-                        <AppFileEditControlButtonSave>Сохранить изменения</AppFileEditControlButtonSave>
-                        <AppFileEditControlButtonCancel onClick={handleEditFile}>Отменить</AppFileEditControlButtonCancel>
-                    </AppFileEditControlBlock>
-                    <FileEdit items={items} />
-                    </>
-                ) : (
-                    <>
-                    <AppFilePageControlBlock>
-                        <AppFilePageControlButton onClick={handleEditFile}>Изменить</AppFilePageControlButton>
-                        <AppFilePageControlButton onClick={openNewFileFolderModal}>Выгрузить</AppFilePageControlButton>
-                        <AppFilePageControlButton className="left-button" onClick={openFileDeletePopup}>Удалить</AppFilePageControlButton>
-                        <AppFilePageControlButtonMobile onClick={handleEditFile}>
-                            <AppFilePageControlButtonMobileIcon alt="edit" src="/images/edit-icon.svg" />
-                        </AppFilePageControlButtonMobile>
-                        <AppFilePageControlButtonMobile onClick={openNewFileFolderModal}>
-                            <AppFilePageControlButtonMobileIcon alt="export" src="/images/export-icon.svg" />
-                        </AppFilePageControlButtonMobile>
-                        <AppFilePageControlButtonMobile onClick={openFileDeletePopup}>
-                            <AppFilePageControlButtonMobileIcon alt="delete" src="/images/delete-icon.svg" />
-                        </AppFilePageControlButtonMobile>
-                    </AppFilePageControlBlock>
-                    <FileView items={items} />
-                    </>
-                )}
-            </AppFilePageBlock>
+        <AppFilePageBlock>
+            <AppFilePagePathBlock>
+                <AppFilePagePathFolderTitle>{folderName}</AppFilePagePathFolderTitle>
+                <AppFilePagePathArrow alt="right" src="/images/arrow-right.svg" />
+                <AppFilePagePathFileTitle>{fileName}</AppFilePagePathFileTitle>
+            </AppFilePagePathBlock>
+            <AudioPlayer />
+            {editFilePage ? (
+                <>
+                <AppFileEditControlBlock>
+                    <AppFileEditControlButtonSave>Сохранить изменения</AppFileEditControlButtonSave>
+                    <AppFileEditControlButtonCancel onClick={handleEditFile}>Отменить</AppFileEditControlButtonCancel>
+                </AppFileEditControlBlock>
+                <FileEdit items={items} />
+                </>
+            ) : (
+                <>
+                <AppFilePageControlBlock>
+                    <AppFilePageControlButton onClick={handleEditFile}>Изменить</AppFilePageControlButton>
+                    <AppFilePageControlButton onClick={openNewFileFolderModal}>Выгрузить</AppFilePageControlButton>
+                    <AppFilePageControlButton className="left-button" onClick={openFileDeletePopup}>Удалить</AppFilePageControlButton>
+                    <AppFilePageControlButtonMobile onClick={handleEditFile}>
+                        <AppFilePageControlButtonMobileIcon alt="edit" src="/images/edit-icon.svg" />
+                    </AppFilePageControlButtonMobile>
+                    <AppFilePageControlButtonMobile onClick={openNewFileFolderModal}>
+                        <AppFilePageControlButtonMobileIcon alt="export" src="/images/export-icon.svg" />
+                    </AppFilePageControlButtonMobile>
+                    <AppFilePageControlButtonMobile onClick={openFileDeletePopup}>
+                        <AppFilePageControlButtonMobileIcon alt="delete" src="/images/delete-icon.svg" />
+                    </AppFilePageControlButtonMobile>
+                </AppFilePageControlBlock>
+                <FileView items={items} />
+                </>
+            )}
             {exportModal}
             {fileDeletePopup}
+        </AppFilePageBlock>
+    );
+}
+
+const AppFilePage: FC = () => {
+    const { folderName, fileName } = useParams();
+    return (
+        <AppInterface headerTitle={folderName} controlBar={false}>
+            <AppFile folderName={folderName} fileName={fileName} />
         </AppInterface>
     );
 }

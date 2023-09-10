@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { 
     UserFileListBody,
     UserFileListBlock,
@@ -27,7 +27,6 @@ import SmallComboBox from "components/SmallComboBox/SmallComboBox";
 
 interface IUserFilesList {
     className?: string;
-    folder?: string;
     linkState?: string;
     items: {
         fileName: string;
@@ -37,7 +36,7 @@ interface IUserFilesList {
     }[];
 }
 
-const UserFileList: FC<IUserFilesList> = ({className, folder, linkState, items}) => {
+const UserFileList: FC<IUserFilesList> = ({className, linkState, items}) => {
     const [menuActive, setMenuActive] = useState<boolean>(false);
     const [optionMenuActive, setOptionMenuActive] = useState<number>(null);
     const [option, setOption] = useState<string>("");
@@ -61,7 +60,7 @@ const UserFileList: FC<IUserFilesList> = ({className, folder, linkState, items})
         }
         setOptionMenuActive(idx);
     }
-
+    
     if (items.length > 0) {
         return (
             <UserFileListBody className={className}>
@@ -72,7 +71,7 @@ const UserFileList: FC<IUserFilesList> = ({className, folder, linkState, items})
                                 <UserFileListItemBackgroundLayer />
                                 {className != "folderPage" && (
                                     <>
-                                    <UserFileListItemMobileFolderName to={`/folders/${folder}`}>{item.folderName}</UserFileListItemMobileFolderName>
+                                    <UserFileListItemMobileFolderName to={`/folders/${item.folderName}`}>{item.folderName}</UserFileListItemMobileFolderName>
                                     <UserFileListItemMobileLine />
                                     </>
                                 )}

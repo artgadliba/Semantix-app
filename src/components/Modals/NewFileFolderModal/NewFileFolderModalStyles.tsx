@@ -105,7 +105,7 @@ const NewFileFolderModalSelectComponent = styled.div`
     inset: 0;
     border-radius: ${pxIntoRem(10)};
     border: 2px solid transparent;
-    background: linear-gradient(90.77deg, rgba(255, 255, 255, 0.05) 5.42%, rgba(255, 255, 255, 0) 101.71%) border-box;
+    background: linear-gradient(90.77deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%) border-box;
     -webkit-mask:
         linear-gradient(#fff 0 0) padding-box, 
         linear-gradient(#fff 0 0);

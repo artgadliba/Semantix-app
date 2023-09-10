@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useState } from "react";
+import React, { FC, useState } from "react";
 import { 
     AppControlBarBlock,
     AppControlBarBody,
@@ -19,9 +19,13 @@ import NewFileFolderModal from "components/Modals/NewFileFolderModal/NewFileFold
 import CreateNewFolderModal from "components/Modals/CreateNewFolder/CreateNewFolderModal";
 import SmallComboBox from "components/SmallComboBox/SmallComboBox";
 
-const AppControlBar: FC = () => {
+interface IAppControlBar {
+    setQuery: (input: string) => void; 
+}
+
+const AppControlBar: FC<IAppControlBar> = ({setQuery}) => {
     const [filterMenuActive, setFilterMenuActive] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>("");
+    const [message, setSeacrhInput] = useState<string>("");
     const [option, setOption] = useState<string>(null);
     const options = [
         {
@@ -50,8 +54,10 @@ const AppControlBar: FC = () => {
         }
     }
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setMessage(event.target.value);
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let lowerCase = event.target.value.toLowerCase();
+        setSeacrhInput(lowerCase);
+        setQuery(lowerCase);
     };
 
     return (
@@ -59,7 +65,7 @@ const AppControlBar: FC = () => {
             <AppControlBarBody>
                 <AppControlBarSearchAndFilterBlock>
                     <AppControlBarSearchInputBlock>
-                        <AppControlBarSearchInput type="text" placeholder="Поиск" onChange={handleChange} />
+                        <AppControlBarSearchInput type="text" placeholder="Поиск" onChange={handleSearchChange} />
                         {message != "" ? (
                             <AppControlBarSearchInputIcon alt="search" src="/images/search-active.svg" />
                         ) : (

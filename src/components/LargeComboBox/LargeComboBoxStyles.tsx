@@ -23,12 +23,13 @@ const LargeComboBoxBackground = styled.div<IAddFolder>`
   ${props => props.addFolderActive === true && css`
     max-height: ${pxIntoRem(242)}; 
   `}
+  box-shadow: 0px 4px 40px 0px #00000026;
   &:before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: ${pxIntoRem(10)};
-    background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
+    background: linear-gradient(90.77deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%) border-box;
     border: 2px solid transparent;
     -webkit-mask:
       linear-gradient(#fff 0 0) padding-box, 

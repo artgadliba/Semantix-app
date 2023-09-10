@@ -46,10 +46,7 @@ const LandingHeaderBlurredCircle = styled.div`
   left: ${pxIntoRem(-70)};
   background: linear-gradient(44deg, #0781FE 0%, #00C7B4 100%);
   filter: blur(197px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
     height: ${pxIntoRem(80)};

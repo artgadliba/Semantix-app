@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import { 
     AppInterfaceBlock,
     AppInterfaceContent,
@@ -15,12 +15,15 @@ interface IAppInterface {
 }
 
 const AppInterface: FC<IAppInterface> = ({headerTitle, controlBar, children}) => {
+    const [query, setQuery] = useState<string>("");
     return (
         <AppInterfaceBlock>
             <AppHeader title={headerTitle} />
             <AppMenu />
-            {controlBar && (<><AppControlBar /></>)}
-            <AppInterfaceContent>{children}</AppInterfaceContent>
+            {controlBar && (<><AppControlBar setQuery={setQuery} /></>)}
+            <AppInterfaceContent>
+                {React.cloneElement(children as React.ReactElement<any>, { query: query })}
+            </AppInterfaceContent>
             <AppInterfaceBlurredCircleBottomLeft />
         </AppInterfaceBlock>
     );

@@ -42,6 +42,7 @@ const AppMenuBackgroundLayer = styled.div`
   margin-top: 1px;
   border-radius: 0px ${pxIntoRem(24)} ${pxIntoRem(24)} 0px;
   backdrop-filter: blur(102px);
+  -webkit-transform: translate3d(0, 0, 0);
   background: linear-gradient(245deg, rgba(36, 37, 46, 0.30) 0%, rgba(36, 36, 36, 0.13) 100%);
   z-index: 1;
 `;
@@ -184,6 +185,7 @@ const AppMenuActiveBackgroundLayer = styled.div`
   border-radius: ${pxIntoRem(12)};
   background: var(--bg, rgba(28, 29, 40, 0.40));
   backdrop-filter: blur(47px);
+  -webkit-transform: translate3d(0, 0, 0);
   overflow: hidden;
 `;
 
@@ -196,10 +198,7 @@ const AppMenuActiveBlurredCircle = styled.div`
   border-radius: 50%;
   background: linear-gradient(90deg, #2499FF 0%, #7124FF 100%);
   filter: blur(26px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   z-index: -1;
 `;
 
@@ -216,6 +215,7 @@ const AppMenuBalanceBlock = styled.div`
 const AppMenuBalanceBackground = styled.div`
   width: ${pxIntoRem(208)};
   height: ${pxIntoRem(150)};
+  box-shadow: 10px 0px 64px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
   &:before {
     content: "";
@@ -239,6 +239,7 @@ const AppMenuBalanceBackgroundLayer = styled.div`
   border-radius: ${pxIntoRem(12)};
   background: rgba(28, 29, 40, 0.40);
   backdrop-filter: blur(42px);
+  -webkit-transform: translate3d(0, 0, 0);
   overflow: hidden;
 `;
 
@@ -249,6 +250,7 @@ const AppMenuBalanceBlurredCircle = styled.div`
   border-radius: 50%;
   background: linear-gradient(90deg, #2499FF 0%, #7124FF 100%);
   filter: blur(25.5px);
+  -webkit-transform: translate3d(0, 0, 0);
   margin-top: ${pxIntoRem(3)};
   margin-left: ${pxIntoRem(4)};
   -webkit-backface-visibility: hidden;

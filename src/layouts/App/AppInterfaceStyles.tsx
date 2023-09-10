@@ -32,10 +32,7 @@ const AppInterfaceBlurredCircleBottomLeft = styled.div`
   opacity: 0.2;
   border-radius: 50%;
   filter: blur(197px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
 `;
 
 export {
