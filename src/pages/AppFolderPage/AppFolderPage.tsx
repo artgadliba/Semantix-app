@@ -15,9 +15,21 @@ import UserFileList from "components/UserFileList/UserFileList";
 interface IAppFolder {
     folder: string;
     query?: string;
+    sortType?: string;
+    sortByField?: string;
 }
 
-const AppFolder: FC<IAppFolder> = ({folder, query}) => {
+interface IFileData {
+    fileName: string;
+    fileLength: number;
+    fileDate: string;
+    folderName: string;
+    status: string;
+}
+
+const AppFolder: FC<IAppFolder> = ({folder, query, sortType, sortByField}) => {
+    const [processingList, setProcessingList] = useState<Array<IFileData>>([]);
+    const [readyList, setReadyList] = useState<Array<IFileData>>([]);
     const items = [
         {
             fileName: "Имя файла 1",
@@ -55,6 +67,7 @@ const AppFolder: FC<IAppFolder> = ({folder, query}) => {
             status: "ready"
         }
     ];
+
     const filteredData = items.filter((item) => {
         if (query === "") {
             return item;
@@ -62,32 +75,51 @@ const AppFolder: FC<IAppFolder> = ({folder, query}) => {
             return item.fileName.toLowerCase().includes(query);
         }
     });
+    
+    function sortFunc(results, sortType, sortByField) {
+        if (sortType === "ascending") {
+            results.sort((a, b) => a[sortByField] < b[sortByField] ? -1 : 1)  
+        }
+        else if (sortType === "descending") {
+            results.sort((a, b) => b[sortByField] > a[sortByField] ? 1 : -1)
+        }
+        return results;
+    }
+
     const processingFiles = filteredData.filter((item) => {
         return item.status === "processing";
     });
     const readyFiles = filteredData.filter((item) => {
         return item.status === "ready";
     });
+
+    useEffect(() => {
+        const processingData = sortFunc(processingFiles, sortType, sortByField);
+        const readyData = sortFunc(readyFiles, sortType, sortByField);
+        setProcessingList(processingData);
+        setReadyList(readyData);
+    }, [sortType, sortByField]);
+
     return (
         <AppFolderPageBlock>
-            {processingFiles.length > 0 ? (
+            {processingList.length > 0 ? (
                 <AppFolderPageDecryptionBlock>
                     <AppFolderPageDecryptionTitle>Расшифровка</AppFolderPageDecryptionTitle>
                     <AppFolderPageLineBlock>
                         <AppFolderPageLine />
                     </AppFolderPageLineBlock>
-                    <UserFileList className="folderPage" linkState="isInactive" items={processingFiles}></UserFileList>
+                    <UserFileList className="folderPage" linkState="isInactive" items={processingList}></UserFileList>
                 </AppFolderPageDecryptionBlock>
             ) : (
                 <></>
             )}
-            {readyFiles.length > 0 ? (
+            {readyList.length > 0 ? (
                 <AppFolderPageTranscriptedBlock>
                     <AppFolderPageTranscriptedTitle>Завершено</AppFolderPageTranscriptedTitle>
                     <AppFolderPageLineBlock>
                         <AppFolderPageLine />
                     </AppFolderPageLineBlock>
-                    <UserFileList className="folderPage" items={readyFiles}></UserFileList>
+                    <UserFileList className="folderPage" items={readyList}></UserFileList>
                 </AppFolderPageTranscriptedBlock>
             ) : (
                 <></>

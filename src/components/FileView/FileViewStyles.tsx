@@ -60,7 +60,7 @@ const FileViewTranscriptionTextBlock = styled.div`
   }
 `;
 
-const FileViewTranscriptionTextBlockTimestamp = styled.div`
+const FileViewTranscriptionTextBlockTimestamp = styled.button`
   display: flex;
   width: ${pxIntoRem(65)};
   height: ${pxIntoRem(23)};
@@ -77,7 +77,10 @@ const FileViewTranscriptionTextBlockTimestamp = styled.div`
   justify-content: center;
 `;
 
-const FileViewTranscriptionTextBlockParagraph = styled.p`
+const FileViewTranscriptionTextBlockParagraph = styled.span`
+  position: relative;
+  display: inline-block;
+  flex-direction: row;
   color: #79768B;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -91,11 +94,27 @@ const FileViewTranscriptionTextBlockParagraph = styled.p`
   }
 `;
 
+const FileViewTranscriptionTextBlockHighlight = styled.span`
+  display: inline-block;
+  // margin-right: ${pxIntoRem(4)};
+  padding: 0 ${pxIntoRem(2)};
+  &.active-text {
+    color: #FFF;
+  }
+  &.active-word {
+    background-color: rgba(22, 131, 226, 0.20);
+    border-radius: ${pxIntoRem(3)};
+    color: #1683E2;
+    padding: 0 ${pxIntoRem(2)};
+  }
+`;
+
 export {
   FileViewBlock,
   FileViewTranscriptionBlock,
   FileViewTranscriptionBackgroundLayer,
   FileViewTranscriptionTextBlock,
   FileViewTranscriptionTextBlockTimestamp,
-  FileViewTranscriptionTextBlockParagraph
-}
+  FileViewTranscriptionTextBlockParagraph,
+  FileViewTranscriptionTextBlockHighlight
+};

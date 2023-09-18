@@ -274,6 +274,8 @@ const UserFileListItemOptionsButton = styled.button`
   border: 1px solid #2D3042;
   border-radius: ${pxIntoRem(8)};
   margin: ${pxIntoRem(38)} 0 ${pxIntoRem(38)} ${pxIntoRem(12)};
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: 0.3s;
   &:hover ${UserFileListItemOptionsButtonIcon} {

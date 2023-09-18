@@ -66,6 +66,13 @@ const AppHeaderUsernameTitle = styled.h2`
   }
 `;
 
+const AppHeaderUsernameButtonWrapper = styled.button`
+  position: relative;
+  display: flex;
+  background: transparent;
+  align-items: center;
+`;
+
 const AppHeaderUsernameIcon = styled.img`
   width: ${pxIntoRem(45)};
   height: ${pxIntoRem(45)};
@@ -79,7 +86,7 @@ const AppHeaderUsernameIcon = styled.img`
   }
 `;
 
-const AppHeaderMenuButton = styled.button`
+const AppHeaderMenuButton = styled.div`
   width: ${pxIntoRem(19)};
   height: ${pxIntoRem(19)};
   background: transparent;
@@ -139,6 +146,7 @@ export {
     AppHeaderSectionTitle,
     AppHeaderUsernameBlock,
     AppHeaderUsernameTitle,
+    AppHeaderUsernameButtonWrapper,
     AppHeaderUsernameIcon,
     AppHeaderMenuButton,
     AppHeaderMenuButtonIcon,

@@ -30,7 +30,7 @@ interface INewFileFolderModal {
 
 const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderModal, folders}) => {
     const [menuActive, setMenuActive] = useState<boolean>(false);
-    const [option, setOption] = useState<string>("");
+    const [option, setOption] = useState<string>(null);
 
     const {
         closeModal: closeModal,
@@ -88,7 +88,7 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderMod
                         />
                     )}
                 </NewFileFolderModalSelectBlock>
-                <NewFileFolderModalMainButton onClick={openModal}>Далее</NewFileFolderModalMainButton>
+                <NewFileFolderModalMainButton disabled={option == undefined} onClick={openModal}>Далее</NewFileFolderModalMainButton>
             </NewFileFolderModalContent>
             {uploadNewFileModal}
         </NewFileFolderModalBlock>

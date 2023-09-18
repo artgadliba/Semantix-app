@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { NavLink, Link } from "react-router-dom";
 import pxIntoRem from "utils/pxIntoRem";
-import TextareaAutosize from 'react-textarea-autosize';
 
 const FileEditBlock = styled.div`
   position: absolute;
@@ -78,7 +76,7 @@ const FileEditTranscriptionTextBlockTimestamp = styled.div`
   justify-content: center;
 `;
 
-const FileEditTranscriptionTextBlockParagraph = styled(TextareaAutosize)`
+const FileEditTranscriptionTextBlockParagraph = styled.div`
   color: #79768B;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};

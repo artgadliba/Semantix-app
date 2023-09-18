@@ -11,7 +11,6 @@ const ExportModalBlock = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  backdrop-filter: blur(${pxIntoRem(2)});
   background-color: rgba(0, 0, 0, 0.70);
   overflow: hidden;
 `;
@@ -163,6 +162,12 @@ const ExportModalMainButton = styled.button`
     box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
     transition: 0.3s;
   }
+  &:disabled {
+    border: 1px solid #2D3042;
+    color: #2D3042;
+    background: transparent;
+    pointer-events: none;
+  }
   @media (max-width: 500px) {
     margin: auto ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
     width: 80vw;
@@ -203,12 +208,10 @@ const ExportModalCloseIcon = styled.svg`
 `;
 
 const ExportModalMenuButton = styled.button`
-  position: relative;
-  width: ${pxIntoRem(20)};
-  heigth: ${pxIntoRem(20)};
+  position: absolute;
+  width: 100%;
+  height: 100%;
   background: transparent;
-  margin-left: auto;
-  margin-right: ${pxIntoRem(16)};
   z-index: 9999;
   align-items: center;
   justify-content: center;
@@ -218,6 +221,8 @@ const ExportModalMenuButtonIcon = styled.img`
   display: flex;
   width: ${pxIntoRem(20)};
   heigth: ${pxIntoRem(20)};
+  margin-left: auto;
+  margin-right: ${pxIntoRem(16)};
 `;
 
 export {

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, MutableRefObject } from "react";
+import { FC, useEffect } from "react";
 import { 
     SmallComboBoxBlock,
     SmallComboBoxBackground,
@@ -19,13 +19,15 @@ interface ISmallComboBox {
     }[];
 }
 
-const SmallComboBox = ({className, setOption, setMenuActive,  options}) => {
+const SmallComboBox: FC<ISmallComboBox> = ({className, setOption, setMenuActive, options}) => {
     const { ref, isComponentVisible } = useComponentVisible(true);
+
     useEffect(() => {
         if (isComponentVisible == false) {
             setMenuActive(false);
         }
     },[isComponentVisible]);
+
     return (
         <SmallComboBoxBlock className={className} ref={ref}>
             <SmallComboBoxBackground>

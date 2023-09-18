@@ -41,16 +41,16 @@ const LandingHeader: FC = () => {
           <LandingHeaderLogo alt="Semantix logo" src="/images/main-logo.svg" />
         </LandingHeaderLogoBlock>
           <LandingHeaderNavigation>
-            <LandingHeaderNavigationLink to={"/"} >
+            <LandingHeaderNavigationLink to={"#features"} >
               Возможности
             </LandingHeaderNavigationLink>
-            <LandingHeaderNavigationLink to={"/"} >
+            <LandingHeaderNavigationLink to={"#howitworks"} >
               Как это работает
             </LandingHeaderNavigationLink>
-            <LandingHeaderNavigationLink to={"/"} >
+            <LandingHeaderNavigationLink to={"#payment"} >
               Стоимость
             </LandingHeaderNavigationLink>
-            <LandingHeaderNavigationLink to={"/"} >
+            <LandingHeaderNavigationLink to={"#contacts"} >
               Контакты
             </LandingHeaderNavigationLink>
           </LandingHeaderNavigation>

@@ -24,6 +24,9 @@ import {
 import { parseDate } from "../../utils/parseDate";
 import { parseFileLength } from "../../utils/parseFileLength";
 import SmallComboBox from "components/SmallComboBox/SmallComboBox";
+import useModal from "hooks/useModal";
+import ExportModal from "components/Modals/ExportModal/ExportModal";
+import FileDeletePopup from "components/Popups/FileDeletePopup/FileDeletePopup";
 
 interface IUserFilesList {
     className?: string;
@@ -36,16 +39,23 @@ interface IUserFilesList {
     }[];
 }
 
+interface IOption {
+    fileName: string;
+    option: string;
+}
+
 const UserFileList: FC<IUserFilesList> = ({className, linkState, items}) => {
     const [menuActive, setMenuActive] = useState<boolean>(false);
     const [optionMenuActive, setOptionMenuActive] = useState<number>(null);
     const [option, setOption] = useState<string>("");
+    const [fileName, setFileName] = useState<string>(null);
+
     const options = [
         {
-            name: "Действие 1"
+            name: "Выгрузить"
         },
         {
-            name: "Действие 2"
+            name: "Удалить"
         }
     ];
     const toggleOptionMenu = (idx: number): void => {
@@ -59,8 +69,33 @@ const UserFileList: FC<IUserFilesList> = ({className, linkState, items}) => {
             setMenuActive(true);
         }
         setOptionMenuActive(idx);
+        setFileName(items[idx].fileName);
     }
-    
+
+    const {
+        closeModal: closeExportModal,
+        openModal: openExportModal,
+        modal: exportModal
+    } = useModal(ExportModal, {fileName});
+    const {
+        closeModal: closeFileDeletePopup,
+        openModal: openFileDeletePopup,
+        modal: fileDeletePopup
+    } = useModal(FileDeletePopup, {fileName});
+
+    useEffect(() => {
+        if (option === "Выгрузить") {
+            openExportModal();
+        } else if (option === "Удалить") {
+            openFileDeletePopup();
+        } 
+        setOption(null);
+        // else if (option === "Изменить") {
+        //     const index = items.map(function(i) { return i.fileName; }).indexOf(fileName);
+        //     window.location.href=`/folders/${items[index].folderName}/${fileName}`;
+        // }
+    }, [option]);
+
     if (items.length > 0) {
         return (
             <UserFileListBody className={className}>
@@ -108,7 +143,12 @@ const UserFileList: FC<IUserFilesList> = ({className, linkState, items}) => {
                                             </UserFileListItemOptionsButtonIcon>
                                         </UserFileListItemOptionsButton>
                                             {optionMenuActive == idx && menuActive == true && (
-                                                <SmallComboBox className="filelist-box" setMenuActive={setMenuActive} setOption={setOption} options={options} />
+                                                <SmallComboBox 
+                                                    className="filelist-box" 
+                                                    setMenuActive={setMenuActive} 
+                                                    setOption={setOption}
+                                                    options={options}
+                                                />
                                             )}
                                     </UserFileListItemInfoButtonsWrapper>
                                 </UserFileListItemContent>
@@ -116,6 +156,8 @@ const UserFileList: FC<IUserFilesList> = ({className, linkState, items}) => {
                         </UserFileListBlock>
                     );
                 })}
+                {exportModal}
+                {fileDeletePopup}
             </UserFileListBody>
         );
     }

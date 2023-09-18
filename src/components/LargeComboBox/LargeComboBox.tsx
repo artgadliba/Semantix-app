@@ -36,12 +36,12 @@ const LargeComboBox: FC<ILargeComboBox> = ({isActive, addFolderActive, setOption
 
     return (
         <LargeComboBoxBlock>
-            <LargeComboBoxBackground addFolderActive={addFolderActive}>
+            <LargeComboBoxBackground $addFolderActive={addFolderActive}>
                 <LargeComboBoxBackgroundLayer />
                 <LargeComboBoxContent>
                     {items.map((item, idx) => {
                         return (
-                            <LargeComboBoxOptionBlock isScrollable={scrollable} key={idx}>
+                            <LargeComboBoxOptionBlock $isScrollable={scrollable} key={idx}>
                                 <LargeComboBoxOptionButton onClick={() => { setOption(item.option); setMenuActive(false); }}>{item.option}</LargeComboBoxOptionButton>
                                 <LargeComboBoxOptionActiveBackground />
                             </LargeComboBoxOptionBlock>

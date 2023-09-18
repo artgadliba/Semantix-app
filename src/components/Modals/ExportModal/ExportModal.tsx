@@ -25,7 +25,7 @@ interface IExportModal {
 
 const ExportModal: FC<IExportModal> =  ({onClose, fileName}) => {
     const [menuActive, setMenuActive] = useState<boolean>(false);
-    const [option, setOption] = useState<string>("");
+    const [option, setOption] = useState<string>(null);
     const items = [
         {
             option: "Вариант 1"
@@ -74,7 +74,7 @@ const ExportModal: FC<IExportModal> =  ({onClose, fileName}) => {
                         <LargeComboBox addFolderActive={false} setOption={setOption} setMenuActive={setMenuActive} isActive={menuActive} items={items}/>
                     )}
                 </ExportModalSelectBlock>
-                <ExportModalMainButton>Выгрузить файл</ExportModalMainButton>
+                <ExportModalMainButton disabled={option == undefined}>Выгрузить файл</ExportModalMainButton>
             </ExportModalContent>
         </ExportModalBlock>
     );

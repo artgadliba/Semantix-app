@@ -11,7 +11,6 @@ const CreateNewFolderModalBlock = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  backdrop-filter: blur(${pxIntoRem(2)});
   background-color: rgba(0, 0, 0, 0.70);
   overflow: hidden;
 `;
@@ -160,6 +159,12 @@ const CreateNewFolderModalMainButton = styled.button`
     background: #1668E2;
     box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
     transition: 0.3s;
+  }
+  &:disabled {
+    border: 1px solid #2D3042;
+    color: #2D3042;
+    background: transparent;
+    pointer-events: none;
   }
   @media (max-width: 500px) {
     margin: auto ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};

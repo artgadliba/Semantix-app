@@ -41,12 +41,18 @@ const LandingHeaderBlurredCircle = styled.div`
   width: ${pxIntoRem(218)};
   height: ${pxIntoRem(218)};
   border-radius: 50%;
-  opacity: 0.6;
+  opacity: 0.4;
   top: ${pxIntoRem(-64)};
   left: ${pxIntoRem(-70)};
   background: linear-gradient(44deg, #0781FE 0%, #00C7B4 100%);
   filter: blur(197px);
   -webkit-transform: translate3d(0, 0, 0);
+  @supports (-moz-appearance:none) {
+    position: absolute;
+    top: ${pxIntoRem(-64)};
+    left: ${pxIntoRem(-70)};
+    background-image: url(/images/blurred-circle-header.svg);
+  }
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
     height: ${pxIntoRem(80)};

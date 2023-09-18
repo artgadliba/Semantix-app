@@ -6,6 +6,7 @@ import {
     AppHeaderUsernameBlock,
     AppHeaderUsernameTitle,
     AppHeaderUsernameIcon,
+    AppHeaderUsernameButtonWrapper,
     AppHeaderMenuButton,
     AppHeaderMenuButtonIcon,
     AppHeaderBottomLineBlock,
@@ -25,10 +26,10 @@ const AppHeader: FC<IAppHeader> = ({title}) => {
     const [option, setOption] = useState<string>("");
     const options = [
         {
-            name: "Действие 1"
+            name: "Сменить пароль"
         },
         {
-            name: "Действие 2"
+            name: "Выйти"
         }
     ];
     const toggleUserMenu = () => {
@@ -48,10 +49,12 @@ const AppHeader: FC<IAppHeader> = ({title}) => {
                 <AppHeaderSectionTitle>{title}</AppHeaderSectionTitle>
                 <AppHeaderUsernameBlock>
                     <AppHeaderUsernameTitle>User name</AppHeaderUsernameTitle>
-                    <AppHeaderUsernameIcon alt="avatar" src="/images/avatar.png" />
-                    <AppHeaderMenuButton onClick={() => {toggleUserMenu()}}>
-                        <AppHeaderMenuButtonIcon alt="open" src="/images/folders-closed.svg" />
-                    </AppHeaderMenuButton>
+                    <AppHeaderUsernameButtonWrapper onClick={() => {toggleUserMenu()}}>
+                        <AppHeaderUsernameIcon alt="avatar" src="/images/avatar.png" />
+                        <AppHeaderMenuButton >
+                            <AppHeaderMenuButtonIcon alt="open" src="/images/folders-closed.svg" />
+                        </AppHeaderMenuButton>
+                    </AppHeaderUsernameButtonWrapper>
                     {userMenuActive == true && (
                         <SmallComboBox className="header-box" setMenuActive={setUserMenuActive} setOption={setOption} options={options} />
                     )}

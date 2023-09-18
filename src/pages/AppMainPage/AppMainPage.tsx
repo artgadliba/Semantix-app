@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useState, useEffect } from "react";
 import { 
     AppMainPageBlock,
     AppMainPageTitle,
@@ -11,9 +11,20 @@ import UserFileList from "components/UserFileList/UserFileList";
 
 interface IAppMain {
     query?: string;
+    sortType?: string;
+    sortByField?: string;
 }
 
-const AppMain: FC<IAppMain> = ({query}) => {
+interface ILatestFileData {
+    fileName: string;
+    fileLength: number;
+    fileDate: string;
+    folderName: string;
+    status: string;
+}
+
+const AppMain: FC<IAppMain> = ({query, sortType, sortByField}) => {
+    const [fileList, setFileList] = useState<Array<ILatestFileData>>([]);
     const items = [
         {
             fileName: "Имя файла 1",
@@ -69,6 +80,7 @@ const AppMain: FC<IAppMain> = ({query}) => {
             folderName: "Папка 3"
         }
     ];
+
     const filteredData = items.filter((item) => {
         if (query === "") {
             return item;
@@ -76,13 +88,29 @@ const AppMain: FC<IAppMain> = ({query}) => {
             return item.fileName.toLowerCase().includes(query);
         }
     })
+
+    function sortFunc(results, sortType, sortByField) {
+        if (sortType === "ascending") {
+            results.sort((a, b) => a[sortByField] < b[sortByField] ? -1 : 1)  
+        }
+        else if (sortType === "descending") {
+            results.sort((a, b) => b[sortByField] > a[sortByField] ? 1 : -1)
+        }
+        return results;
+    }
+
+    useEffect(() => {
+        const filesData = sortFunc(filteredData, sortType, sortByField);
+        setFileList(filesData);
+    }, [sortType, sortByField]);
+
     return (
         <AppMainPageBlock>
             <AppMainPageTitle>Последние загруженные</AppMainPageTitle>
             <AppMainPageText>
                 В этом разделе отображаются файлы загруженные за последние 7 дней
             </AppMainPageText>
-            <UserFileList items={filteredData}/>
+            <UserFileList items={fileList}/>
             <AppMainPageBottomLineBlock>
                 <AppMainPageBottomLine />
             </AppMainPageBottomLineBlock>

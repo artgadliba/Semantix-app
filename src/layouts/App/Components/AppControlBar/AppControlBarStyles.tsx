@@ -57,7 +57,7 @@ const AppControlBarSearchInputBlock = styled.div`
   border: 1px solid #2D3042;
   @media (max-width: 500px) {
     margin: 0 ${pxIntoRem(12)} 0 0;
-    width: 100%;
+    width: calc(100% - ${pxIntoRem(54)});
   }
 `;
 
@@ -82,7 +82,7 @@ const AppControlBarSearchInputIcon = styled.img`
   margin-right: ${pxIntoRem(16)};
 `;
 
-const AppControlBarFilter = styled.div`
+const AppControlBarFilterButton = styled.button`
   position: relative;
   display: flex;
   align-items: center;
@@ -93,6 +93,7 @@ const AppControlBarFilter = styled.div`
   height: ${pxIntoRem(42)};
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #2D3042;
+  background: transparent;
   @media (max-width: 500px) {
     margin-top: 0;
     margin-left: ${pxIntoRem(12)};
@@ -124,12 +125,11 @@ const AppControlBarFilterTitle = styled.h2`
   }
 `;
 
-const AppControlBarFilterButton = styled.button`
+const AppControlBarFilterIconBlock = styled.div`
   width: ${pxIntoRem(18)};
   height: ${pxIntoRem(18)};
   margin-left: auto;
   margin-right: ${pxIntoRem(16)};
-  background: transparent;
   align-items: center;
   justify-content: center;
   background-image: url("/images/folders-opened.svg");
@@ -146,7 +146,7 @@ const AppControlBarFilterButtonMobile = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${pxIntoRem(42)};
+  width: ${pxIntoRem(42)} !important;
   height: ${pxIntoRem(42)};
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #2D3042;
@@ -193,8 +193,8 @@ export {
     AppControlBarSearchAndFilterMobileBlock,
     AppControlBarSearchInput,
     AppControlBarSearchInputIcon,
-    AppControlBarFilter,
     AppControlBarFilterIcon,
+    AppControlBarFilterIconBlock,
     AppControlBarFilterTitle,
     AppControlBarFilterButton,
     AppControlBarFilterButtonMobile,

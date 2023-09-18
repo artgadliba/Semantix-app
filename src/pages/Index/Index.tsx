@@ -24,6 +24,7 @@ import {
   IndexLowerBackgroundImage,
   IndexLowerMobileBackgroundImage,
   IndexLowerBlurredCircle,
+  IndexMiddleBlurredCircle,
   IndexPaymentBackgroundBlock,
   IndexPaymentBackground,
   IndexPaymentBackgroundLayer,
@@ -99,6 +100,7 @@ function Index() {
       <IndexBlock>
       <IndexUpperBlurredCircle />
       <IndexLowerBlurredCircle />
+      <IndexMiddleBlurredCircle />
       <IndexBottomLeftBlurredCircle />
       <IndexBottomRightBlurredCircle />
         <Container maxwidth={1440}>
@@ -139,13 +141,13 @@ function Index() {
             </IndexGreetingContent>
           </IndexGreetingBackgroundBlock>
           <IndexUpperBackgroundBlock>
-            <IndexUpperBackgroundImage alt="background" src="/images/upper-bg.png" />
+            <IndexUpperBackgroundImage alt="background" src="/images/upper-bg.svg" />
             <IndexUpperMobileBackgroundImage width="320" height="212" viewBox="0 0 320 212" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0 48.555C0 32.785 12.784 20 28.555 20h82.752c8.4 0 16.125 4.795 19.924 12.286 11.994 23.651 46.013 23.82 57.758.045A22.135 22.135 0 0 1 208.835 20h82.887C307.339 20 320 32.66 320 48.279V172c0 22.091-17.909 40-40 40H40c-22.091 0-40-17.909-40-40V48.555Z" fill="url(#a)" fill-opacity=".5"/>
               <path d="M319.5 48.279V172c0 21.815-17.685 39.5-39.5 39.5H40C18.185 211.5.5 193.815.5 172V48.555C.5 33.06 13.06 20.5 28.555 20.5h82.752c8.209 0 15.763 4.687 19.478 12.013 12.176 24.008 46.72 24.195 58.652.04A21.635 21.635 0 0 1 208.835 20.5h82.887c15.341 0 27.778 12.437 27.778 27.779Z" stroke="url(#b)" strokeOpacity=".7"/><g filter="url(#c)"><circle cx="160.5" cy="20.5" r="20.5" fill="url(#d)"/><circle cx="160.5" cy="20.5" r="20" stroke="url(#e)"/></g>
               <path d="M160.5 25.348v-9.696m0 9.696 4.156-4.155m-4.156 4.155-4.155-4.155" stroke="#fff" strokeLinecap="round" strokeLinejoin="round"/><defs><linearGradient id="a" x1="160" y1="20" x2="160" y2="212" gradientUnits="userSpaceOnUse"><stop stop-color="#10111D"/><stop offset=".886" stop-color="#030512" stopOpacity="0"/></linearGradient><linearGradient id="b" x1="213.565" y1="23.007" x2="240.306" y2="104.095" gradientUnits="userSpaceOnUse"><stop stop-color="#202230"/><stop offset="1" stop-color="#202129" stopOpacity="0"/></linearGradient><linearGradient id="d" x1="160.5" y1="0" x2="160.5" y2="41" gradientUnits="userSpaceOnUse"><stop stop-color="#10111D"/><stop offset="1" stop-color="#030512" stopOpacity="0"/></linearGradient><linearGradient id="e" x1="161.608" y1="-43.216" x2="162.439" y2="79.507" gradientUnits="userSpaceOnUse"><stop stop-color="#1683E2"/><stop offset=".619" stop-color="#1683E2" stopOpacity="0"/></linearGradient><filter id="c" x="136" y="-4" width="49" height="49" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB"><feFlood floodOpacity="0" result="BackgroundImageFix"/><feGaussianBlur in="BackgroundImageFix" stdDeviation="2"/><feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_432_1008"/><feBlend in="SourceGraphic" in2="effect1_backgroundBlur_432_1008" result="shape"/></filter></defs>
             </IndexUpperMobileBackgroundImage>
-            <IndexFeaturesTitleContent>
+            <IndexFeaturesTitleContent id="features">
               <IndexFeatures>
                 <IndexFeaturesTitle>
                   Возможности <br></br> Semantix
@@ -259,7 +261,7 @@ function Index() {
           <IndexLowerBackgroundBlock>
             <IndexLowerBackgroundImage alt="background" src="/images/lower-bg.svg" />
             <IndexLowerMobileBackgroundImage alt="background" src="/images/lower-mobile-bg.png" />
-            <IndexHowItWorksContent>
+            <IndexHowItWorksContent id="howitworks">
               <IndexHowItWorksTitle>
                 Как это работает?
               </IndexHowItWorksTitle>
@@ -304,7 +306,7 @@ function Index() {
               </IndexHowItWorks>
             </IndexHowItWorksContent>
           </IndexLowerBackgroundBlock>
-          <IndexPaymentBackgroundBlock>
+          <IndexPaymentBackgroundBlock id="payment">
             <IndexPaymentMobileBackground alt="background" src="/images/payment-mobile-bg.png" />
             <IndexPaymentBackground>
               <IndexPaymentBackgroundLayer>
@@ -352,7 +354,7 @@ function Index() {
           </IndexPaymentBackgroundBlock>
           <IndexCallToActionBackgroundBlock>
             <IndexCallToActionBackgroundImage alt="background" src="/images/bottom-pattern.svg" />
-            <IndexCallToActionContent>
+            <IndexCallToActionContent id="contacts">
               <IndexCallToAction>
                 <IndexCallToActionBody>
                   <IndexCallToActionLogoBlock>

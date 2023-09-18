@@ -33,6 +33,12 @@ const AppInterfaceBlurredCircleBottomLeft = styled.div`
   border-radius: 50%;
   filter: blur(197px);
   -webkit-transform: translate3d(0, 0, 0);
+  @supports (-moz-appearance:none) {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-image: url(/images/blurred-circle-big.svg);
+  }
 `;
 
 export {

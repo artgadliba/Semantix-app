@@ -6,7 +6,7 @@ import { App } from "./App";
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@500;600;700&display=swap');
+  @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700&display=swap");
 
   * {
     margin: 0;
@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     outline: none;
     box-sizing: border-box!important;
-    font-family: 'Mulish';
+    font-family: 'Mulish', sans-serif !important;
   }
 
   body, html, #root {
@@ -127,9 +127,8 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Mulish';
     src: local('Mulish'),
-        url('/fonts/Mulish-Bold.ttf') format('woff2');
-        url('/fonts/Mulish-Bold.ttf') format('woff');
-        url('/fonts/Mulish-Bold.ttf') format('truetype');
+        url('/fonts/Mulish-Bold.ttf') format('truetype'),
+        url('/fonts/Mulish-Bold.woff') format('woff');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -138,9 +137,8 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Mulish';
     src: local('Mulish'),
-        url('/fonts/Mulish-SemiBold.ttf') format('woff2');
-        url('/fonts/Mulish-SemiBold.ttf') format('woff');
-        url('/fonts/Mulish-SemiBold.ttf') format('truetype');
+        url('/fonts/Mulish-SemiBold.ttf') format('truetype'),
+        url('/fonts/Mulish-SemiBold.woff') format('woff');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -149,9 +147,8 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Mulish';
     src: local('Mulish'),
-        url('/fonts/Mulish-Medium.ttf') format('woff2');
-        url('/fonts/Mulish-Medium.ttf') format('woff');
-        url('/fonts/Mulish-Medium.ttf') format('truetype');
+        url('/fonts/Mulish-Medium.ttf') format('truetype'),
+        url('/fonts/Mulish-Medium.woff') format('woff');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -160,9 +157,8 @@ const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Mulish';
     src: local('Mulish'),
-        url('/fonts/Mulish-Regular.ttf') format('woff2');
-        url('/fonts/Mulish-Regular.ttf') format('woff');
-        url('/fonts/Mulish-Regular.ttf') format('truetype');
+        url('/fonts/Mulish-Regular.ttf') format('truetype'),
+        url('/fonts/Mulish-Regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
     font-display: swap;

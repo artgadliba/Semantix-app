@@ -277,6 +277,13 @@ const IndexUpperBlurredCircle = styled.div`
   background: #1683E2;
   filter: blur(176.5px);
   -webkit-transform: translate3d(0, 0, 0);
+  @supports (-moz-appearance:none) {
+    position: absolute;
+    top: 17%;
+    right: ${pxIntoRem(-50)};
+    background-image: url(/images/blurred-circle-small.svg);
+    display: none;
+  }
 `;
 
 const IndexLowerBackgroundBlock = styled.div`
@@ -330,6 +337,32 @@ const IndexLowerBlurredCircle = styled.div`
   background: #1683E2;
   filter: blur(176.5px);
   -webkit-transform: translate3d(0, 0, 0);
+  @supports (-moz-appearance:none) {
+    position: absolute;
+    top: 52%;
+    right: ${pxIntoRem(-50)};
+    background-image: url(/images/blurred-circle-small.svg);
+    display: none;
+  }
+`;
+
+const IndexMiddleBlurredCircle = styled.div`
+  position: absolute;
+  width: ${pxIntoRem(100)};
+  height: ${pxIntoRem(100)};
+  top: ${pxIntoRem(1300)};
+  left: 33%;
+  border-radius: 50%;
+  background: #1683E2;
+  filter: blur(176.5px);
+  -webkit-transform: translate3d(0, 0, 0);
+  @supports (-moz-appearance:none) {
+    position: absolute;
+    top: ${pxIntoRem(1300)};
+    left: 33%;
+    background-image: url(/images/blurred-circle-small.svg);
+    display: none;
+  }
 `;
 
 const IndexFeatures = styled.section`
@@ -781,7 +814,7 @@ const IndexPaymentLowerBlurredEllipse = styled.div`
   height: ${pxIntoRem(170)};
   bottom: ${pxIntoRem(-169)};
   border-radius: ${pxIntoRem(1170)};
-  opacity: 0.3;
+  opacity: 0.2;
   background: #1683E2;
   filter: blur(167px);
   -webkit-transform: translate3d(0, 0, 0);
@@ -876,6 +909,10 @@ const IndexPaymentOptionTable = styled.div`
   height: ${pxIntoRem(280)};
   z-index: 999;
   position: relative;
+  box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(54)} 0px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(60px);
+  -webkit-backdrop-filter: blur(60px);
+  border-radius: ${pxIntoRem(20)};
   &:before {
     content: "";
     position: absolute;
@@ -1205,6 +1242,13 @@ const IndexBottomLeftBlurredCircle = styled.div`
   background: #1683E2;
   filter: blur(176.5px);
   -webkit-transform: translate3d(0, 0, 0);
+  @supports (-moz-appearance:none) {
+    position: absolute;
+    top: 91%;
+    left: ${pxIntoRem(-50)};
+    background-image: url(/images/blurred-circle-small.svg);
+    display: none;
+  }
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
     height: ${pxIntoRem(80)};
@@ -1224,6 +1268,13 @@ const IndexBottomRightBlurredCircle = styled.div`
   background: #1683E2;
   filter: blur(176.5px);
   -webkit-transform: translate3d(0, 0, 0);
+  @supports (-moz-appearance:none) {
+    position: absolute;
+    top: 92%;
+    right: ${pxIntoRem(-50)};
+    background-image: url(/images/blurred-circle-small.svg);
+    display: none;
+  }
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
     height: ${pxIntoRem(80)};
@@ -1252,6 +1303,7 @@ export {
   IndexLowerBackgroundImage,
   IndexLowerMobileBackgroundImage,
   IndexLowerBlurredCircle,
+  IndexMiddleBlurredCircle,
   IndexPaymentBackgroundBlock,
   IndexPaymentBackground,
   IndexPaymentBackgroundLayer,

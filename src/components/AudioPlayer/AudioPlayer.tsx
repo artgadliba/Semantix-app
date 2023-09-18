@@ -1,5 +1,4 @@
-import React, { FC, useState, useEffect, useRef, SyntheticEvent } from "react";
-import useSound from "use-sound";
+import { FC, useState, useEffect, useRef } from "react";
 import { 
     AudioPlayerBlock,
     AudioPlayerBackgroundLayer,
@@ -9,14 +8,16 @@ import {
     AudioPlayerTimecode,
     AudioPlayerTimeScale,
     AudioPlayerTimeScalePseudo,
-    AudioPlayerTimeScaleThumb,
     AudioPlayerSymbolIcon,
     AudioPlayerMobileRowWrapper
 } from "./AudioPlayerStyles";
-import track from "../../assets/coding-music.mp3";
+import track from "../../assets/Python.mp3";
 
 interface IAudioPlayer {
-    audioSource?: any;
+    setPlayerRef: (ref: React.MutableRefObject<any>) => void;
+    setProgressRef: (ref: React.MutableRefObject<any>) => void;
+    isPlaying: boolean;
+    setIsPlaying: (state: boolean) => void;
 }
 
 interface ICurrentTime {
@@ -25,32 +26,45 @@ interface ICurrentTime {
     sec: string;
 }
 
-const AudioPlayer: FC<IAudioPlayer> = ({audioSource}) => {
-    const [play, { pause, duration, sound }] = useSound(track);
-
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
+const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying, setIsPlaying}) => {
     const [seconds, setSeconds] = useState<number>(0);
+    const [duration, setDuration] = useState<number>(0);
     const [outputFormatDuration, setOutputFormatDuration] = useState<string>("");
     const [currTime, setCurrTime] = useState<ICurrentTime>();
 
+    const { innerWidth: width} = window;
+    const audioRef = useRef(null);
+    const progressRef = useRef(null);
+    
     useEffect(() => {
-        const sec = duration / 1000;
-        const min = Math.floor(sec / 60);
-        const hour = Math.floor(min / 60);
-        const minRemain = Math.floor(min % 60);
-        const secRemain = Math.floor(sec % 60);
-
-        const formattedTime = `${hour}:${minRemain.toLocaleString('en-US', {minimumIntegerDigits: 2})}:${secRemain.toLocaleString('en-US', {minimumIntegerDigits: 2})}`;
-        setOutputFormatDuration(formattedTime);
+        audioRef.current.addEventListener('loadedmetadata', () => {
+            setDuration(audioRef.current.duration);
+        });
+        if (audioRef.current.readyState >= 2 && duration === 0) {
+            setDuration(audioRef.current.duration);
+        }
+        setPlayerRef(audioRef);
+        setProgressRef(progressRef);
+    },[audioRef]);
+    
+    useEffect(() => {
+        if (duration != 0) {
+            const sec = duration;
+            const min = Math.floor(sec / 60);
+            const hour = Math.floor(min / 60);
+            const minRemain = Math.floor(min % 60);
+            const secRemain = Math.floor(sec % 60);
+            const formattedTime = `${hour}:${minRemain.toLocaleString('en-US', {minimumIntegerDigits: 2})}:${secRemain.toLocaleString('en-US', {minimumIntegerDigits: 2})}`;
+            setOutputFormatDuration(formattedTime);
+        }
     },[duration]);
 
     useEffect(() => {
         const interval = setInterval(() => {
-          if (sound) {
-            setSeconds(sound.seek([]));
-            const hour = String(Math.floor(sound.seek([]) / 3600));
-            const rawMin = Math.floor(sound.seek([]) / 60) - 60 * Number(hour);
-            const rawSec = Math.floor(sound.seek([]) % 60);
+            setSeconds(audioRef.current.currentTime);
+            const hour = String(Math.floor(audioRef.current.currentTime / 3600));
+            const rawMin = Math.floor(audioRef.current.currentTime / 60) - 60 * Number(hour);
+            const rawSec = Math.floor(audioRef.current.currentTime % 60);
             const min = rawMin.toLocaleString('en-US', {minimumIntegerDigits: 2});
             const sec = rawSec.toLocaleString('en-US', {minimumIntegerDigits: 2});
             setCurrTime({
@@ -58,37 +72,34 @@ const AudioPlayer: FC<IAudioPlayer> = ({audioSource}) => {
                 min,
                 sec
             });
-          }
         }, 1000);
         return () => clearInterval(interval);
-    }, [sound]);
-
+    }, []);
+    
     const playingButton = () => {
         if (isPlaying) {
-          pause();
-          setIsPlaying(false);
+            audioRef.current.pause();
+            setIsPlaying(false);
         } else {
-          play();
-          setIsPlaying(true);
+            audioRef.current.play();
+            setIsPlaying(true);
         }
     };
 
-    const autoPlayOnSeek = () => {
-        play();
+    const handleSeek = (value: number) => {
+        audioRef.current.currentTime = value;
+        setSeconds(value);
+        audioRef.current.play();
         setIsPlaying(true);
+        handleProgressColor(value);
     }
 
-    const handleProgressColor = (e: any) => {
-        var value = (e.target.value-e.target.min)/(e.target.max-e.target.min)*100;
-        e.target.style.background = 'linear-gradient(to right, #1683E2 0%, #1683E2 ' + value + '%, #1B1D2C ' + value + '%, #1B1D2C 100%)';
-        const { innerWidth: width} = window;
-        if (width > 500) {
-            document.getElementById("thumb").style.left = value - 0.2 + '%';
-        } else {
-            document.getElementById("thumb-mobile").style.left = value - 0.2 + '%';
-        }
+    const handleProgressColor = (value: number) => {
+        const ref = progressRef.current;
+        const ratio = value / ref.max * 100;
+        ref.style.background = 'linear-gradient(to right, #1683E2 0%, #1683E2 ' + ratio + '%, #1B1D2C ' + ratio + '%, #1B1D2C 100%)';
     }
-
+    
     return (
         <AudioPlayerBlock>
             <AudioPlayerBackgroundLayer />
@@ -104,35 +115,36 @@ const AudioPlayer: FC<IAudioPlayer> = ({audioSource}) => {
                     </AudioPlayerControlsButton>
                 )}
                 </AudioPlayerControlsBlock>
-                {currTime != undefined && outputFormatDuration != null ? (
+                {currTime != undefined && outputFormatDuration != "" ? (
                     <AudioPlayerTimecode>{currTime.hour}:{currTime.min}:{currTime.sec} / {outputFormatDuration}</AudioPlayerTimecode>
                 ) : (
                     <AudioPlayerTimecode>0:00:00 / 0:00:00</AudioPlayerTimecode>
                 )}
+                <audio preload="metadata" src={track} controls={false} ref={audioRef} />
                 <AudioPlayerTimeScalePseudo>
-                    <AudioPlayerTimeScale 
+                    <AudioPlayerTimeScale
                         type="range"
                         min="0"
-                        max={duration / 1000}
+                        max={duration}
                         value={seconds}
-                        onChange={function(e){ sound.seek([e.target.value]); autoPlayOnSeek(); handleProgressColor(e)}}
-                        onInput={function(e){ sound.seek([e.target]); autoPlayOnSeek(); handleProgressColor(e)}}
+                        onChange={function(e){ handleSeek(Number(e.target.value)); }}
+                        ref={progressRef}
                     />
-                    <AudioPlayerTimeScaleThumb id="thumb" />
                 </AudioPlayerTimeScalePseudo>
                 <AudioPlayerSymbolIcon alt="audio" src="/images/audio.svg" />
             </AudioPlayerMobileRowWrapper>
-            <AudioPlayerTimeScalePseudo className="mobile-player">
-                <AudioPlayerTimeScale 
-                    type="range"
-                    min="0"
-                    max={duration / 1000}
-                    value={seconds}
-                    onChange={function(e){ sound.seek([e.target.value]); autoPlayOnSeek(); handleProgressColor(e)}}
-                    onInput={function(e){ sound.seek([e.target]); autoPlayOnSeek(); handleProgressColor(e)}}
-                />
-                <AudioPlayerTimeScaleThumb id="thumb-mobile" />
-            </AudioPlayerTimeScalePseudo>
+            {width < 501 && (
+                <AudioPlayerTimeScalePseudo className="mobile-player">
+                    <AudioPlayerTimeScale 
+                        type="range"
+                        min="0"
+                        max={duration}
+                        value={seconds}
+                        onChange={function(e){ handleSeek(Number(e.target.value)); }}
+                        ref={progressRef}
+                    />
+                </AudioPlayerTimeScalePseudo>
+            )}
         </AudioPlayerBlock>
     );
 }

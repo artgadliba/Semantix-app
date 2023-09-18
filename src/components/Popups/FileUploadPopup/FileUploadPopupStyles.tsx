@@ -11,7 +11,6 @@ const FileUploadPopupBlock = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  backdrop-filter: blur(${pxIntoRem(2)});
   background-color: rgba(0, 0, 0, 0.70);
 `;
 

@@ -16,13 +16,20 @@ interface IAppInterface {
 
 const AppInterface: FC<IAppInterface> = ({headerTitle, controlBar, children}) => {
     const [query, setQuery] = useState<string>("");
+    const [sortType, setSortType] = useState("ascending");
+    const [sortByField, setSortByField] = useState("fileName");
+
     return (
         <AppInterfaceBlock>
             <AppHeader title={headerTitle} />
             <AppMenu />
-            {controlBar && (<><AppControlBar setQuery={setQuery} /></>)}
+            {controlBar && (<><AppControlBar setQuery={setQuery} setSortType={setSortType} setSortByField={setSortByField} /></>)}
             <AppInterfaceContent>
-                {React.cloneElement(children as React.ReactElement<any>, { query: query })}
+                {React.cloneElement(children as React.ReactElement<any>, { 
+                    query: query,
+                    sortType: sortType,
+                    sortByField: sortByField
+                })}
             </AppInterfaceContent>
             <AppInterfaceBlurredCircleBottomLeft />
         </AppInterfaceBlock>

@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useState } from "react";
+import { FC, useState } from "react";
 import { 
     CreateNewFolderModalBlock,
     CreateNewFolderModalContent,
@@ -18,12 +18,12 @@ interface ICreateNewFolderModal {
     onClose(): any;
 }
 
-const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose}) => {    
-    const togglePassword = (e: SyntheticEvent<HTMLElement>) => {
-        const elem = document.querySelector("#psswd_input");
-        const type = elem.getAttribute('type') === 'password' ? 'text' : 'password';
-        elem.setAttribute('type', type);
+const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose}) => {
+    const [inputData, setInputData] = useState<string>(null);
+    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputData(event.target.value);
     }
+
     return (
         <CreateNewFolderModalBlock onClick={onClose}>
             <CreateNewFolderModalContent onClick={(e) => e.stopPropagation()}>
@@ -38,10 +38,10 @@ const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose}) => {
                     <CreateNewFolderModalInputTitle>Имя папки</CreateNewFolderModalInputTitle>
                     <CreateNewFolderModalInputComponent>
                         <CreateNewFolderModalInputBackgroundLayer />
-                        <CreateNewFolderModalInputField type="text" />
+                        <CreateNewFolderModalInputField type="text" onChange={(e) => {handleInput(e)}} />
                     </CreateNewFolderModalInputComponent>
                 </CreateNewFolderModalInputBlock>
-                <CreateNewFolderModalMainButton>Добавить</CreateNewFolderModalMainButton>
+                <CreateNewFolderModalMainButton disabled={inputData == undefined}>Добавить</CreateNewFolderModalMainButton>
             </CreateNewFolderModalContent>
         </CreateNewFolderModalBlock>
     );

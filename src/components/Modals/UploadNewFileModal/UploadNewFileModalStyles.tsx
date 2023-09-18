@@ -11,7 +11,6 @@ const UploadNewFileModalBlock = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  backdrop-filter: blur(${pxIntoRem(2)});
   background-color: rgba(0, 0, 0, 0.70);
   overflow: hidden;
 `;
@@ -277,9 +276,10 @@ const UploadNewFileModalCloseIcon = styled.svg`
   } 
 `;
 
-const UploadNewFileModalMobilInputWrapper = styled.div`
+const UploadNewFileModalMobilInputWrapper = styled.button`
   display: flex;
   flex-direction: row;
+  background: transparent;
 `;
 
 const UploadNewFileModalFilesBlock= styled.div`
@@ -336,11 +336,17 @@ const UploadNewFileModalProgressBar = styled.progress`
   width: ${pxIntoRem(150)};
   height: ${pxIntoRem(8)};
   margin-top: ${pxIntoRem(16)};
+  border-radius: ${pxIntoRem(8)};
+  background: #1B1D2C;
   &::-webkit-progress-bar {
     border-radius: ${pxIntoRem(8)};
     background: #1B1D2C;
   }
   &::-webkit-progress-value {
+    border-radius: ${pxIntoRem(8)};
+    background: #1683E2;
+  }
+  &::-moz-progress-bar {
     border-radius: ${pxIntoRem(8)};
     background: #1683E2;
   }

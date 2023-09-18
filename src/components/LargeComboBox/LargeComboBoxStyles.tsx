@@ -8,7 +8,7 @@ const LargeComboBoxBlock = styled.div`
 `;
 
 interface IAddFolder {
-    addFolderActive: boolean;
+    $addFolderActive: boolean;
 }
 
 const LargeComboBoxBackground = styled.div<IAddFolder>`
@@ -20,7 +20,7 @@ const LargeComboBoxBackground = styled.div<IAddFolder>`
   padding: ${pxIntoRem(10)};
   margin-top: ${pxIntoRem(8)};
   max-height: ${pxIntoRem(189)};
-  ${props => props.addFolderActive === true && css`
+  ${props => props.$addFolderActive === true && css`
     max-height: ${pxIntoRem(242)}; 
   `}
   box-shadow: 0px 4px 40px 0px #00000026;
@@ -73,7 +73,7 @@ const LargeComboBoxBackgroundLayer = styled.div`
 `;
 
 interface IScrollable {
-  isScrollable: boolean;
+  $isScrollable: boolean;
 }
 
 const LargeComboBoxOptionBlock = styled.div<IScrollable>`
@@ -81,7 +81,7 @@ const LargeComboBoxOptionBlock = styled.div<IScrollable>`
   display: flex;
   min-height: ${pxIntoRem(42)} !important;
   align-items: center;
-  ${props => props.isScrollable === true && css`
+  ${props => props.$isScrollable === true && css`
     margin-right: ${pxIntoRem(10)}; 
   `}
 `;

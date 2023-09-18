@@ -40,8 +40,12 @@ interface IDataTransfer {
 
 const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, option}) => {
     const inputRef = useRef(null);
-    const [dragActive, setDragActive] = useState<boolean>(false);
     const [data, setData] = useState<Array<IDataTransfer>>([]);
+    const [dragActive, setDragActive] = useState<boolean>(false);
+    const [checkboxFirst, setCheckoxFirst] = useState<boolean>(false);
+    const [checkboxSecond, setCheckoxSecond] = useState<boolean>(false);
+    const [checkboxThird, setCheckoxThird] = useState<boolean>(false);
+    const [checkboxFourth, setCheckoxFourth] = useState<boolean>(false);
 
     const handleDrag = function(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
@@ -199,20 +203,20 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, option}) => {
                 <UploadNewFileModalLine />
                 <UploadNewFileModalAdjustmentsText>Какой-то текст про настройки</UploadNewFileModalAdjustmentsText>
                 <UploadNewFileModalCheckboxBlock>
-                    <UploadNewFileModalMobilInputWrapper>
-                        <UploadNewFileModalCheckboxInput type="checkbox" />
+                    <UploadNewFileModalMobilInputWrapper onClick={() => {setCheckoxFirst(current => !current)}}>
+                        <UploadNewFileModalCheckboxInput type="checkbox" checked={checkboxFirst} />
                         <UploadNewFileModalCheckboxText>Настройка 1</UploadNewFileModalCheckboxText>
                     </UploadNewFileModalMobilInputWrapper>
-                    <UploadNewFileModalMobilInputWrapper>
-                        <UploadNewFileModalCheckboxInput type="checkbox" />
+                    <UploadNewFileModalMobilInputWrapper onClick={() => {setCheckoxSecond(current => !current)}}>
+                        <UploadNewFileModalCheckboxInput type="checkbox" checked={checkboxSecond} />
                         <UploadNewFileModalCheckboxText>Настройка 2</UploadNewFileModalCheckboxText>
                     </UploadNewFileModalMobilInputWrapper>
-                    <UploadNewFileModalMobilInputWrapper>
-                        <UploadNewFileModalCheckboxInput type="checkbox" />
+                    <UploadNewFileModalMobilInputWrapper onClick={() => {setCheckoxThird(current => !current)}}>
+                        <UploadNewFileModalCheckboxInput type="checkbox" checked={checkboxThird} />
                         <UploadNewFileModalCheckboxText>Настройка 3</UploadNewFileModalCheckboxText>
                     </UploadNewFileModalMobilInputWrapper>
-                    <UploadNewFileModalMobilInputWrapper>
-                        <UploadNewFileModalCheckboxInput type="checkbox" />
+                    <UploadNewFileModalMobilInputWrapper onClick={() => {setCheckoxFourth(current => !current)}}>
+                        <UploadNewFileModalCheckboxInput type="checkbox" checked={checkboxFourth} />
                         <UploadNewFileModalCheckboxText>Настройка 4</UploadNewFileModalCheckboxText>
                     </UploadNewFileModalMobilInputWrapper>
                 </UploadNewFileModalCheckboxBlock>

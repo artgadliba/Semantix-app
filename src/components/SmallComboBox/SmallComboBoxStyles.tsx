@@ -20,7 +20,8 @@ const SmallComboBoxBlock = styled.div<ISmallComboBoxBlock>`
   ${props => props.className === 'filter-box' && css`
     top: ${pxIntoRem(82)};
     left: ${pxIntoRem(282)};
-    width: ${pxIntoRem(199)};
+    width: ${pxIntoRem(228)};
+    height: ${pxIntoRem(184)};
   `}
   @media (max-width: 500px) {
     ${props => props.className === 'filelist-box' && css`
@@ -35,7 +36,8 @@ const SmallComboBoxBlock = styled.div<ISmallComboBoxBlock>`
       top: ${pxIntoRem(50)};
       left: auto;
       right: ${pxIntoRem(0)};
-      width: ${pxIntoRem(173)};
+      width: ${pxIntoRem(228)};
+      height: ${pxIntoRem(184)};
     `}
   }
 `;
@@ -110,6 +112,7 @@ const SmallComboBoxOptionButton= styled.button`
   z-index: 9999999;
   width: 100%;
   text-align: left;
+  white-space: nowrap;
   background: transparent;
   cursor: pointer;
   margin-left: ${pxIntoRem(16)};

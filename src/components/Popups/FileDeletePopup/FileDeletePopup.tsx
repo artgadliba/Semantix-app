@@ -13,6 +13,7 @@ import {
 
 interface IFileDeletePopup {
     onClose(): any;
+    fileName: string;
 }
 
 const FileDeletePopup: FC<IFileDeletePopup> =  ({onClose}) => {
