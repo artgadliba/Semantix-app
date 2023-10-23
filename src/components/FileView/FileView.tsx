@@ -80,13 +80,13 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
             const activeSegment = groupedSegments.findIndex((segment) => {
                 return segment[segment.length - 1].end > playerRef.current.currentTime;
             })
-            if (groupedSegments[activeSegment] != undefined) {
+            if (groupedSegments[activeSegment]) {
                 const activeWordIndex = groupedSegments[activeSegment].findIndex((word) => {
                     return word.end > playerRef.current.currentTime;
                 });
                 const activeRef = wordsRefs[activeSegment];
                 const wordElement = activeRef.childNodes[activeWordIndex] as HTMLElement;
-                if (wordElement != undefined) {
+                if (wordElement) {
                     wordElement.classList.add("active-word");
                     wordElement.classList.add("active-text");
                 }
@@ -102,7 +102,7 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
                 }
             }
         };
-        if (playerRef != undefined) {
+        if (playerRef) {
             const ref = playerRef.current;
             ref.addEventListener("timeupdate", onTimeUpdate);
             return () => ref.removeEventListener(
@@ -119,13 +119,13 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
                 activeElements[i].classList.remove("active-text");
             }
             const currentWord = document.getElementsByClassName("active-word");
-            if (currentWord[0] != undefined) {
+            if (currentWord[0]) {
                 if (currentWord[0].className.includes("active-word")) {
                     currentWord[0].classList.remove("active-word");
                 }
             }
         };
-        if (playerRef != undefined) {
+        if (playerRef) {
             const ref = playerRef.current;
             ref.addEventListener("seeked", onSeeked);
             return () => ref.removeEventListener(
@@ -135,7 +135,7 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
         }
     },[playerRef]);
 
-    if (groupedSegments != undefined) {
+    if (groupedSegments) {
         return (
             <FileViewBlock>
                 <FileViewTranscriptionBlock>

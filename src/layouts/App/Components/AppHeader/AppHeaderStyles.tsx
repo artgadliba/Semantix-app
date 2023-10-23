@@ -1,13 +1,20 @@
 import styled from "styled-components";
-import { NavLink, Link } from "react-router-dom";
 import pxIntoRem from "utils/pxIntoRem";
+
+const AppHeaderBody = styled.div`
+  position: relative;
+  width: calc(100% - ${pxIntoRem(256)});
+  margin-left: auto;
+  margin-right: 0;
+  @media (max-width: 500px) {
+    width: 100%;
+    margin-left: 0;
+  }
+`;
 
 const AppHeaderBlock = styled.header`
   position: relative;
-  width: calc(100% - ${pxIntoRem(256)});
   height: ${pxIntoRem(81)};
-  margin-left: auto;
-  margin-right: 0;
   @media (max-width: 500px) {
     width: 100%;
     margin-left: 0;
@@ -15,15 +22,31 @@ const AppHeaderBlock = styled.header`
   }
 `;
 
-const AppHeaderBody = styled.div`
+const AppHeaderContent = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: row;
   width: 100%;
   height: 100%;
   @media (max-width: 500px) {
     text-align: left;
+  }
+`;
+
+const AppHeaderSectionTitleBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: ${pxIntoRem(6)};
+  align-items: center;
+  @media (max-width: 500px) {
+    display: none;
+  }
+  &.mobileTitleBlock {
+    display: none;
+    @media (max-width: 500px) {
+        display: flex;
+    }
   }
 `;
 
@@ -36,10 +59,17 @@ const AppHeaderSectionTitle = styled.h1`
   font-weight: 600;
   line-height: normal;
   margin-left: ${pxIntoRem(40)};
-  @media (max-width: 500px) {
-    margin-left: ${pxIntoRem(-116)};
-    margin-top: ${pxIntoRem(147)};
+  &.mobileTitle {
+    @media (max-width: 500px) {
+        display: flex;
+        margin: ${pxIntoRem(24)} ${pxIntoRem(0)} ${pxIntoRem(24)} ${pxIntoRem(15)};
+    }
   }
+`;
+
+const AppHeaderSectionTitleEdited = styled.img`
+  width: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
 `;
 
 const AppHeaderUsernameBlock = styled.div`
@@ -73,12 +103,23 @@ const AppHeaderUsernameButtonWrapper = styled.button`
   align-items: center;
 `;
 
-const AppHeaderUsernameIcon = styled.img`
+const AppHeaderUsernameIcon = styled.div`
+  display: flex;
   width: ${pxIntoRem(45)};
   height: ${pxIntoRem(45)};
+  border-radius: 50%;
+  background: #1B1D2C;
   margin-left: auto;
   margin-right: ${pxIntoRem(6)};
   box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.30);
+  align-items: center;
+  justify-content: center;
+  color: #FFF;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(18)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
   @media (max-width: 500px) {
     width: ${pxIntoRem(34)};
     height: ${pxIntoRem(34)};
@@ -141,11 +182,14 @@ const AppHeaderMobileLogo = styled.img`
 `;
 
 export {
-    AppHeaderBlock,
     AppHeaderBody,
+    AppHeaderBlock,
+    AppHeaderContent,
+    AppHeaderSectionTitleBlock,
     AppHeaderSectionTitle,
     AppHeaderUsernameBlock,
     AppHeaderUsernameTitle,
+    AppHeaderSectionTitleEdited,
     AppHeaderUsernameButtonWrapper,
     AppHeaderUsernameIcon,
     AppHeaderMenuButton,

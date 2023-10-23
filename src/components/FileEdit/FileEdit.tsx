@@ -5,7 +5,10 @@ import {
     FileEditTranscriptionBackgroundLayer,
     FileEditTranscriptionTextBlock,
     FileEditTranscriptionTextBlockTimestamp,
-    FileEditTranscriptionTextBlockParagraph
+    FileEditTranscriptionTextBlockParagraph,
+    FileEditMessageBlock,
+    FileEditMessageIcon,
+    FileEditMessageText
 } from "./FileEditStyles";
 import { parseFileLength } from "utils/parseFileLength";
 
@@ -81,26 +84,35 @@ const FileEdit: FC<IFileEdit> = ({playerRef, setIsPlaying, data}) => {
         groupSegments(10);
     }, []);
 
-    if (groupedSegments != undefined) {
+    if (groupedSegments) {
         return (
-            <FileEditBlock>
-                {groupedSegments.map((segment, idx) => {
-                    console.log(segment)
-                    return (
-                        <FileEditTranscriptionBlock key={idx}>
-                            <FileEditTranscriptionBackgroundLayer />
-                                    <FileEditTranscriptionTextBlock>
-                                        <FileEditTranscriptionTextBlockTimestamp onClick={(e) => {handleSeek(segment[0].start)}}>
-                                            {parseFileLength(segment[0].start)}
-                                        </FileEditTranscriptionTextBlockTimestamp>
-                                        <FileEditTranscriptionTextBlockParagraph contentEditable={true}>
-                                            {groupText(segment)}
-                                        </FileEditTranscriptionTextBlockParagraph>
-                                    </FileEditTranscriptionTextBlock>
-                        </FileEditTranscriptionBlock>
-                    );
-                })}
-            </FileEditBlock>
+            <>
+                <FileEditMessageBlock>
+                    <FileEditMessageIcon alt="edit" src="/images/edit-note.svg" />
+                    <FileEditMessageText>
+                        После редактирования транскрипции подсветка текста при прослушивании оригинального аудио будет недоступна.
+                    </FileEditMessageText>
+                </FileEditMessageBlock>
+                <FileEditBlock>
+                    {groupedSegments.map((segment, idx) => {
+                        console.log(segment)
+                        return (
+                            <FileEditTranscriptionBlock key={idx}>
+                                <FileEditTranscriptionBackgroundLayer />
+                                        <FileEditTranscriptionTextBlock>
+                                            <FileEditTranscriptionTextBlockTimestamp onClick={(e) => {handleSeek(segment[0].start)}}>
+                                                {parseFileLength(segment[0].start)}
+                                            </FileEditTranscriptionTextBlockTimestamp>
+                                            <FileEditTranscriptionTextBlockParagraph contentEditable={true}>
+                                                {groupText(segment)}
+                                            </FileEditTranscriptionTextBlockParagraph>
+                                        </FileEditTranscriptionTextBlock>
+                            </FileEditTranscriptionBlock>
+                        );
+                    })}
+                </FileEditBlock>
+            </>
+            
         );
     }
 }

@@ -12,30 +12,15 @@ const UploadNewFileModalBlock = styled.div`
   justify-content: center;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.70);
-  overflow: hidden;
 `;
 
 const UploadNewFileModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: left;
   width: ${pxIntoRem(672)};
-  height:  ${pxIntoRem(551)};
   z-index: 9999;
   position: relative;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(12)};
-    border: 2px solid transparent;
-    background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(12)};
+  background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
     width: 90vw;
     height: auto;
@@ -43,13 +28,13 @@ const UploadNewFileModalContent = styled.div`
 `;
 
 const UploadNewFileModalBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   border-radius: ${pxIntoRem(12)};
   background: #16161F;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 `;
 
 const UploadNewFileModalInputFileBlock = styled.div`
@@ -126,15 +111,21 @@ const UploadNewFileModalInputFileLimitText = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  &.mobile-text {
+  &.mobileText {
     display: none;
   }
+  span {
+    color: #FFF;
+  }
   @media (max-width: 500px) {
-    &.mobile-text {
-      display: flex;
+    &.mobileText {
+      display: block;
       margin: 0 ${pxIntoRem(20)} auto ${pxIntoRem(20)};
       z-index: 999999;
+      text-align: start;
     }
+    text-align: center;
+    margin-top: ${pxIntoRem(8)};
   }
 `;
 
@@ -142,7 +133,7 @@ const UploadNewFileModalInputFileField = styled.input`
   display: none;
 `;
 
-const UploadNewFileModalTitle = styled.h1`
+const UploadNewFileModalLabel = styled.label`
   position: relative;
   color: #FFF;
   font-family: Mulish;
@@ -201,6 +192,9 @@ const UploadNewFileModalCheckboxInput = styled.input`
     background: url("/images/checkbox-active.svg");
     background-position: center;
   }
+  @media (max-width: 500px) {
+    margin-left: ${pxIntoRem(20)};
+  }
 `;
 
 const UploadNewFileModalCheckboxText = styled.p`
@@ -224,8 +218,7 @@ const UploadNewFileModalMainButton = styled.button`
   align-items: center;
   border-radius: ${pxIntoRem(8)};
   background: #1683E2;
-  margin-top: ${pxIntoRem(32)};
-  margin-left: ${pxIntoRem(32)};
+  margin: ${pxIntoRem(32)};
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -239,9 +232,15 @@ const UploadNewFileModalMainButton = styled.button`
     box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
     transition: 0.3s;
   }
+  &:disabled {
+    border: 1px solid #2D3042;
+    color: #2D3042;
+    background: transparent;
+    pointer-events: none;
+  }
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
-    width: 80vw;
+    width: calc(100% - ${pxIntoRem(40)});
   }
 `;
 
@@ -288,8 +287,8 @@ const UploadNewFileModalFilesBlock= styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: ${pxIntoRem(4)};
-  margin-top: ${pxIntoRem(88)};
+  gap: ${pxIntoRem(6)};
+  margin-top: ${pxIntoRem(57)};
 `;
 
 const UploadNewFileModalFile = styled.div`
@@ -356,25 +355,37 @@ const UploadNewFileModalProgressBar = styled.progress`
   }
 `;
 
-const UploadNewFileModalCancelButton = styled.button`
+const UploadNewFileModalButtonsBlock = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${pxIntoRem(6)};
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: ${pxIntoRem(12)};
+    margin-bottom: ${pxIntoRem(20)};
+  }
+`;
+
+const UploadNewFileModalActionButton = styled.button`
   display: flex;
   position: relative;
   width: ${pxIntoRem(149)};
   height: ${pxIntoRem(38)};
-  padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
+  padding: ${pxIntoRem(10)} ${pxIntoRem(15)};
   justify-content: center;
   align-items: center;
   border-radius: ${pxIntoRem(8)};
   background: transparent;
   border: 1px solid #2D3042;
-  margin-top: ${pxIntoRem(30)};
-  margin-bottom: ${pxIntoRem(24)};
+  margin-top: ${pxIntoRem(24)};
+  margin-bottom: ${pxIntoRem(18)};
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  white-space: nowrap;
   cursor: pointer;
   transition: 0.3s;
   &:hover {
@@ -383,27 +394,17 @@ const UploadNewFileModalCancelButton = styled.button`
   }
   @media (max-width: 500px) {
     margin: auto auto 0 auto;
-    width: 80vw;
+    width: calc(100% - ${pxIntoRem(40)});
   }
 `;
 
 const UploadNewFileModalFilesMobileBlock = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-left: ${pxIntoRem(20)};
-`;
-
-const UploadNewFileModalFilesRow = styled.div`
-  display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
-  width: 100%;
+  margin: ${pxIntoRem(27)} ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
   gap: ${pxIntoRem(6)};
-  margin-top: ${pxIntoRem(6)};
-  &:first-of-type {
-    margin-top: ${pxIntoRem(24)};
-  }
 `;
 
 const UploadNewFileModalFilesMobileWrapper = styled.div`
@@ -414,11 +415,23 @@ const UploadNewFileModalFilesMobileWrapper = styled.div`
   }
 `;
 
+const UploadNewFileModalFilesError = styled.div`
+  position: absolute;
+  color: #FF1515;
+  text-align: center;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  top: ${pxIntoRem(16)};
+`;
+
 export {
   UploadNewFileModalBlock,
   UploadNewFileModalContent,
   UploadNewFileModalBackgroundLayer,
-  UploadNewFileModalTitle,
+  UploadNewFileModalLabel,
   UploadNewFileModalInputFileBlock,
   UploadNewFileModalInputFileInstruction,
   UploadNewFileModalInputFileButton,
@@ -438,8 +451,9 @@ export {
   UploadNewFileModalFilesShortcut,
   UploadNewFileModalFileDeleteButton,
   UploadNewFileModalProgressBar,
-  UploadNewFileModalCancelButton,
+  UploadNewFileModalButtonsBlock,
+  UploadNewFileModalActionButton,
   UploadNewFileModalFilesMobileBlock,
-  UploadNewFileModalFilesRow,
-  UploadNewFileModalFilesMobileWrapper
+  UploadNewFileModalFilesMobileWrapper,
+  UploadNewFileModalFilesError
 };

@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router";
 import {
   AppHeaderBurgerBlock,
   AppHeaderBurgerContent,
@@ -14,6 +15,7 @@ import {
   AppHeaderBurgerMenuButtonIcon,
   AppHeaderBurgerSectionsBlock,
   AppHeaderBurgerSectionLinkBlock,
+  AppHeaderBurgerSectionLinkButton,
   AppHeaderBurgerActiveBackgroundLayer,
   AppHeaderBurgerBalanceBlurredCircle,
   AppHeaderBurgerBalanceBlock,
@@ -33,31 +35,104 @@ import {
   AppHeaderBurgerSectionExpandIconClosed,
   AppHeaderBurgerSectionExpandIconOpened,
   AppHeaderBurgerBalanceBackgroundLayer,
-  AppHeaderBurgerSectionExpandWrapper
+  AppHeaderBurgerSectionExpandWrapper,
+  AppHeaderBurgerContactsLinkBlock,
+  AppHeaderBurgerTelegramLinkIcon,
+  AppHeaderBurgerTelegramLinkBlock,
+  AppHeaderBurgerEmailLinkIcon,
+  AppHeaderBurgerEmailLinkBlock
 } from "./AppHeaderBurgerStyles";
 import AppMenuFolders from "layouts/App/Components/AppMenuFolders/AppMenuFolders";
 import useModal from "hooks/useModal";
-import CreateNewFolderModal from "components/Modals/CreateNewFolder/CreateNewFolderModal";
+import CreateNewFolderModal from "components/Modals/CreateNewFolderModal/CreateNewFolderModal";
+import { numberWithCommas } from "utils/numberWithCommas";
+import { useSelector } from "react-redux";
+import { RootState } from "slices";
+import BaseRateIcon from "../../../../assets/base-rate-icon.svg";
+import ProRateIcon from "../../../../assets/pro-rate-icon.svg";
+import BusinessRateIcon from "../../../../assets/business-rate-icon.svg";
+import axios from "axios";
 
-
-const AppHeaderBurger: FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const folderList = [
-        {
-            folderName: "Папка 1",
-        },
-        {
-            folderName: "Папка 2",
-        },
-        {
-            folderName: "Папка 3",
-        },
-    ];
+const AppHeaderBurger = () => {
+    const { pathname } = useLocation();
+    const rate = useSelector((state: RootState) => state.rate.value);
+    const [folderList, setFolderList] = useState([]);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [filesButtonActive, setFilesButtonActive] = useState<boolean>(false);
+    const [username, setUsername] = useState<string>("");
+    const RATE_ICON = rate === "Бизнес" ? BusinessRateIcon : (rate === "Продвинутый" ? ProRateIcon : BaseRateIcon);
+    
     const {
         closeModal: closeModal,
         openModal: openModal,
         modal: createNewFolderModalModal
-    } = useModal(CreateNewFolderModal, {});
+    } = useModal(CreateNewFolderModal, {}); 
+
+    const handleRequestUserFolders = () => {
+        if (localStorage.getItem("jwt-tokens")) {
+            axios.get("/api/folders/0,0", {
+                headers: {
+                    "jwt-tokens": localStorage.getItem("jwt-tokens")
+                }
+            })
+            .then((res) => {
+                if (res.headers && "jwt-tokens" in res.headers) {
+                    localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
+                }
+                const list = res.data;
+                localStorage.setItem("folders", JSON.stringify(list));
+            })
+            .catch((err) => {
+                if (err.headers && "jwt-tokens" in err.headers) {
+                    localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
+                }
+                console.log(err);
+            })
+        }
+    }
+
+    useEffect(() => {
+        if (pathname.includes("/app/folders/")) {
+            setIsOpen(true);
+            setFilesButtonActive(true);
+        } else {
+            setFilesButtonActive(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        const list = JSON.parse(localStorage.getItem("folders"));
+        if (list) {
+            setFolderList(list);
+        }
+    }, []);
+
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem("username"));
+        if (data) {
+            if ("login" in data) {
+                setUsername(data.login);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        const mainLink = document.getElementById("MainLink");
+        const balanceLink = document.getElementById("BalanceLink");
+        const faqLink = document.getElementById("FaqLink");
+        if (pathname.includes("/app/main")) {
+            mainLink.classList.add("active");
+        } else if (pathname.includes("/app/balance")) {
+            balanceLink.classList.add("active");
+        } else if (pathname.includes("/app/faq")) {
+            faqLink.classList.add("active");
+        } 
+        if (filesButtonActive === true) {
+            mainLink.classList.remove("active");
+            balanceLink.classList.remove("active");
+            faqLink.classList.remove("active");
+        }
+    },[filesButtonActive]);
 
     return (
         <>
@@ -72,7 +147,11 @@ const AppHeaderBurger: FC = () => {
                     <AppHeaderBurgerContentLogoIcon alt="logo" src="/images/main-logo.svg" />
                     </AppHeaderBurgerContentLogoBlock>
                     <AppHeaderBurgerUsernameBlock>
-                        <AppHeaderBurgerUsernameIcon alt="avatar" src="/images/avatar.png" />
+                        {username && (
+                            <AppHeaderBurgerUsernameIcon>
+                                {username.slice(0, 1).toUpperCase()}
+                            </AppHeaderBurgerUsernameIcon>
+                        )}
                         <AppHeaderBurgerMenuButton>
                             <AppHeaderBurgerMenuButtonIcon alt="open" src="/images/folders-closed.svg" />
                         </AppHeaderBurgerMenuButton>
@@ -82,7 +161,11 @@ const AppHeaderBurger: FC = () => {
                     </AppHeaderBurgerContentClose>
                 </AppHeaderBurgerContentHeader>
                 <AppHeaderBurgerSectionsBlock>
-                    <AppHeaderBurgerSectionLinkBlock to="/main">
+                    <AppHeaderBurgerSectionLinkBlock 
+                        to="/app/main"
+                        onClick={() => { setFilesButtonActive(false); }}
+                        id="MainLink"
+                    >
                         <AppHeaderBurgerActiveBlock>
                             <AppHeaderBurgerActiveBackgroundLayer>
                                 <AppHeaderBurgerActiveBlurredCircle />
@@ -96,7 +179,10 @@ const AppHeaderBurger: FC = () => {
                         </AppHeaderBurgerSectionIcon>
                         <AppHeaderBurgerSectionTitle>Главная</AppHeaderBurgerSectionTitle>
                     </AppHeaderBurgerSectionLinkBlock>
-                    <AppHeaderBurgerSectionLinkBlock className="foldersMenu" to="/folders">
+                    <AppHeaderBurgerSectionLinkButton 
+                        className={filesButtonActive ? "foldersMenuActive" : ""}
+                        onClick={() => { handleRequestUserFolders(); setFilesButtonActive(true); }}
+                    >
                         <AppHeaderBurgerActiveBlock>
                             <AppHeaderBurgerActiveBackgroundLayer>
                                 <AppHeaderBurgerActiveBlurredCircle />
@@ -108,11 +194,15 @@ const AppHeaderBurger: FC = () => {
                         <AppHeaderBurgerSectionTitle>Мои файлы</AppHeaderBurgerSectionTitle>
                         <AppHeaderBurgerSectionExpandIconClosed alt="closed" src="/images/folders-closed.svg" />
                         <AppHeaderBurgerSectionExpandIconOpened alt="closed" src="/images/folders-opened.svg" />
-                    </AppHeaderBurgerSectionLinkBlock>
+                    </AppHeaderBurgerSectionLinkButton>
                     <AppHeaderBurgerSectionExpandWrapper className="expanding menu">
-                        <AppMenuFolders openModal={openModal} setIsOpen={setIsOpen} items={folderList}/>
+                        <AppMenuFolders openModal={openModal} setIsOpen={setIsOpen} folderList={folderList} />
                     </AppHeaderBurgerSectionExpandWrapper>
-                    <AppHeaderBurgerSectionLinkBlock to="/">
+                    <AppHeaderBurgerSectionLinkBlock 
+                        to="/app/balance"
+                        onClick={() => { setFilesButtonActive(false); }}
+                        id="BalanceLink"
+                    >
                         <AppHeaderBurgerActiveBlock>
                             <AppHeaderBurgerActiveBackgroundLayer>
                                 <AppHeaderBurgerActiveBlurredCircle />
@@ -125,7 +215,11 @@ const AppHeaderBurger: FC = () => {
                         </AppHeaderBurgerSectionIcon>
                         <AppHeaderBurgerSectionTitle>Баланс</AppHeaderBurgerSectionTitle>
                     </AppHeaderBurgerSectionLinkBlock>
-                    <AppHeaderBurgerSectionLinkBlock  to="/">
+                    <AppHeaderBurgerSectionLinkBlock  
+                        to="/app/faq"
+                        onClick={() => { setFilesButtonActive(false); }}
+                        id="FaqLink"
+                    >
                         <AppHeaderBurgerActiveBlock>
                             <AppHeaderBurgerActiveBackgroundLayer>
                                 <AppHeaderBurgerActiveBlurredCircle />
@@ -138,25 +232,39 @@ const AppHeaderBurger: FC = () => {
                         <AppHeaderBurgerSectionTitle>FAQ</AppHeaderBurgerSectionTitle>
                     </AppHeaderBurgerSectionLinkBlock>
                 </AppHeaderBurgerSectionsBlock>
-            <AppHeaderBurgerBalanceBlock>
-                <AppHeaderBurgerBalanceBackground>
-                    <AppHeaderBurgerBalanceBackgroundLayer>
-                        <AppHeaderBurgerBalanceBlurredCircle />
-                        <AppHeaderBurgerBalanceRateBlock>
-                            <AppHeaderBurgerBalanceRateIcon alt="star" src="/images/balance-star.svg" />
-                            <AppHeaderBurgerBalanceRateTitle>Бизнес</AppHeaderBurgerBalanceRateTitle>
-                        </AppHeaderBurgerBalanceRateBlock>
-                        <AppHeaderBurgerBalanceRateBlock>
-                            <AppHeaderBurgerBalanceRateText>Осталось:</AppHeaderBurgerBalanceRateText>
-                            <AppHeaderBurgerBalanceRateCounter>10000 мин</AppHeaderBurgerBalanceRateCounter>
-                        </AppHeaderBurgerBalanceRateBlock>
-                        <AppHeaderBurgerBalanceAddButton to="">Пополнить</AppHeaderBurgerBalanceAddButton>
-                    </AppHeaderBurgerBalanceBackgroundLayer>
-                </AppHeaderBurgerBalanceBackground>
-            </AppHeaderBurgerBalanceBlock>
-            <AppHeaderBurgerContactLink to="">
-                <AppHeaderBurgerContactLinkTitle>Связаться с нами</AppHeaderBurgerContactLinkTitle>
-            </AppHeaderBurgerContactLink>
+                <AppHeaderBurgerBalanceBlock>
+                    <AppHeaderBurgerBalanceBackground>
+                        <AppHeaderBurgerBalanceBackgroundLayer>
+                            <AppHeaderBurgerBalanceBlurredCircle />
+                            <AppHeaderBurgerBalanceRateBlock>
+                                <AppHeaderBurgerBalanceRateIcon alt="rate icon" src={RATE_ICON} />
+                                <AppHeaderBurgerBalanceRateTitle>{rate}</AppHeaderBurgerBalanceRateTitle>
+                            </AppHeaderBurgerBalanceRateBlock>
+                            <AppHeaderBurgerBalanceRateBlock>
+                                <AppHeaderBurgerBalanceRateText>Осталось:</AppHeaderBurgerBalanceRateText>
+                                <AppHeaderBurgerBalanceRateCounter>{numberWithCommas(10000)+" мин"}</AppHeaderBurgerBalanceRateCounter>
+                            </AppHeaderBurgerBalanceRateBlock>
+                            <AppHeaderBurgerBalanceAddButton to="/app/balance">Пополнить</AppHeaderBurgerBalanceAddButton>
+                        </AppHeaderBurgerBalanceBackgroundLayer>
+                    </AppHeaderBurgerBalanceBackground>
+                </AppHeaderBurgerBalanceBlock>
+                <AppHeaderBurgerContactLink>
+                    <AppHeaderBurgerContactLinkTitle>Связаться с нами</AppHeaderBurgerContactLinkTitle>
+                </AppHeaderBurgerContactLink>
+                <AppHeaderBurgerContactsLinkBlock>
+                    <AppHeaderBurgerTelegramLinkBlock to="https://t.me/semantix_one">
+                        <AppHeaderBurgerTelegramLinkIcon width="20" height="20" viewBox="0 0 20 20"><g clipPath="url(#a)">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M16.48 3.692a1.25 1.25 0 0 1 1.72 1.355L16.31 16.51c-.184 1.106-1.397 1.74-2.412 1.189a48.711 48.711 0 0 1-3.241-1.912c-.567-.37-2.303-1.558-2.09-2.403.184-.723 3.1-3.438 4.767-5.052.654-.634.356-1-.416-.416-1.92 1.448-4.999 3.65-6.017 4.27-.898.547-1.367.64-1.927.547-1.021-.17-1.969-.433-2.742-.754-1.045-.433-.994-1.87-.001-2.288l14.25-6Z" /></g><defs><clipPath id="a">
+                            <path d="M0 0h20v20H0z"/></clipPath></defs>
+                        </AppHeaderBurgerTelegramLinkIcon>
+                    </AppHeaderBurgerTelegramLinkBlock>
+                    <AppHeaderBurgerEmailLinkBlock to="mailto:hello@semantix.one">
+                        <AppHeaderBurgerEmailLinkIcon width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M1.667 5.833A3.333 3.333 0 0 1 5 2.5h10a3.333 3.333 0 0 1 3.333 3.333v8.334A3.333 3.333 0 0 1 15 17.5H5a3.333 3.333 0 0 1-3.333-3.333V5.833Z" />
+                            <path fillRule="evenodd" clipRule="evenodd" d="M4.48 6.32a.625.625 0 0 1 .867-.173l3.15 2.1c.91.607 2.096.607 3.005 0l3.151-2.1a.625.625 0 0 1 .694 1.04l-3.151 2.1a3.959 3.959 0 0 1-4.392 0l-3.15-2.1a.625.625 0 0 1-.174-.867Z" fill="#131520"/>
+                        </AppHeaderBurgerEmailLinkIcon>
+                    </AppHeaderBurgerEmailLinkBlock>
+                </AppHeaderBurgerContactsLinkBlock>
             </AppHeaderBurgerContent>
         )}
         </>

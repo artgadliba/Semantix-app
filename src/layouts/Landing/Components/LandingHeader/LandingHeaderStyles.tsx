@@ -16,10 +16,12 @@ const LandingHeaderBody = styled.div`
   height: ${pxIntoRem(74)};
 `;
 
-const LandingHeaderLogoBlock = styled.div`
+const LandingHeaderLogoBlock = styled(Link)`
   width: ${pxIntoRem(138)};
   height: ${pxIntoRem(31)};
   margin: ${pxIntoRem(24)} 0 ${pxIntoRem(24)} ${pxIntoRem(30)};
+  cursor: pointer;
+  z-index: 99999;
   @media (max-width: 500px) {
     width: ${pxIntoRem(116)};
     height: ${pxIntoRem(27)};

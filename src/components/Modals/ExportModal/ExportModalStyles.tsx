@@ -12,30 +12,17 @@ const ExportModalBlock = styled.div`
   justify-content: center;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.70);
-  overflow: hidden;
 `;
 
 const ExportModalContent = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
   width: ${pxIntoRem(450)};
   height:  ${pxIntoRem(292)};
   z-index: 9999;
   position: relative;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(12)};
-    border: 2px solid transparent;
-    background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(12)};
+  background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
     width: 90vw;
     height: auto;
@@ -43,13 +30,10 @@ const ExportModalContent = styled.div`
 `;
 
 const ExportModalBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   border-radius: ${pxIntoRem(12)};
   background: #16161F;
+  width: 100%;
+  height: 100%;
 `;
 
 const ExportModalTitle = styled.h1`
@@ -73,6 +57,7 @@ const ExportModalSelectBlock = styled.div`
   flex-direction: column;
   width: ${pxIntoRem(386)};
   margin-top: ${pxIntoRem(20)};
+  margin-left: ${pxIntoRem(32)};
   &:first-of-type {
     margin-top: ${pxIntoRem(24)};
   }
@@ -82,7 +67,7 @@ const ExportModalSelectBlock = styled.div`
   }
 `;
 
-const ExportModalSelectTitle = styled.h2`
+const ExportModalSelectLabel = styled.label`
   position: relative;
   color: #79768B;
   font-family: Mulish;
@@ -90,28 +75,17 @@ const ExportModalSelectTitle = styled.h2`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  align-self: stretch;
+  
 `;
 
 const ExportModalSelectComponent = styled.div`
   display: flex;
   position: relative;
-  height: ${pxIntoRem(42)};
   margin-top: ${pxIntoRem(6)};
   background: transparent;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(10)};
-    border: 2px solid transparent;
-    background: linear-gradient(90.77deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%) border-box;
-    -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(10)};
+  background: linear-gradient(180deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%);
 `;
 
 const ExportModalInputField = styled.input`
@@ -130,13 +104,10 @@ const ExportModalInputField = styled.input`
 `;
 
 const ExportModalSelectBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   border-radius: ${pxIntoRem(10)};
   background: #1F1F2E;
+  width: 100%;
+  display: flex;
 `;
 
 const ExportModalMainButton = styled.button`
@@ -149,6 +120,7 @@ const ExportModalMainButton = styled.button`
   border-radius: ${pxIntoRem(8)};
   background: #1683E2;
   margin-top: ${pxIntoRem(24)};
+  margin-left: ${pxIntoRem(32)};
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -170,7 +142,7 @@ const ExportModalMainButton = styled.button`
   }
   @media (max-width: 500px) {
     margin: auto ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
-    width: 80vw;
+    width: calc(100% - ${pxIntoRem(40)});
   }
 `;
 
@@ -178,6 +150,7 @@ const ExportModalFilename = styled.p`
   position: relative;
   color: #79768B;
   font-family: Mulish;
+  text-align: center;
   font-size: ${pxIntoRem(14)};
   font-style: normal;
   font-weight: 400;
@@ -231,7 +204,7 @@ export {
   ExportModalBackgroundLayer,
   ExportModalTitle,
   ExportModalSelectBlock,
-  ExportModalSelectTitle,
+  ExportModalSelectLabel,
   ExportModalSelectComponent,
   ExportModalSelectBackgroundLayer,
   ExportModalInputField,

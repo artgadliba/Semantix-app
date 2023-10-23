@@ -89,7 +89,7 @@ const AppControlBarFilterButton = styled.button`
   flex-direction: row;
   margin-top: ${pxIntoRem(32)};
   margin-left: ${pxIntoRem(20)};
-  width: ${pxIntoRem(176)};
+  width: ${pxIntoRem(186)};
   height: ${pxIntoRem(42)};
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #2D3042;
@@ -117,6 +117,7 @@ const AppControlBarFilterTitle = styled.h2`
   font-weight: 400;
   line-height: 150%; 
   margin-left: ${pxIntoRem(8)};
+  white-space: nowrap;
   &.active {
     color: #FFF;
   }
@@ -181,7 +182,7 @@ const AppControlBarUploadButton = styled.button`
   }
   @media (max-width: 500px) {
     width: 100%;
-    margin: ${pxIntoRem(73)} 0 0 0;
+    margin: 0;
   }
 `;
 

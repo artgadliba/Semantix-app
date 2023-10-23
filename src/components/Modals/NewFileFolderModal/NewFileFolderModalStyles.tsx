@@ -12,30 +12,16 @@ const NewFileFolderModalBlock = styled.div`
   justify-content: center;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.70);
-  overflow: hidden;
 `;
 
 const NewFileFolderModalContent = styled.div`
   display: flex;
-  flex-direction: column;
-  text-align: left;
   width: ${pxIntoRem(672)};
-  height:  ${pxIntoRem(276)};
   z-index: 9999;
   position: relative;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(12)};
-    border: 2px solid transparent;
-    background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(12)};
+  background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
     width: 90vw;
     height: auto;
@@ -43,16 +29,13 @@ const NewFileFolderModalContent = styled.div`
 `;
 
 const NewFileFolderModalBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   border-radius: ${pxIntoRem(12)};
   background: #16161F;
+  width: 100%;
+  height: 100%;
 `;
 
-const NewFileFolderModalTitle = styled.h1`
+const NewFileFolderModalLabel = styled.label`
   position: relative;
   color: #FFF;
   font-family: Mulish;
@@ -77,11 +60,11 @@ const NewFileFolderModalSelectBlock = styled.div`
   margin-left: ${pxIntoRem(32)};
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
-    width: 80vw;
+    width: calc(100% - ${pxIntoRem(40)});
   }
 `;
 
-const NewFileFolderModalSelectTitle = styled.h2`
+const NewFileFolderModalSelectLabel = styled.label`
   position: relative;
   color: #79768B;
   font-family: Mulish;
@@ -89,7 +72,7 @@ const NewFileFolderModalSelectTitle = styled.h2`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  align-self: stretch;
+  
 `;
 
 const NewFileFolderModalSelectComponent = styled.div`
@@ -98,19 +81,9 @@ const NewFileFolderModalSelectComponent = styled.div`
   height: ${pxIntoRem(42)};
   margin-top: ${pxIntoRem(6)};
   background: transparent;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(10)};
-    border: 2px solid transparent;
-    background: linear-gradient(90.77deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%) border-box;
-    -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(10)};
+  background: linear-gradient(180deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%);
 `;
 
 const NewFileFolderModalInputField = styled.input`
@@ -129,13 +102,10 @@ const NewFileFolderModalInputField = styled.input`
 `;
 
 const NewFileFolderModalSelectBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   border-radius: ${pxIntoRem(10)};
   background: #1F1F2E;
+  width: 100%;
+  display: flex;
 `;
 
 const NewFileFolderModalMainButton = styled.button`
@@ -147,8 +117,7 @@ const NewFileFolderModalMainButton = styled.button`
   align-items: center;
   border-radius: ${pxIntoRem(8)};
   background: #1683E2;
-  margin-top: ${pxIntoRem(24)};
-  margin-left: ${pxIntoRem(32)};
+  margin: ${pxIntoRem(24)} ${pxIntoRem(32)} ${pxIntoRem(32)} ${pxIntoRem(32)};
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -170,7 +139,7 @@ const NewFileFolderModalMainButton = styled.button`
   }
   @media (max-width: 500px) {
     margin: auto ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
-    width: 80vw;
+    width: calc(100% - ${pxIntoRem(40)});
   }
 `;
 
@@ -234,9 +203,9 @@ export {
   NewFileFolderModalBlock,
   NewFileFolderModalContent,
   NewFileFolderModalBackgroundLayer,
-  NewFileFolderModalTitle,
+  NewFileFolderModalLabel,
   NewFileFolderModalSelectBlock,
-  NewFileFolderModalSelectTitle,
+  NewFileFolderModalSelectLabel,
   NewFileFolderModalSelectComponent,
   NewFileFolderModalSelectBackgroundLayer,
   NewFileFolderModalInputField,

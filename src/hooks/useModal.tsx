@@ -10,10 +10,14 @@ function useModal<T extends IClosable>(modal: React.ComponentType<T>, props: Omi
 
   function closeModal() {
     setIsOpen(false);
+    document.body.style.overflow = 'unset';
   }
 
   function openModal() {
     setIsOpen(true);
+    if (typeof window != 'undefined' && window.document) {
+        document.body.style.overflow = 'hidden';
+    }
   }
 
   const componentProps = { ...props, onClose: closeModal } as T;

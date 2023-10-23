@@ -424,6 +424,8 @@ const IndexFeaturesTableSide = styled.div`
   box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(54)} 0px rgba(0, 0, 0, 0.2);
   width: ${pxIntoRem(420)};
   height: ${pxIntoRem(272)};
+  overflow: hidden;
+  border-radius: ${pxIntoRem(20)};
   &:before {
     content: "";
     position: absolute;
@@ -450,7 +452,6 @@ const IndexFeaturesTableBackground = styled.div`
   height: 100%;
   border-radius: ${pxIntoRem(20)};
   background: rgba(28, 29, 40, 0.25);
-  overflow: hidden;
 `;
 
 const IndexFeaturesTableCenter = styled.div`
@@ -553,7 +554,6 @@ const IndexFeaturesTableText = styled.p`
     display: flex;
   }
   @media (max-width: 500px) {
-    font-size: ${pxIntoRem(14)};
     margin-top: ${pxIntoRem(16)};
     margin-left: ${pxIntoRem(24)};
     margin-bottom: ${pxIntoRem(24)};
@@ -564,6 +564,92 @@ const IndexFeaturesTableText = styled.p`
       display: none;
     }
   }
+`;
+
+const IndexFeaturesTooltipIcon = styled.svg`
+  width: ${pxIntoRem(18)};
+  height: ${pxIntoRem(18)};
+  fill: #1B1D2C;
+`;
+
+const IndexFeaturesTooltipButton = styled.button`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${pxIntoRem(18)};
+  height: ${pxIntoRem(18)};
+  background: transparent;
+  top: ${pxIntoRem(160)};
+  left: ${pxIntoRem(155)};
+  z-index: 9999;
+  transition: 0.3s;
+  &:hover ${IndexFeaturesTooltipIcon} {
+    transition: 0.3s;
+    fill: #1683E2;
+  }
+  @media (max-width: 500px) {
+    top: ${pxIntoRem(110)};
+    left: ${pxIntoRem(126)};
+  }
+`;
+
+const IndexFeaturesTooltipBlock = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${pxIntoRem(188)};
+  padding: ${pxIntoRem(12)};
+  background: #171828;
+  border-radius: ${pxIntoRem(8)};
+  border: 1px solid #202230;
+  top: ${pxIntoRem(31)};
+  left: ${pxIntoRem(70)};
+  z-index: 99999999;
+  filter: drop-shadow(0px 4px 40px rgba(0, 0, 0, 0.15));
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: ${pxIntoRem(10)} solid transparent;
+    border-top-color: #202230;
+    border-bottom: 0;
+    margin-left: ${pxIntoRem(-10)};
+    margin-bottom: ${pxIntoRem(-10)};
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: ${pxIntoRem(10)} solid transparent;
+    border-top-color: #171828;
+    border-bottom: 0;
+    margin-left: ${pxIntoRem(-10)};
+    margin-bottom: ${pxIntoRem(-9)};
+  }
+  @media (max-width: 500px) {
+    height: auto;
+    width: ${pxIntoRem(250)};
+    top: ${pxIntoRem(15)};
+    left: ${pxIntoRem(10)};
+  }
+`; 
+
+const IndexFeaturesTooltipBlockText = styled.p`
+  color: #FFF;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  z-index: 9999;
 `;
 
 const IndexHowItWorks = styled.section`
@@ -858,6 +944,7 @@ const IndexPaymentOptionBody = styled.div`
 const IndexPaymentOptionContent = styled.div`
   position: absolute;
   z-index: 99;
+  width: 100vw;
 `;
 
 const IndexPaymentOptionTitle = styled.h2`
@@ -868,7 +955,7 @@ const IndexPaymentOptionTitle = styled.h2`
   line-height: 100%;
   text-align: center;
   color: #ffffff;
-  margin-top: ${pxIntoRem(110)};
+  margin-top: ${pxIntoRem(85)};
   z-index: 99999;
   .mobile-break {
     display: none;
@@ -883,6 +970,27 @@ const IndexPaymentOptionTitle = styled.h2`
   }
 `;
 
+const IndexPaymentOptionBonusTitle = styled.h3`
+  color: #848097;
+  text-align: center;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(16)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  width: ${pxIntoRem(419)};
+  margin: ${pxIntoRem(20)} auto;
+  span {
+    color: #FFF;
+  }
+  @media (max-width: 500px) {
+    font-size: ${pxIntoRem(14)};
+    margin-left: ${pxIntoRem(20)};
+    margin-right: ${pxIntoRem(20)};
+    width: auto;
+  }
+`;
+
 const IndexPaymentOptionTables = styled.div`
   position: relative;
   display: grid;
@@ -893,7 +1001,7 @@ const IndexPaymentOptionTables = styled.div`
   width: ${pxIntoRem(976)};
   justify-items: center;
   align-items: center;
-  margin-top: ${pxIntoRem(60)};
+  margin-top: ${pxIntoRem(20)};
   @media (max-width: 500px) {
     display: flex;
     flex-direction: column;
@@ -1146,7 +1254,7 @@ const IndexCallToActionBackgroundBlock = styled.div`
   margin-top: ${pxIntoRem(0)};
   overflow: hidden;
   @media (max-width: 500px) {
-    margin-top: ${pxIntoRem(24)};
+    margin-top: ${pxIntoRem(94)};
     height: ${pxIntoRem(486)};
   }
 `;
@@ -1318,7 +1426,6 @@ export {
   IndexGreetingContent,
   IndexGreetingText,
   IndexGreetingTitleBox,
-
   IndexGreetingTitle,
   IndexGreetingBackground,
   IndexFeaturesBody,
@@ -1333,6 +1440,10 @@ export {
   IndexFeaturesTableIcon,
   IndexFeaturesTableTitle,
   IndexFeaturesTableText,
+  IndexFeaturesTooltipButton,
+  IndexFeaturesTooltipIcon,
+  IndexFeaturesTooltipBlock,
+  IndexFeaturesTooltipBlockText,
   IndexHowItWorks,
   IndexHowItWorksBody,
   IndexHowItWorksContent,
@@ -1349,6 +1460,7 @@ export {
   IndexPaymentOptionBody,
   IndexPaymentOptionContent,
   IndexPaymentOptionTitle,
+  IndexPaymentOptionBonusTitle,
   IndexPaymentOptionTables,
   IndexPaymentOptionTable,
   IndexPaymentOptionTableBackground,

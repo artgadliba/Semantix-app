@@ -10,16 +10,20 @@ import {
     AppMenuFoldersContentFolderIcon,
     AppMenuFoldersContentFolderTitle,
  } from "./AppMenuFoldersStyle";
+import sliceLongFoldername from "utils/sliceLongFoldername";
+
+interface IAppFolderObj {
+    id: number;
+    name: string;
+}
 
 interface IAppMenuFolders {
     setIsOpen?: (state: boolean) => void;
     openModal: () => void;
-    items: {
-        folderName: string;
-    }[];
+    folderList: IAppFolderObj[];
 }
 
-const AppMenuFolders: FC<IAppMenuFolders> = ({items, setIsOpen, openModal}) => {
+const AppMenuFolders: FC<IAppMenuFolders> = ({ setIsOpen, openModal, folderList}) => {
     const handleMobileNewFolderModal = () => {
         const { innerWidth: width} = window;
         if (width <= 500) {
@@ -27,6 +31,7 @@ const AppMenuFolders: FC<IAppMenuFolders> = ({items, setIsOpen, openModal}) => {
         }
         openModal();
     };
+    
     return (
         <AppMenuFoldersBlock>
             <AppMenuFoldersAddNewFolderButton onClick={handleMobileNewFolderModal}>
@@ -36,20 +41,20 @@ const AppMenuFolders: FC<IAppMenuFolders> = ({items, setIsOpen, openModal}) => {
                 <AppMenuFoldersAddNewFolderTitle>Новая папка</AppMenuFoldersAddNewFolderTitle>
             </AppMenuFoldersAddNewFolderButton>
             <AppMenuFoldersLine />
-            {items.length > 0 && (
+            {folderList.length > 0 && (
                 <>
-                <AppMenuFoldersContent>
-                    {items.map((item, idx) => {
-                        return (
-                            <AppMenuFoldersContentFolderBlock key={idx} to={`/folders/${item.folderName}`}>
-                                <AppMenuFoldersContentFolderIcon width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="3" cy="3" r="3" />
-                                </AppMenuFoldersContentFolderIcon>
-                                <AppMenuFoldersContentFolderTitle>{item.folderName}</AppMenuFoldersContentFolderTitle>
-                            </AppMenuFoldersContentFolderBlock>
-                        );
-                    })}
-                </AppMenuFoldersContent>
-                <AppMenuFoldersLine />
+                    <AppMenuFoldersContent>
+                        {folderList.map((item, idx) => {
+                            return (
+                                <AppMenuFoldersContentFolderBlock key={idx} to={`/app/folders/${item.name}`}>
+                                    <AppMenuFoldersContentFolderIcon width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="3" cy="3" r="3" />
+                                    </AppMenuFoldersContentFolderIcon>
+                                    <AppMenuFoldersContentFolderTitle>{sliceLongFoldername(item.name, "foldersMenu")}</AppMenuFoldersContentFolderTitle>
+                                </AppMenuFoldersContentFolderBlock>
+                            );
+                        })}
+                    </AppMenuFoldersContent>
+                    <AppMenuFoldersLine />
                 </>
             )}
         </AppMenuFoldersBlock>

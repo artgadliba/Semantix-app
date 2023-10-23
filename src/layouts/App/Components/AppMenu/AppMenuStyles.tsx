@@ -110,7 +110,7 @@ const AppMenuActiveBlock = styled.div`
     inset: 0;
     border-radius: ${pxIntoRem(12)};
     border: ${pxIntoRem(1)} solid transparent;
-    background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
+    background: linear-gradient(181deg, rgba(32, 34, 48, 1) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
         linear-gradient(#fff 0 0) padding-box, 
         linear-gradient(#fff 0 0);
@@ -141,7 +141,7 @@ const AppMenuSectionExpandWrapper = styled.div`
   display: none;
 `;
 
-const AppMenuSectionLinkBlock = styled(NavLink)`
+const AppMenuSectionLinkBlock = styled(Link)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -165,16 +165,41 @@ const AppMenuSectionLinkBlock = styled(NavLink)`
   &.active ${AppMenuActiveBlock} {
     display: flex;
   }
-  &.active ${AppMenuSectionExpandIconOpened} {
+`;
+
+const AppMenuSectionFilesLinkButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  margin-left: ${pxIntoRem(16)};
+  background: transparent;
+  &.foldersMenuActive {
+    pointer-events: none;
+  }
+  &.foldersMenuActive ~ ${AppMenuSectionExpandWrapper} {
     display: flex;
   }
-  &.active ${AppMenuSectionExpandIconClosed} {
+  &.foldersMenuActive ${AppMenuSectionExpandIconOpened} {
+    display: flex;
+  }
+  &.foldersMenuActive ${AppMenuSectionExpandIconClosed} {
     display: none;
   }
-  &.foldersMenu {
-    &.active ~ ${AppMenuSectionExpandWrapper} {
-      display: flex;
-    }
+  &:hover ${AppMenuSectionTitle} {
+    color: #FFF;
+  }
+  &:hover ${AppMenuSectionIcon} {
+    stroke: #1683E2;
+  }
+  &.foldersMenuActive ${AppMenuSectionTitle} {
+    color: #FFF;
+  }
+  &.foldersMenuActive ${AppMenuSectionIcon} {
+    stroke: #1683E2;
+  }
+  &.foldersMenuActive ${AppMenuActiveBlock} {
+    display: flex;
   }
 `;
 
@@ -184,22 +209,19 @@ const AppMenuActiveBackgroundLayer = styled.div`
   height: 100%;
   border-radius: ${pxIntoRem(12)};
   background: var(--bg, rgba(28, 29, 40, 0.40));
-  backdrop-filter: blur(47px);
-  -webkit-transform: translate3d(0, 0, 0);
   overflow: hidden;
 `;
 
 const AppMenuActiveBlurredCircle = styled.div`
   position: relative;
-  margin-left: ${pxIntoRem(7)};
-  margin-top: ${pxIntoRem(14)};
-  width: ${pxIntoRem(19)};
-  height: ${pxIntoRem(19)};
+  margin-left: ${pxIntoRem(16)};
+  margin-top: ${pxIntoRem(13)};
+  width: ${pxIntoRem(21)};
+  height: ${pxIntoRem(21)};
   border-radius: 50%;
   background: linear-gradient(90deg, #2499FF 0%, #7124FF 100%);
-  filter: blur(26px);
-  -webkit-transform: translate3d(0, 0, 0);
-  z-index: -1;
+  filter: blur(23px);
+  z-index: 99;
 `;
 
 const AppMenuBalanceBlock = styled.div`
@@ -209,7 +231,7 @@ const AppMenuBalanceBlock = styled.div`
   width: ${pxIntoRem(208)};
   height: ${pxIntoRem(150)};
   margin-left: ${pxIntoRem(24)};
-  bottom: ${pxIntoRem(75)};
+  bottom: ${pxIntoRem(128)};
 `;
 
 const AppMenuBalanceBackground = styled.div`
@@ -238,8 +260,6 @@ const AppMenuBalanceBackgroundLayer = styled.div`
   height: 100%;
   border-radius: ${pxIntoRem(12)};
   background: rgba(28, 29, 40, 0.40);
-  backdrop-filter: blur(42px);
-  -webkit-transform: translate3d(0, 0, 0);
   overflow: hidden;
 `;
 
@@ -249,7 +269,9 @@ const AppMenuBalanceBlurredCircle = styled.div`
   height: ${pxIntoRem(28)};
   border-radius: 50%;
   background: linear-gradient(90deg, #2499FF 0%, #7124FF 100%);
-  filter: blur(25.5px);
+  top: ${pxIntoRem(11)};
+  left: ${pxIntoRem(10)};
+  filter: blur(21.5px);
   -webkit-transform: translate3d(0, 0, 0);
   margin-top: ${pxIntoRem(3)};
   margin-left: ${pxIntoRem(4)};
@@ -297,7 +319,7 @@ const AppMenuBalanceRateText = styled.p`
 const AppMenuBalanceRateCounter = styled.p`
   color: #FFF;
   font-family: Mulish;
-  font-size: ${pxIntoRem(16)};
+  font-size: ${pxIntoRem(15)};
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -330,52 +352,110 @@ const AppMenuBalanceAddButton = styled(Link)`
   }
 `;
 
-const AppMenuContactLink = styled(Link)`
+const AppMenuContactLink = styled.div`
   position: fixed;
   display: flex;
   justify-content: center;
-  bottom: ${pxIntoRem(32)};
-  margin-left: ${pxIntoRem(63)};
+  left: ${pxIntoRem(24)};
+  bottom: ${pxIntoRem(86)};
 `;
 
 const AppMenuContactLinkTitle = styled.h2`
-  color: #FFF;
+  color: #79768B;
   font-family: Mulish;
-  font-size: ${pxIntoRem(15)};
+  font-size: ${pxIntoRem(14)};
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: normal;
-  &:hover {
-    color: #1683E2;
+`;
+
+const AppMenuContactsLinkBlock = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  left: ${pxIntoRem(24)};
+  bottom: ${pxIntoRem(32)};
+  gap: ${pxIntoRem(12)};
+`;
+
+const AppMenuTelegramLinkIcon = styled.svg`
+  width: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
+  fill: #FFF;
+`;
+
+const AppMenuTelegramLinkBlock = styled(Link)`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${pxIntoRem(42)};
+  height: ${pxIntoRem(42)};
+  border-radius: 50%;
+  background: #171828;
+  z-index: 999999;
+  transition: 0.3s;
+  &:hover ${AppMenuTelegramLinkIcon} {
+    fill: #1683E2;
+    transition: 0.3s;
+  }
+`;
+
+const AppMenuEmailLinkIcon = styled.svg`
+  width: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
+  fill: #FFF;
+`;
+
+const AppMenuEmailLinkBlock = styled(Link)`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${pxIntoRem(42)};
+  height: ${pxIntoRem(42)};
+  border-radius: 50%;
+  background: #171828;
+  z-index: 999999;
+  transition: 0.3s;
+  &:hover ${AppMenuEmailLinkIcon} {
+    fill: #1683E2;
+    transition: 0.3s;
   }
 `;
 
 export {
-    AppMenuBlock,
-    AppMenuBackgroundBlock,
-    AppMenuBackgroundLayer,
-    AppMenuLogoBlock,
-    AppMenuLogo,
-    AppMenuSectionsBlock,
-    AppMenuSectionLinkBlock,
-    AppMenuSectionIcon,
-    AppMenuSectionTitle,
-    AppMenuSectionExpandIconClosed,
-    AppMenuSectionExpandIconOpened,
-    AppMenuSectionExpandWrapper,
-    AppMenuActiveBlock,
-    AppMenuActiveBackgroundLayer,
-    AppMenuActiveBlurredCircle,
-    AppMenuBalanceBlock,
-    AppMenuBalanceBackground,
-    AppMenuBalanceBackgroundLayer,
-    AppMenuBalanceBlurredCircle,
-    AppMenuBalanceRateBlock,
-    AppMenuBalanceRateIcon,
-    AppMenuBalanceRateTitle,
-    AppMenuBalanceRateText,
-    AppMenuBalanceRateCounter,
-    AppMenuBalanceAddButton,
-    AppMenuContactLink,
-    AppMenuContactLinkTitle
+  AppMenuBlock,
+  AppMenuBackgroundBlock,
+  AppMenuBackgroundLayer,
+  AppMenuLogoBlock,
+  AppMenuLogo,
+  AppMenuSectionsBlock,
+  AppMenuSectionLinkBlock,
+  AppMenuSectionFilesLinkButton,
+  AppMenuSectionIcon,
+  AppMenuSectionTitle,
+  AppMenuSectionExpandIconClosed,
+  AppMenuSectionExpandIconOpened,
+  AppMenuSectionExpandWrapper,
+  AppMenuActiveBlock,
+  AppMenuActiveBackgroundLayer,
+  AppMenuActiveBlurredCircle,
+  AppMenuBalanceBlock,
+  AppMenuBalanceBackground,
+  AppMenuBalanceBackgroundLayer,
+  AppMenuBalanceBlurredCircle,
+  AppMenuBalanceRateBlock,
+  AppMenuBalanceRateIcon,
+  AppMenuBalanceRateTitle,
+  AppMenuBalanceRateText,
+  AppMenuBalanceRateCounter,
+  AppMenuBalanceAddButton,
+  AppMenuContactLink,
+  AppMenuContactLinkTitle,
+  AppMenuContactsLinkBlock,
+  AppMenuTelegramLinkIcon,
+  AppMenuTelegramLinkBlock,
+  AppMenuEmailLinkIcon,
+  AppMenuEmailLinkBlock
 };

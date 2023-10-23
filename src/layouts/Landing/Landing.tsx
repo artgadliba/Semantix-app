@@ -4,13 +4,15 @@ import LandingFooter from "./Components/LandingFooter/LandingFooter";
 import { LandingBlock, LandingContent } from "./LandingStyles";
 
 const Landing: FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <LandingBlock>
-      <LandingHeader />
-      <LandingContent>{children}</LandingContent>
-      <LandingFooter />
-    </LandingBlock>
-  );
+    return (
+        <LandingBlock>
+            <LandingHeader />
+                <LandingContent>
+                    {children}
+                </LandingContent>
+            <LandingFooter />
+        </LandingBlock>
+    );
 }
 
 export default Landing;

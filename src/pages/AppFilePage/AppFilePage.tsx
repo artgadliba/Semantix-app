@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useParams } from "react-router";
 import AppInterface from "layouts/App/AppInterface";
 import { 
@@ -21,6 +21,7 @@ import FileEdit from "components/FileEdit/FileEdit";
 import useModal from "hooks/useModal";
 import ExportModal from "components/Modals/ExportModal/ExportModal";
 import FileDeletePopup from "components/Popups/FileDeletePopup/FileDeletePopup";
+import sliceLongFoldername from "utils/sliceLongFoldername";
 import * as data from '../../assets/Python.json';
 
 interface IAppFile {
@@ -52,7 +53,7 @@ const AppFile: FC<IAppFile> = ({folderName, fileName}) => {
     return (
         <AppFilePageBlock>
             <AppFilePagePathBlock>
-                <AppFilePagePathFolderTitle>{folderName}</AppFilePagePathFolderTitle>
+                <AppFilePagePathFolderTitle>{sliceLongFoldername(folderName, "header")}</AppFilePagePathFolderTitle>
                 <AppFilePagePathArrow alt="right" src="/images/arrow-right.svg" />
                 <AppFilePagePathFileTitle>{fileName}</AppFilePagePathFileTitle>
             </AppFilePagePathBlock>
@@ -106,8 +107,9 @@ const AppFile: FC<IAppFile> = ({folderName, fileName}) => {
 
 const AppFilePage: FC = () => {
     const { folderName, fileName } = useParams();
+    // if file was edited pass fileEdited: boolen prop to AppInterface component
     return (
-        <AppInterface headerTitle={folderName} controlBar={false}>
+        <AppInterface headerTitle={fileName} controlBar={false}>
             <AppFile 
                 folderName={folderName} 
                 fileName={fileName}

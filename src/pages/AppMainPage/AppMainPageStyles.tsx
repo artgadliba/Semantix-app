@@ -57,10 +57,76 @@ const AppMainPageBottomLine = styled.div`
   }
 `;
 
+const AppMainPageEmptyContent = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - ${pxIntoRem(155)});
+  @media (max-width: 500px) {
+    height: calc(100vh - ${pxIntoRem(254)});
+  }
+`;
+
+const AppMainPageEmptyOutputBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${pxIntoRem(20)};
+  @media (max-width: 500px) {
+    gap: ${pxIntoRem(10)};
+    width: 100vw;
+  }
+`;
+
+const AppMainPageEmptyOutputIcon = styled.img`
+  width: ${pxIntoRem(62)};
+  height: ${pxIntoRem(84)};
+  @media (max-width: 500px) {
+    width: ${pxIntoRem(44)};
+    height: ${pxIntoRem(61)};
+  }
+`;
+
+const AppMainPageEmptyOutputText = styled.p`
+  color: #79768B;
+  text-align: center;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(20)};
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  span {
+    color: #FFF;
+  }
+  &.additionalTextField {
+    margin-top: ${pxIntoRem(-8)};
+    font-size: ${pxIntoRem(14)};
+    font-weight: 400;
+    line-height: 150%;
+    width: ${pxIntoRem(401)};
+  }
+  @media (max-width: 500px) {
+    margin-left: ${pxIntoRem(15)};
+    margin-right: ${pxIntoRem(15)};
+    width: auto;
+    &.additionalTextField {
+      margin-left: ${pxIntoRem(15)};
+      margin-right: ${pxIntoRem(15)};
+      width: auto;
+      margin-top: ${pxIntoRem(6)};
+    }
+  }
+`;
+
 export {
     AppMainPageBlock,
     AppMainPageTitle,
     AppMainPageText,
     AppMainPageBottomLineBlock,
-    AppMainPageBottomLine
+    AppMainPageBottomLine,
+    AppMainPageEmptyContent,
+    AppMainPageEmptyOutputBlock,
+    AppMainPageEmptyOutputIcon,
+    AppMainPageEmptyOutputText
 };

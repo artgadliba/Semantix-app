@@ -10,7 +10,7 @@ const FileEditTranscriptionBlock = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: ${pxIntoRem(16)};
+  margin-top: ${pxIntoRem(20)};
   margin-left: ${pxIntoRem(40)};
   width: ${pxIntoRem(916)};
   padding: ${pxIntoRem(24)};
@@ -94,11 +94,44 @@ const FileEditTranscriptionTextBlockParagraph = styled.div`
   }
 `;
 
+const FileEditMessageBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: ${pxIntoRem(6)};
+  margin-top: ${pxIntoRem(20)};
+  margin-left: ${pxIntoRem(41)};
+  align-items: center;
+  @media (max-width: 500px) {
+    margin-left: ${pxIntoRem(15)};
+    margin-right: ${pxIntoRem(30)};
+    width: auto;
+    align-items: start;
+  }
+`;
+
+const FileEditMessageIcon = styled.img`
+  width: ${pxIntoRem(24)};
+  height: ${pxIntoRem(24)};
+`;
+
+const FileEditMessageText = styled.p`
+  color: #79768B;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+`;
+
 export {
     FileEditBlock,
     FileEditTranscriptionBlock,
     FileEditTranscriptionBackgroundLayer,
     FileEditTranscriptionTextBlock,
     FileEditTranscriptionTextBlockTimestamp,
-    FileEditTranscriptionTextBlockParagraph
+    FileEditTranscriptionTextBlockParagraph,
+    FileEditMessageBlock,
+    FileEditMessageIcon,
+    FileEditMessageText
 };

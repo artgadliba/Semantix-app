@@ -4,7 +4,7 @@ import pxIntoRem from "../../../utils/pxIntoRem";
 const RegistrationModalBlock = styled.div`
   width: 100%;
   height: 100%;
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   display: flex;
@@ -12,7 +12,6 @@ const RegistrationModalBlock = styled.div`
   justify-content: center;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.70);
-  overflow: hidden;
 `;
 
 const RegistrationModalContent = styled.div`
@@ -20,39 +19,24 @@ const RegistrationModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   width: ${pxIntoRem(450)};
-  height:  ${pxIntoRem(623)};
   z-index: 9999;
   position: relative;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(12)};
-    border: 2px solid transparent;
-    background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(12)};
+  background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
     width: 90vw;
     height: auto;
   }
-`;
+`; 
 
 const RegistrationModalBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   border-radius: ${pxIntoRem(12)};
   background: #16161F;
+  width: 100%;
 `;
 
-const RegisterModalTitle = styled.h1`
+const RegistrationModalTitle = styled.h1`
   position: relative;
   color: #FFF;
   text-align: center;
@@ -67,25 +51,26 @@ const RegisterModalTitle = styled.h1`
   }
 `;
 
-const RegisterModalInputBlock = styled.div`
+const RegistrationModalInputBlock = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   width: ${pxIntoRem(386)};
   margin-top: ${pxIntoRem(20)};
+  margin-left: ${pxIntoRem(32)};
   &:first-of-type {
     margin-top: ${pxIntoRem(24)};
   }
   @media (max-width: 500px) {
-    margin: ${pxIntoRem(20)} ${pxIntoRem(20)}${pxIntoRem(20)} ${pxIntoRem(20)};
-    width: 80vw;
+    margin-left: ${pxIntoRem(20)};
+    width: calc(100% - ${pxIntoRem(40)});
     &:first-of-type {
       margin-top: ${pxIntoRem(24)};
     }
   }
 `;
 
-const RegisterModalInputTitle = styled.h2`
+const RegistrationModalInputLabel = styled.label`
   position: relative;
   color: #79768B;
   font-family: Mulish;
@@ -93,38 +78,33 @@ const RegisterModalInputTitle = styled.h2`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  align-self: stretch;
+  
 `;
 
-const RegisterModalInputComponent = styled.div`
+const RegistrationModalInputLabelRowWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const RegistrationModalInputComponent = styled.div`
   display: flex;
   position: relative;
-  height: ${pxIntoRem(42)};
   margin-top: ${pxIntoRem(6)};
-  background: transparent;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(10)};
-    border: 2px solid transparent;
-    background: linear-gradient(90.77deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%) border-box;
-    -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
+  padding: 1px;
+  border-radius: ${pxIntoRem(10)};
+  background: linear-gradient(180deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%);
+  &.error {
+    background: rgba(255, 21, 21, 0.5);
   }
 `;
 
 const RegistrationModalInputBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   border-radius: ${pxIntoRem(10)};
   background: #1F1F2E;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 `;
 
 const RegistrationModalInputField = styled.input`
@@ -140,6 +120,10 @@ const RegistrationModalInputField = styled.input`
   background: transparent;
   text-overflow: ellipsis;
   overflow: hidden;
+  &:-webkit-autofill,
+  &:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
 `;
 
 const RegistrationModalCheckboxBlock = styled. div`
@@ -148,6 +132,7 @@ const RegistrationModalCheckboxBlock = styled. div`
   flex-direction: row;
   width: ${pxIntoRem(386)};
   margin-top: ${pxIntoRem(20)};
+  margin-left: ${pxIntoRem(32)};
   @media (max-width: 500px) {
     width: 80vw;
     margin-left: ${pxIntoRem(20)};
@@ -196,7 +181,8 @@ const RegistrationModalMainButton = styled.button`
   align-items: center;
   border-radius: ${pxIntoRem(8)};
   background: #1683E2;
-  margin-top: ${pxIntoRem(24)};
+  margin-top: ${pxIntoRem(20)};
+  margin-left: ${pxIntoRem(32)};
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -210,15 +196,22 @@ const RegistrationModalMainButton = styled.button`
     box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
     transition: 0.3s;
   }
+  &:disabled {
+    border: 1px solid #2D3042;
+    color: #2D3042;
+    background: transparent;
+    pointer-events: none;
+  }
   @media (max-width: 500px) {
-    margin: ${pxIntoRem(24)} ${pxIntoRem(20)} auto ${pxIntoRem(20)};
-    width: 80vw;
+    margin: ${pxIntoRem(24)} ${pxIntoRem(20)} 0 ${pxIntoRem(20)};
+    width: calc(100% - ${pxIntoRem(40)});
   }
 `;
 
 const RegistrationModalLoginLink = styled.p`
   position: relative;
   color: #79768B;
+  text-align: center;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
   font-style: normal;
@@ -233,6 +226,19 @@ const RegistrationModalLoginLink = styled.p`
     margin-top: ${pxIntoRem(20)};
     margin-bottom: ${pxIntoRem(20)};
   }
+`;
+
+const RegistrationModalLoginButton = styled.button`
+  position: relative;
+  color: #FFF;
+  text-align: center;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(14)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  background: transparent;
+  margin-left: ${pxIntoRem(4)};
 `;
 
 const RegistrationModalClose = styled.button`
@@ -267,6 +273,27 @@ const RegistrationModalInputButtonIcon = styled.svg`
   }
 `;
 
+const RegistrationModalShowPassword = styled.div`
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: ${pxIntoRem(8)};
+  background: #171828;
+  border-radius: ${pxIntoRem(8)};
+  border: 1px solid #202230;
+  white-space: nowrap;
+  color: #FFF;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  z-index: 9999;
+  top: ${pxIntoRem(35)};
+  right: 0;
+`;
+
 const RegistrationModalInputButton = styled.button`
   position: relative;
   width: ${pxIntoRem(20)};
@@ -280,19 +307,132 @@ const RegistrationModalInputButton = styled.button`
   &:hover ${RegistrationModalInputButtonIcon} {
     stroke: #FFF;
   }
+  &:hover + ${RegistrationModalShowPassword} {
+    display: flex;
+  }
   & > * {
     pointer-events: none;
   }
+`;
+
+const RegistrationModalInputError = styled.p`
+  position: absolute;
+  top: ${pxIntoRem(68)};
+  right: 0;
+  color: rgba(255, 21, 21, 0.8);
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+const RegistrationModalPasswordStrength = styled.div`
+  position: relative;
+  color: rgba(255, 21, 21, 0.8);
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-left: ${pxIntoRem(6)};
+  &.StrongPassword {
+    color: green;
+  }
+  &.RepeatPassword {
+    color: green;
+  }
+`;
+
+const RegistrationModalTooltipIcon = styled.svg`
+  width: ${pxIntoRem(18)};
+  height: ${pxIntoRem(18)};
+  fill: #1B1D2C;
+`;
+
+const RegistrationModalTooltipButton = styled.button`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${pxIntoRem(16)};
+  height: ${pxIntoRem(16)};
+  background: transparent;
+  margin-left: ${pxIntoRem(6)};
+  z-index: 9999;
+  transition: 0.3s;
+  &:hover ${RegistrationModalTooltipIcon} {
+    transition: 0.3s;
+    fill: #1683E2;
+  }
+`;
+
+const RegistrationModalTooltipBlock = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${pxIntoRem(188)};
+  padding: ${pxIntoRem(8)};
+  background: #171828;
+  border-radius: ${pxIntoRem(8)};
+  border: 1px solid #202230;
+  top: ${pxIntoRem(208)};
+  left: ${pxIntoRem(172)};
+  z-index: 99999999;
+  filter: drop-shadow(0px 4px 40px rgba(0, 0, 0, 0.15));
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 50%;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: ${pxIntoRem(10)} solid transparent;
+    border-right-color: #202230;
+    border-left: 0;
+    margin-left: ${pxIntoRem(-10)};
+    margin-bottom: ${pxIntoRem(-10)};
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 50%;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: ${pxIntoRem(10)} solid transparent;
+    border-right-color: #171828;
+    border-left: 0;
+    margin-left: ${pxIntoRem(-9)};
+    margin-bottom: ${pxIntoRem(-10)};
+  }
+  @media (max-width: 500px) {
+    width: ${pxIntoRem(144)};
+    top: ${pxIntoRem(182)};
+    left: ${pxIntoRem(161)};
+  }
+`; 
+
+const RegistrationModalTooltipBlockText = styled.p`
+  color: #FFF;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  z-index: 9999;
 `;
 
 export {
   RegistrationModalBlock,
   RegistrationModalContent,
   RegistrationModalBackgroundLayer,
-  RegisterModalTitle,
-  RegisterModalInputBlock,
-  RegisterModalInputTitle,
-  RegisterModalInputComponent,
+  RegistrationModalTitle,
+  RegistrationModalInputBlock,
+  RegistrationModalInputLabel,
+  RegistrationModalInputLabelRowWrapper,
+  RegistrationModalInputComponent,
   RegistrationModalInputBackgroundLayer,
   RegistrationModalInputField,
   RegistrationModalCheckboxBlock,
@@ -300,8 +440,16 @@ export {
   RegistrationModalCheckboxText,
   RegistrationModalMainButton,
   RegistrationModalLoginLink,
+  RegistrationModalLoginButton,
   RegistrationModalClose,
   RegistrationModalCloseIcon,
   RegistrationModalInputButton,
-  RegistrationModalInputButtonIcon
+  RegistrationModalInputButtonIcon,
+  RegistrationModalInputError,
+  RegistrationModalPasswordStrength,
+  RegistrationModalShowPassword,
+  RegistrationModalTooltipButton,
+  RegistrationModalTooltipIcon,
+  RegistrationModalTooltipBlock,
+  RegistrationModalTooltipBlockText
 };

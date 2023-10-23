@@ -3,9 +3,11 @@ import styled from "styled-components";
 import pxIntoRem from "../../../../utils/pxIntoRem";
 
 const LandingFooterBlock = styled.footer`
+  position: relative;
   width: 100%;
   height: ${pxIntoRem(69)};
   z-index: 999999;
+  margin-top: auto;
   @media (max-width: 500px) {
     height: auto;
   }
@@ -148,7 +150,7 @@ const LandingFooterEmailTitle = styled.div`
   line-height: 150%;
 `;
 
-const LandingFooterContactEmailBlock = styled.div`
+const LandingFooterContactEmailBlock = styled(Link)`
   display: flex;
   flex-direction: row;
   gap: ${pxIntoRem(10)};

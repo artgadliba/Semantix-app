@@ -7,36 +7,17 @@ const LargeComboBoxBlock = styled.div`
   top: ${pxIntoRem(60)};
 `;
 
-interface IAddFolder {
-    $addFolderActive: boolean;
-}
-
-const LargeComboBoxBackground = styled.div<IAddFolder>`
+const LargeComboBoxBackground = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 9999;
   position: relative;
   width: 100%;
-  padding: ${pxIntoRem(10)};
   margin-top: ${pxIntoRem(8)};
-  max-height: ${pxIntoRem(189)};
-  ${props => props.$addFolderActive === true && css`
-    max-height: ${pxIntoRem(242)}; 
-  `}
   box-shadow: 0px 4px 40px 0px #00000026;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(10)};
-    background: linear-gradient(90.77deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%) border-box;
-    border: 2px solid transparent;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(10)};
+  background: linear-gradient(180deg, rgba(45, 48, 66, 0.8) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   ::-webkit-scrollbar {
     width: ${pxIntoRem(6)};
   }
@@ -62,14 +43,21 @@ const LargeComboBoxContent = styled.div`
   overflow: auto;
 `;
 
-const LargeComboBoxBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
+interface IAddFolder {
+  $addFolderActive: boolean;
+}
+
+const LargeComboBoxBackgroundLayer = styled.div<IAddFolder>`
   border-radius: ${pxIntoRem(10)};
   background: #1F1F2E;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: ${pxIntoRem(10)};
+  max-height: ${pxIntoRem(189)};
+  ${props => props.$addFolderActive === true && css`
+    max-height: ${pxIntoRem(242)}; 
+  `}
 `;
 
 interface IScrollable {

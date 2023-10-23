@@ -34,8 +34,9 @@ const AppHeaderBurgerContent = styled.div`
   height: 100%;
   background-color: #040512;
   z-index: 99999;
+  overflow-x: hidden;
   @media (max-width: 500px) {
-    display: flex;
+    display: block;
   }
 `;
 
@@ -82,12 +83,23 @@ const AppHeaderBurgerUsernameBlock = styled.div`
   align-items: center;
 `;
 
-const AppHeaderBurgerUsernameIcon = styled.img`
+const AppHeaderBurgerUsernameIcon = styled.div`
+  display: flex;
   width: ${pxIntoRem(34)};
   height: ${pxIntoRem(34)};
+  border-radius: 50%;
+  background: #1B1D2C;
   margin-left: auto;
   margin-right: ${pxIntoRem(4)};
   box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.30);
+  align-items: center;
+  justify-content: center;
+  color: #FFF;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(18)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
 `;
 
 const AppHeaderBurgerMenuButton = styled.button`
@@ -104,11 +116,11 @@ const AppHeaderBurgerMenuButtonIcon = styled.img`
 `;
 
 const AppHeaderBurgerSectionsBlock = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   margin: ${pxIntoRem(20)} ${pxIntoRem(15)} 0 ${pxIntoRem(15)};
   gap: ${pxIntoRem(32)};
-  width: 90vw;
 `;
 
 const AppHeaderBurgerSectionIcon = styled.svg`
@@ -134,7 +146,7 @@ const AppHeaderBurgerSectionTitle = styled.h2`
 
 const AppHeaderBurgerActiveBlock = styled.div`
   position: absolute;
-  width: 90vw;
+  width: 100%;
   height: ${pxIntoRem(47)};
   overflow: hidden;
   z-index: 999;
@@ -173,8 +185,9 @@ const AppHeaderBurgerSectionExpandWrapper = styled.div`
   display: none;
 `;
 
-  const AppHeaderBurgerSectionLinkBlock = styled(NavLink)`
+const AppHeaderBurgerSectionLinkBlock = styled(NavLink)`
   display: flex;
+  width: 100%;
   flex-direction: row;
   align-items: center;
   &.active {
@@ -195,17 +208,42 @@ const AppHeaderBurgerSectionExpandWrapper = styled.div`
   &.active ${AppHeaderBurgerActiveBlock} {
     display: flex;
   }
-  &.active ${AppHeaderBurgerSectionExpandIconOpened} {
+`;
+
+const AppHeaderBurgerSectionLinkButton = styled.button`
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  background: transparent;
+  &.foldersMenuActive {
+    pointer-events: none;
+  }
+  &.foldersMenuActive ~ ${AppHeaderBurgerSectionExpandIconOpened} {
     display: flex;
   }
-  &.active ${AppHeaderBurgerSectionExpandIconClosed} {
+  &.foldersMenuActive ~ ${AppHeaderBurgerSectionExpandIconClosed} {
     display: none;
   }
-  &.foldersMenu {
-    &.active ~ ${AppHeaderBurgerSectionExpandWrapper} {
-      display: flex;
+  &.foldersMenuActive ~ ${AppHeaderBurgerSectionExpandWrapper} {
+    display: flex;
   }
-  `;
+  &:hover ${AppHeaderBurgerSectionTitle} {
+    color: #FFF;
+  }
+  &:hover ${AppHeaderBurgerSectionIcon} {
+    stroke: #1683E2;
+  }
+  &.foldersMenuActive ${AppHeaderBurgerSectionTitle} {
+    color: #FFF;
+  }
+  &.foldersMenuActive ${AppHeaderBurgerSectionIcon} {
+    stroke: #1683E2;
+  }
+  &.foldersMenuActive ${AppHeaderBurgerActiveBlock} {
+    display: flex;
+  }
+`;
 
 const AppHeaderBurgerActiveBackgroundLayer = styled.div`
   position: absolute;
@@ -230,12 +268,10 @@ const AppHeaderBurgerActiveBlurredCircle = styled.div`
 `;
 
 const AppHeaderBurgerBalanceBlock = styled.div`
-  position: absolute;
+  position: relative;
   width: auto;
   height: ${pxIntoRem(150)};
-  margin-left: ${pxIntoRem(15)};
-  margin-right: ${pxIntoRem(15)};
-  bottom: ${pxIntoRem(67)};
+  margin: ${pxIntoRem(40)} ${pxIntoRem(15)} auto ${pxIntoRem(15)};
 `;
 
 const AppHeaderBurgerBalanceBackground = styled.div`
@@ -332,11 +368,10 @@ const AppHeaderBurgerBalanceAddButton = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${pxIntoRem(176)};
   height: ${pxIntoRem(38)};
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #1683E2;
-  margin: ${pxIntoRem(24)} ${pxIntoRem(16)} ${pxIntoRem(16)} ${pxIntoRem(16)};
+  margin: ${pxIntoRem(24)} ${pxIntoRem(15)} ${pxIntoRem(15)} ${pxIntoRem(16)};
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -350,30 +385,66 @@ const AppHeaderBurgerBalanceAddButton = styled(Link)`
     box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
     transition: 0.3s;
   }
-  @media (max-width: 500px) {
-    margin-left: ${pxIntoRem(15)};
-    margin-right: ${pxIntoRem(15)};
-    width: auto;
-  }
 `;
 
-const AppHeaderBurgerContactLink = styled(Link)`
-  position: absolute;
+const AppHeaderBurgerContactLink = styled.div`
+  position: relative;
   display: flex;
-  justify-content: center;
-  bottom: ${pxIntoRem(24)};
+  margin-top: ${pxIntoRem(24)};
+  margin-left: ${pxIntoRem(19)};
 `;
 
 const AppHeaderBurgerContactLinkTitle = styled.h2`
-  color: #FFF;
+  color: #79768B;
   font-family: Mulish;
-  font-size: ${pxIntoRem(15)};
+  font-size: ${pxIntoRem(14)};
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: normal;
-  &:hover {
-    color: #1683E2;
-  }
+`;
+
+const AppHeaderBurgerContactsLinkBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin: ${pxIntoRem(12)} auto ${pxIntoRem(32)} ${pxIntoRem(19)};
+  gap: ${pxIntoRem(12)};
+`;
+
+const AppHeaderBurgerTelegramLinkIcon = styled.svg`
+  width: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
+  fill: #FFF;
+`;
+
+const AppHeaderBurgerTelegramLinkBlock = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${pxIntoRem(42)};
+  height: ${pxIntoRem(42)};
+  border-radius: 50%;
+  background: #171828;
+  z-index: 999999;
+  transition: 0.3s;
+`;
+
+const AppHeaderBurgerEmailLinkIcon = styled.svg`
+  width: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
+  fill: #FFF;
+`;
+
+const AppHeaderBurgerEmailLinkBlock = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${pxIntoRem(42)};
+  height: ${pxIntoRem(42)};
+  border-radius: 50%;
+  background: #171828;
+  z-index: 999999;
+  transition: 0.3s;
 `;
 
 export {
@@ -391,6 +462,7 @@ export {
   AppHeaderBurgerMenuButtonIcon,
   AppHeaderBurgerSectionsBlock,
   AppHeaderBurgerSectionLinkBlock,
+  AppHeaderBurgerSectionLinkButton,
   AppHeaderBurgerActiveBackgroundLayer,
   AppHeaderBurgerBalanceBlurredCircle,
   AppHeaderBurgerBalanceBlock,
@@ -410,5 +482,10 @@ export {
   AppHeaderBurgerSectionExpandIconClosed,
   AppHeaderBurgerSectionExpandIconOpened,
   AppHeaderBurgerBalanceBackgroundLayer,
-  AppHeaderBurgerSectionExpandWrapper
+  AppHeaderBurgerSectionExpandWrapper,
+  AppHeaderBurgerContactsLinkBlock,
+  AppHeaderBurgerTelegramLinkIcon,
+  AppHeaderBurgerTelegramLinkBlock,
+  AppHeaderBurgerEmailLinkIcon,
+  AppHeaderBurgerEmailLinkBlock
 };

@@ -31,17 +31,18 @@ const SmallComboBox: FC<ISmallComboBox> = ({className, setOption, setMenuActive,
     return (
         <SmallComboBoxBlock className={className} ref={ref}>
             <SmallComboBoxBackground>
-                <SmallComboBoxBackgroundLayer />
-                <SmallComboBoxContent>
-                    {options.map((option, idx) => {
-                        return (
-                            <SmallComboBoxOptionBlock key={idx}>
-                                <SmallComboBoxOptionButton onClick={() => { setOption(option.name); setMenuActive(false); }}>{option.name}</SmallComboBoxOptionButton>
-                                <SmallComboBoxOptionActiveBackground />
-                            </SmallComboBoxOptionBlock>
-                        );
-                    })}
-                </SmallComboBoxContent>
+                <SmallComboBoxBackgroundLayer>
+                    <SmallComboBoxContent>
+                        {options.map((option, idx) => {
+                            return (
+                                <SmallComboBoxOptionBlock key={idx}>
+                                    <SmallComboBoxOptionButton onClick={() => { setOption(option.name); setMenuActive(false); }}>{option.name}</SmallComboBoxOptionButton>
+                                    <SmallComboBoxOptionActiveBackground />
+                                </SmallComboBoxOptionBlock>
+                            );
+                        })}
+                    </SmallComboBoxContent>
+                </SmallComboBoxBackgroundLayer>
             </SmallComboBoxBackground>
         </SmallComboBoxBlock>
     );

@@ -1,9 +1,10 @@
-import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { App } from "./App";
-
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+import pxIntoRem from "utils/pxIntoRem";
+import { Provider } from "react-redux";
+import { store } from "./slices/index";
+import { hydrate, render } from 'react-dom';
 
 const GlobalStyle = createGlobalStyle`
   @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700&display=swap");
@@ -16,87 +17,86 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
     box-sizing: border-box!important;
     font-family: 'Mulish', sans-serif !important;
+    &::-webkit-scrollbar {
+      width: ${pxIntoRem(8)};
+    }
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(37, 38, 55);
+      height: ${pxIntoRem(50)};
+      width: ${pxIntoRem(8)};
+      border-radius: ${pxIntoRem(4)};
+      transform: translate3d(0px, 750px, 0px);
+    }
   }
 
   body, html, #root {
     display: flex;
     width: 100%;
     min-height: 100vh;
-    background-color: white;
     font-size: 16px;
+    scroll-behavior: auto;
+    background-color: #040512;
 
     @media(max-width: 1450px) {
       font-size: 14.5px;
     }
-
     @media(max-width: 1400px) {
       font-size: 14px;
     }
-
     @media(max-width: 1350px) {
       font-size: 13.5px;
     }
-
     @media(max-width: 1300px) {
       font-size: 13px;
     }
-
     @media(max-width: 1250px) {
       font-size: 12.5px;
     }
-
     @media(max-width: 1200px) {
       font-size: 12px;
     }
-
     @media(max-width: 1150px) {
       font-size: 11.5px;
     }
-
     @media(max-width: 1100px) {
       font-size: 11px;
     }
-
     @media(max-width: 1050px) {
       font-size: 10.5px;
     }
-
-    @media(max-width: 1000px) {
-      font-size: 10px;
+    @media(max-width: 500px) {
+      font-size: 16px;
     }
-
     @media(max-width: 950px) {
       font-size: 9.5px;
     }
-
     @media(max-width: 900px) {
       font-size: 9px;
     }
-
     @media(max-width: 850px) {
       font-size: 8.5px;
     }
-
     @media(max-width: 800px) {
       font-size: 8px;
     }
-
     @media(max-width: 750px) {
       font-size: 7.5px;
     }
-
     @media(max-width: 700px) {
       font-size: 7px;
     }
-
     @media(max-width: 650px) {
       font-size: 6.5px;
     }
-
     @media(max-width: 600px) {
       font-size: 6px;
     }
-
     @media(max-width: 550px) {
       font-size: 5.5px;
     }
@@ -165,9 +165,21 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-root.render(
-  <Router>
-    <GlobalStyle />
-    <App />
-  </Router>
+const rootElement = document.getElementById("root");
+
+const route = (
+    <Router>
+      <GlobalStyle />
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
 );
+
+if (rootElement.hasChildNodes()) {
+    hydrate(route, rootElement);
+} else {
+    render(route, rootElement)
+}
+
+

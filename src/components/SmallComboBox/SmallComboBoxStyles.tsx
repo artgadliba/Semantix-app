@@ -51,19 +51,9 @@ const SmallComboBoxBackground = styled.div`
   height: 100%;
   padding: ${pxIntoRem(10)};
   box-shadow: 0px 4px 40px 0px #00000026;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(10)};
-    background: linear-gradient(90.77deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%) border-box;
-    border: 2px solid transparent;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(10)};
+  background: linear-gradient(180deg, rgba(45, 48, 66, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
 `;
 
 const SmallComboBoxContent = styled.div`
@@ -76,13 +66,12 @@ const SmallComboBoxContent = styled.div`
 `;
 
 const SmallComboBoxBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   border-radius: ${pxIntoRem(10)};
   background: #1F1F2E;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: ${pxIntoRem(10)};
 `;
 
 const SmallComboBoxOptionBlock = styled.div`

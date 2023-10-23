@@ -16,25 +16,13 @@ const FileDeletePopupBlock = styled.div`
 
 const FileDeletePopupContent = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
   width: ${pxIntoRem(450)};
   height:  ${pxIntoRem(205)};
   z-index: 9999;
   position: relative;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(12)};
-    border: 2px solid transparent;
-    background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
-    -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(12)};
+  background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
     width: 90vw;
     height: auto;
@@ -42,13 +30,13 @@ const FileDeletePopupContent = styled.div`
 `;
 
 const FileDeletePopupBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   border-radius: ${pxIntoRem(12)};
   background: #16161F;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const FileDeletePopupTitle = styled.h1`

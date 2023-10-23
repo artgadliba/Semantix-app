@@ -16,8 +16,10 @@ import {
 } from "./AppControlBarStyles";
 import useModal from "hooks/useModal";
 import NewFileFolderModal from "components/Modals/NewFileFolderModal/NewFileFolderModal";
-import CreateNewFolderModal from "components/Modals/CreateNewFolder/CreateNewFolderModal";
+import CreateNewFolderModal from "components/Modals/CreateNewFolderModal/CreateNewFolderModal";
+import MessageModal from "components/Modals/MessageModal/MessageModal";
 import SmallComboBox from "components/SmallComboBox/SmallComboBox";
+import UploadNewFileModal from "components/Modals/UploadNewFileModal/UploadNewFileModal";
 
 interface IAppControlBar {
     setQuery: (input: string) => void;
@@ -25,10 +27,18 @@ interface IAppControlBar {
     setSortByField:(field: string) => void;
 }
 
+interface IAppFolderObj {
+    id: number;
+    name: string;
+}
+
 const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByField}) => {
     const [filterMenuActive, setFilterMenuActive] = useState<boolean>(false);
-    const [message, setSeacrhInput] = useState<string>("");
-    const [option, setOption] = useState<string>("Фильтр");
+    const [searchInput, setSeacrhInput] = useState<string>("");
+    const [option, setOption] = useState<string>("");
+    const [optionName, setOptionName] = useState<string>("Фильтр");
+    const [currentFolder, setCurrentFolder] = useState<IAppFolderObj>(null);
+    const [currentFolderName, setCurrentFolderName] = useState<string>(null);
     
     const options = [
         {
@@ -44,16 +54,27 @@ const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByFiel
             name: "По дате (сначала старые)"
         }
     ];
+
+    const {
+        closeModal: closeMessModal,
+        openModal: openMessModal,
+        modal: messageModal
+    } = useModal(MessageModal, { modalType: "messageModal", message: "Файлы успешно отправлены" });
+    const {
+        closeModal: closeNewFileModal,
+        openModal: openNewFileModal,
+        modal: uploadNewFileModal
+    } = useModal(UploadNewFileModal, { folder: currentFolder, openMessModal });
     const {
         closeModal: closeNewFolderModal,
         openModal: openNewFolderModal,
         modal: CreateNewFolderModalModal
-    } = useModal(CreateNewFolderModal, {});
+    } = useModal(CreateNewFolderModal, { setCurrentFolderName });
     const {
         closeModal: closeFileFolderModal,
         openModal: openFileFolderModal,
         modal: newFileFolderModal
-    } = useModal(NewFileFolderModal, {openNewFolderModal});
+    } = useModal(NewFileFolderModal, { currentFolderName, openNewFolderModal, setCurrentFolder, openNewFileModal });
 
     const toggleFilterMenu = () => {
         if (filterMenuActive == true) {
@@ -70,18 +91,28 @@ const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByFiel
     };
 
     useEffect(() => {
+        if (currentFolder) {
+            setCurrentFolderName(currentFolder.name);
+        }
+    }, [currentFolder]);
+
+    useEffect(() => {
         if (option === "По имени А-я") {
             setSortByField("fileName");
             setSortType("ascending");
+            setOptionName(option);
         } else if (option === "По имени Я-а") {
             setSortByField("fileName");
             setSortType("descending");
+            setOptionName(option);
         } else if (option === "По дате (сначала новые)") {
             setSortByField("fileDate");
-            setSortType("ascending");
+            setSortType("descending");
+            setOptionName("По дате (нов.)")
         }else if (option === "По дате (сначала старые)") {
             setSortByField("fileDate");
-            setSortType("descending");
+            setSortType("ascending");
+            setOptionName("По дате (стар.)")
         }
     }, [option]);
 
@@ -90,8 +121,13 @@ const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByFiel
             <AppControlBarBody>
                 <AppControlBarSearchAndFilterBlock>
                     <AppControlBarSearchInputBlock>
-                        <AppControlBarSearchInput type="text" placeholder="Поиск" onChange={handleSearchChange} />
-                        {message != "" ? (
+                        <AppControlBarSearchInput 
+                            type="text" 
+                            placeholder="Поиск"
+                            autoComplete="search"
+                            onChange={handleSearchChange} 
+                        />
+                        {searchInput != "" ? (
                             <AppControlBarSearchInputIcon alt="search" src="/images/search-active.svg" />
                         ) : (
                             <AppControlBarSearchInputIcon alt="search" src="/images/search.svg" />
@@ -99,7 +135,9 @@ const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByFiel
                     </AppControlBarSearchInputBlock>
                     <AppControlBarFilterButton onClick={() => {toggleFilterMenu()}}>
                         <AppControlBarFilterIcon alt="filter" src="/images/filter.svg" />
-                        <AppControlBarFilterTitle className={option != "Фильтр" ? "active" : ""}>{option}</AppControlBarFilterTitle>
+                        <AppControlBarFilterTitle className={optionName != "Фильтр" ? "active" : ""}>
+                            {optionName}
+                        </AppControlBarFilterTitle>
                         <AppControlBarFilterIconBlock className={filterMenuActive ? "active" : ""} />
                     </AppControlBarFilterButton>
                     {filterMenuActive == true && (
@@ -114,8 +152,12 @@ const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByFiel
                 <AppControlBarUploadButton onClick={openFileFolderModal}>Загрузить файл</AppControlBarUploadButton>
                 <AppControlBarSearchAndFilterMobileBlock>
                     <AppControlBarSearchInputBlock>
-                        <AppControlBarSearchInput type="text" placeholder="Поиск" />
-                        <AppControlBarSearchInputIcon alt="search" src="/images/search.svg" />
+                        <AppControlBarSearchInput type="text" placeholder="Поиск" onChange={handleSearchChange} />
+                        {searchInput != "" ? (
+                            <AppControlBarSearchInputIcon alt="search" src="/images/search-active.svg" />
+                        ) : (
+                            <AppControlBarSearchInputIcon alt="search" src="/images/search.svg" />
+                        )}
                     </AppControlBarSearchInputBlock>
                     <AppControlBarFilterButtonMobile onClick={() => {toggleFilterMenu()}}>
                         <AppControlBarFilterIcon alt="filter" src="/images/filter.svg" />
@@ -132,6 +174,8 @@ const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByFiel
             </AppControlBarBody>
             {newFileFolderModal}
             {CreateNewFolderModalModal}
+            {messageModal}
+            {uploadNewFileModal}
         </AppControlBarBlock>
     );
 }

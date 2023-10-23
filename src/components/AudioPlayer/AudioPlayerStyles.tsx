@@ -3,44 +3,34 @@ import pxIntoRem from "utils/pxIntoRem";
 
 const AudioPlayerBlock = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: row;
   margin-top: ${pxIntoRem(39)};
   margin-left: ${pxIntoRem(40)};
   width: ${pxIntoRem(916)};
   height: ${pxIntoRem(80)};
   align-items: center;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(16)};
-    border: 2px solid transparent;
-    background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
-    -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
+  padding: 1px;
+  border-radius: ${pxIntoRem(16)};
+  background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%);
   @media (max-width: 500px) {
     flex-direction: column;
     width: auto;
     height: ${pxIntoRem(93)};
     margin-left: ${pxIntoRem(15)};
     margin-right: ${pxIntoRem(15)};
-    margin-top: ${pxIntoRem(81)};
+    margin-top: ${pxIntoRem(8)};
   }
 `;
 
 const AudioPlayerBackgroundLayer = styled.div`
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
   background: #0E0F1A;
   border-radius: ${pxIntoRem(16)};
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 const AudioPlayerControlsBlock = styled.div`
@@ -118,6 +108,9 @@ const AudioPlayerTimeScale = styled.input`
   background: #1B1D2C;
   cursor: pointer;
   z-index: 9999;
+  &.volumeControl {
+    background: linear-gradient(to right, #1683E2 0%, #1683E2 33%, #1B1D2C 33%, #1B1D2C 100%);
+  }
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     ${ThumbStyles}
@@ -155,9 +148,15 @@ const AudioPlayerTimeScalePseudo = styled.div`
   outline: none;
   align-items: center;
   z-index: 1;
+  &.volumeControl {
+    margin: 0 ${pxIntoRem(16)};
+  }
   @media (max-width: 500px) {
     display: none;
-    &.mobile-player {
+    &.volumeControl {
+        display: flex;
+    }
+    &.mobilePlayer {
       display: flex;
       width: calc(100% - ${pxIntoRem(30)});
       margin: ${pxIntoRem(13)} ${pxIntoRem(15)} ${pxIntoRem(16)} ${pxIntoRem(15)};
@@ -165,12 +164,27 @@ const AudioPlayerTimeScalePseudo = styled.div`
   }
 `;
 
-const AudioPlayerSymbolIcon = styled.img`
+const AudioPlayerSymbolIcon = styled.svg`
   position: relative;
   width: ${pxIntoRem(24)};
   height: ${pxIntoRem(24)};
+  fill: #FFF;
+`;
+
+const AudioPlayerVolumeButton = styled.button`
+  position: relative;
+  display: flex;
   margin-left: auto;
   margin-right: ${pxIntoRem(16)};
+  background: transparent;
+  transition: 0.3s;
+  &:hover ${AudioPlayerSymbolIcon} {
+    transition: 0.3s;
+    fill: #1683E2;
+  }
+  @media (max-width: 500px) {
+    display: none;
+  }
 `;
 
 const AudioPlayerMobileRowWrapper = styled.div`
@@ -186,6 +200,32 @@ const AudioPlayerMobileRowWrapper = styled.div`
   }
 `;
 
+const AudioPlayerVolumeControlArea = styled.div`
+  position: absolute;
+  width: ${pxIntoRem(171)};
+  height: ${pxIntoRem(102)};
+  top: ${pxIntoRem(-50)};
+  right: 0;
+`;
+
+const AudioPlayerVolumeControlBlock = styled.div`
+  width: ${pxIntoRem(171)};
+  height: ${pxIntoRem(44)};
+  align-items: center;
+  padding: 1px;
+  border-radius: ${pxIntoRem(16)};
+  background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%);
+`;
+
+const AudioPlayerVolumeControlBlockBackgroundLayer = styled.div`
+  background: #0E0F1A;
+  border-radius: ${pxIntoRem(16)};
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
 export {
   AudioPlayerBlock,
   AudioPlayerBackgroundLayer,
@@ -195,6 +235,10 @@ export {
   AudioPlayerTimecode,
   AudioPlayerTimeScale,
   AudioPlayerTimeScalePseudo,
+  AudioPlayerVolumeButton,
   AudioPlayerSymbolIcon,
-  AudioPlayerMobileRowWrapper
+  AudioPlayerMobileRowWrapper,
+  AudioPlayerVolumeControlArea,
+  AudioPlayerVolumeControlBlock,
+  AudioPlayerVolumeControlBlockBackgroundLayer
 };

@@ -96,7 +96,6 @@ const FileViewTranscriptionTextBlockParagraph = styled.span`
 
 const FileViewTranscriptionTextBlockHighlight = styled.span`
   display: inline-block;
-  // margin-right: ${pxIntoRem(4)};
   padding: 0 ${pxIntoRem(2)};
   &.active-text {
     color: #FFF;

@@ -30,6 +30,7 @@ const AppMenuFoldersAddNewFolderButton = styled.button`
   align-items: center;
   width: fit-content;
   margin-left: ${pxIntoRem(17.5)};
+  margin-bottom: ${pxIntoRem(17)};
   background: transparent;
   &:hover ${AppMenuFoldersAddNewFolderIcon} {
     stroke: #1668E2;
@@ -43,11 +44,10 @@ const AppMenuFoldersLine = styled.div`
   position: relative;
   width: ${pxIntoRem(256)};
   height: ${pxIntoRem(1)};
-  margin-top: ${pxIntoRem(17)};
   margin-left: ${pxIntoRem(-24)};
   background: #171A27;
   @media (max-width: 500px) {
-    width: 100vw;
+    width: 110vw;
   }
 `;
 
@@ -56,6 +56,8 @@ const AppMenuFoldersContent = styled.div`
   flex-direction: column;
   width: 100%;
   height: auto;
+  max-height: ${pxIntoRem(262)};
+  overflow: auto;
 `;
 
 const AppMenuFoldersContentFolderIcon = styled.svg`
@@ -95,16 +97,19 @@ const AppMenuFoldersContentFolderBlock = styled(NavLink)`
   &.active ${AppMenuFoldersContentFolderIcon} {
     fill: #1683E2;
   }
+  &:last-of-type {
+    margin-bottom: ${pxIntoRem(17)};
+  }
 `;
 
 export {
-    AppMenuFoldersBlock,
-    AppMenuFoldersAddNewFolderButton,
-    AppMenuFoldersAddNewFolderIcon,
-    AppMenuFoldersAddNewFolderTitle,
-    AppMenuFoldersLine,
-    AppMenuFoldersContent,
-    AppMenuFoldersContentFolderBlock,
-    AppMenuFoldersContentFolderIcon,
-    AppMenuFoldersContentFolderTitle,
+  AppMenuFoldersBlock,
+  AppMenuFoldersAddNewFolderButton,
+  AppMenuFoldersAddNewFolderIcon,
+  AppMenuFoldersAddNewFolderTitle,
+  AppMenuFoldersLine,
+  AppMenuFoldersContent,
+  AppMenuFoldersContentFolderBlock,
+  AppMenuFoldersContentFolderIcon,
+  AppMenuFoldersContentFolderTitle,
 };

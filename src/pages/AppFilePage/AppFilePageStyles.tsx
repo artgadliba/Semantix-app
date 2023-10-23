@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { NavLink, Link } from "react-router-dom";
 import pxIntoRem from "utils/pxIntoRem";
 
 const AppFilePageBlock = styled.div`
@@ -151,7 +150,7 @@ const AppFileEditControlButtonSave = styled.div`
     transition: 0.3s;
   }
   @media (max-width: 500px) {
-    width: 100%;
+    width: calc(100% - ${pxIntoRem(107)});
   }
 `; 
 
