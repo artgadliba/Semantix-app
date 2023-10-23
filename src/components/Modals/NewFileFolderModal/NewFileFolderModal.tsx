@@ -3,7 +3,7 @@ import {
     NewFileFolderModalBlock,
     NewFileFolderModalContent,
     NewFileFolderModalBackgroundLayer,
-    NewFileFolderModalLabel,
+    NewFileFolderModalTitle,
     NewFileFolderModalSelectBlock,
     NewFileFolderModalSelectLabel,
     NewFileFolderModalSelectComponent,
@@ -54,16 +54,6 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  (props) => {
     }, [currentFolderName]);
 
     useEffect(() => {
-        if (updateFolderList === true) {
-            const list = JSON.parse(localStorage.getItem("folders"));
-            if (list) {
-                setFolderList(list);
-                dispatch(setUpdateFolderList(false));
-            }
-        }
-    }, [updateFolderList]);
-
-    useEffect(() => {
         if (localStorage.getItem("jwt-tokens")) {
             axios.get("/api/folders/0,0", {
                 headers: {
@@ -75,6 +65,9 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  (props) => {
                     localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
                 }
                 const list = res.data;
+                if (list) {
+                    setFolderList(list);
+                }
                 localStorage.setItem("folders", JSON.stringify(list));
             })
             .catch((err) => {
@@ -87,6 +80,16 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  (props) => {
     },[]);
 
     useEffect(() => {
+        if (updateFolderList === true) {
+            const list = JSON.parse(localStorage.getItem("folders"));
+            if (list) {
+                setFolderList(list);
+                dispatch(setUpdateFolderList(false));
+            }
+        }
+    }, [updateFolderList]); 
+
+    useEffect(() => {
         const list = JSON.parse(localStorage.getItem("folders"));
         if (list) {
             setFolderList(list);
@@ -95,19 +98,20 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  (props) => {
     
     return (
         <NewFileFolderModalBlock>
-            <ModalOutsideClose onClick={() => { onClose(); setCurrentFolder(null); }}></ModalOutsideClose>
+            <ModalOutsideClose onClick={() => { setCurrentFolder(null); onClose(); }}>
+            </ModalOutsideClose>
             <NewFileFolderModalContent>
-                <NewFileFolderModalClose onClick={() => { onClose(); setCurrentFolder(null); }}>
+                <NewFileFolderModalClose onClick={() => { setCurrentFolder(null); onClose(); }}>
                     <NewFileFolderModalCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
                     </NewFileFolderModalCloseIcon>
                 </NewFileFolderModalClose>
                 <NewFileFolderModalBackgroundLayer>
                     <form onSubmit={() => { onClose(); openNewFileModal(); }}>
-                        <NewFileFolderModalLabel htmlFor="FolderInput">Новый файл</NewFileFolderModalLabel>
+                        <NewFileFolderModalTitle>Новый файл</NewFileFolderModalTitle>
                         <NewFileFolderModalInstruction>Выберите папку, в которой будет храниться файл</NewFileFolderModalInstruction>
                         <NewFileFolderModalSelectBlock>
-                            <NewFileFolderModalSelectLabel>Выбор папки</NewFileFolderModalSelectLabel>
+                            <NewFileFolderModalSelectLabel htmlFor="FolderInput">Выбор папки</NewFileFolderModalSelectLabel>
                             <NewFileFolderModalSelectComponent>
                                 <NewFileFolderModalSelectBackgroundLayer>
                                     <NewFileFolderModalInputField 
@@ -115,7 +119,7 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  (props) => {
                                         type="text"
                                         disabled value={currentFolderName}
                                     />
-                                    <NewFileFolderModalMenuButton onClick={toggleMenuActive}>
+                                    <NewFileFolderModalMenuButton type="button" onClick={toggleMenuActive}>
                                         {menuActive === true ? (
                                             <NewFileFolderModalMenuButtonIcon alt="open" src="/images/folders-opened.svg" />
                                         ) : (

@@ -164,7 +164,12 @@ const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose, setCurrentFo
                             </CreateNewFolderModalInputLabelRowWrapper>
                             <CreateNewFolderModalInputComponent>
                                 <CreateNewFolderModalInputBackgroundLayer>
-                                    <CreateNewFolderModalInputField type="text" id="NewFolderInput" onChange={(e) => {handleInput(e)}} />
+                                    <CreateNewFolderModalInputField 
+                                        type="text" 
+                                        id="NewFolderInput"
+                                        autoComplete="off"
+                                        onChange={(e) => {handleInput(e)}} 
+                                    />
                                 </CreateNewFolderModalInputBackgroundLayer>
                             </CreateNewFolderModalInputComponent>
                         </CreateNewFolderModalInputBlock>

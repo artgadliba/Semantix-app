@@ -145,15 +145,21 @@ const CustomPurchaseModal: FC<ICustomPurchase> = ({onClose, openPayModal, purcha
                                             value={inputValue}
                                             onChange={(e) => { setInputValue(Number(e.target.value)); }}
                                         />
-                                        <CustomPurchaseModalSelectUpperButtonBlock onClick={handleIncreaseInput}>
+                                        <CustomPurchaseModalSelectUpperButtonBlock 
+                                            type="button" 
+                                            onClick={handleIncreaseInput}
+                                        >
                                             <CustomPurchaseModalSelectButtonIcon width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5 0L9.33013 7.5H0.669873L5 0Z" />
                                             </CustomPurchaseModalSelectButtonIcon>
                                         </CustomPurchaseModalSelectUpperButtonBlock>
-                                        <CustomPurchaseModalSelectLowerButtonBlock onClick={handleDecreaseInput}>
-                                        <CustomPurchaseModalSelectButtonIcon width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M5 8L0.669873 0.5L9.33013 0.500001L5 8Z" />
-                                        </CustomPurchaseModalSelectButtonIcon>
+                                        <CustomPurchaseModalSelectLowerButtonBlock 
+                                            type="button" 
+                                            onClick={handleDecreaseInput}
+                                        >
+                                            <CustomPurchaseModalSelectButtonIcon width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8L0.669873 0.5L9.33013 0.500001L5 8Z" />
+                                            </CustomPurchaseModalSelectButtonIcon>
                                         </CustomPurchaseModalSelectLowerButtonBlock>
                                     </CustomPurchaseModalSelectBackgroundLayer>
                                 </CustomPurchaseModalSelectComponent>

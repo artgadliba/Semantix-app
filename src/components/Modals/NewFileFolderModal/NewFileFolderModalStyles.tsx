@@ -35,7 +35,7 @@ const NewFileFolderModalBackgroundLayer = styled.div`
   height: 100%;
 `;
 
-const NewFileFolderModalLabel = styled.label`
+const NewFileFolderModalTitle = styled.h1`
   position: relative;
   color: #FFF;
   font-family: Mulish;
@@ -203,7 +203,7 @@ export {
   NewFileFolderModalBlock,
   NewFileFolderModalContent,
   NewFileFolderModalBackgroundLayer,
-  NewFileFolderModalLabel,
+  NewFileFolderModalTitle,
   NewFileFolderModalSelectBlock,
   NewFileFolderModalSelectLabel,
   NewFileFolderModalSelectComponent,

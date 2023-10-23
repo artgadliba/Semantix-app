@@ -29,19 +29,16 @@ const ExportModal: FC<IExportModal> =  ({onClose, fileName}) => {
     const [option, setOption] = useState<string>(null);
     const items = [
         {
-            option: "Вариант 1"
+            option: "Формат .docx"
         },
         {
-            option: "Вариант 2"
+            option: "Формат .srt"
         },
         {
-            option: "Вариант 3"
+            option: "Формат .txt"
         },
         {
-            option: "Вариант 4"
-        },
-        {
-            option: "Вариант 5"
+            option: "Все форматы в архиве .zip"
         }
     ];
     const toggleMenuActive = () => {
@@ -65,7 +62,7 @@ const ExportModal: FC<IExportModal> =  ({onClose, fileName}) => {
                             <ExportModalSelectComponent>
                                 <ExportModalSelectBackgroundLayer>
                                     <ExportModalInputField id="FileTypeInput" type="text" disabled value={option}/>
-                                    <ExportModalMenuButton onClick={toggleMenuActive}>
+                                    <ExportModalMenuButton type="button" onClick={toggleMenuActive}>
                                         {menuActive == true ? (
                                             <ExportModalMenuButtonIcon alt="open" src="/images/folders-opened.svg" />
                                         ) : (

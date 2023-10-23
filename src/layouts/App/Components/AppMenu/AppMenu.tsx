@@ -82,7 +82,9 @@ const AppMenu = () => {
                     localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
                 }
                 const list = res.data;
-                setFolderList(list);
+                if (list) {
+                    setFolderList(list);
+                }
                 localStorage.setItem("folders", JSON.stringify(list));
             })
             .catch((err) => {
@@ -108,7 +110,7 @@ const AppMenu = () => {
         const list = JSON.parse(localStorage.getItem("folders"));
         if (list) {
             setFolderList(list);
-        }
+        } 
     }, []);
     
     useEffect(() => {

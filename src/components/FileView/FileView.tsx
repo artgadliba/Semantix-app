@@ -10,6 +10,20 @@ import {
  } from "./FileViewStyles";
 import { parseFileLength } from "utils/parseFileLength";
 
+interface IWords {
+    word: string;
+    start: number;
+    end: number;
+}
+
+interface ISegment {
+    id: number;
+    text: string;
+    start: number;
+    end: number;
+    words: IWords;
+}
+
 interface IFileView {
     playerRef: React.MutableRefObject<any>;
     progressRef: React.MutableRefObject<any>;
@@ -25,21 +39,17 @@ interface IFileView {
                 word: string;
                 start: number;
                 end: number;
-
             }[];
         }[];
         language: string;
     }
 }
 
-interface IWords {
-    word: string;
-    start: number;
-    end: number;
-}
+interface IWordsArray extends Array<IWords>{};
+interface IGroupedSegmentsArray extends Array<IWordsArray>{};
 
 const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) => {
-    const [groupedSegments, setGroupedSegments] = useState([]);
+    const [groupedSegments, setGroupedSegments] = useState<IGroupedSegmentsArray>([]);
     const wordsRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
     const groupSegments = (n: number) => {
@@ -50,7 +60,7 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
                 j++;
             }
             group[j] = group[j] || [];
-            group[j].push(data.segments[i].words)
+            group[j].push(data.segments[i].words);
             if (i === data.segments.length - 1)  {
                 group[j] = group[j].flat();
                 setGroupedSegments(group);
@@ -120,8 +130,8 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
             }
             const currentWord = document.getElementsByClassName("active-word");
             if (currentWord[0]) {
-                if (currentWord[0].className.includes("active-word")) {
-                    currentWord[0].classList.remove("active-word");
+                for (let i = currentWord.length - 1; i >= 0; i --) {
+                    currentWord[i].classList.remove("active-word");
                 }
             }
         };
@@ -134,7 +144,7 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
             );
         }
     },[playerRef]);
-
+    
     if (groupedSegments) {
         return (
             <FileViewBlock>
@@ -143,7 +153,7 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
                     {groupedSegments.map((segment, idx) => {
                         return (
                             <FileViewTranscriptionTextBlock key={idx}>
-                                <FileViewTranscriptionTextBlockTimestamp onClick={(e) => {handleSeek(segment[0].start)}}>
+                                <FileViewTranscriptionTextBlockTimestamp onClick={() => {handleSeek(segment[0].start)}}>
                                     {parseFileLength(segment[0].start)}
                                 </FileViewTranscriptionTextBlockTimestamp>
                                 <FileViewTranscriptionTextBlockParagraph ref={(ref) => { wordsRefs[idx] = ref; return true; }}>

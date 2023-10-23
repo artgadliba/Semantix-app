@@ -3,7 +3,7 @@ import {
     UploadNewFileModalBlock,
     UploadNewFileModalContent,
     UploadNewFileModalBackgroundLayer,
-    UploadNewFileModalLabel,
+    UploadNewFileModalTitle,
     UploadNewFileModalInputFileBlock,
     UploadNewFileModalInputFileInstruction,
     UploadNewFileModalInputFileButton,
@@ -12,12 +12,11 @@ import {
     UploadNewFileModalAdjustmentsText,
     UploadNewFileModalCheckboxBlock,
     UploadNewFileModalCheckboxInput,
-    UploadNewFileModalCheckboxText,
+    UploadNewFileModalCheckboxLabel,
     UploadNewFileModalMainButton,
     UploadNewFileModalLine,
     UploadNewFileModalClose,
     UploadNewFileModalCloseIcon,
-    UploadNewFileModalMobilInputWrapper,
     UploadNewFileModalFilesBlock,
     UploadNewFileModalFile,
     UploadNewFileModalFilesShortcut,
@@ -45,16 +44,22 @@ import { getItemsLength } from "utils/getItemsLength";
 import { convertTimeToReadable } from "utils/convertTimeToReadable";
 import ModalOutsideClose from "../ModalOutsideCloseBlockStyles";
 
+interface IAppFolderObj {
+    id: number;
+    name: string;
+}
+
 interface IUploadNewFileModal {
     onClose(): any;
     openMessModal(): any;
+    setCurrentFolder:(folder: IAppFolderObj) => any;
     folder: {
         id: number;
         name: string;
     }
 }
 
-const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, folder}) => {
+const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, setCurrentFolder, folder}) => {
     const inputRef = useRef(null);
     const abortControllerRef = useRef<AbortController>(new AbortController());
     const [data, setData] = useState<Array<File>>([]);
@@ -71,7 +76,6 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, f
         e.preventDefault();
         e.stopPropagation();
         var fileBatchSize: number = 0;
-        console.log(e.dataTransfer.files)
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             const files: Array<File> = [];
             for (let i = 0; i < e.dataTransfer.files.length; i ++) {
@@ -227,16 +231,16 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, f
     if (uploadProcess === false) {
         return (
             <UploadNewFileModalBlock>
-                <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
+                <ModalOutsideClose onClick={() => { setCurrentFolder(null); onClose(); }}></ModalOutsideClose>
                 <UploadNewFileModalContent>
-                    <UploadNewFileModalClose onClick={onClose}>
+                    <UploadNewFileModalClose onClick={() => { setCurrentFolder(null); onClose(); }}>
                         <UploadNewFileModalCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
                         </UploadNewFileModalCloseIcon>
                     </UploadNewFileModalClose>
                     <UploadNewFileModalBackgroundLayer>
                         <form onSubmit={handleFileUpload}>
-                            <UploadNewFileModalLabel htmlFor="input_file">Новый файл</UploadNewFileModalLabel>
+                            <UploadNewFileModalTitle>Новый файл</UploadNewFileModalTitle>
                             {data.length == 0 ? (
                                 <UploadNewFileModalInputFileBlock 
                                     id="input_file"
@@ -258,7 +262,7 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, f
                                         onChange={handleChange}
                                     />
                                     <UploadNewFileModalInputFileInstruction>Перетащите изображение в выделенную область или<br></br> нажимите “Выбрать файл”</UploadNewFileModalInputFileInstruction>
-                                    <UploadNewFileModalInputFileButton onClick={onButtonClick}>
+                                    <UploadNewFileModalInputFileButton type="button" onClick={onButtonClick}>
                                         Выбрать файл
                                     </UploadNewFileModalInputFileButton>
                                     <UploadNewFileModalInputFileLimitText>Максимальный размер файлов не более 2GB</UploadNewFileModalInputFileLimitText>
@@ -287,16 +291,25 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, f
                                         {data.slice(0, 3).map((d, idx) => (
                                                 <UploadNewFileModalFile key={idx}>
                                                     {getSlicedFilename(d.name)}
-                                                    <UploadNewFileModalFileDeleteButton onClick={() => {removeFileFromUploadList(d.name)}} />
+                                                    <UploadNewFileModalFileDeleteButton
+                                                        type="button"
+                                                        onClick={() => {removeFileFromUploadList(d.name)}} 
+                                                    />
                                                 </UploadNewFileModalFile>
                                         ))}
                                         {getItemsLength(data.length) > 0 && (
-                                            <UploadNewFileModalFilesShortcut>{`...(${getItemsLength(data.length)})`}</UploadNewFileModalFilesShortcut>
+                                            <UploadNewFileModalFilesShortcut>
+                                                {`...(${getItemsLength(data.length)})`}
+                                            </UploadNewFileModalFilesShortcut>
                                         )}
                                     </UploadNewFileModalFilesBlock>
                                     <UploadNewFileModalButtonsBlock>
-                                        <UploadNewFileModalActionButton onClick={onButtonClick}>Выбрать файл</UploadNewFileModalActionButton>
-                                        <UploadNewFileModalActionButton onClick={() => { setData([]); }}>Отменить</UploadNewFileModalActionButton>
+                                        <UploadNewFileModalActionButton type="button" onClick={onButtonClick}>
+                                            Выбрать файл
+                                        </UploadNewFileModalActionButton>
+                                        <UploadNewFileModalActionButton type="button" onClick={() => { setData([]); }}>
+                                            Отменить
+                                        </UploadNewFileModalActionButton>
                                     </UploadNewFileModalButtonsBlock>
                                     <UploadNewFileModalInputFileLimitText>
                                         Использовано <span>{filesSize}</span> из <span>2GB</span>
@@ -309,16 +322,25 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, f
                                         {data.slice(0, 3).map((d, idx) => (
                                             <UploadNewFileModalFile key={idx}>
                                                 {getSlicedFilename(d.name)}
-                                                <UploadNewFileModalFileDeleteButton onClick={() => {removeFileFromUploadList(d.name)}} />
+                                                <UploadNewFileModalFileDeleteButton
+                                                    type="button"
+                                                    onClick={() => {removeFileFromUploadList(d.name)}} 
+                                                />
                                             </UploadNewFileModalFile>
                                         ))}
                                         {getItemsLength(data.length) > 0 && (
-                                            <UploadNewFileModalFilesShortcut>{`...(${getItemsLength(data.length)})`}</UploadNewFileModalFilesShortcut>
+                                            <UploadNewFileModalFilesShortcut>
+                                                {`...(${getItemsLength(data.length)})`}
+                                            </UploadNewFileModalFilesShortcut>
                                         )}
                                     </UploadNewFileModalFilesMobileBlock>
                                     <UploadNewFileModalButtonsBlock>
-                                        <UploadNewFileModalActionButton onClick={onButtonClick}>Добавить файл</UploadNewFileModalActionButton>
-                                        <UploadNewFileModalActionButton onClick={onClose}>Отменить</UploadNewFileModalActionButton>
+                                        <UploadNewFileModalActionButton type="button" onClick={onButtonClick}>
+                                            Добавить файл
+                                        </UploadNewFileModalActionButton>
+                                        <UploadNewFileModalActionButton type="button" onClick={onClose}>
+                                            Отменить
+                                        </UploadNewFileModalActionButton>
                                     </UploadNewFileModalButtonsBlock>
                                     <UploadNewFileModalInputFileLimitText className="mobileText">
                                         Использовано <span>{filesSize}</span> из <span>2GB</span>
@@ -326,27 +348,50 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, f
                                 </UploadNewFileModalFilesMobileWrapper>
                             ) : (
                                 <>
-                                <UploadNewFileModalInputFileButton className="mobile-upload" onClick={onButtonClick}>
+                                <UploadNewFileModalInputFileButton 
+                                    className="mobile-upload"
+                                    type="button"
+                                    onClick={onButtonClick}
+                                >
                                     Выбрать файл
                                 </UploadNewFileModalInputFileButton>
-                                <UploadNewFileModalInputFileLimitText className="mobileText">Максимальный размер файлов не более 2GB</UploadNewFileModalInputFileLimitText>
+                                <UploadNewFileModalInputFileLimitText className="mobileText">
+                                    Максимальный размер файлов не более 2GB
+                                </UploadNewFileModalInputFileLimitText>
                                 </>
                             )}
                             <UploadNewFileModalLine />
-                            <UploadNewFileModalAdjustmentsText>Какой-то текст про настройки</UploadNewFileModalAdjustmentsText>
+                            <UploadNewFileModalAdjustmentsText>
+                                Какой-то текст про настройки
+                            </UploadNewFileModalAdjustmentsText>
                             <UploadNewFileModalCheckboxBlock>
-                                <UploadNewFileModalMobilInputWrapper onClick={() => {setCheckboxNoise(current => !current)}}>
-                                    <UploadNewFileModalCheckboxInput type="checkbox" checked={checkboxNoise} />
-                                    <UploadNewFileModalCheckboxText>Шумоподавление</UploadNewFileModalCheckboxText>
-                                </UploadNewFileModalMobilInputWrapper>
-                                <UploadNewFileModalMobilInputWrapper onClick={() => {setCheckboxVoiceNorm(current => !current)}}>
-                                    <UploadNewFileModalCheckboxInput type="checkbox" checked={checkboxVoiceNorm} />
-                                    <UploadNewFileModalCheckboxText>Нормализация голоса</UploadNewFileModalCheckboxText>
-                                </UploadNewFileModalMobilInputWrapper>
-                                <UploadNewFileModalMobilInputWrapper onClick={() => {setCheckboxFrequency(current => !current)}}>
-                                    <UploadNewFileModalCheckboxInput type="checkbox" checked={checkboxFrequency} />
-                                    <UploadNewFileModalCheckboxText>Частотный фильтр</UploadNewFileModalCheckboxText>
-                                </UploadNewFileModalMobilInputWrapper>
+                                <UploadNewFileModalCheckboxInput 
+                                    type="checkbox" 
+                                    id="checkbox-first" 
+                                    checked={checkboxNoise} 
+                                    onClick={() => {setCheckboxNoise(current => !current)}}
+                                />
+                                <UploadNewFileModalCheckboxLabel htmlFor="checkbox-first">
+                                    Шумоподавление
+                                </UploadNewFileModalCheckboxLabel>
+                                <UploadNewFileModalCheckboxInput 
+                                    type="checkbox"
+                                    id="checkbox-second"
+                                    checked={checkboxVoiceNorm} 
+                                    onClick={() => {setCheckboxVoiceNorm(current => !current)}} 
+                                />
+                                <UploadNewFileModalCheckboxLabel htmlFor="checkbox-second">
+                                    Нормализация голоса
+                                </UploadNewFileModalCheckboxLabel>
+                                <UploadNewFileModalCheckboxInput 
+                                    type="checkbox"
+                                    id="checkbox-third"
+                                    checked={checkboxFrequency} 
+                                    onClick={() => {setCheckboxFrequency(current => !current)}}
+                                />
+                                <UploadNewFileModalCheckboxLabel htmlFor="checkbox-third">
+                                    Частотный фильтр
+                                </UploadNewFileModalCheckboxLabel>
                             </UploadNewFileModalCheckboxBlock>
                             <UploadNewFileModalLine />
                             <UploadNewFileModalMainButton disabled={data.length === 0} type="submit">

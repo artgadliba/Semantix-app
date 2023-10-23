@@ -95,7 +95,6 @@ const FileEdit: FC<IFileEdit> = ({playerRef, setIsPlaying, data}) => {
                 </FileEditMessageBlock>
                 <FileEditBlock>
                     {groupedSegments.map((segment, idx) => {
-                        console.log(segment)
                         return (
                             <FileEditTranscriptionBlock key={idx}>
                                 <FileEditTranscriptionBackgroundLayer />

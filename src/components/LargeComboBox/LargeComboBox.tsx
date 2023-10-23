@@ -79,7 +79,7 @@ const LargeComboBox: FC<ILargeComboBox> = ({
                         {addFolderActive == true && (
                             <>
                                 <LargeComboBoxOptionAddFolderBlock>
-                                    <LargeComboBoxOptionAddFolderButtonBlock onClick={openNewFolderModal}>
+                                    <LargeComboBoxOptionAddFolderButtonBlock type="button" onClick={openNewFolderModal}>
                                         <LargeComboBoxOptionAddFolderButtonIcon width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="1" y="1" width="17" height="17" rx="3.5"/>
                                             <path d="M9.5 6v7M6 9.5h7" stroke-linecap="round" strokeLinejoin="round"/>
@@ -102,12 +102,16 @@ const LargeComboBox: FC<ILargeComboBox> = ({
                 <LargeComboBoxBackground>
                     <LargeComboBoxBackgroundLayer 
                         $addFolderActive={addFolderActive}
-                        className="EmptyFolderList"
+                        className="empty-content"
                     >
                         {addFolderActive == true && (
                             <>
-                                <LargeComboBoxOptionAddFolderBlock>
-                                    <LargeComboBoxOptionAddFolderButtonBlock onClick={openNewFolderModal}>
+                                <LargeComboBoxOptionAddFolderBlock className="empty-content-block">
+                                    <LargeComboBoxOptionAddFolderButtonBlock 
+                                        className="empty-content-button"
+                                        type="button"
+                                        onClick={openNewFolderModal}
+                                    >
                                         <LargeComboBoxOptionAddFolderButtonIcon width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="1" y="1" width="17" height="17" rx="3.5"/>
                                             <path d="M9.5 6v7M6 9.5h7" stroke-linecap="round" strokeLinejoin="round"/>
@@ -117,7 +121,6 @@ const LargeComboBox: FC<ILargeComboBox> = ({
                                         </LargeComboBoxOptionAddFolderButtonTitle>
                                     </LargeComboBoxOptionAddFolderButtonBlock>
                                 </LargeComboBoxOptionAddFolderBlock>
-                                <LargeComboBoxOptionAddFolderBlockLine />
                             </>
                         )}
                     </LargeComboBoxBackgroundLayer>

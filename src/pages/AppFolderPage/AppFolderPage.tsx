@@ -31,7 +31,35 @@ interface IFileData {
 }
 
 const AppFolder: FC<IAppFolder> = ({folder, query, sortType, sortByField}) => {
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState([
+        {
+            fileName: "Имя файла 1",
+            fileLength: 3643.23,
+            fileDate: "2023-07-27T09:55:15.209Z",
+            folderName: folder,
+            status: "processing"
+        },
+        {
+            fileName: "Имя файла 2",
+            fileLength: 3643.23,
+            fileDate: "2023-07-27T09:55:15.209Z",
+            folderName: folder,
+            status: "ready"
+        },
+        {
+            fileName: "Имя файла 3",
+            fileLength: 7643.23,
+            fileDate: "2023-07-27T09:55:15.209Z",
+            folderName: folder,
+            status: "ready"
+        },
+        {
+            fileName: "Имя файла 4",
+            fileLength: 7113.23,
+            fileDate: "2023-07-27T09:55:15.209Z",
+            folderName: folder,
+            status: "ready"
+        }]);
     const [processingList, setProcessingList] = useState<Array<IFileData>>([]);
     const [readyList, setReadyList] = useState<Array<IFileData>>([]);
     

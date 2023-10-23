@@ -37,7 +37,7 @@ const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByFiel
     const [searchInput, setSeacrhInput] = useState<string>("");
     const [option, setOption] = useState<string>("");
     const [optionName, setOptionName] = useState<string>("Фильтр");
-    const [currentFolder, setCurrentFolder] = useState<IAppFolderObj>(null);
+    const [currentFolder, setCurrentFolder] = useState<IAppFolderObj | null>(null);
     const [currentFolderName, setCurrentFolderName] = useState<string>(null);
     
     const options = [
@@ -64,7 +64,7 @@ const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByFiel
         closeModal: closeNewFileModal,
         openModal: openNewFileModal,
         modal: uploadNewFileModal
-    } = useModal(UploadNewFileModal, { folder: currentFolder, openMessModal });
+    } = useModal(UploadNewFileModal, { folder: currentFolder, openMessModal, setCurrentFolder });
     const {
         closeModal: closeNewFolderModal,
         openModal: openNewFolderModal,
@@ -93,6 +93,8 @@ const AppControlBar: FC<IAppControlBar> = ({setQuery, setSortType, setSortByFiel
     useEffect(() => {
         if (currentFolder) {
             setCurrentFolderName(currentFolder.name);
+        } else {
+            setCurrentFolderName(null);
         }
     }, [currentFolder]);
 

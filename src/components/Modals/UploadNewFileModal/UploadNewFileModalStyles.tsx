@@ -65,7 +65,7 @@ const UploadNewFileModalInputFileInstruction = styled.h2`
   margin-top: ${pxIntoRem(64)};
 `;
 
-const UploadNewFileModalInputFileButton = styled.label`
+const UploadNewFileModalInputFileButton = styled.button`
   position: relative;
   display: flex;
   width: ${pxIntoRem(149)};
@@ -133,7 +133,7 @@ const UploadNewFileModalInputFileField = styled.input`
   display: none;
 `;
 
-const UploadNewFileModalLabel = styled.label`
+const UploadNewFileModalTitle = styled.h1`
   position: relative;
   color: #FFF;
   font-family: Mulish;
@@ -197,7 +197,7 @@ const UploadNewFileModalCheckboxInput = styled.input`
   }
 `;
 
-const UploadNewFileModalCheckboxText = styled.p`
+const UploadNewFileModalCheckboxLabel = styled.label`
   color: #79768B;
   font-family: Mulish;
   font-size: ${pxIntoRem(12)};
@@ -273,12 +273,6 @@ const UploadNewFileModalCloseIcon = styled.svg`
   &:hover {
     stroke: #FFF;
   } 
-`;
-
-const UploadNewFileModalMobilInputWrapper = styled.button`
-  display: flex;
-  flex-direction: row;
-  background: transparent;
 `;
 
 const UploadNewFileModalFilesBlock= styled.div`
@@ -431,7 +425,7 @@ export {
   UploadNewFileModalBlock,
   UploadNewFileModalContent,
   UploadNewFileModalBackgroundLayer,
-  UploadNewFileModalLabel,
+  UploadNewFileModalTitle,
   UploadNewFileModalInputFileBlock,
   UploadNewFileModalInputFileInstruction,
   UploadNewFileModalInputFileButton,
@@ -440,12 +434,11 @@ export {
   UploadNewFileModalAdjustmentsText,
   UploadNewFileModalCheckboxBlock,
   UploadNewFileModalCheckboxInput,
-  UploadNewFileModalCheckboxText,
+  UploadNewFileModalCheckboxLabel,
   UploadNewFileModalMainButton,
   UploadNewFileModalLine,
   UploadNewFileModalClose,
   UploadNewFileModalCloseIcon,
-  UploadNewFileModalMobilInputWrapper,
   UploadNewFileModalFilesBlock,
   UploadNewFileModalFile,
   UploadNewFileModalFilesShortcut,

@@ -22,7 +22,7 @@ import useModal from "hooks/useModal";
 import ExportModal from "components/Modals/ExportModal/ExportModal";
 import FileDeletePopup from "components/Popups/FileDeletePopup/FileDeletePopup";
 import sliceLongFoldername from "utils/sliceLongFoldername";
-import * as data from '../../assets/Python.json';
+import * as data from "../../assets/Python.json";
 
 interface IAppFile {
     folderName: string;
@@ -107,7 +107,7 @@ const AppFile: FC<IAppFile> = ({folderName, fileName}) => {
 
 const AppFilePage: FC = () => {
     const { folderName, fileName } = useParams();
-    // if file was edited pass fileEdited: boolen prop to AppInterface component
+
     return (
         <AppInterface headerTitle={fileName} controlBar={false}>
             <AppFile 

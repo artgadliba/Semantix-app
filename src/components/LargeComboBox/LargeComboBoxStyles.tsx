@@ -58,6 +58,9 @@ const LargeComboBoxBackgroundLayer = styled.div<IAddFolder>`
   ${props => props.$addFolderActive === true && css`
     max-height: ${pxIntoRem(242)}; 
   `}
+  &.empty-content {
+    padding: 0;
+  }
 `;
 
 interface IScrollable {
@@ -104,9 +107,12 @@ const LargeComboBoxOptionButton= styled.button`
 
 const LargeComboBoxOptionAddFolderBlock = styled.div`
   position: relative;
-  width: fit-content;
+  width: auto;
   height: ${pxIntoRem(43)};
   margin-top: ${pxIntoRem(10)};
+  &.empty-content-block {
+    margin-top: 0;
+  }
 `;
 
 const LargeComboBoxOptionAddFolderButtonIcon = styled.svg`
@@ -141,6 +147,10 @@ const LargeComboBoxOptionAddFolderButtonBlock = styled.button`
   &:hover ${LargeComboBoxOptionAddFolderButtonTitle} {
     color: #1668E2;
     transition: 0.3s;
+  }
+  &.empty-content-button {
+    margin-top: 0;
+    height: 100%;
   }
 `;
 
