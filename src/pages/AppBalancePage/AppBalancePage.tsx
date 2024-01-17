@@ -39,6 +39,7 @@ import {
     AppBalancePageFeaturesBullet,
     AppBalancePageFeaturesTitle
 } from "./AppBalancePageStyles";
+import { basePackages, proPackages } from "content/PackagesContents";
 import { numberWithCommas } from "utils/numberWithCommas";
 import PurchaseModal from "components/Modals/PurchaseModal/PurchaseModal";
 import CustomPurchaseModal from "components/Modals/CustomPurchaseModal/CustomPurchaseModal";
@@ -46,6 +47,7 @@ import PaymentModal from "components/Modals/PaymentModal/PaymentModal";
 import useModal from "hooks/useModal";
 import { useSelector } from "react-redux";
 import { RootState } from "slices";
+import axios from "axios";
 
 interface IPurchase {
     rate: string;
@@ -59,165 +61,145 @@ const AppBalancePage = () => {
     const balance = useSelector((state: RootState) => state.balance.value);
     const rate = useSelector((state: RootState) => state.rate.value);
 
-    const {
-        closeModal: closePayModal,
-        openModal: openPayModal,
-        modal: paymentModal
-    } = useModal(PaymentModal, {});
-    const {
-        closeModal: closePurchaseModal,
-        openModal: openPurchaseModal,
-        modal: purchaseModal
-    } = useModal(PurchaseModal, { openPayModal, purchaseOption });
-    const {
-        closeModal: closeCustomPurchaseModal,
-        openModal: openCustomPurchaseModal,
-        modal: customPurchaseModal
-    } = useModal(CustomPurchaseModal, { openPayModal, purchaseOption });
+    useEffect(() => { 
+        const optionHeight = document.getElementById("option_block").offsetHeight;
+        const trackHeight = document.getElementById("scrollbar_track").offsetHeight;
+        const visibleHeight = document.getElementById("visible_base_block").offsetHeight;
 
-    const basePackages = [
-        {
-            value: "Любое кол-во",
-            price: "2.5₽/мин"
-        },
-        {
-            value: "2,000",
-            price: "5,000₽"
-        },
-        {
-            value: "4,000",
-            price: "10,000₽"
-        },
-        {
-            value: "6,000",
-            price: "15,000₽"
-        },
-        {
-            value: "8,000",
-            price: "20,000₽"
-        },
-        {
-            value: "10,000",
-            price: "25,000₽"
-        }
-    ];
-    const proPackages = [
-        {
-            value: "Любое кол-во",
-            price: "1.5₽/мин"
-        },
-        {
-            value: "15,000",
-            price: "22,500₽"
-        },
-        {
-            value: "20,000",
-            price: "30,000₽"
-        },
-        {
-            value: "25,000",
-            price: "37,500₽"
-        },
-        {
-            value: "30,000",
-            price: "45,000₽"
-        },
-        {
-            value: "35,000",
-            price: "52,500₽"
-        }
-    ];
-
-    useEffect(() => {
-        const optionHeight = document.getElementById("optionBlock").offsetHeight;
-        const trackHeight = document.getElementById("scrollbarTrack").offsetHeight;
-        const visibleHeight = document.getElementById("visibleBaseBlock").offsetHeight;
         const baseHeight = basePackages.length * optionHeight;
         const proHeight = proPackages.length * optionHeight;
         const thumbHeightFirst = trackHeight * (visibleHeight / baseHeight);
-        const thumbHeightSecond = trackHeight / (proHeight / visibleHeight);
-        document.getElementById("optionsThumbFirst").style.height = `${thumbHeightFirst}px`;
-        document.getElementById("optionsThumbSecond").style.height = `${thumbHeightSecond}px`;
-        const elemFirst = document.getElementById("baseOptionsContent");
-        const elemSecond = document.getElementById("proOptionsContent");
-        const optionBase = document.getElementsByClassName("optionBaseElement");
-        const optionPro = document.getElementsByClassName("optionProElement");
-        elemFirst.addEventListener("scroll", () => {
+        const thumbHeightSecond = trackHeight * (visibleHeight / proHeight);
+
+        document.getElementById("options_thumb_first").style.height = `${thumbHeightFirst}px`;
+        document.getElementById("options_thumb_second").style.height = `${thumbHeightSecond}px`;
+
+        const elemFirst = document.getElementById("base_options_content");
+        const elemSecond = document.getElementById("pro_options_content");
+        const optionBase = document.getElementsByClassName("option_base_element");
+        const optionPro = document.getElementsByClassName("option_pro_element");
+
+        function handleLeftHiddenBlocks() {
             const value = elemFirst.scrollTop / (baseHeight / trackHeight);
-            document.getElementById("optionsThumbFirst").style.transform = `translate3d(0px, ${value}px, 0px`;
+            document.getElementById("options_thumb_first").style.transform = `translate3d(0px, ${value}px, 0px`;
             for (let i = 0; i < optionBase.length; i ++) {
                 const optionBottom = optionBase[i].getBoundingClientRect();
-                const visibleBlock = document.getElementById("visibleBaseBlock").getBoundingClientRect();
-                const hiddenBlocks = document.getElementsByClassName("hiddenBaseBlock");
+                const visibleBlock = document.getElementById("visible_base_block").getBoundingClientRect();
+                const hiddenBlocks = document.getElementsByClassName("hidden_base_block");
                 if (optionBottom.bottom >= visibleBlock.bottom) {
-                    hiddenBlocks[i].classList.add("activeHidden");
+                    hiddenBlocks[i].classList.add("active_hidden");
                 } else if (optionBottom.bottom <= visibleBlock.bottom) {
-                    hiddenBlocks[i].classList.remove("activeHidden");
+                    hiddenBlocks[i].classList.remove("active_hidden");
                 }
-                if (i == optionBase.length - 1) {
-                    if (optionBottom.bottom == visibleBlock.bottom) {
-                        hiddenBlocks[i].classList.remove("activeHidden");
+                if (i === optionBase.length - 1) {
+                    if (optionBottom.bottom === visibleBlock.bottom) {
+                        hiddenBlocks[i].classList.remove("active_hidden");
                     }
                 }
             }
-        });
-        elemSecond.addEventListener("scroll", () => {
+        }
+        function handleRightHiddenBlocks() {
             const value = elemSecond.scrollTop / (proHeight / trackHeight);
-            document.getElementById("optionsThumbSecond").style.transform = `translate3d(0px, ${value}px, 0px`;
+            document.getElementById("options_thumb_second").style.transform = `translate3d(0px, ${value}px, 0px`;
             for (let i = 0; i < optionPro.length; i ++) {
                 const optionBottom = optionPro[i].getBoundingClientRect();
-                const visibleBlock = document.getElementById("visibleProBlock").getBoundingClientRect();
-                const hiddenBlocks = document.getElementsByClassName("hiddenProBlock");
+                const visibleBlock = document.getElementById("visible_pro_block").getBoundingClientRect();
+                const hiddenBlocks = document.getElementsByClassName("hidden_pro_block");
                 if (optionBottom.bottom >= visibleBlock.bottom) {
-                    hiddenBlocks[i].classList.add("activeHidden");
+                    hiddenBlocks[i].classList.add("active_hidden");
                 } else if (optionBottom.bottom <= visibleBlock.bottom) {
-                    hiddenBlocks[i].classList.remove("activeHidden");
+                    hiddenBlocks[i].classList.remove("active_hidden");
                 }
-                if (i == optionPro.length - 1) {
-                    if (optionBottom.bottom == visibleBlock.bottom) {
-                        hiddenBlocks[i].classList.remove("activeHidden");
+                if (i === optionPro.length - 1) {
+                    if (optionBottom.bottom === visibleBlock.bottom) {
+                        hiddenBlocks[i].classList.remove("active_hidden");
                     }
                 }
             }
-        });
+        }
+        elemFirst.addEventListener("scroll", handleLeftHiddenBlocks);
+        elemSecond.addEventListener("scroll", handleRightHiddenBlocks);
+        return () => {
+            elemFirst.removeEventListener("scroll", handleLeftHiddenBlocks);
+            elemSecond.removeEventListener("scroll", handleRightHiddenBlocks);
+        }
     },[windowWidth]);
 
     useEffect(() => {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth);
         });
+        return () => window.removeEventListener("resize", () => {
+            setWindowWidth(window.innerWidth);
+        });
     }, []);
 
     useEffect(() => {
-        const optionBase = document.getElementsByClassName("optionBaseElement");
+        const optionBase = document.getElementsByClassName("option_base_element");
         for (let i = 0; i < optionBase.length; i ++) {
             const optionBottom = optionBase[i].getBoundingClientRect();
-            const visibleBlock = document.getElementById("visibleBaseBlock").getBoundingClientRect();
-            const hiddenBlocks = document.getElementsByClassName("hiddenBaseBlock");
+            const visibleBlock = document.getElementById("visible_base_block").getBoundingClientRect();
+            const hiddenBlocks = document.getElementsByClassName("hidden_base_block");
             if (optionBottom.bottom >= visibleBlock.bottom) {
-                hiddenBlocks[i].classList.add("activeHidden");
+                hiddenBlocks[i].classList.add("active_hidden");
             } else {
-                hiddenBlocks[i].classList.remove("activeHidden");
+                hiddenBlocks[i].classList.remove("active_hidden");
             }
         }
-        const optionPro = document.getElementsByClassName("optionProElement");
+        const optionPro = document.getElementsByClassName("option_pro_element");
         for (let i = 0; i < optionPro.length; i ++) {
             const optionBottom = optionPro[i].getBoundingClientRect();
-            const visibleBlock = document.getElementById("visibleProBlock").getBoundingClientRect();
-            const hiddenBlocks = document.getElementsByClassName("hiddenProBlock");
+            const visibleBlock = document.getElementById("visible_pro_block").getBoundingClientRect();
+            const hiddenBlocks = document.getElementsByClassName("hidden_pro_block");
             if (optionBottom.bottom >= visibleBlock.bottom) {
-                hiddenBlocks[i].classList.add("activeHidden");
+                hiddenBlocks[i].classList.add("active_hidden");
             } else {
-                hiddenBlocks[i].classList.remove("activeHidden");
+                hiddenBlocks[i].classList.remove("active_hidden");
             }
         }
     },[]);
 
+    useEffect(() => {
+        if (localStorage.getItem("jwt-tokens")) {
+            axios.get("/api/users/current", {
+                headers: {
+                    "jwt-tokens": localStorage.getItem("jwt-tokens")
+                }
+            })
+            .then(res => {
+                if (res.headers && "jwt-tokens" in res.headers) {
+                    localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
+                }
+            })
+            .catch(err => {
+                if (err.headers && "jwt-tokens" in err.headers) {
+                    localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
+                }
+                window.location.href = "/#login";
+            })
+        } else {
+            window.location.href = "/#login";
+        }
+    }, []);
+
+    const {
+        openModal: openPayModal,
+        modal: paymentModal
+    } = useModal(PaymentModal, {});
+    const {
+        openModal: openPurchaseModal,
+        modal: purchaseModal
+    } = useModal(PurchaseModal, { openPayModal, purchaseOption });
+    const {
+        openModal: openCustomPurchaseModal,
+        modal: customPurchaseModal
+    } = useModal(CustomPurchaseModal, { openPayModal, purchaseOption });
+
     const handlePurchase = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        var rate: string;
-        if (e.currentTarget.classList[2] === "optionBaseElement") {
+        let rate: string;
+        if (e.currentTarget.classList[2] === "option_base_element") {
             rate = "Базовый";
-        } else if (e.currentTarget.classList[2] === "optionProElement") {
+        } else if (e.currentTarget.classList[2] === "option_pro_element") {
             rate = "Продвинутый";
         }
         setPurchaseOption({
@@ -231,11 +213,6 @@ const AppBalancePage = () => {
             openPurchaseModal();
         }
     };
-
-    const getBlockSize = (): number => {
-        const elem = document.getElementById("rateTable");
-        return elem.offsetWidth;
-    }
     
     return (
         <AppInterface headerTitle="Баланс" controlBar={false}>
@@ -262,14 +239,14 @@ const AppBalancePage = () => {
                             </AppBalancePageRatesTableOverview>
                             <AppBalancePageRatesTableCallToAction>Выберите подходящий пакет</AppBalancePageRatesTableCallToAction>
                             <AppBalancePageRatesTableOptionsWrapper>
-                                <AppBalancePageRatesTableOptionsBlock id="visibleBaseBlock">
+                                <AppBalancePageRatesTableOptionsBlock id="visible_base_block">
                                     <AppBalancePageRatesTableOptionsBackgroundLayer />
-                                    <AppBalancePageRatesTableOptionsContent id="baseOptionsContent">
+                                    <AppBalancePageRatesTableOptionsContent id="base_options_content">
                                         {basePackages.map((pack, idx) => {
                                             return (
                                                 <AppBalancePageRatesTableOptionBlock 
-                                                    className="optionBaseElement" 
-                                                    id="optionBlock" 
+                                                    className="option_base_element" 
+                                                    id="option_block" 
                                                     key={idx}
                                                     onClick={(e) => {handlePurchase(e)}}
                                                 >
@@ -282,14 +259,14 @@ const AppBalancePage = () => {
                                                         <path d="M19.6667 15L10.3333 15M19.6667 15L15.6667 19M19.6667 15L15.6667 11" stroke-linecap="round" stroke-linejoin="round"/>
                                                         <rect x="1" y="1" width="28" height="28" rx="8" />
                                                     </AppBalancePageRatesTableOptionIcon>
-                                                    <AppBalancePageRatesTableOptionBlockHidden className="hiddenBaseBlock" />
+                                                    <AppBalancePageRatesTableOptionBlockHidden className="hidden_base_block" />
                                                 </AppBalancePageRatesTableOptionBlock>
                                             );
                                         })}
                                     </AppBalancePageRatesTableOptionsContent>
                                 </AppBalancePageRatesTableOptionsBlock>
-                                <AppBalancePageRatesTableScrollbarTrack id="scrollbarTrack">
-                                    <AppBalancePageRatesTableScrollbarThumb id="optionsThumbFirst" />
+                                <AppBalancePageRatesTableScrollbarTrack id="scrollbar_track">
+                                    <AppBalancePageRatesTableScrollbarThumb id="options_thumb_first" />
                                 </AppBalancePageRatesTableScrollbarTrack>
                             </AppBalancePageRatesTableOptionsWrapper>
                         </AppBalancePageRatesTable>
@@ -316,14 +293,14 @@ const AppBalancePage = () => {
                             </AppBalancePageRatesTableOverview>
                             <AppBalancePageRatesTableCallToAction>Выберите подходящий пакет</AppBalancePageRatesTableCallToAction>
                             <AppBalancePageRatesTableOptionsWrapper>
-                                <AppBalancePageRatesTableOptionsBlock id="visibleProBlock">
+                                <AppBalancePageRatesTableOptionsBlock id="visible_pro_block">
                                     <AppBalancePageRatesTableOptionsBackgroundLayer />
-                                    <AppBalancePageRatesTableOptionsContent id="proOptionsContent">
+                                    <AppBalancePageRatesTableOptionsContent id="pro_options_content">
                                         {proPackages.map((pack, idx) => {
                                             return (
                                                 <AppBalancePageRatesTableOptionBlock 
-                                                    className="optionProElement" 
-                                                    id="optionBlock" 
+                                                    className="option_pro_element" 
+                                                    id="option_block" 
                                                     key={idx}
                                                     onClick={(e) => {handlePurchase(e)}}
                                                 >
@@ -336,14 +313,14 @@ const AppBalancePage = () => {
                                                         <path d="M19.6667 15L10.3333 15M19.6667 15L15.6667 19M19.6667 15L15.6667 11" stroke-linecap="round" stroke-linejoin="round"/>
                                                         <rect x="1" y="1" width="28" height="28" rx="8" />
                                                     </AppBalancePageRatesTableOptionIcon>
-                                                    <AppBalancePageRatesTableOptionBlockHidden className="hiddenProBlock" />
+                                                    <AppBalancePageRatesTableOptionBlockHidden className="hidden_pro_block" />
                                                 </AppBalancePageRatesTableOptionBlock>
                                             );
                                         })}
                                     </AppBalancePageRatesTableOptionsContent>
                                 </AppBalancePageRatesTableOptionsBlock>
-                                <AppBalancePageRatesTableScrollbarTrack id="scrollbarTrack" className="proRateScrollbar">
-                                    <AppBalancePageRatesTableScrollbarThumb id="optionsThumbSecond" />
+                                <AppBalancePageRatesTableScrollbarTrack id="scrollbar_track" className="pro_rate_scrollbar">
+                                    <AppBalancePageRatesTableScrollbarThumb id="options_thumb_second" />
                                 </AppBalancePageRatesTableScrollbarTrack>
                             </AppBalancePageRatesTableOptionsWrapper>
                         </AppBalancePageRatesTable>
@@ -352,7 +329,7 @@ const AppBalancePage = () => {
                 <AppBalancePageRatesBlock>
                     <AppBalancePageRatesTitle>Корпоративные тарифы</AppBalancePageRatesTitle>
                     <AppBalancePageRatesTablesBlock>
-                        <AppBalancePageRatesTable className="bottomBlock">
+                        <AppBalancePageRatesTable className="bottom_block">
                             <AppBalancePageRatesTableBackgroundLayer />
                             <AppBalancePageRatesTableTitleBlock>
                                 <AppBalancePageRatesTableTitleIcon alt="business" src="/images/business-rate-icon.svg" />

@@ -1,14 +1,11 @@
-import { BrowserRouter as Router } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { App } from "./App";
 import pxIntoRem from "utils/pxIntoRem";
+import { hydrate, render } from "react-dom";
 import { Provider } from "react-redux";
-import { store } from "./slices/index";
-import { hydrate, render } from 'react-dom';
+import { store } from "slices";
 
 const GlobalStyle = createGlobalStyle`
-  @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700&display=swap");
-
   * {
     margin: 0;
     padding: 0;
@@ -38,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
   body, html, #root {
     display: flex;
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     font-size: 16px;
     scroll-behavior: auto;
     background-color: #040512;
@@ -165,21 +162,19 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const rootElement = document.getElementById("root");
-
 const route = (
-    <Router>
-      <GlobalStyle />
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Router>
+    <div>
+        <GlobalStyle />
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </div>
 );
+
+const rootElement = document.getElementById("root") as HTMLElement;
 
 if (rootElement.hasChildNodes()) {
     hydrate(route, rootElement);
 } else {
-    render(route, rootElement)
+    render(route, rootElement);
 }
-
-

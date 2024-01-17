@@ -97,10 +97,10 @@ const FileViewTranscriptionTextBlockParagraph = styled.span`
 const FileViewTranscriptionTextBlockHighlight = styled.span`
   display: inline-block;
   padding: 0 ${pxIntoRem(2)};
-  &.active-text {
+  &.active_text {
     color: #FFF;
   }
-  &.active-word {
+  &.active_word {
     background-color: rgba(22, 131, 226, 0.20);
     border-radius: ${pxIntoRem(3)};
     color: #1683E2;

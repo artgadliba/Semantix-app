@@ -9,6 +9,7 @@ import {
     SmallComboBoxOptionButton
 } from "./SmallComboBoxStyles";
 import useComponentVisible from "hooks/useComponentVisible";
+import FocusTrap from "focus-trap-react";
 
 interface ISmallComboBox {
     className: string;
@@ -23,28 +24,34 @@ const SmallComboBox: FC<ISmallComboBox> = ({className, setOption, setMenuActive,
     const { ref, isComponentVisible } = useComponentVisible(true);
 
     useEffect(() => {
-        if (isComponentVisible == false) {
+        if (isComponentVisible === false) {
             setMenuActive(false);
         }
     },[isComponentVisible]);
-
+    
     return (
-        <SmallComboBoxBlock className={className} ref={ref}>
-            <SmallComboBoxBackground>
-                <SmallComboBoxBackgroundLayer>
-                    <SmallComboBoxContent>
-                        {options.map((option, idx) => {
-                            return (
-                                <SmallComboBoxOptionBlock key={idx}>
-                                    <SmallComboBoxOptionButton onClick={() => { setOption(option.name); setMenuActive(false); }}>{option.name}</SmallComboBoxOptionButton>
-                                    <SmallComboBoxOptionActiveBackground />
-                                </SmallComboBoxOptionBlock>
-                            );
-                        })}
-                    </SmallComboBoxContent>
-                </SmallComboBoxBackgroundLayer>
-            </SmallComboBoxBackground>
-        </SmallComboBoxBlock>
+        <FocusTrap focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
+            <SmallComboBoxBlock className={className} ref={ref}>
+                <SmallComboBoxBackground>
+                    <SmallComboBoxBackgroundLayer>
+                        <SmallComboBoxContent>
+                            {options.map((option, idx) => {
+                                return (
+                                    <SmallComboBoxOptionBlock key={idx}>
+                                        <SmallComboBoxOptionButton
+                                            onClick={() => { setOption(option.name); setMenuActive(false); }}
+                                        >
+                                            {option.name}
+                                        </SmallComboBoxOptionButton>
+                                        <SmallComboBoxOptionActiveBackground />
+                                    </SmallComboBoxOptionBlock>
+                                );
+                            })}
+                        </SmallComboBoxContent>
+                    </SmallComboBoxBackgroundLayer>
+                </SmallComboBoxBackground>
+            </SmallComboBoxBlock>
+        </FocusTrap>
     );
 }
 

@@ -1,23 +1,22 @@
 import { FC, useState } from "react";
-import { 
-    ExportModalBlock,
+import {
     ExportModalContent,
-    ExportModalBackgroundLayer,
     ExportModalTitle,
     ExportModalSelectBlock,
     ExportModalSelectLabel,
     ExportModalSelectComponent,
     ExportModalSelectBackgroundLayer,
     ExportModalInputField,
+    ExportModalInputActiveField,
     ExportModalMainButton,
-    ExportModalClose,
-    ExportModalCloseIcon,
     ExportModalFilename,
     ExportModalMenuButton,
     ExportModalMenuButtonIcon
 } from "./ExportModalStyles";
+import { ModalCloseComponent } from "components/ModalCloseComponent/ModalCloseComponent";
 import LargeComboBox from "components/LargeComboBox/LargeComboBox";
-import ModalOutsideClose from "../ModalOutsideCloseBlockStyles";
+import { ModalOutsideClose, ModalExternalBlock, ModalBackgroundLayer } from "components/Mixins/Mixins";
+import FocusTrap from "focus-trap-react";
 
 interface IExportModal {
     onClose(): any;
@@ -27,6 +26,7 @@ interface IExportModal {
 const ExportModal: FC<IExportModal> =  ({onClose, fileName}) => {
     const [menuActive, setMenuActive] = useState<boolean>(false);
     const [option, setOption] = useState<string>(null);
+    
     const items = [
         {
             option: "Формат .docx"
@@ -41,50 +41,51 @@ const ExportModal: FC<IExportModal> =  ({onClose, fileName}) => {
             option: "Все форматы в архиве .zip"
         }
     ];
+
     const toggleMenuActive = () => {
         setMenuActive(current => !current);
     }
+    
     return (
-        <ExportModalBlock>
-            <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
-            <ExportModalContent>
-                <ExportModalClose onClick={onClose}>
-                    <ExportModalCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
-                    </ExportModalCloseIcon>
-                </ExportModalClose>
-                <ExportModalBackgroundLayer>
-                    <ExportModalTitle>Выгрузить</ExportModalTitle>
-                    <ExportModalFilename>{fileName}</ExportModalFilename>
-                    <form>
-                        <ExportModalSelectBlock>
-                            <ExportModalSelectLabel htmlFor="FileTypeInput">Выбор типа файла</ExportModalSelectLabel>
-                            <ExportModalSelectComponent>
-                                <ExportModalSelectBackgroundLayer>
-                                    <ExportModalInputField id="FileTypeInput" type="text" disabled value={option}/>
-                                    <ExportModalMenuButton type="button" onClick={toggleMenuActive}>
-                                        {menuActive == true ? (
-                                            <ExportModalMenuButtonIcon alt="open" src="/images/folders-opened.svg" />
-                                        ) : (
-                                            <ExportModalMenuButtonIcon alt="open" src="/images/folders-closed.svg" />
-                                        )}
-                                    </ExportModalMenuButton>
-                                </ExportModalSelectBackgroundLayer>
-                            </ExportModalSelectComponent>
-                            {menuActive == true && (
-                                <LargeComboBox 
-                                    addFolderActive={false}
-                                    setOption={setOption} 
-                                    setMenuActive={setMenuActive} 
-                                    items={items}
-                                />
-                            )}
-                        </ExportModalSelectBlock>
-                        <ExportModalMainButton disabled={!option}>Выгрузить файл</ExportModalMainButton>
-                    </form>
-                </ExportModalBackgroundLayer>
-            </ExportModalContent>
-        </ExportModalBlock>
+        <FocusTrap focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
+            <ModalExternalBlock>
+                <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
+                <ExportModalContent>
+                    <ModalBackgroundLayer>
+                        <ExportModalTitle>Выгрузить</ExportModalTitle>
+                        <ExportModalFilename>{fileName}</ExportModalFilename>
+                        <form>
+                            <ExportModalSelectBlock>
+                                <ExportModalSelectLabel htmlFor="file_type_input">Выбор типа файла</ExportModalSelectLabel>
+                                <ExportModalSelectComponent>
+                                    <ExportModalSelectBackgroundLayer>
+                                        <ExportModalInputField id="file_type_input" type="text" disabled value={option}/>
+                                        <ExportModalInputActiveField />
+                                        <ExportModalMenuButton type="button" onClick={toggleMenuActive}>
+                                            {menuActive == true ? (
+                                                <ExportModalMenuButtonIcon alt="open" src="/images/folders-opened.svg" />
+                                            ) : (
+                                                <ExportModalMenuButtonIcon alt="open" src="/images/folders-closed.svg" />
+                                            )}
+                                        </ExportModalMenuButton>
+                                    </ExportModalSelectBackgroundLayer>
+                                </ExportModalSelectComponent>
+                                {menuActive == true && (
+                                    <LargeComboBox 
+                                        addFolderActive={false}
+                                        setOption={setOption} 
+                                        setMenuActive={setMenuActive} 
+                                        items={items}
+                                    />
+                                )}
+                            </ExportModalSelectBlock>
+                            <ExportModalMainButton disabled={!option}>Выгрузить файл</ExportModalMainButton>
+                        </form>
+                    </ModalBackgroundLayer>
+                    <ModalCloseComponent onClose={onClose} />
+                </ExportModalContent>
+            </ModalExternalBlock>
+        </FocusTrap>   
     );
 }
 

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { 
     AppMenuBlock,
     AppMenuBackgroundBlock,
     AppMenuBackgroundLayer,
+    AppMenuUpperBlock,
     AppMenuLogoBlock,
     AppMenuLogo,
     AppMenuSectionsBlock,
@@ -11,12 +12,13 @@ import {
     AppMenuSectionFilesLinkButton,
     AppMenuSectionIcon,
     AppMenuSectionTitle,
-    AppMenuSectionExpandIconClosed,
-    AppMenuSectionExpandIconOpened,
+    AppMenuSectionExpandIcon,
     AppMenuSectionExpandWrapper,
     AppMenuActiveBlock,
     AppMenuActiveBackgroundLayer,
     AppMenuActiveBlurredCircle,
+    AppMiddleBlock,
+    AppMenuBottomBlock,
     AppMenuBalanceBlock,
     AppMenuBalanceBackground,
     AppMenuBalanceBackgroundLayer,
@@ -47,7 +49,6 @@ import BaseRateIcon from "../../../../assets/base-rate-icon.svg";
 import ProRateIcon from "../../../../assets/pro-rate-icon.svg";
 import BusinessRateIcon from "../../../../assets/business-rate-icon.svg";
 import axios from "axios";
-import { setUpdateFolderList } from "slices/updateFolderListSlice";
 
 interface IAppFolderObj {
     id: number;
@@ -57,16 +58,67 @@ interface IAppFolderObj {
 const AppMenu = () => {
     const dispatch = useDispatch();
     const { pathname } = useLocation();
-    const updateFolderList = useSelector((state: RootState) => state.updateFolderList.value);
+    const updateFolderlist = useSelector((state: RootState) => state.updateFolderList.value);
     const [folderList, setFolderList] = useState<Array<IAppFolderObj>>([]);
     const [filesButtonActive, setFilesButtonActive] = useState<boolean>(false);
     const [rateState, setRateState] = useState<string>("Бизнес");
     const [balanceState, setBalanceState] =useState<number>(120000);
-    const RATE_ICON = rateState === "Бизнес" ? BusinessRateIcon : (rateState === "Продвинутый" ? ProRateIcon : BaseRateIcon);
+    const [menuHeight, setMenuHeight] = useState<number>(null);
+    const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+    const RATE_ICON = rateState === "Бизнес" ? BusinessRateIcon : 
+                        (rateState === "Продвинутый" ? ProRateIcon : BaseRateIcon);
     
+    useLayoutEffect(() => {
+        const upperHeight = document.getElementById("upper_block").offsetHeight;
+        const bottomHeight = document.getElementById("lower_block").offsetHeight;
+        const middleHeight = windowHeight - upperHeight - bottomHeight;
+        setMenuHeight(middleHeight - 1);
+    }, [windowHeight, windowWidth, filesButtonActive, folderList]);
+
+    useEffect(() => {
+        if (filesButtonActive || updateFolderlist) {
+            handleRequestUserFolders();
+        }
+    },[filesButtonActive, updateFolderlist]);
+    
+    useEffect(() => {
+        const mainLink = document.getElementById("main_link");
+        const balanceLink = document.getElementById("balance_link");
+        const faqLink = document.getElementById("faq_link");
+
+        if (pathname.includes("/app/main")) {
+            mainLink.classList.add("active");
+        } else if (pathname.includes("/app/balance")) {
+            balanceLink.classList.add("active");
+        } else if (pathname.includes("/app/faq")) {
+            faqLink.classList.add("active");
+        } else if (pathname.includes("/app/folders")) {
+            setFilesButtonActive(true);
+        }
+        if (filesButtonActive === true) {
+            mainLink.classList.remove("active");
+            balanceLink.classList.remove("active");
+            faqLink.classList.remove("active");
+        }
+    },[filesButtonActive]);
+
+    useEffect(() => {
+        function updateSize() {
+            setWindowHeight(window.innerHeight);
+            setWindowWidth(window.innerWidth);
+        }
+        window.addEventListener('resize', updateSize);
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
+
+    useEffect(() => {
+        dispatch(setBalance(balanceState));
+        dispatch(setRate(rateState));
+    }, []);
+
     const {
-        closeModal: closeModal,
-        openModal: openModal,
+        openModal: openNewFolderModal,
         modal: createNewFolderModalModal
     } = useModal(CreateNewFolderModal, {}); 
 
@@ -85,69 +137,30 @@ const AppMenu = () => {
                 if (list) {
                     setFolderList(list);
                 }
-                localStorage.setItem("folders", JSON.stringify(list));
             })
             .catch((err) => {
                 if (err.headers && "jwt-tokens" in err.headers) {
                     localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
                 }
+                
                 console.log(err);
             })
         }
     }
-
-    useEffect(() => {
-        if (updateFolderList === true) {
-            const list = JSON.parse(localStorage.getItem("folders"));
-            if (list) {
-                setFolderList(list);
-                dispatch(setUpdateFolderList(false));
-            }
-        }
-    }, [updateFolderList]);
-
-    useEffect(() => {
-        const list = JSON.parse(localStorage.getItem("folders"));
-        if (list) {
-            setFolderList(list);
-        } 
-    }, []);
-    
-    useEffect(() => {
-        const mainLink = document.getElementById("MainLink");
-        const balanceLink = document.getElementById("BalanceLink");
-        const faqLink = document.getElementById("FaqLink");
-        if (pathname.includes("/app/main")) {
-            mainLink.classList.add("active");
-        } else if (pathname.includes("/app/balance")) {
-            balanceLink.classList.add("active");
-        } else if (pathname.includes("/app/faq")) {
-            faqLink.classList.add("active");
-        } 
-        if (filesButtonActive === true) {
-            mainLink.classList.remove("active");
-            balanceLink.classList.remove("active");
-            faqLink.classList.remove("active");
-        }
-    },[filesButtonActive]);
-
-    useEffect(() => {
-        dispatch(setBalance(balanceState));
-        dispatch(setRate(rateState));
-    }, []);
     
     return (
         <AppMenuBlock>
             <AppMenuBackgroundBlock>
-                <AppMenuBackgroundLayer>
+                <AppMenuBackgroundLayer />
+                <AppMenuUpperBlock id="upper_block">
                     <AppMenuLogoBlock>
                         <AppMenuLogo alt="logo" src="/images/main-logo.svg" />
                     </AppMenuLogoBlock>
-                    <AppMenuSectionsBlock>
+                    <AppMenuSectionsBlock id="sections">
                         <AppMenuSectionLinkBlock 
                             to="/app/main" 
                             onClick={() => { setFilesButtonActive(false); }}
-                            id="MainLink"
+                            id="main_link"
                         >
                             <AppMenuActiveBlock>
                                 <AppMenuActiveBackgroundLayer>
@@ -163,8 +176,8 @@ const AppMenu = () => {
                             <AppMenuSectionTitle>Главная</AppMenuSectionTitle>
                         </AppMenuSectionLinkBlock>
                         <AppMenuSectionFilesLinkButton 
-                            className={filesButtonActive ? "foldersMenuActive" : ""}
-                            onClick={() => { handleRequestUserFolders(); setFilesButtonActive(true); }}
+                            className={filesButtonActive ? "folders_menu_active" : ""}
+                            onClick={() => { setFilesButtonActive(true); }}
                         >
                             <AppMenuActiveBlock>
                                 <AppMenuActiveBackgroundLayer>
@@ -175,16 +188,18 @@ const AppMenu = () => {
                                 <path d="M19.25 14.875V8.75C19.25 6.817 17.683 5.25 15.75 5.25H13.4167C12.6594 5.25 11.9225 5.00438 11.3167 4.55L9.68333 3.325C9.0775 2.87062 8.34063 2.625 7.58333 2.625H5.25C3.317 2.625 1.75 4.192 1.75 6.125V14.875C1.75 16.808 3.317 18.375 5.25 18.375H15.75C17.683 18.375 19.25 16.808 19.25 14.875Z" strokeLinecap="round" strokeLinejoin="round"/>
                             </AppMenuSectionIcon>
                             <AppMenuSectionTitle>Мои файлы</AppMenuSectionTitle>
-                            <AppMenuSectionExpandIconClosed alt="closed" src="/images/folders-closed.svg" />
-                            <AppMenuSectionExpandIconOpened alt="closed" src="/images/folders-opened.svg" />
+                            <AppMenuSectionExpandIcon 
+                                alt="icon" 
+                                src={filesButtonActive ? "/images/folders-closed.svg" : "/images/folders-opened.svg"} 
+                            />
                         </AppMenuSectionFilesLinkButton>
-                        <AppMenuSectionExpandWrapper className="expanding menu">
-                            <AppMenuFolders openModal={openModal} folderList={folderList} />
+                        <AppMenuSectionExpandWrapper className="expanding_menu">
+                            <AppMenuFolders openModal={openNewFolderModal} folderList={folderList} />
                         </AppMenuSectionExpandWrapper>
                         <AppMenuSectionLinkBlock 
                             to="/app/balance" 
                             onClick={() => { setFilesButtonActive(false); }}
-                            id="BalanceLink"
+                            id="balance_link"
                         >
                             <AppMenuActiveBlock>
                                 <AppMenuActiveBackgroundLayer>
@@ -201,7 +216,7 @@ const AppMenu = () => {
                         <AppMenuSectionLinkBlock  
                             to="/app/faq" 
                             onClick={() => { setFilesButtonActive(false); }}
-                            id="FaqLink"
+                            id="faq_link"
                         >
                             <AppMenuActiveBlock>
                                 <AppMenuActiveBackgroundLayer>
@@ -215,6 +230,9 @@ const AppMenu = () => {
                             <AppMenuSectionTitle>FAQ</AppMenuSectionTitle>
                         </AppMenuSectionLinkBlock>
                     </AppMenuSectionsBlock>
+                </AppMenuUpperBlock>
+                <AppMiddleBlock id="middle_block" $height={menuHeight} />
+                <AppMenuBottomBlock id="lower_block">
                     <AppMenuBalanceBlock>
                         <AppMenuBalanceBackground>
                             <AppMenuBalanceBackgroundLayer>
@@ -252,7 +270,7 @@ const AppMenu = () => {
                             </AppMenuEmailLinkIcon>
                         </AppMenuEmailLinkBlock>
                     </AppMenuContactsLinkBlock>
-                </AppMenuBackgroundLayer>
+                </AppMenuBottomBlock>
             </AppMenuBackgroundBlock>
             {createNewFolderModalModal}
         </AppMenuBlock>

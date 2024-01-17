@@ -76,7 +76,7 @@ const AppFilePageControlButton = styled.button`
   font-weight: 500;
   line-height: normal;
   transition: 0.3s;
-  &.left-button {
+  &.left_button {
     margin-left: auto;
     margin-right: 0;
   }

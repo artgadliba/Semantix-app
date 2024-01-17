@@ -20,23 +20,9 @@ interface IAppInterface {
     children: React.ReactNode;
 }
 
-interface IFolderList {
-    id: number;
-    name: string;
-}
-
 const AppInterface: FC<IAppInterface> = ({headerTitle, controlBar, children}) => {
-    const [query, setQuery] = useState<string>("");
-    const [sortType, setSortType] = useState<string>("ascending");
-    const [sortByField, setSortByField] = useState<string>("fileName");
-    const [email, setEmail] = useState<string>("example@gmail.com");
+    const [email, setEmail] = useState<string>("");
     const [bubbleMessageState, setBubbleMessageState] = useState<boolean>(null);
-
-
-    const handleBubbleMessageClose = () => {
-        localStorage.setItem("bubbleMessage", "false");
-        setBubbleMessageState(false);
-    }
 
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem("username"));
@@ -55,18 +41,21 @@ const AppInterface: FC<IAppInterface> = ({headerTitle, controlBar, children}) =>
             }
         }
     },[]);
+
+    const handleBubbleMessageClose = () => {
+        localStorage.setItem("bubbleMessage", "false");
+        setBubbleMessageState(false);
+    }
     
     return (
         <AppInterfaceBlock>
             <AppHeader title={headerTitle} />
             <AppMenu />
-            {controlBar && (<><AppControlBar setQuery={setQuery} setSortType={setSortType} setSortByField={setSortByField} /></>)}
+            {controlBar && (
+                <AppControlBar />
+            )}
             <AppInterfaceContent>
-                {React.cloneElement(children as React.ReactElement<any>, { 
-                    query,
-                    sortType: sortType,
-                    sortByField: sortByField
-                })}
+                {children}
             </AppInterfaceContent>
             <AppInterfaceBlurredCircleBottomLeft />
             {bubbleMessageState === true && (

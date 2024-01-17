@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import pxIntoRem from "../../utils/pxIntoRem";
+import { TooltipIcon } from "components/Mixins/Mixins";
 
 const IndexBlock = styled.div`
   display: flex;
@@ -74,25 +75,6 @@ const IndexGreetingContent = styled.div`
   z-index: 99;
 `;
 
-const IndexGreetingTitleBox = styled.div`
-  display: inline-block;
-  width: ${pxIntoRem(105)};
-  height: ${pxIntoRem(67)};
-  padding-top: ${pxIntoRem(2.24)};
-  margin-left: ${pxIntoRem(6)};
-  border-radius: ${pxIntoRem(16)};
-  background: #171828;
-  backdrop-filter: blur(3px);
-  -webkit-transform: translate3d(0, 0, 0);
-  border: 1px solid #202230;
-  @media (max-width: 500px) {
-    width: ${pxIntoRem(56)};
-    height: ${pxIntoRem(34)};
-    border-radius: ${pxIntoRem(8.229)};
-    padding-top: ${pxIntoRem(0)};
-  }
-`;
-
 const IndexGreetingTitle = styled.h1`
   position: relative;
   top: ${pxIntoRem(-1)};
@@ -104,21 +86,38 @@ const IndexGreetingTitle = styled.h1`
   text-align: center;
   color: #ffffff;
   z-index: 99999;
-  .mobile-break {
+  .mobile_break {
     display: none;
   }
   span {
+    display: inline-block;
+    width: ${pxIntoRem(105)};
+    height: ${pxIntoRem(67)};
+    padding-top: ${pxIntoRem(2.24)};
+    margin-left: ${pxIntoRem(6)};
+    border-radius: ${pxIntoRem(16)};
+    background: #171828;
     color: #1683E2;
+    backdrop-filter: blur(3px);
+    -webkit-transform: translate3d(0, 0, 0);
+    border: 1px solid #202230;
+    @media (max-width: 500px) {
+        width: ${pxIntoRem(56)};
+        height: ${pxIntoRem(34)};
+        border-radius: ${pxIntoRem(8.229)};
+        padding-top: ${pxIntoRem(0)};
+    }
   }
   @media (max-width: 500px) {
     font-size: ${pxIntoRem(32)};
-    .mobile-break {
+    width: 90vw;
+    .mobile_break {
       display: flex;
     }
   }
 `;
 
-const IndexGreetingText = styled.p`
+const IndexGreetingText = styled.h2`
   position: relative;
   margin-top: ${pxIntoRem(19)};
   font-family: "Mulish";
@@ -128,18 +127,18 @@ const IndexGreetingText = styled.p`
   line-height: 150%;
   text-align: center;
   color: #848097;
-  .mobile-break {
+  .mobile_break {
     display: none;
   }
-  .desktop-break {
+  .desktop_break {
     display: flex;
   }
   @media (max-width: 500px) {
     font-size: ${pxIntoRem(14)};
-    .mobile-break {
+    .mobile_break {
       display: flex;
     }
-    .desktop-break {
+    .desktop_break {
       display: none;
     }
   }
@@ -511,7 +510,7 @@ const IndexFeaturesTableIcon = styled.img`
   }
 `;
 
-const IndexFeaturesTableTitle = styled.h2`
+const IndexFeaturesTableTitle = styled.h3`
   margin: ${pxIntoRem(16)} ${pxIntoRem(24)};
   color: #FFF;
   font-family: Mulish;
@@ -523,13 +522,13 @@ const IndexFeaturesTableTitle = styled.h2`
     color: #1683E2;
   }
   z-index: 999;
-  .mobile-break {
+  .mobile_break {
     display: none;
   }
   @media (max-width: 500px) {
     font-size: ${pxIntoRem(20)};
     margin: ${pxIntoRem(0)} ${pxIntoRem(24)};
-    .mobile-break {
+    .mobile_break {
       display: flex;
     }
   }
@@ -547,29 +546,23 @@ const IndexFeaturesTableText = styled.p`
     color: #FFF;
   }
   z-index: 999;
-  .mobile-break {
+  .mobile_break {
     display: none;
   }
-  .desktop-break {
+  .desktop_break {
     display: flex;
   }
   @media (max-width: 500px) {
     margin-top: ${pxIntoRem(16)};
     margin-left: ${pxIntoRem(24)};
     margin-bottom: ${pxIntoRem(24)};
-    .mobile-break {
+    .mobile_break {
       display: flex;
     }
-    .desktop-break {
+    .desktop_break {
       display: none;
     }
   }
-`;
-
-const IndexFeaturesTooltipIcon = styled.svg`
-  width: ${pxIntoRem(18)};
-  height: ${pxIntoRem(18)};
-  fill: #1B1D2C;
 `;
 
 const IndexFeaturesTooltipButton = styled.button`
@@ -584,7 +577,7 @@ const IndexFeaturesTooltipButton = styled.button`
   left: ${pxIntoRem(155)};
   z-index: 9999;
   transition: 0.3s;
-  &:hover ${IndexFeaturesTooltipIcon} {
+  &:hover ${TooltipIcon} {
     transition: 0.3s;
     fill: #1683E2;
   }
@@ -705,6 +698,12 @@ const IndexHowItWorksTables = styled.div`
   }
 `;
 
+const IndexHowItWorksTableWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const IndexHowItWorksTable = styled.div`
   display: flex;
   flex-direction: column;
@@ -779,7 +778,7 @@ const IndexHowItWorksMobileImage = styled.img`
   }
 `;
 
-const IndexHowItWorksText = styled.div`
+const IndexHowItWorksText = styled.h3`
   display: flex;
   color: #FFF;
   text-align: center;
@@ -792,24 +791,6 @@ const IndexHowItWorksText = styled.div`
   @media (max-width: 500px) {
     display: none;
     margin-top: ${pxIntoRem(0)};
-  }
-`;
-
-const IndexHowItWorksMobileText = styled.div`
-  display: none;
-  color: #FFF;
-  text-align: center;
-  font-family: Mulish;
-  font-size: ${pxIntoRem(16)};
-  font-style: normal;
-  font-weight: 500;
-  line-height: 120%;
-  margin-top: ${pxIntoRem(16)};
-  @media (max-width: 500px) {
-    display: flex;
-    &:nth-of-type(5) {
-      margin-bottom: ${pxIntoRem(40)};
-    }
   }
 `;
 
@@ -955,22 +936,22 @@ const IndexPaymentOptionTitle = styled.h2`
   line-height: 100%;
   text-align: center;
   color: #ffffff;
-  margin-top: ${pxIntoRem(85)};
+  margin-top: ${pxIntoRem(95)};
   z-index: 99999;
-  .mobile-break {
+  .mobile_break {
     display: none;
   } 
   @media (max-width: 500px) {
     font-size: ${pxIntoRem(24)};
     margin-top: ${pxIntoRem(40)};
     width: auto;
-    .mobile-break {
+    .mobile_break {
       display: flex;
     }
   }
 `;
 
-const IndexPaymentOptionBonusTitle = styled.h3`
+const IndexPaymentOptionBonusTitle = styled.p`
   color: #848097;
   text-align: center;
   font-family: Mulish;
@@ -1001,7 +982,7 @@ const IndexPaymentOptionTables = styled.div`
   width: ${pxIntoRem(976)};
   justify-items: center;
   align-items: center;
-  margin-top: ${pxIntoRem(20)};
+  margin-top: ${pxIntoRem(40)};
   @media (max-width: 500px) {
     display: flex;
     flex-direction: column;
@@ -1114,7 +1095,7 @@ const IndexPaymentBlurredEllipseRight = styled.div`
   }
 `;
 
-const IndexPaymentOptionTableName = styled.div`
+const IndexPaymentOptionTableName = styled.h3`
   color: #FFF;
   text-align: center;
   font-family: Mulish;
@@ -1134,7 +1115,7 @@ const IndexPaymentOptionTableName = styled.div`
   }
 `;
 
-const IndexPaymentOptionPrice = styled.div`
+const IndexPaymentOptionPrice = styled.p`
   color: #FFF;
   text-align: center;
   font-family: Mulish;
@@ -1149,7 +1130,7 @@ const IndexPaymentOptionPrice = styled.div`
   }
 `;
 
-const IndexPaymentOptionPriceText = styled.div`
+const IndexPaymentOptionPriceText = styled.p`
   color: #848097;
   text-align: center;
   font-family: Mulish;
@@ -1163,7 +1144,7 @@ const IndexPaymentOptionPriceText = styled.div`
   }
 `;
 
-const IndexPaymentOptionText = styled.div`
+const IndexPaymentOptionText = styled.p`
   color: #848097;
   text-align: center;
   font-family: Mulish;
@@ -1302,18 +1283,18 @@ const IndexCallToActionContentTitle = styled.h2`
   color: #ffffff;
   margin-top: ${pxIntoRem(24)};
   z-index: 99999;
-  .mobile-break {
+  .mobile_break {
     display: none;
   }
   @media (max-width: 500px) {
     font-size: ${pxIntoRem(24)};
-    .mobile-break {
+    .mobile_break {
       display: flex;
     }
   }
 `;
 
-const IndexCallToActionContentText = styled.h2`
+const IndexCallToActionContentText = styled.h3`
   color: #848097;
   text-align: center;
   font-family: Mulish;
@@ -1425,7 +1406,6 @@ export {
   IndexPaymentMobileBackground,
   IndexGreetingContent,
   IndexGreetingText,
-  IndexGreetingTitleBox,
   IndexGreetingTitle,
   IndexGreetingBackground,
   IndexFeaturesBody,
@@ -1441,7 +1421,6 @@ export {
   IndexFeaturesTableTitle,
   IndexFeaturesTableText,
   IndexFeaturesTooltipButton,
-  IndexFeaturesTooltipIcon,
   IndexFeaturesTooltipBlock,
   IndexFeaturesTooltipBlockText,
   IndexHowItWorks,
@@ -1455,13 +1434,13 @@ export {
   IndexHowItWorksImage,
   IndexHowItWorksMobileImage,
   IndexHowItWorksText,
-  IndexHowItWorksMobileText,
   IndexPaymentOption,
   IndexPaymentOptionBody,
   IndexPaymentOptionContent,
   IndexPaymentOptionTitle,
   IndexPaymentOptionBonusTitle,
   IndexPaymentOptionTables,
+  IndexHowItWorksTableWrapper,
   IndexPaymentOptionTable,
   IndexPaymentOptionTableBackground,
   IndexPaymentOptionTableName,

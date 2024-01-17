@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useLayoutEffect, useState } from "react";
 import Landing from "layouts/Landing/Landing";
 import { 
     LandingFaqPageBlock,
@@ -6,16 +6,22 @@ import {
     LandingFaqNavigationBlock,
     LandingFaqNavigationBlockTitle,
     LandingFaqNavigationBlockSection,
+    LandingFaqNavigationMobileBlock,
+    LandingFaqNavigationMobileButton,
+    LandingFaqNavigationMobileBlockTitle,
+    LandingFaqNavigationMobileExpandIcon,
     LandingFaqMainBlock,
-    LandingFaqMainBlockSearchInputBlock,
-    LandingFaqMainBlockSearchInput,
-    LandingFaqMainBlockSearchInputIcon,
-    LandingFaqMainBlockQuestionElement,
-    LandingFaqMainBlockQuestionElementBackgroundLayer,
-    LandingFaqMainBlockQuestionElementTitle,
-    LandingFaqMainBlockQuestionElementIcon,
-    LandingFaqMainBlockQuestionElementText,
-    LandingFaqMainBlockQuestionElementInnerLink,
+    LandingFaqSearchInputBlock,
+    LandingFaqSearchInput,
+    LandingFaqSearchInputIcon,
+    LandingFaqQuestionElement,
+    LandingFaqQuestionElementBackgroundLayer,
+    LandingFaqQuestionElementTitle,
+    LandingFaqQuestionElementIcon,
+    LandingFaqQuestionElementText,
+    LandingFaqQuestionElementInnerLink,
+    LandingFaqQuestionsBlock,
+    LandingFaqQuestionsBlockTitle,
     LandingFaqGreetingBlock,
     LandingFaqGreetingTitle,
     LandingFaqGreetingCallToAction,
@@ -26,7 +32,16 @@ import {
     LandingFaqEmailLinkBlock,
     LandingFaqHighlight
 } from "./LandingFaqPageStyles";
+import { faqCommon, faqTranscription, faqPayments } from "content/FaqContents";
 import { Helmet } from "react-helmet";
+
+interface IFaqContent {
+    question: string;
+    text: string;
+    linkName?: string;
+    href?: string;
+    moreText?: string;
+}
 
 interface ILandingFaqPageItem {
     searchInput?: string;
@@ -42,6 +57,10 @@ interface ILandingFaqPageItem {
 const LandingFaqPageItem: FC<ILandingFaqPageItem> = ({searchInput, item}) => {
     const [isOpen, setIsOpen] = useState(false);
 
+    useLayoutEffect(() => {
+        setIsOpen(false);
+    }, [item]);
+
     function getHighlightedText(text: string, searchInput: string) {
         const parts = text.split(new RegExp(`(${searchInput})`, "gi"));
         return parts.map((part, index) => (
@@ -54,70 +73,95 @@ const LandingFaqPageItem: FC<ILandingFaqPageItem> = ({searchInput, item}) => {
           </React.Fragment>
         ));
     }
-
+    
     return (
-        <LandingFaqMainBlockQuestionElement onClick={() => setIsOpen((prev) => !prev)}>
-            <LandingFaqMainBlockQuestionElementBackgroundLayer />
-            <LandingFaqMainBlockQuestionElementIcon width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <LandingFaqQuestionElement onClick={() => setIsOpen((prev) => !prev)}>
+            <LandingFaqQuestionElementBackgroundLayer />
+            <LandingFaqQuestionElementIcon width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="1" y="1" width="32" height="32" rx="8" />
                 <path d="M17 11.1665V22.8332M11.1667 16.9998H22.8333" stroke-linecap="round" stroke-linejoin="round"/>
-            </LandingFaqMainBlockQuestionElementIcon>
-            <LandingFaqMainBlockQuestionElementTitle>{getHighlightedText(item.question, searchInput)}</LandingFaqMainBlockQuestionElementTitle>
-            <LandingFaqMainBlockQuestionElementText className={isOpen === true ? "visibleText" : ""}>
+            </LandingFaqQuestionElementIcon>
+            <LandingFaqQuestionElementTitle>{getHighlightedText(item.question, searchInput)}</LandingFaqQuestionElementTitle>
+            <LandingFaqQuestionElementText className={isOpen === true ? "visible_text" : ""}>
                 {item.text}
-                <LandingFaqMainBlockQuestionElementInnerLink to={item.href}>
+                <LandingFaqQuestionElementInnerLink to={item.href}>
                     {item.linkName}
-                </LandingFaqMainBlockQuestionElementInnerLink>
+                </LandingFaqQuestionElementInnerLink>
                 {item.moreText}
-            </LandingFaqMainBlockQuestionElementText>
-        </LandingFaqMainBlockQuestionElement>
+            </LandingFaqQuestionElementText>
+        </LandingFaqQuestionElement>
     );
 }
 
 const LandingFaqPage = () => {
     const [searchInput, setSeacrhInput] = useState<string>("");
-    const faqContent = [
-        {
-            question: "Я хочу оплатить сервис со счета ООО или ИП, как это сделать?",
-            text: 'Отправьте заявку на нашу электронную почту ',
-            linkName: "hello@semantix.one",
-            href: "mailto:hello@semantix.one",
-            moreText: " с указанием реквизитов организации и желаемого пакета минут. Мы ответим вам в самое ближайшее время и выставим счет."
-        },
-        {
-            question: "Какое качество расшифровки у алгоритмов Semantix?",
-            text: "Благодаря автоматической нейтрализации посторонних шумов точность расшифровки достигает 95%. Обратите внимание, что иногда качество аудио может влиять на финальный результат: низкое качество звука, невнятная речь, собеседники, говорящие одновременно — все это может негативно сказаться на точности расшифровки."
-        },
-        {
-            question: "Сколько занимает расшифровка записи?",
-            text: "Приблизительное время расшифровки часовой записи - 10 минут. В редких случаях, при большой нагрузке на сервера, время обработки может быть увеличено."
-        },
-        {
-            question: "Как скачать расшифровку?",
-            text: "Перейдите на страницу файла (выбрав нужный из списка) чтобы открыть просмотр расшифровки. В онлайн редакторе вы сможете править текст, прослушивать аудио и экспортировать результат в различных форматах. По вашему запросу добавим недостающий формат."
-        },
-        {
-            question: "Сколько хранится аудио в сервисе?",
-            text: 'Аудио в онлайн редакторе расшифровки хранится в течение 30 дней, после чего безвозвратно удаляется. По запросу от пользователей тарифа "Бизнес", данное условие может быть изменено, чтобы соответствовать бизнес-требованиям.'
-        },
-        {
-            question: "У меня проблема, что делать?",
-            text: "Напишите нашему оператору в ",
-            linkName: "telegram",
-            href: "https://t.me/semantix_one",
-            moreText: ". Он оперативно проконсультирует вас по любым вопросам связанным с работой сервиса."
-        },
-    ];
+    const [currentSection, setCurrentSection] = useState<string>("Общие вопросы");
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+    const [faqContent, setFaqContent] = useState<Array<IFaqContent>>(null);
+
+    useLayoutEffect(() => {
+        if (currentSection === "Общие вопросы") {
+            setFaqContent(faqCommon);
+        } else if (currentSection === "Расшифровка") {
+            setFaqContent(faqTranscription);
+        } else if (currentSection === "Оплата") {
+            setFaqContent(faqPayments);
+        }
+    }, [currentSection]);
+
+    useEffect(() => {
+        window.addEventListener("resize", () => {
+            setWindowWidth(window.innerWidth);
+        });
+        return () => {
+            window.removeEventListener("resize", () => {
+                setWindowWidth(window.innerWidth);
+            });
+        }
+    }, []);
+    
+    const sections = ["Общие вопросы", "Расшифровка", "Оплата"];
+
+    const breadcrumbs = {
+        "@context": "https://schema.org/", 
+        "@type": "BreadcrumbList", 
+        "itemListElement": [{
+            "@type": "ListItem", 
+            "position": 1, 
+            "name": "Главная",
+            "item": "https://semantix.one"  
+        },{
+            "@type": "ListItem", 
+            "position": 2, 
+            "name": "FAQ",
+            "item": "https://semantix.one/faq"  
+        }]
+    };
     
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let lowerCase = event.target.value.toLowerCase();
         setSeacrhInput(lowerCase);
     };
 
+    const handleSection = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const element = e.currentTarget as HTMLElement;
+        if (currentSection === element.innerText && windowWidth < 501) {
+            setCurrentSection(null);
+        } else {
+            setCurrentSection(element.innerText);
+        }
+    }
+
     return (
         <Landing>
             <Helmet>
-                <title>Semantix - </title>
+                <title>Semantix - распознавание речи и конвертация в текст онлайн</title>
+                {/* SEO Meta Tags */}
+                <meta name="description" content="Распознавание речи с высокой точностью, конвертация в текст за несколько кликов при помощи алгоритмов искусственного интеллекта Semantix. Транскрибация и редактирование онлайн."></meta>
+                <meta name="keywords" content="транскрибация, транскрибировать текст онлайн, аудио в текст, видео в текст, расшифровка речи в текст онлайн, генерация субтритров, распознавание речи"></meta>
+                <script className='structured-data-list' type="application/ld+json">
+                    {JSON.stringify(breadcrumbs)}
+                </script>
             </Helmet>
             <LandingFaqGreetingBlock>
                 <LandingFaqGreetingTitle>Всё, что нужно знать</LandingFaqGreetingTitle>
@@ -141,27 +185,72 @@ const LandingFaqPage = () => {
             </LandingFaqGreetingBlock>
             <LandingFaqPageBlock>
                 <LandingFaqPageContentBlock>
-                    <LandingFaqNavigationBlock>
-                        <LandingFaqNavigationBlockTitle>Разделы</LandingFaqNavigationBlockTitle>
-                        <LandingFaqNavigationBlockSection>Начало работы</LandingFaqNavigationBlockSection>
-                        <LandingFaqNavigationBlockSection>Процесс оценки</LandingFaqNavigationBlockSection>
-                        <LandingFaqNavigationBlockSection>Торговые льготы</LandingFaqNavigationBlockSection>
-                        <LandingFaqNavigationBlockSection>Тарифы</LandingFaqNavigationBlockSection>
-                        <LandingFaqNavigationBlockSection>Прочее</LandingFaqNavigationBlockSection>
-                    </LandingFaqNavigationBlock>
-                    <LandingFaqMainBlock>
-                        <LandingFaqMainBlockSearchInputBlock>
-                            <LandingFaqMainBlockSearchInput type="text" placeholder="Поиск" onChange={handleSearchChange} />
-                            {searchInput != "" ? (
-                                <LandingFaqMainBlockSearchInputIcon alt="search" src="/images/search-active.svg" />
-                            ) : (
-                                <LandingFaqMainBlockSearchInputIcon alt="search" src="/images/search.svg" />
-                            )}
-                        </LandingFaqMainBlockSearchInputBlock>
-                        {faqContent.map((faq, idx) => {
-                            return <LandingFaqPageItem key={idx} searchInput={searchInput} item={faq} />
-                        })}
-                    </LandingFaqMainBlock>
+                    <LandingFaqSearchInputBlock>
+                        <LandingFaqSearchInput type="text" placeholder="Поиск" onChange={handleSearchChange} />
+                        {searchInput !== "" ? (
+                            <LandingFaqSearchInputIcon alt="search" src="/images/search-active.svg" />
+                        ) : (
+                            <LandingFaqSearchInputIcon alt="search" src="/images/search.svg" />
+                        )}
+                    </LandingFaqSearchInputBlock>
+                    {windowWidth > 500 ? (
+                        <LandingFaqMainBlock>
+                            <LandingFaqNavigationBlock>
+                                <LandingFaqNavigationBlockTitle>Разделы</LandingFaqNavigationBlockTitle>
+                                {sections.map((section, idx) => {
+                                    return (
+                                        <LandingFaqNavigationBlockSection
+                                            key={idx}
+                                            className={currentSection === section ? "active_section" : ""} 
+                                            onClick={(e) => { handleSection(e); }}
+                                        >
+                                            {section}
+                                        </LandingFaqNavigationBlockSection>
+                                    );
+                                })}
+                            </LandingFaqNavigationBlock>
+                            <LandingFaqQuestionsBlock>
+                                <LandingFaqQuestionsBlockTitle>{currentSection}</LandingFaqQuestionsBlockTitle>
+                                {faqContent && faqContent.map((faq, idx) => {
+                                    return <LandingFaqPageItem key={idx} searchInput={searchInput} item={faq} />
+                                })}
+                            </LandingFaqQuestionsBlock>
+                        </LandingFaqMainBlock>
+                    ) : (
+                        <LandingFaqMainBlock>
+                            <LandingFaqQuestionsBlock>
+                                {sections.map((section, idx) => {
+                                    return (
+                                        <LandingFaqNavigationMobileBlock key={idx}>
+                                            <LandingFaqNavigationMobileButton
+                                                onClick={(e) => { handleSection(e); }}
+                                            >
+                                                <LandingFaqNavigationMobileBlockTitle>
+                                                    {section}
+                                                </LandingFaqNavigationMobileBlockTitle>
+                                                <LandingFaqNavigationMobileExpandIcon 
+                                                    alt="icon"
+                                                    src={currentSection === section ? 
+                                                        "/images/folders-closed.svg" : "/images/folders-opened.svg"
+                                                    }
+                                                />
+                                            </LandingFaqNavigationMobileButton>
+                                            {currentSection === section 
+                                                && faqContent && faqContent.map((faq, idx) => {
+                                                return (
+                                                    <LandingFaqPageItem 
+                                                        key={idx} 
+                                                        searchInput={searchInput} 
+                                                        item={faq} 
+                                                    />
+                                                );
+                                            })}
+                                        </LandingFaqNavigationMobileBlock>
+                                    );
+                                })}
+                            </LandingFaqQuestionsBlock>
+                        </LandingFaqMainBlock>
+                    )}
                 </LandingFaqPageContentBlock>
             </LandingFaqPageBlock>
         </Landing>

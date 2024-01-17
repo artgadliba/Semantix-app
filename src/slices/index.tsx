@@ -5,7 +5,12 @@ import balanceSlice from './balanceSlice';
 import rateSlice from './rateSlice';
 import progressSlice from './progressSlice';
 import remainingTimeSlice from './remainingTimeSlice';
+import searchQuerySlice from './searchQuerySlice';
+import sortTypeSlice from './sortTypeSlice';
+import sortByFieldSlice from './sortByFieldSlice';
+import updateFileListSlice from './updateFileListSlice';
 import updateFolderListSlice from './updateFolderListSlice';
+import uploadFolderSlice from './uploadFolderSlice';
 
 export const store = configureStore({
     reducer: {
@@ -15,7 +20,12 @@ export const store = configureStore({
         rate: rateSlice,
         progress: progressSlice,
         remainingTime: remainingTimeSlice,
-        updateFolderList: updateFolderListSlice
+        searchQuery: searchQuerySlice,
+        sortType: sortTypeSlice,
+        sortByField: sortByFieldSlice,
+        updateFileList: updateFileListSlice,
+        updateFolderList: updateFolderListSlice, 
+        uploadFolder: uploadFolderSlice
     }
 });
 

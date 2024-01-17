@@ -1,16 +1,15 @@
 import { FC } from "react";
-import { 
-    MessageModalBlock,
+import {
     MessageModalContent,
     MessageModalBackgroundLayer,
     MessageModalIcon,
     MessageModalTitle,
     MessageModalText,
-    MessageModalMainButton,
-    MessageModalClose,
-    MessageModalCloseIcon
+    MessageModalMainButton
 } from "./MessageModalStyles";
-import ModalOutsideClose from "../ModalOutsideCloseBlockStyles";
+import { ModalCloseComponent } from "components/ModalCloseComponent/ModalCloseComponent";
+import { ModalOutsideClose, ModalExternalBlock } from "components/Mixins/Mixins";
+import FocusTrap from "focus-trap-react";
 
 interface IMessageModal {
     onClose(): any;
@@ -21,42 +20,38 @@ interface IMessageModal {
 const MessageModal: FC<IMessageModal> = ({onClose, modalType, message}) => {
     if (modalType === "messageModal" && message) {
         return (
-            <MessageModalBlock>
-                <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
-                <MessageModalContent>
-                    <MessageModalClose onClick={onClose}>
-                        <MessageModalCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
-                        </MessageModalCloseIcon>
-                    </MessageModalClose>
-                    <MessageModalBackgroundLayer>
-                        <MessageModalIcon alt="success" src="/images/success.svg" />
-                        <MessageModalTitle>{message}</MessageModalTitle>
-                        <MessageModalMainButton onClick={onClose}>Ок</MessageModalMainButton>
-                    </MessageModalBackgroundLayer>
-                </MessageModalContent>
-            </MessageModalBlock>
+            <FocusTrap focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
+                <ModalExternalBlock>
+                    <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
+                    <MessageModalContent>
+                        <MessageModalBackgroundLayer>
+                            <MessageModalIcon alt="success" src="/images/success.svg" />
+                            <MessageModalTitle>{message}</MessageModalTitle>
+                            <MessageModalMainButton onClick={onClose}>Ок</MessageModalMainButton>
+                        </MessageModalBackgroundLayer>
+                        <ModalCloseComponent onClose={onClose} />
+                    </MessageModalContent>
+                </ModalExternalBlock>
+            </FocusTrap>
         );
     } else if (modalType === "balanceUpdated") {
         return (
-            <MessageModalBlock>
-                <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
-                <MessageModalContent>
-                    <MessageModalClose onClick={onClose}>
-                        <MessageModalCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
-                        </MessageModalCloseIcon>
-                    </MessageModalClose>
-                    <MessageModalBackgroundLayer>
-                        <MessageModalIcon alt="success" src="/images/success.svg" />
-                        <MessageModalTitle>Пароль успешно изменен</MessageModalTitle>
-                        <MessageModalText>
-                            Ваш баланс пополнен на <span>10,000 минут</span>
-                        </MessageModalText>
-                        <MessageModalMainButton onClick={onClose}>Ок</MessageModalMainButton>
-                    </MessageModalBackgroundLayer>
-                </MessageModalContent>
-            </MessageModalBlock>
+            <FocusTrap focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
+                <ModalExternalBlock>
+                    <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
+                    <MessageModalContent>
+                        <MessageModalBackgroundLayer>
+                            <MessageModalIcon alt="success" src="/images/success.svg" />
+                            <MessageModalTitle>Пароль успешно изменен</MessageModalTitle>
+                            <MessageModalText>
+                                Ваш баланс пополнен на <span>10,000 минут</span>
+                            </MessageModalText>
+                            <MessageModalMainButton onClick={onClose}>Ок</MessageModalMainButton>
+                        </MessageModalBackgroundLayer>
+                        <ModalCloseComponent onClose={onClose} />
+                    </MessageModalContent>
+                </ModalExternalBlock>
+            </FocusTrap>
         );
     }
 }

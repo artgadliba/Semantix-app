@@ -15,14 +15,12 @@ const AppFaqPageContentBlock = styled.div`
   margin-left: ${pxIntoRem(40)};
   @media (max-width: 500px) {
     margin: 0 ${pxIntoRem(15)} auto ${pxIntoRem(15)};
-    width: auto;
   }
 `;
 
-// block created for further needs
 const AppFaqNavigationBlock = styled.div`
   postion: relative;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: start;
 `;
@@ -34,7 +32,7 @@ const AppFaqNavigationBlockTitle = styled.h2`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: ${pxIntoRem(73)};
+  margin-top: ${pxIntoRem(71)};
 `;
 
 const AppFaqNavigationBlockSection = styled.button`
@@ -45,19 +43,63 @@ const AppFaqNavigationBlockSection = styled.button`
   font-weight: 600;
   line-height: normal;
   margin-top: ${pxIntoRem(24)};
-  gap: ${pxIntoRem(16)};
   background: transparent;
+  transition: 0.3s;
   transition: 0.3s;
   &:hover {
     color: #1683E2;
   }
+  &.active_section {
+    color: #1683E2;
+  }
+`;
+
+const AppFaqNavigationMobileBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  height: auto;
+  border-bottom: solid 1px #171A27;
+  background: transparent;
+`;
+
+const AppFaqNavigationMobileButton = styled.button`
+  width: 100%;
+  height: ${pxIntoRem(55)};
+  background: transparent;
+  text-align: start;
+`;
+
+const AppFaqNavigationMobileBlockTitle = styled.h2`
+  color: #79768B;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(18)};
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin: ${pxIntoRem(16)} 0;
+`;
+
+const AppFaqNavigationMobileExpandIcon = styled.img`
+  position: absolute;
+  right: 0;
+  top: ${pxIntoRem(18)};
+  width: ${pxIntoRem(19)};
+  height: ${pxIntoRem(19)};
+  z-index: 999;
 `;
 
 const AppFaqMainBlock = styled.div`
   postion: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin-left: ${pxIntoRem(40)};
+  @media (max-width: 500px) {
+    margin-left: 0;
+    width: 100%;
+  }
 `;
 
 const AppFaqMainBlockSearchInputBlock = styled.div`
@@ -69,9 +111,9 @@ const AppFaqMainBlockSearchInputBlock = styled.div`
   height: ${pxIntoRem(42)};
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #2D3042;
-  margin-bottom: ${pxIntoRem(20)};
+  margin-bottom: ${pxIntoRem(24)};
   @media (max-width: 500px) {
-    width: 100%;
+   width: 100%;
   }
 `;
 
@@ -87,6 +129,9 @@ const AppFaqMainBlockSearchInput = styled.input`
   background: transparent;
   text-overflow: ellipsis;
   overflow: hidden;
+  @media (max-width: 500px) {
+    font-size: ${pxIntoRem(16)};
+  }
 `;
 
 const AppFaqMainBlockSearchInputIcon = styled.img`
@@ -94,6 +139,18 @@ const AppFaqMainBlockSearchInputIcon = styled.img`
   height: ${pxIntoRem(18)};
   margin-left: auto;
   margin-right: ${pxIntoRem(16)};
+`;
+
+const AppFaqMainBlockTitle = styled.h3`
+  position: relative;
+  display: block;
+  color: #79768B;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(20)};
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-bottom: ${pxIntoRem(24)};
 `;
 
 const AppFaqMainBlockQuestionElementIcon = styled.svg`
@@ -185,7 +242,7 @@ const AppFaqMainBlockQuestionElementText = styled.p`
   margin-top: ${pxIntoRem(25)};
   text-align: start;
   z-index: 9;
-  &.visibleText {
+  &.visible_text {
     display: inline;
   }
 `;
@@ -218,10 +275,15 @@ export {
   AppFaqNavigationBlock,
   AppFaqNavigationBlockTitle,
   AppFaqNavigationBlockSection,
+  AppFaqNavigationMobileBlock,
+  AppFaqNavigationMobileButton,
+  AppFaqNavigationMobileBlockTitle,
+  AppFaqNavigationMobileExpandIcon,
   AppFaqMainBlock,
   AppFaqMainBlockSearchInputBlock,
   AppFaqMainBlockSearchInput,
   AppFaqMainBlockSearchInputIcon,
+  AppFaqMainBlockTitle,
   AppFaqMainBlockQuestionElement,
   AppFaqMainBlockQuestionElementBackgroundLayer,
   AppFaqMainBlockQuestionElementTitle,

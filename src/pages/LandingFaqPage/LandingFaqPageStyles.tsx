@@ -7,27 +7,29 @@ const LandingFaqPageBlock = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const LandingFaqPageContentBlock = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   position: relative;
+  width: ${pxIntoRem(860)};
   margin-top: ${pxIntoRem(40)};
-  margin-bottom: ${pxIntoRem(112)};
-  justify-content: center;
+  margin-bottom: ${pxIntoRem(70)};
   @media (max-width: 500px) {
-    margin: ${pxIntoRem(73)} ${pxIntoRem(15)} auto ${pxIntoRem(15)};
+    margin: ${pxIntoRem(40)} ${pxIntoRem(15)};
     width: auto;
   }
 `;
 
-// block created for further needs
 const LandingFaqNavigationBlock = styled.div`
-  postion: relative;
-  display: none;
+  position: relative;
+  display: flex;
   flex-direction: column;
   align-items: start;
+  margin-top: ${pxIntoRem(5)};
+  margin-left: 0px;
 `;
 
 const LandingFaqNavigationBlockTitle = styled.h2`
@@ -37,7 +39,6 @@ const LandingFaqNavigationBlockTitle = styled.h2`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: ${pxIntoRem(73)};
 `;
 
 const LandingFaqNavigationBlockSection = styled.button`
@@ -48,27 +49,81 @@ const LandingFaqNavigationBlockSection = styled.button`
   font-weight: 600;
   line-height: normal;
   margin-top: ${pxIntoRem(24)};
-  gap: ${pxIntoRem(16)};
   background: transparent;
   transition: 0.3s;
   &:hover {
     color: #1683E2;
   }
+  &.active_section {
+    color: #1683E2;
+  }
+`;
+
+const LandingFaqNavigationMobileBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  justify-content: center;
+  height: auto;
+  border-bottom: solid 1px #171A27;
+  background: transparent;
+`;
+
+const LandingFaqNavigationMobileButton = styled.button`
+  width: 100%;
+  height: ${pxIntoRem(55)};
+  background: transparent;
+  text-align: start;
+`;
+
+const LandingFaqNavigationMobileBlockTitle = styled.h2`
+  color: #79768B;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(18)};
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin: ${pxIntoRem(16)} 0;
+`;
+
+const LandingFaqNavigationMobileExpandIcon = styled.img`
+  position: absolute;
+  right: 0;
+  top: ${pxIntoRem(18)};
+  width: ${pxIntoRem(19)};
+  height: ${pxIntoRem(19)};
+  z-index: 999;
 `;
 
 const LandingFaqMainBlock = styled.div`
-  postion: relative;
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: start;
+  @media (max-width: 500px) {
+    margin-left: 0;
+  }
 `;
 
-const LandingFaqMainBlockSearchInputBlock = styled.div`
+const LandingFaqQuestionsBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-left: auto;
+  margin-right: 0;
+  @media (max-width: 500px) {
+    margin-left: 0;
+  }
+`;
+
+const LandingFaqSearchInputBlock = styled.div`
   position: relative;
   display: flex;
   align-items: center;
   flex-direction: row;
-  width: ${pxIntoRem(728)};
+  width: ${pxIntoRem(860)};
   height: ${pxIntoRem(42)};
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #2D3042;
@@ -78,7 +133,7 @@ const LandingFaqMainBlockSearchInputBlock = styled.div`
   }
 `;
 
-const LandingFaqMainBlockSearchInput = styled.input`
+const LandingFaqSearchInput = styled.input`
   padding: ${pxIntoRem(11)} ${pxIntoRem(0)} ${pxIntoRem(10)} ${pxIntoRem(16)};
   width: 100%;
   color: #79768B;
@@ -90,16 +145,19 @@ const LandingFaqMainBlockSearchInput = styled.input`
   background: transparent;
   text-overflow: ellipsis;
   overflow: hidden;
+  @media (max-width: 500px) {
+    font-size: ${pxIntoRem(16)};
+  }
 `;
 
-const LandingFaqMainBlockSearchInputIcon = styled.img`
+const LandingFaqSearchInputIcon = styled.img`
   width: ${pxIntoRem(18)};
   height: ${pxIntoRem(18)};
   margin-left: auto;
   margin-right: ${pxIntoRem(16)};
 `;
 
-const LandingFaqMainBlockQuestionElementIcon = styled.svg`
+const LandingFaqQuestionElementIcon = styled.svg`
   position: absolute;
   width: ${pxIntoRem(32)};
   height: ${pxIntoRem(32)};
@@ -115,16 +173,29 @@ const LandingFaqMainBlockQuestionElementIcon = styled.svg`
   }
 `;
 
-const LandingFaqMainBlockQuestionElement = styled.button`
+const LandingFaqQuestionsBlockTitle = styled.h3`
+  position: relative;
+  display: block;
+  color: #79768B;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(20)};
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-bottom: ${pxIntoRem(24)};
+  align-items: start;
+`;
+
+const LandingFaqQuestionElement = styled.button`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: ${pxIntoRem(728)};
+  width: ${pxIntoRem(640)};
   margin-bottom: ${pxIntoRem(16)};
   padding: ${pxIntoRem(25)} ${pxIntoRem(24)};
   background: transparent;
   transition: 0.3s;
-  &:hover ${LandingFaqMainBlockQuestionElementIcon} {
+  &:hover ${LandingFaqQuestionElementIcon} {
     stroke: #1683E2;
     path {
         stroke: #1683E2;
@@ -151,7 +222,7 @@ const LandingFaqMainBlockQuestionElement = styled.button`
   }
 `;
 
-const LandingFaqMainBlockQuestionElementBackgroundLayer = styled.button`
+const LandingFaqQuestionElementBackgroundLayer = styled.div`
   position: absolute;
   top: 1px;
   left: 1px;
@@ -161,7 +232,7 @@ const LandingFaqMainBlockQuestionElementBackgroundLayer = styled.button`
   border-radius: ${pxIntoRem(16)};
 `;
 
-const LandingFaqMainBlockQuestionElementTitle = styled.h2`
+const LandingFaqQuestionElementTitle = styled.h2`
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(18)};
@@ -176,7 +247,7 @@ const LandingFaqMainBlockQuestionElementTitle = styled.h2`
   }
 `;
 
-const LandingFaqMainBlockQuestionElementText = styled.p`
+const LandingFaqQuestionElementText = styled.p`
   display: none;
   position: relative;
   color: #79768B;
@@ -188,7 +259,7 @@ const LandingFaqMainBlockQuestionElementText = styled.p`
   margin-top: ${pxIntoRem(25)};
   text-align: start;
   z-index: 9;
-  &.visibleText {
+  &.visible_text {
     display: inline;
   }
   span {
@@ -196,7 +267,7 @@ const LandingFaqMainBlockQuestionElementText = styled.p`
   }
 `;
 
-const LandingFaqMainBlockQuestionElementInnerLink = styled(Link)`
+const LandingFaqQuestionElementInnerLink = styled(Link)`
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -215,8 +286,11 @@ const LandingFaqGreetingBlock = styled.div`
   postion: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   margin-top: ${pxIntoRem(75)};
+  @media (max-width: 500px) {
+    margin-top: ${pxIntoRem(40)};
+  }
 `;
 
 const LandingFaqGreetingTitle = styled.h1`
@@ -227,9 +301,13 @@ const LandingFaqGreetingTitle = styled.h1`
   font-style: normal;
   font-weight: 700;
   line-height: 100%;
+  @media (max-width: 500px) {
+    font-size: ${pxIntoRem(32)};
+    width: 90vw;
+  }
 `;
 
-const LandingFaqGreetingCallToAction = styled.h2`
+const LandingFaqGreetingCallToAction = styled.p`
   color: #79768B;
   text-align: center;
   font-family: Mulish;
@@ -239,7 +317,11 @@ const LandingFaqGreetingCallToAction = styled.h2`
   line-height: 150%;
   margin-top: ${pxIntoRem(20)};
   span {
+    margin-left: ${pxIntoRem(2)};
     color: #FFF;
+  }
+  @media (max-width: 500px) {
+    width: 80vw;
   }
 `;
 
@@ -311,16 +393,22 @@ export {
   LandingFaqNavigationBlock,
   LandingFaqNavigationBlockTitle,
   LandingFaqNavigationBlockSection,
+  LandingFaqNavigationMobileBlock,
+  LandingFaqNavigationMobileButton,
+  LandingFaqNavigationMobileBlockTitle,
+  LandingFaqNavigationMobileExpandIcon,
   LandingFaqMainBlock,
-  LandingFaqMainBlockSearchInputBlock,
-  LandingFaqMainBlockSearchInput,
-  LandingFaqMainBlockSearchInputIcon,
-  LandingFaqMainBlockQuestionElement,
-  LandingFaqMainBlockQuestionElementBackgroundLayer,
-  LandingFaqMainBlockQuestionElementTitle,
-  LandingFaqMainBlockQuestionElementIcon,
-  LandingFaqMainBlockQuestionElementText,
-  LandingFaqMainBlockQuestionElementInnerLink,
+  LandingFaqQuestionsBlock,
+  LandingFaqQuestionsBlockTitle,
+  LandingFaqSearchInputBlock,
+  LandingFaqSearchInput,
+  LandingFaqSearchInputIcon,
+  LandingFaqQuestionElement,
+  LandingFaqQuestionElementBackgroundLayer,
+  LandingFaqQuestionElementTitle,
+  LandingFaqQuestionElementIcon,
+  LandingFaqQuestionElementText,
+  LandingFaqQuestionElementInnerLink,
   LandingFaqGreetingBlock,
   LandingFaqGreetingTitle,
   LandingFaqGreetingCallToAction,

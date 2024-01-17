@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 import pxIntoRem from "utils/pxIntoRem";
 
@@ -81,79 +81,12 @@ const UserFileListItemIcon = styled.img`
   }
 `;
 
-const UploadingAnimation = keyframes`
-  0% { fill-opacity: 1; r: 3; }
-  16.666% { fill-opacity: 0.9; r: 2.9; }
-  16.667% { fill-opacity: 0.8; r: 2.8; }
-  33.333% { fill-opacity: 0.7; r: 2.7; }
-  50% { fill-opacity: 0.6; r: 2.6; }
-  66.666% { fill-opacity: 0.5; r: 2.5; }
-  66.666% { fill-opacity: 0.4; r: 2.4; }
-  83.333% { fill-opacity: 0.3; r: 2.3; }
-  100% { fill-opacity: 0.2; r: 2.2; }
-`;
-
-const UserFileListItemSVG = styled.svg`
-  width: ${pxIntoRem(48)};
-  height: ${pxIntoRem(66)};
-  margin-top: ${pxIntoRem(24)};
-  margin-left: ${pxIntoRem(24)};
-  .UploadCircle1 {
-    animation: ${UploadingAnimation} 1.5s infinite;
-  }
-  .UploadCircle2 {
-    animation: ${UploadingAnimation} 1.5s infinite 0.25s;
-  }
-  .UploadCircle3 {
-    animation: ${UploadingAnimation} 1.5s infinite 0.5s;
-  }
-  .UploadCircle4 {
-    animation: ${UploadingAnimation} 1.5s infinite 0.75s;
-  }
-  .UploadCircle5 {
-    animation: ${UploadingAnimation} 1.5s infinite 1s;
-  }
-  .UploadCircle6 {
-    animation: ${UploadingAnimation} 1.5s infinite 1.25s;
-  }
-  @media (max-width: 500px) {
-    display: none;
-  }
-`;
-
 const UserFileListItemMobileIcon = styled.img`
   display: none;
   width: ${pxIntoRem(34)};
   height: ${pxIntoRem(46)};
   @media (max-width: 500px) {
     display: flex;
-  }
-`;
-
-const UserFileListItemMobileSVG = styled.svg`
-  display: none;
-  width: ${pxIntoRem(38)};
-  height: ${pxIntoRem(50)};
-  .UploadCircle1 {
-    animation: ${UploadingAnimation} 1.5s infinite;
-  }
-  .UploadCircle2 {
-    animation: ${UploadingAnimation} 1.5s infinite 0.25s;
-  }
-  .UploadCircle3 {
-    animation: ${UploadingAnimation} 1.5s infinite 0.5s;
-  }
-  .UploadCircle4 {
-    animation: ${UploadingAnimation} 1.5s infinite 0.75s;
-  }
-  .UploadCircle5 {
-    animation: ${UploadingAnimation} 1.5s infinite 1s;
-  }
-  .UploadCircle6 {
-    animation: ${UploadingAnimation} 1.5s infinite 1.25s;
-  }
-  @media (max-width: 500px) {
-    display: block;
   }
 `;
 
@@ -172,6 +105,7 @@ const UserFileListItemInfoBlock = styled.div`
 const UserFileListItemInfoColumnWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: ${pxIntoRem(-1)};
   @media (max-width: 500px) {
     flex-direction: column;
     width: 100%;
@@ -188,10 +122,8 @@ const UserFileListItemInfoRowWrapper = styled.div`
 `;
 
 const UserFileListItemFilenameBlock = styled.div`
-  position: relative;
   display: flex;
   flex-direction: row;
-  gap: ${pxIntoRem(6)};
   align-items: center;
 `;
 
@@ -210,6 +142,7 @@ const UserFileListItemFilename = styled.h2`
 `;
 
 const UserFileListItemFilenameEdited = styled.img`
+  margin-left: ${pxIntoRem(6)};
   width: ${pxIntoRem(20)};
   height: ${pxIntoRem(20)};
 `;
@@ -225,7 +158,7 @@ const UserFileListItemFileLength = styled.p`
   @media (max-width: 500px) {
     margin-top: ${pxIntoRem(12)};
     margin-left: ${pxIntoRem(14)};
-    &.UploadingItem {
+    &.uploading_item {
       margin-top: ${pxIntoRem(8)};
     }
   }
@@ -241,9 +174,7 @@ const UserFileListItemFileDate = styled.p`
   margin-top: ${pxIntoRem(7)};
   @media (max-width: 500px) {
     margin: ${pxIntoRem(12)} ${pxIntoRem(20)} 0 auto;
-    &.UploadingItem {
-        margin-top: ${pxIntoRem(8)};
-    }
+    margin-right: 0;
   }
 `;
 
@@ -263,7 +194,6 @@ const UserFileListItemFolderName = styled(Link)`
   line-height: normal;
   white-space: nowrap;
   margin-left: ${pxIntoRem(12)};
-  margin-top: ${pxIntoRem(24)};
   &:hover {
     color: #FFF;
   }
@@ -330,7 +260,7 @@ const UserFileListItemOpenButton = styled(Link)`
     box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
     transition: 0.3s;
   }
-  &.isProcessing {
+  &.is_processing {
     border: 1px solid #2D3042;
     pointer-events: none;
   }
@@ -378,10 +308,10 @@ const UserFileListItemOptionsButton = styled.button`
     transition: 0.3s;
     border: 1px solid #1683E2;
   }
-  &.isProcessing {
+  &.is_processing {
     pointer-events: none;
   }
-  &.isUploading {
+  &.is_uploading {
     pointer-events: none;
   }
   @media (max-width: 500px) {
@@ -407,9 +337,7 @@ export {
   UserFileListItemBackgroundLayer,
   UserFileListItemContent,
   UserFileListItemIcon,
-  UserFileListItemSVG,
   UserFileListItemMobileIcon,
-  UserFileListItemMobileSVG,
   UserFileListItemInfoBlock,
   UserFileListItemInfoColumnWrapper,
   UserFileListItemInfoRowWrapper,

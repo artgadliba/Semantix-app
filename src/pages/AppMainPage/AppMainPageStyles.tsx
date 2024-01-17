@@ -99,7 +99,7 @@ const AppMainPageEmptyOutputText = styled.p`
   span {
     color: #FFF;
   }
-  &.additionalTextField {
+  &.additional_text_field {
     margin-top: ${pxIntoRem(-8)};
     font-size: ${pxIntoRem(14)};
     font-weight: 400;
@@ -110,7 +110,7 @@ const AppMainPageEmptyOutputText = styled.p`
     margin-left: ${pxIntoRem(15)};
     margin-right: ${pxIntoRem(15)};
     width: auto;
-    &.additionalTextField {
+    &.additional_text_field {
       margin-left: ${pxIntoRem(15)};
       margin-right: ${pxIntoRem(15)};
       width: auto;

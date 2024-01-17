@@ -108,7 +108,7 @@ const AudioPlayerTimeScale = styled.input`
   background: #1B1D2C;
   cursor: pointer;
   z-index: 9999;
-  &.volumeControl {
+  &.volume_control {
     background: linear-gradient(to right, #1683E2 0%, #1683E2 33%, #1B1D2C 33%, #1B1D2C 100%);
   }
   &::-webkit-slider-thumb {
@@ -148,15 +148,15 @@ const AudioPlayerTimeScalePseudo = styled.div`
   outline: none;
   align-items: center;
   z-index: 1;
-  &.volumeControl {
+  &.volume_control {
     margin: 0 ${pxIntoRem(16)};
   }
   @media (max-width: 500px) {
     display: none;
-    &.volumeControl {
+    &.volume_control {
         display: flex;
     }
-    &.mobilePlayer {
+    &.mobile_player {
       display: flex;
       width: calc(100% - ${pxIntoRem(30)});
       margin: ${pxIntoRem(13)} ${pxIntoRem(15)} ${pxIntoRem(16)} ${pxIntoRem(15)};

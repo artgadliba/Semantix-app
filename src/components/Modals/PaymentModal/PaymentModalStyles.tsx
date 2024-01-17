@@ -1,19 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
 
-const PaymentModalBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.70);
-`;
-
 const PaymentModalContent = styled.div`
   display: flex;
   width: ${pxIntoRem(450)};
@@ -26,13 +13,6 @@ const PaymentModalContent = styled.div`
     width: 90vw;
     height: auto;
   }
-`;
-
-const PaymentModalBackgroundLayer = styled.div`
-  border-radius: ${pxIntoRem(12)};
-  background: #16161F;
-  width: 100%;
-  height: 100%;
 `;
 
 const PaymentModalTitle = styled.h1`
@@ -98,6 +78,14 @@ const PaymentModalOptionButton = styled.button`
     transition: 0.3s;
     background: #2F2F48;
   }
+  &:focus-visible ${PaymentModalOptionElementArrow} {
+    transition: 0.3s;
+    stroke: #1683E2;
+  }
+  &:focus-visible {
+    transition: 0.3s;
+    background: #2F2F48;
+  }
   @media (max-width: 500px) {
     width: auto;
   }
@@ -124,28 +112,6 @@ const PaymentModalOptionElementTitle = styled.h2`
   }
 `;
 
-const PaymentModalClose = styled.button`
-  position: absolute;
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  top: ${pxIntoRem(16)};
-  right: ${pxIntoRem(16)};
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
-const PaymentModalCloseIcon = styled.svg`
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  stroke: #79768B;
-  transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
-  } 
-`;
-
 const PaymentModalLine = styled.div`
   position: relative;
   display: block;
@@ -160,12 +126,8 @@ const PaymentModalLine = styled.div`
 `;
 
 export {
-  PaymentModalBlock,
   PaymentModalContent,
-  PaymentModalBackgroundLayer,
   PaymentModalTitle,
-  PaymentModalClose,
-  PaymentModalCloseIcon,
   PaymentModalInstruction,
   PaymentModalOptionsBlock,
   PaymentModalOptionButton,

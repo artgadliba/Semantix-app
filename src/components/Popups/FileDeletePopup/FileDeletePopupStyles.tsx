@@ -1,19 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
 
-const FileDeletePopupBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.70);
-`;
-
 const FileDeletePopupContent = styled.div`
   display: flex;
   width: ${pxIntoRem(450)};
@@ -67,7 +54,7 @@ const FileDeletePopupMessage = styled.p`
   span {
     color: #FFF;
   }
-  .mobile-break {
+  .mobile_break {
     display: none;
   }
   @media (max-width: 500px) {
@@ -112,6 +99,10 @@ const FileDeletePopupButton = styled.button`
     border: 1px solid #FFF;
     transition: 0.3s;
   }
+  &:focus {
+    border: 1px solid #FFF;
+    transition: 0.3s;
+  }
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} 0 ${pxIntoRem(20)};
     width: 80vw;
@@ -122,36 +113,11 @@ const FileDeletePopupButton = styled.button`
   }
 `;
 
-const FileDeletePopupClose = styled.button`
-  position: absolute;
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  top: ${pxIntoRem(16)};
-  right: ${pxIntoRem(16)};
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
-const FileDeletePopupCloseIcon = styled.svg`
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  stroke: #79768B;
-  transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
-  } 
-`;
-
 export {
-  FileDeletePopupBlock,
   FileDeletePopupContent,
   FileDeletePopupBackgroundLayer,
   FileDeletePopupTitle,
   FileDeletePopupMessage,
   FileDeletePopupButtonsBlock,
-  FileDeletePopupButton,
-  FileDeletePopupClose,
-  FileDeletePopupCloseIcon
+  FileDeletePopupButton
 };

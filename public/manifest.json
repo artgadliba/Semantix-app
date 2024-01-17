@@ -1,16 +1,16 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.svg",
-      "sizes": "48x48 72x72 96x96 128x128 256x256 512x512",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
-}
+    "short_name": "Semantix",
+    "name": "Semantix - распознавание речи из аудио и видео в текст",
+    "icons": [
+      {
+        "src": "favicon.svg",
+        "sizes": "48x48 72x72 96x96 128x128 256x256 512x512",
+        "type": "image/svg+xml",
+        "purpose": "any"
+      }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#252637",
+    "background_color": "#040512"
+  }

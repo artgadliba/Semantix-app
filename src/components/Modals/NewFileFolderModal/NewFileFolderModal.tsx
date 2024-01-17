@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from "react";
-import { 
-    NewFileFolderModalBlock,
+import {
     NewFileFolderModalContent,
-    NewFileFolderModalBackgroundLayer,
     NewFileFolderModalTitle,
     NewFileFolderModalSelectBlock,
     NewFileFolderModalSelectLabel,
@@ -10,18 +8,18 @@ import {
     NewFileFolderModalSelectBackgroundLayer,
     NewFileFolderModalInputField,
     NewFileFolderModalMainButton,
-    NewFileFolderModalClose,
-    NewFileFolderModalCloseIcon,
     NewFileFolderModalInstruction,
     NewFileFolderModalMenuButton,
     NewFileFolderModalMenuButtonIcon
 } from "./NewFileFolderModalStyles";
+import { ModalCloseComponent } from "components/ModalCloseComponent/ModalCloseComponent";
 import LargeComboBox from "components/LargeComboBox/LargeComboBox";
-import ModalOutsideClose from "../ModalOutsideCloseBlockStyles";
+import { ModalOutsideClose, ModalExternalBlock, ModalBackgroundLayer } from "components/Mixins/Mixins";
 import axios from "axios";
+import FocusTrap from "focus-trap-react";
 import { useSelector, useDispatch } from "react-redux";
+import { setUploadFolder } from "slices/uploadFolderSlice";
 import { RootState } from "slices";
-import { setUpdateFolderList } from "slices/updateFolderListSlice";
 
 interface IAppFolderObj {
     id: number;
@@ -31,29 +29,30 @@ interface IAppFolderObj {
 interface INewFileFolderModal {
     onClose(): any;
     openNewFolderModal?: () => void;
-    setCurrentFolder:(folder: IAppFolderObj) => any;
     openNewFileModal(): any;
-    currentFolderName: string;
 }
 
-const NewFileFolderModal: FC<INewFileFolderModal> =  (props) => {
-    const {onClose, openNewFolderModal, setCurrentFolder, openNewFileModal, currentFolderName} = props;
+const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderModal, openNewFileModal}) => {
     const dispatch = useDispatch();
-    const updateFolderList = useSelector((state: RootState) => state.updateFolderList.value);
     const [folderList, setFolderList] = useState<Array<IAppFolderObj>>([]);
     const [menuActive, setMenuActive] = useState<boolean>(false);
+    const folder = useSelector((state: RootState) => state.uploadFolder.value);
+
+    useEffect(() => {
+        if (folder) {
+            setMenuActive(false);
+        }
+    }, [folder]);
+
+    useEffect(() => {
+        handleRequestUserFolders();
+    },[]);
 
     const toggleMenuActive = () => {
         setMenuActive(current => !current);
     }
 
-    useEffect(() => {
-        if (currentFolderName) {
-            setMenuActive(false);
-        }
-    }, [currentFolderName]);
-
-    useEffect(() => {
+    const handleRequestUserFolders = () => {
         if (localStorage.getItem("jwt-tokens")) {
             axios.get("/api/folders/0,0", {
                 headers: {
@@ -68,7 +67,6 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  (props) => {
                 if (list) {
                     setFolderList(list);
                 }
-                localStorage.setItem("folders", JSON.stringify(list));
             })
             .catch((err) => {
                 if (err.headers && "jwt-tokens" in err.headers) {
@@ -77,77 +75,63 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  (props) => {
                 console.log(err);
             })
         }
-    },[]);
+    }
 
-    useEffect(() => {
-        if (updateFolderList === true) {
-            const list = JSON.parse(localStorage.getItem("folders"));
-            if (list) {
-                setFolderList(list);
-                dispatch(setUpdateFolderList(false));
-            }
-        }
-    }, [updateFolderList]); 
-
-    useEffect(() => {
-        const list = JSON.parse(localStorage.getItem("folders"));
-        if (list) {
-            setFolderList(list);
-        }
-    }, []);
-    
     return (
-        <NewFileFolderModalBlock>
-            <ModalOutsideClose onClick={() => { setCurrentFolder(null); onClose(); }}>
-            </ModalOutsideClose>
-            <NewFileFolderModalContent>
-                <NewFileFolderModalClose onClick={() => { setCurrentFolder(null); onClose(); }}>
-                    <NewFileFolderModalCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
-                    </NewFileFolderModalCloseIcon>
-                </NewFileFolderModalClose>
-                <NewFileFolderModalBackgroundLayer>
-                    <form onSubmit={() => { onClose(); openNewFileModal(); }}>
-                        <NewFileFolderModalTitle>Новый файл</NewFileFolderModalTitle>
-                        <NewFileFolderModalInstruction>Выберите папку, в которой будет храниться файл</NewFileFolderModalInstruction>
-                        <NewFileFolderModalSelectBlock>
-                            <NewFileFolderModalSelectLabel htmlFor="FolderInput">Выбор папки</NewFileFolderModalSelectLabel>
-                            <NewFileFolderModalSelectComponent>
-                                <NewFileFolderModalSelectBackgroundLayer>
-                                    <NewFileFolderModalInputField 
-                                        id="FolderInput" 
-                                        type="text"
-                                        disabled value={currentFolderName}
+        <FocusTrap focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
+            <ModalExternalBlock>
+                <ModalOutsideClose onClick={() => { dispatch(setUploadFolder(null)); onClose(); }}>
+                </ModalOutsideClose>
+                <NewFileFolderModalContent>
+                    <ModalBackgroundLayer>
+                        <form onSubmit={() => { onClose(); openNewFileModal(); }}>
+                            <NewFileFolderModalTitle>Новый файл</NewFileFolderModalTitle>
+                            <NewFileFolderModalInstruction>
+                                Выберите папку, в которой будет храниться файл
+                            </NewFileFolderModalInstruction>
+                            <NewFileFolderModalSelectBlock>
+                                <NewFileFolderModalSelectLabel htmlFor="folder_input">
+                                    Выбор папки
+                                </NewFileFolderModalSelectLabel>
+                                <NewFileFolderModalSelectComponent>
+                                    <NewFileFolderModalSelectBackgroundLayer>
+                                        <NewFileFolderModalInputField 
+                                            id="folder_input" 
+                                            type="text"
+                                            disabled value={folder ? folder.name : ""}
+                                        />
+                                        <NewFileFolderModalMenuButton 
+                                            type="button" 
+                                            onClick={() => { handleRequestUserFolders(); toggleMenuActive(); }}
+                                        >
+                                            <NewFileFolderModalMenuButtonIcon 
+                                                alt="icon" 
+                                                src={menuActive ? "/images/folders-opened.svg" : "/images/folders-closed.svg"}
+                                            />
+                                        </NewFileFolderModalMenuButton>
+                                    </NewFileFolderModalSelectBackgroundLayer>
+                                </NewFileFolderModalSelectComponent>
+                                {menuActive === true && (
+                                    <LargeComboBox 
+                                        addFolderActive={true}
+                                        setMenuActive={setMenuActive}
+                                        openNewFolderModal={openNewFolderModal}
+                                        items={folderList}
                                     />
-                                    <NewFileFolderModalMenuButton type="button" onClick={toggleMenuActive}>
-                                        {menuActive === true ? (
-                                            <NewFileFolderModalMenuButtonIcon alt="open" src="/images/folders-opened.svg" />
-                                        ) : (
-                                            <NewFileFolderModalMenuButtonIcon alt="open" src="/images/folders-closed.svg" />
-                                        )}
-                                    </NewFileFolderModalMenuButton>
-                                </NewFileFolderModalSelectBackgroundLayer>
-                            </NewFileFolderModalSelectComponent>
-                            {menuActive === true && (
-                                <LargeComboBox 
-                                    addFolderActive={true}
-                                    setCurrentFolder={setCurrentFolder}
-                                    setMenuActive={setMenuActive}
-                                    openNewFolderModal={openNewFolderModal}
-                                    items={folderList}
-                                />
-                            )}
-                        </NewFileFolderModalSelectBlock>
-                        <NewFileFolderModalMainButton 
-                            disabled={currentFolderName == undefined} 
-                            type="submit"
-                        >
-                            Далее
-                        </NewFileFolderModalMainButton>
-                    </form>
-                </NewFileFolderModalBackgroundLayer>
-            </NewFileFolderModalContent>
-        </NewFileFolderModalBlock>
+                                )}
+                            </NewFileFolderModalSelectBlock>
+                            <NewFileFolderModalMainButton 
+                                disabled={!folder}
+                                type="submit"
+                            >
+                                Далее
+                            </NewFileFolderModalMainButton>
+                        </form>
+                    </ModalBackgroundLayer>
+                    <ModalCloseComponent onClose={onClose} />
+                </NewFileFolderModalContent>
+            </ModalExternalBlock>
+        </FocusTrap>
     );
 }
 

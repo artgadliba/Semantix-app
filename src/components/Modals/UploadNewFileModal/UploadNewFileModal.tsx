@@ -1,6 +1,5 @@
 import React, { FC, useRef, useEffect, useState } from "react";
-import { 
-    UploadNewFileModalBlock,
+import {
     UploadNewFileModalContent,
     UploadNewFileModalBackgroundLayer,
     UploadNewFileModalTitle,
@@ -15,8 +14,6 @@ import {
     UploadNewFileModalCheckboxLabel,
     UploadNewFileModalMainButton,
     UploadNewFileModalLine,
-    UploadNewFileModalClose,
-    UploadNewFileModalCloseIcon,
     UploadNewFileModalFilesBlock,
     UploadNewFileModalFile,
     UploadNewFileModalFilesShortcut,
@@ -27,86 +24,119 @@ import {
     UploadNewFileModalFilesMobileWrapper,
     UploadNewFileModalFilesError
 } from "./UploadNewFileModalStyles";
-import { 
-    FileUploadPopupBlock,
+import {
     FileUploadPopupContent,
     FileUploadPopupBackgroundLayer,
     FileUploadPopupTitle,
     FileUploadPopupMessage,
     FileUploadPopupProgressBar,
-    FileUploadPopupCancelButton,
-    FileUploadPopupClose,
-    FileUploadPopupCloseIcon,
+    FileUploadPopupCancelButton
 } from "./FileUploadPopupStyles";
+import { ModalCloseComponent } from "components/ModalCloseComponent/ModalCloseComponent";
+import { ModalOutsideClose, ModalExternalBlock } from "components/Mixins/Mixins";
 import { humanFileSize } from "utils/fileSizeToReadable";
 import axios from "axios";
 import { getItemsLength } from "utils/getItemsLength";
 import { convertTimeToReadable } from "utils/convertTimeToReadable";
-import ModalOutsideClose from "../ModalOutsideCloseBlockStyles";
-
-interface IAppFolderObj {
-    id: number;
-    name: string;
-}
+import { setUpdateFileList } from "slices/updateFileListSlice";
+import FocusTrap from "focus-trap-react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "slices";
+import { setUploadFolder } from "slices/uploadFolderSlice";
 
 interface IUploadNewFileModal {
     onClose(): any;
     openMessModal(): any;
-    setCurrentFolder:(folder: IAppFolderObj) => any;
-    folder: {
-        id: number;
-        name: string;
-    }
 }
 
-const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, setCurrentFolder, folder}) => {
+const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) => {
     const inputRef = useRef(null);
+    const dispatch = useDispatch();
     const abortControllerRef = useRef<AbortController>(new AbortController());
     const [data, setData] = useState<Array<File>>([]);
     const [checkboxNoise, setCheckboxNoise] = useState<boolean>(false);
     const [checkboxVoiceNorm, setCheckboxVoiceNorm] = useState<boolean>(false);
     const [checkboxFrequency, setCheckboxFrequency] = useState<boolean>(false);
-    const [fileFormatError, setFileFormatError] = useState<boolean>(false);
     const [uploadProcess, setUploadProcess] = useState<boolean>(false);
     const [filesSize, setFilesSize] = useState<string>("");
+    const [fileError, setFileError] = useState<string>(null);
     const [fileProgress, setFileProgress] = useState<number>(null);
     const [remainingTime, setRemainingTime] = useState<number>(null);
+    const [key, setKey] = useState<number>(0);
+    const [initialFocus, setInitialFocus] = useState<any>(false);
+    const folder = useSelector((state: RootState) => state.uploadFolder.value);
+
+    useEffect(() => {
+        const controller = abortControllerRef.current;
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     const handleDrop = function(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
         e.stopPropagation();
-        var fileBatchSize: number = 0;
+        let fileBatchSize: number = 0;
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             const files: Array<File> = [];
             for (let i = 0; i < e.dataTransfer.files.length; i ++) {
+                if (e.dataTransfer.files[i].size === 0) {
+                    setFileError("Часть файлов не была загружена из-за нулевого размера");
+                    continue;
+                }
+                if (data.length > 0) {
+                    if (checkFileDuplicates(e.dataTransfer.files[i])) {
+                        setFileError("Обнаружены файлы дубликаты, которые не были загружены");
+                        continue;
+                    }
+                }
+                if (!checkFileExt(e.dataTransfer.files[i])) {
+                    setFileError("Обнаружены файлы c недопустимым разрешением, которые не были загружены");
+                    continue;
+                }
                 files.push(e.dataTransfer.files[i]);
                 fileBatchSize += e.dataTransfer.files[i].size;
             }
-            if (files.length === e.dataTransfer.files.length) {
-                if (checkFilesExt(files) === true) {
-                    setData((currentFiles) => [...currentFiles, ...files]);
-                    setFilesSize(humanFileSize(fileBatchSize));
-                }
-            }
+            setData((currentFiles) => [...currentFiles, ...files]);
+            setFilesSize(humanFileSize(fileBatchSize));
+            setInitialFocus("#upload_button");
+            setKey(current => current + 1);
         }
     };
 
     const handleChange = function(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
-        var fileBatchSize: number = 0;
+        let fileBatchSize: number = 0;
         const target = (e.target as HTMLInputElement);
         if (target.files && target.files[0]) {
             const files: Array<File> = [];
-            for (let i = 0; i < target.files.length; i ++) {
+            let numOfFiles = target.files.length
+            if (numOfFiles > 50) {
+                setFileError("Превышен лимит количества загружаемых файлов. Будут загружены только первые 50 файлов.");
+                numOfFiles = 50;
+            }
+            for (let i = 0; i < numOfFiles; i ++) {
+                if (target.files[i].size === 0) {
+                    setFileError("Часть файлов не будут загружены из-за нулевого размера");
+                    continue;
+                }
+                if (data.length > 0) {
+                    if (checkFileDuplicates(target.files[i])) {
+                        setFileError("Обнаружены файлы дубликаты, которые не будут загружены");
+                        continue;
+                    }
+                }
+                if (!checkFileExt(target.files[i])) {
+                    setFileError("Обнаружены файлы c недопустимым разрешением, которые не будут загружены");
+                    continue;
+                }
                 files.push(target.files[i]);
                 fileBatchSize += e.target.files[i].size;
             }
-            if (files.length === target.files.length) {
-                if (checkFilesExt(files) === true) {
-                    setData((currentFiles) => [...currentFiles, ...files]);
-                    setFilesSize(humanFileSize(fileBatchSize));
-                }
-            }
+            setData((currentFiles) => [...currentFiles, ...files]);
+            setFilesSize(humanFileSize(fileBatchSize));
+            setInitialFocus("#upload_button");
+            setKey(current => current + 1);
         }
     };
 
@@ -131,45 +161,43 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, s
         setData(newData);
     }
 
-    const checkFilesExt = (files: File[]) => {
-        for (let i = 0; i < files.length; i ++) {
-            const ext = files[i].name.match(/\.([^\.]+)$/)[1];
-            switch (ext) {
-                case 'mp4':
-                case 'mp3':
-                case 'mpeg':
-                case 'mpg':
-                case 'mov':
-                case 'mkv':
-                case 'mxf':
-                case 'avi':
-                case 'mts':
-                case '3gp':
-                case 'amr':
-                case 'wav':
-                case 'flv':
-                case 'mov':
-                case 'wmv':
-                case 'm4a':
-                case 'ogg':
-                case 'aac':
-                case 'flac':
-                case 'wma':
-                    console.log(files[i], " allowed");
-                    break;
-                default:
-                    console.log(files[i], " not allowed");
-                    setFileFormatError(true);
-                    return false;
-            }
-            if (i === files.length - 1) {
-                setFileFormatError(false);
+    const checkFileDuplicates = (file: File) => {
+        return data.find(function(existingFile) {
+            return existingFile.name === file.name;
+        })
+    }
+
+    const checkFileExt = (file: File) => {
+        const ext = file.name.match(/\.([^\.]+)$/)[1];
+        switch (ext) {
+            case 'mp3':
+            case 'mpeg':
+            case 'mpg':
+            case 'mov':
+            case 'mkv':
+            case 'mxf':
+            case 'avi':
+            case 'mts':
+            case '3gp':
+            case 'amr':
+            case 'wav':
+            case 'flv':
+            case 'mov':
+            case 'wmv':
+            case 'm4a':
+            case 'ogg':
+            case 'aac':
+            case 'flac':
+            case 'wma':
+            case 'mp4':
                 return true;
-            }
+            default:
+                return false;
         }
     }
 
-    const handleFileUpload = () => {
+    const handleFileUpload = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         if (data.length > 0 && localStorage.getItem("jwt-tokens") && folder) {
             const config = {
                 folder: {
@@ -201,9 +229,9 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, s
                 if (res.headers && "jwt-tokens" in res.headers) {
                     localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
                 }
+                dispatch(setUpdateFileList());
                 onClose();
                 openMessModal();
-                console.log(res);
             })
             .catch(function(thrown) {
                 if (axios.isCancel(thrown)) {
@@ -218,77 +246,98 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, s
                 console.log(err);
             })
             setUploadProcess(true);
+            setKey(1);
         }
     }
-
-    useEffect(() => {
-        const controller = abortControllerRef.current;
-        return () => {
-            controller.abort();
-        };
-    }, []);
    
     if (uploadProcess === false) {
         return (
-            <UploadNewFileModalBlock>
-                <ModalOutsideClose onClick={() => { setCurrentFolder(null); onClose(); }}></ModalOutsideClose>
-                <UploadNewFileModalContent>
-                    <UploadNewFileModalClose onClick={() => { setCurrentFolder(null); onClose(); }}>
-                        <UploadNewFileModalCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
-                        </UploadNewFileModalCloseIcon>
-                    </UploadNewFileModalClose>
-                    <UploadNewFileModalBackgroundLayer>
-                        <form onSubmit={handleFileUpload}>
-                            <UploadNewFileModalTitle>Новый файл</UploadNewFileModalTitle>
-                            {data.length == 0 ? (
-                                <UploadNewFileModalInputFileBlock 
-                                    id="input_file"
-                                    onSubmit={(e) => e.preventDefault()}
-                                    onDragOver={(e) => e.preventDefault()}
-                                    onDrop={handleDrop}
-                                >
-                                    {fileFormatError === true && (
-                                        <UploadNewFileModalFilesError>
-                                            Ошибка: неверный формат файла
-                                        </UploadNewFileModalFilesError>
-                                    )} 
-                                    <UploadNewFileModalInputFileField 
-                                        type="file"
-                                        accept=".mp3,.mpeg,.mpg,.mov,.mkv,.mxf,.avi,.mts,.3gp,.amr,.wav,.flv,.mov,.wmv,.m4a,.ogg,.aac,.flac,.wma"
-                                        id="inputFileField" 
-                                        multiple={true} 
-                                        ref={inputRef}
-                                        onChange={handleChange}
-                                    />
-                                    <UploadNewFileModalInputFileInstruction>Перетащите изображение в выделенную область или<br></br> нажимите “Выбрать файл”</UploadNewFileModalInputFileInstruction>
-                                    <UploadNewFileModalInputFileButton type="button" onClick={onButtonClick}>
-                                        Выбрать файл
-                                    </UploadNewFileModalInputFileButton>
-                                    <UploadNewFileModalInputFileLimitText>Максимальный размер файлов не более 2GB</UploadNewFileModalInputFileLimitText>
-                                </UploadNewFileModalInputFileBlock>
-                            ) : (
-                                <UploadNewFileModalInputFileBlock 
-                                    id="input_file"
-                                    onSubmit={(e) => e.preventDefault()}
-                                    onDragOver={(e) => e.preventDefault()}
-                                    onDrop={handleDrop}
-                                >   
-                                    {fileFormatError === true && (
-                                        <UploadNewFileModalFilesError>
-                                            Ошибка: неверный формат файла
-                                        </UploadNewFileModalFilesError>
-                                    )} 
-                                    <UploadNewFileModalInputFileField 
-                                        type="file"
-                                        accept=".mp3,.mpeg,.mpg,.mov,.mkv,.mxf,.avi,.mts,.3gp,.amr,.wav,.flv,.mov,.wmv,.m4a,.ogg,.aac,.flac,.wma"
-                                        id="inputFileField" 
-                                        multiple={true} 
-                                        ref={inputRef}
-                                        onChange={handleChange}
-                                    />
-                                    <UploadNewFileModalFilesBlock>
-                                        {data.slice(0, 3).map((d, idx) => (
+            <FocusTrap key={key} focusTrapOptions={{ initialFocus: initialFocus, clickOutsideDeactivates: true }}>
+                <ModalExternalBlock>
+                    <ModalOutsideClose onClick={() => { dispatch(setUploadFolder(null)); onClose(); }} />
+                    <UploadNewFileModalContent>
+                        <UploadNewFileModalBackgroundLayer>
+                            <form onSubmit={(e) => { handleFileUpload(e); }}>
+                                <UploadNewFileModalTitle>Новый файл</UploadNewFileModalTitle>
+                                {data.length == 0 ? (
+                                    <UploadNewFileModalInputFileBlock 
+                                        id="input_file"
+                                        onSubmit={(e) => e.preventDefault()}
+                                        onDragOver={(e) => e.preventDefault()}
+                                        onDrop={handleDrop}
+                                    >
+                                        {fileError && (
+                                            <UploadNewFileModalFilesError>
+                                                {fileError}
+                                            </UploadNewFileModalFilesError>
+                                        )} 
+                                        <UploadNewFileModalInputFileField 
+                                            type="file"
+                                            accept=".mp3,.mpeg,.mpg,.mov,.mkv,.mxf,.avi,.mts,.3gp,.amr,.wav,.flv,.mov,.wmv,.m4a,.ogg,.aac,.flac,.wma,.mp4"
+                                            id="input_file_field" 
+                                            multiple={true} 
+                                            ref={inputRef}
+                                            onChange={handleChange}
+                                        />
+                                        <UploadNewFileModalInputFileInstruction>Перетащите изображение в выделенную область или<br/> нажимите “Выбрать файл”</UploadNewFileModalInputFileInstruction>
+                                        <UploadNewFileModalInputFileButton type="button" onClick={onButtonClick}>
+                                            Выбрать файл
+                                        </UploadNewFileModalInputFileButton>
+                                        <UploadNewFileModalInputFileLimitText>Допускается отправка не более 50 файлов общим размером до 2Гб</UploadNewFileModalInputFileLimitText>
+                                    </UploadNewFileModalInputFileBlock>
+                                ) : (
+                                    <UploadNewFileModalInputFileBlock 
+                                        id="input_file"
+                                        onSubmit={(e) => e.preventDefault()}
+                                        onDragOver={(e) => e.preventDefault()}
+                                        onDrop={handleDrop}
+                                    >   
+                                        {fileError && (
+                                            <UploadNewFileModalFilesError>
+                                                {fileError}
+                                            </UploadNewFileModalFilesError>
+                                        )} 
+                                        <UploadNewFileModalInputFileField 
+                                            type="file"
+                                            accept=".mp3,.mpeg,.mpg,.mov,.mkv,.mxf,.avi,.mts,.3gp,.amr,.wav,.flv,.mov,.wmv,.m4a,.ogg,.aac,.flac,.wma"
+                                            id="input_file_field" 
+                                            multiple={true} 
+                                            ref={inputRef}
+                                            onChange={handleChange}
+                                        />
+                                        <UploadNewFileModalFilesBlock>
+                                            {data.slice(0, 3).map((d, idx) => (
+                                                    <UploadNewFileModalFile key={idx}>
+                                                        {getSlicedFilename(d.name)}
+                                                        <UploadNewFileModalFileDeleteButton
+                                                            type="button"
+                                                            onClick={() => {removeFileFromUploadList(d.name)}} 
+                                                        />
+                                                    </UploadNewFileModalFile>
+                                            ))}
+                                            {getItemsLength(data.length) > 0 && (
+                                                <UploadNewFileModalFilesShortcut>
+                                                    {`...(${getItemsLength(data.length)})`}
+                                                </UploadNewFileModalFilesShortcut>
+                                            )}
+                                        </UploadNewFileModalFilesBlock>
+                                        <UploadNewFileModalButtonsBlock>
+                                            <UploadNewFileModalActionButton type="button" onClick={onButtonClick}>
+                                                Выбрать файл
+                                            </UploadNewFileModalActionButton>
+                                            <UploadNewFileModalActionButton type="button" onClick={() => { setData([]); }}>
+                                                Отменить
+                                            </UploadNewFileModalActionButton>
+                                        </UploadNewFileModalButtonsBlock>
+                                        <UploadNewFileModalInputFileLimitText>
+                                            Использовано <span>{filesSize}</span> из <span>2GB</span>
+                                        </UploadNewFileModalInputFileLimitText>
+                                    </UploadNewFileModalInputFileBlock>
+                                )}
+                                {data.length > 0 ? (
+                                    <UploadNewFileModalFilesMobileWrapper>
+                                        <UploadNewFileModalFilesMobileBlock>
+                                            {data.slice(0, 3).map((d, idx) => (
                                                 <UploadNewFileModalFile key={idx}>
                                                     {getSlicedFilename(d.name)}
                                                     <UploadNewFileModalFileDeleteButton
@@ -296,140 +345,108 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal, s
                                                         onClick={() => {removeFileFromUploadList(d.name)}} 
                                                     />
                                                 </UploadNewFileModalFile>
-                                        ))}
-                                        {getItemsLength(data.length) > 0 && (
-                                            <UploadNewFileModalFilesShortcut>
-                                                {`...(${getItemsLength(data.length)})`}
-                                            </UploadNewFileModalFilesShortcut>
-                                        )}
-                                    </UploadNewFileModalFilesBlock>
-                                    <UploadNewFileModalButtonsBlock>
-                                        <UploadNewFileModalActionButton type="button" onClick={onButtonClick}>
-                                            Выбрать файл
-                                        </UploadNewFileModalActionButton>
-                                        <UploadNewFileModalActionButton type="button" onClick={() => { setData([]); }}>
-                                            Отменить
-                                        </UploadNewFileModalActionButton>
-                                    </UploadNewFileModalButtonsBlock>
-                                    <UploadNewFileModalInputFileLimitText>
-                                        Использовано <span>{filesSize}</span> из <span>2GB</span>
+                                            ))}
+                                            {getItemsLength(data.length) > 0 && (
+                                                <UploadNewFileModalFilesShortcut>
+                                                    {`...(${getItemsLength(data.length)})`}
+                                                </UploadNewFileModalFilesShortcut>
+                                            )}
+                                        </UploadNewFileModalFilesMobileBlock>
+                                        <UploadNewFileModalButtonsBlock>
+                                            <UploadNewFileModalActionButton id="upload_button" type="button" onClick={onButtonClick}>
+                                                Добавить файл
+                                            </UploadNewFileModalActionButton>
+                                            <UploadNewFileModalActionButton type="button" onClick={onClose}>
+                                                Отменить
+                                            </UploadNewFileModalActionButton>
+                                        </UploadNewFileModalButtonsBlock>
+                                        <UploadNewFileModalInputFileLimitText className="mobile_text">
+                                            Использовано <span>{filesSize}</span> из <span>2GB</span>
+                                        </UploadNewFileModalInputFileLimitText>
+                                    </UploadNewFileModalFilesMobileWrapper>
+                                ) : (
+                                    <>
+                                    <UploadNewFileModalInputFileButton 
+                                        className="mobile_upload"
+                                        type="button"
+                                        onClick={onButtonClick}
+                                    >
+                                        Выбрать файл
+                                    </UploadNewFileModalInputFileButton>
+                                    <UploadNewFileModalInputFileLimitText className="mobile_text">
+                                        Максимальный размер файлов не более 2GB
                                     </UploadNewFileModalInputFileLimitText>
-                                </UploadNewFileModalInputFileBlock>
-                            )}
-                            {data.length > 0 ? (
-                                <UploadNewFileModalFilesMobileWrapper>
-                                    <UploadNewFileModalFilesMobileBlock>
-                                        {data.slice(0, 3).map((d, idx) => (
-                                            <UploadNewFileModalFile key={idx}>
-                                                {getSlicedFilename(d.name)}
-                                                <UploadNewFileModalFileDeleteButton
-                                                    type="button"
-                                                    onClick={() => {removeFileFromUploadList(d.name)}} 
-                                                />
-                                            </UploadNewFileModalFile>
-                                        ))}
-                                        {getItemsLength(data.length) > 0 && (
-                                            <UploadNewFileModalFilesShortcut>
-                                                {`...(${getItemsLength(data.length)})`}
-                                            </UploadNewFileModalFilesShortcut>
-                                        )}
-                                    </UploadNewFileModalFilesMobileBlock>
-                                    <UploadNewFileModalButtonsBlock>
-                                        <UploadNewFileModalActionButton type="button" onClick={onButtonClick}>
-                                            Добавить файл
-                                        </UploadNewFileModalActionButton>
-                                        <UploadNewFileModalActionButton type="button" onClick={onClose}>
-                                            Отменить
-                                        </UploadNewFileModalActionButton>
-                                    </UploadNewFileModalButtonsBlock>
-                                    <UploadNewFileModalInputFileLimitText className="mobileText">
-                                        Использовано <span>{filesSize}</span> из <span>2GB</span>
-                                    </UploadNewFileModalInputFileLimitText>
-                                </UploadNewFileModalFilesMobileWrapper>
-                            ) : (
-                                <>
-                                <UploadNewFileModalInputFileButton 
-                                    className="mobile-upload"
-                                    type="button"
-                                    onClick={onButtonClick}
-                                >
-                                    Выбрать файл
-                                </UploadNewFileModalInputFileButton>
-                                <UploadNewFileModalInputFileLimitText className="mobileText">
-                                    Максимальный размер файлов не более 2GB
-                                </UploadNewFileModalInputFileLimitText>
-                                </>
-                            )}
-                            <UploadNewFileModalLine />
-                            <UploadNewFileModalAdjustmentsText>
-                                Какой-то текст про настройки
-                            </UploadNewFileModalAdjustmentsText>
-                            <UploadNewFileModalCheckboxBlock>
-                                <UploadNewFileModalCheckboxInput 
-                                    type="checkbox" 
-                                    id="checkbox-first" 
-                                    checked={checkboxNoise} 
-                                    onClick={() => {setCheckboxNoise(current => !current)}}
-                                />
-                                <UploadNewFileModalCheckboxLabel htmlFor="checkbox-first">
-                                    Шумоподавление
-                                </UploadNewFileModalCheckboxLabel>
-                                <UploadNewFileModalCheckboxInput 
-                                    type="checkbox"
-                                    id="checkbox-second"
-                                    checked={checkboxVoiceNorm} 
-                                    onClick={() => {setCheckboxVoiceNorm(current => !current)}} 
-                                />
-                                <UploadNewFileModalCheckboxLabel htmlFor="checkbox-second">
-                                    Нормализация голоса
-                                </UploadNewFileModalCheckboxLabel>
-                                <UploadNewFileModalCheckboxInput 
-                                    type="checkbox"
-                                    id="checkbox-third"
-                                    checked={checkboxFrequency} 
-                                    onClick={() => {setCheckboxFrequency(current => !current)}}
-                                />
-                                <UploadNewFileModalCheckboxLabel htmlFor="checkbox-third">
-                                    Частотный фильтр
-                                </UploadNewFileModalCheckboxLabel>
-                            </UploadNewFileModalCheckboxBlock>
-                            <UploadNewFileModalLine />
-                            <UploadNewFileModalMainButton disabled={data.length === 0} type="submit">
-                                Загрузить файл
-                            </UploadNewFileModalMainButton>
-                        </form>
-                    </UploadNewFileModalBackgroundLayer>
-                </UploadNewFileModalContent>
-            </UploadNewFileModalBlock>
+                                    </>
+                                )}
+                                <UploadNewFileModalLine />
+                                <UploadNewFileModalAdjustmentsText>
+                                    Какой-то текст про настройки
+                                </UploadNewFileModalAdjustmentsText>
+                                <UploadNewFileModalCheckboxBlock>
+                                    <UploadNewFileModalCheckboxInput 
+                                        type="checkbox" 
+                                        id="checkbox_first" 
+                                        defaultChecked={checkboxNoise} 
+                                        onClick={() => {setCheckboxNoise(current => !current)}}
+                                    />
+                                    <UploadNewFileModalCheckboxLabel htmlFor="checkbox_first">
+                                        Шумоподавление
+                                    </UploadNewFileModalCheckboxLabel>
+                                    <UploadNewFileModalCheckboxInput 
+                                        type="checkbox"
+                                        id="checkbox_second"
+                                        defaultChecked={checkboxVoiceNorm} 
+                                        onClick={() => {setCheckboxVoiceNorm(current => !current)}} 
+                                    />
+                                    <UploadNewFileModalCheckboxLabel htmlFor="checkbox_second">
+                                        Нормализация голоса
+                                    </UploadNewFileModalCheckboxLabel>
+                                    <UploadNewFileModalCheckboxInput 
+                                        type="checkbox"
+                                        id="checkbox_third"
+                                        defaultChecked={checkboxFrequency} 
+                                        onClick={() => {setCheckboxFrequency(current => !current)}}
+                                    />
+                                    <UploadNewFileModalCheckboxLabel htmlFor="checkbox_third">
+                                        Частотный фильтр
+                                    </UploadNewFileModalCheckboxLabel>
+                                </UploadNewFileModalCheckboxBlock>
+                                <UploadNewFileModalLine />
+                                <UploadNewFileModalMainButton disabled={data.length === 0} type="submit">
+                                    Загрузить файл
+                                </UploadNewFileModalMainButton>
+                            </form>
+                        </UploadNewFileModalBackgroundLayer>
+                        <ModalCloseComponent onClose={onClose} />
+                    </UploadNewFileModalContent>
+                </ModalExternalBlock>
+            </FocusTrap>
         );
     } else if (uploadProcess === true) {
         return (
-            <FileUploadPopupBlock >
-                <ModalOutsideClose onClick={() => { onClose(); abortControllerRef.current.abort(); }}>
-                </ModalOutsideClose>
-                <FileUploadPopupContent>
-                    <FileUploadPopupClose onClick={() => { onClose(); abortControllerRef.current.abort(); }}>
-                        <FileUploadPopupCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
-                        </FileUploadPopupCloseIcon>
-                    </FileUploadPopupClose>
-                    <FileUploadPopupBackgroundLayer>
-                        <FileUploadPopupTitle>Загрузка файлов</FileUploadPopupTitle>
-                        <FileUploadPopupMessage>
-                            Осталось до окончания загрузки: <br className="mobile-break"></br><span> {convertTimeToReadable(remainingTime)}</span>
-                        </FileUploadPopupMessage>
-                        <FileUploadPopupProgressBar max="100" value={fileProgress}/>
-                        <form onSubmit={() => { onClose(); abortControllerRef.current.abort(); }}>
-                            <FileUploadPopupCancelButton type="submit">
-                                Отменить
-                            </FileUploadPopupCancelButton>
-                        </form>
-                    </FileUploadPopupBackgroundLayer>
-                </FileUploadPopupContent>
-            </FileUploadPopupBlock>
+            <FocusTrap key={key} focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
+                <ModalExternalBlock >
+                    <ModalOutsideClose onClick={() => { onClose(); abortControllerRef.current.abort(); }}>
+                    </ModalOutsideClose>
+                    <FileUploadPopupContent>
+                        <FileUploadPopupBackgroundLayer>
+                            <FileUploadPopupTitle>Загрузка файлов</FileUploadPopupTitle>
+                            <FileUploadPopupMessage>
+                                Осталось до окончания загрузки: <br/><span> {convertTimeToReadable(remainingTime)}</span>
+                            </FileUploadPopupMessage>
+                            <FileUploadPopupProgressBar max="100" value={fileProgress}/>
+                            <form onSubmit={() => { onClose(); abortControllerRef.current.abort(); }}>
+                                <FileUploadPopupCancelButton type="submit">
+                                    Отменить
+                                </FileUploadPopupCancelButton>
+                            </form>
+                        </FileUploadPopupBackgroundLayer>
+                        <ModalCloseComponent onClose={onClose} />
+                    </FileUploadPopupContent>
+                </ModalExternalBlock>
+            </FocusTrap>
         );
     }
-    
 }
 
 export default UploadNewFileModal;

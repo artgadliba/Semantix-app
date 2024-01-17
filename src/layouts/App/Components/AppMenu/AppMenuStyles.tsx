@@ -1,13 +1,14 @@
 import styled from "styled-components";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import pxIntoRem from "utils/pxIntoRem";
 
 const AppMenuBlock = styled.div`
   position: fixed;
-  flex-direction: column;
   width: ${pxIntoRem(256)};
-  height: 100%;
   background: #040512;
+  overflow: auto;
+  overflow-x: hidden;
+  height: 100%;
   @media (max-width: 500px) {
     display: none;
   }
@@ -16,7 +17,8 @@ const AppMenuBlock = styled.div`
 const AppMenuBackgroundBlock = styled.div`
   position: relative;
   width: ${pxIntoRem(256)};
-  height: 100%;
+  height: auto;
+  min-height: calc(100% - 1px);
   box-shadow: ${pxIntoRem(10)} 0px ${pxIntoRem(64)} 0px #00000040;
   border-radius: 0px ${pxIntoRem(24)} ${pxIntoRem(24)} 0px;
   &:before {
@@ -38,7 +40,7 @@ const AppMenuBackgroundBlock = styled.div`
 const AppMenuBackgroundLayer = styled.div`
   position: absolute;
   width: calc(${pxIntoRem(256)} - 1px);
-  height: calc(100% - 2px);
+  height: calc(100% - 1px);
   margin-top: 1px;
   border-radius: 0px ${pxIntoRem(24)} ${pxIntoRem(24)} 0px;
   backdrop-filter: blur(102px);
@@ -47,11 +49,18 @@ const AppMenuBackgroundLayer = styled.div`
   z-index: 1;
 `;
 
+const AppMenuUpperBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
 const AppMenuLogoBlock = styled.div`
   width: ${pxIntoRem(138)};
   height: ${pxIntoRem(31)};
   margin-left: ${pxIntoRem(24)};
   margin-top: ${pxIntoRem(24)};
+  z-index: 1;
   @media (max-width: 500px) {
     width: ${pxIntoRem(116)};
     height: ${pxIntoRem(27)};
@@ -120,18 +129,9 @@ const AppMenuActiveBlock = styled.div`
   display: none;
 `;
 
-const AppMenuSectionExpandIconClosed = styled.img`
+const AppMenuSectionExpandIcon = styled.img`
   margin-left: ${pxIntoRem(36)};
   margin-top: ${pxIntoRem(2)};
-  width: ${pxIntoRem(19)};
-  height: ${pxIntoRem(19)};
-  z-index: 999;
-`;
-
-const AppMenuSectionExpandIconOpened = styled.img`
-  display: none;
-  margin-left: ${pxIntoRem(36)};
-  margin-top: ${pxIntoRem(1)};
   width: ${pxIntoRem(19)};
   height: ${pxIntoRem(19)};
   z-index: 999;
@@ -174,17 +174,11 @@ const AppMenuSectionFilesLinkButton = styled.button`
   width: fit-content;
   margin-left: ${pxIntoRem(16)};
   background: transparent;
-  &.foldersMenuActive {
+  &.folders_menu_active {
     pointer-events: none;
   }
-  &.foldersMenuActive ~ ${AppMenuSectionExpandWrapper} {
+  &.folders_menu_active ~ ${AppMenuSectionExpandWrapper} {
     display: flex;
-  }
-  &.foldersMenuActive ${AppMenuSectionExpandIconOpened} {
-    display: flex;
-  }
-  &.foldersMenuActive ${AppMenuSectionExpandIconClosed} {
-    display: none;
   }
   &:hover ${AppMenuSectionTitle} {
     color: #FFF;
@@ -192,13 +186,13 @@ const AppMenuSectionFilesLinkButton = styled.button`
   &:hover ${AppMenuSectionIcon} {
     stroke: #1683E2;
   }
-  &.foldersMenuActive ${AppMenuSectionTitle} {
+  &.folders_menu_active ${AppMenuSectionTitle} {
     color: #FFF;
   }
-  &.foldersMenuActive ${AppMenuSectionIcon} {
+  &.folders_menu_active ${AppMenuSectionIcon} {
     stroke: #1683E2;
   }
-  &.foldersMenuActive ${AppMenuActiveBlock} {
+  &.folders_menu_active ${AppMenuActiveBlock} {
     display: flex;
   }
 `;
@@ -208,7 +202,7 @@ const AppMenuActiveBackgroundLayer = styled.div`
   width: 100%;
   height: 100%;
   border-radius: ${pxIntoRem(12)};
-  background: var(--bg, rgba(28, 29, 40, 0.40));
+  background: rgba(28, 29, 40, 0.40);
   overflow: hidden;
 `;
 
@@ -224,14 +218,32 @@ const AppMenuActiveBlurredCircle = styled.div`
   z-index: 99;
 `;
 
+interface IMenuHeight {
+    $height: number;
+}
+
+const AppMiddleBlock = styled.div<IMenuHeight>`
+  position: relative;
+  display: block;
+  height: ${props => `${props.$height}px`};
+`;
+
+const AppMenuBottomBlock = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: ${pxIntoRem(318)};
+`;
+
 const AppMenuBalanceBlock = styled.div`
-  position: fixed;
+  position: relative;
   display: flex;
   flex-direction: column;
   width: ${pxIntoRem(208)};
   height: ${pxIntoRem(150)};
   margin-left: ${pxIntoRem(24)};
-  bottom: ${pxIntoRem(128)};
+  margin-bottom: ${pxIntoRem(24)};
 `;
 
 const AppMenuBalanceBackground = styled.div`
@@ -353,11 +365,11 @@ const AppMenuBalanceAddButton = styled(Link)`
 `;
 
 const AppMenuContactLink = styled.div`
-  position: fixed;
+  position: relative;
   display: flex;
-  justify-content: center;
-  left: ${pxIntoRem(24)};
-  bottom: ${pxIntoRem(86)};
+  margin-left: ${pxIntoRem(24)};
+  margin-bottom: ${pxIntoRem(12)};
+  z-index: 1;
 `;
 
 const AppMenuContactLinkTitle = styled.h2`
@@ -370,11 +382,11 @@ const AppMenuContactLinkTitle = styled.h2`
 `;
 
 const AppMenuContactsLinkBlock = styled.div`
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: row;
-  left: ${pxIntoRem(24)};
-  bottom: ${pxIntoRem(32)};
+  margin-left: ${pxIntoRem(24)};
+  margin-bottom: ${pxIntoRem(32)};
   gap: ${pxIntoRem(12)};
 `;
 
@@ -428,6 +440,7 @@ export {
   AppMenuBlock,
   AppMenuBackgroundBlock,
   AppMenuBackgroundLayer,
+  AppMenuUpperBlock,
   AppMenuLogoBlock,
   AppMenuLogo,
   AppMenuSectionsBlock,
@@ -435,12 +448,13 @@ export {
   AppMenuSectionFilesLinkButton,
   AppMenuSectionIcon,
   AppMenuSectionTitle,
-  AppMenuSectionExpandIconClosed,
-  AppMenuSectionExpandIconOpened,
+  AppMenuSectionExpandIcon,
   AppMenuSectionExpandWrapper,
   AppMenuActiveBlock,
   AppMenuActiveBackgroundLayer,
   AppMenuActiveBlurredCircle,
+  AppMiddleBlock,
+  AppMenuBottomBlock,
   AppMenuBalanceBlock,
   AppMenuBalanceBackground,
   AppMenuBalanceBackgroundLayer,

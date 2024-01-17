@@ -1,18 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-
-const PasswordRecoveryModalBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.70);
-`;
+import { MainButtonStyles, TooltipIcon } from "components/Mixins/Mixins";
 
 const PasswordRecoveryModalContent = styled.div`
   display: flex;
@@ -28,12 +16,6 @@ const PasswordRecoveryModalContent = styled.div`
     width: 90vw;
     height: auto;
   }
-`;
-
-const PasswordRecoveryModalBackgroundLayer = styled.div`
-  border-radius: ${pxIntoRem(12)};
-  background: #16161F;
-  width: 100%;
 `;
 
 const PasswordRecoveryModalTitle = styled.h1`
@@ -107,7 +89,7 @@ const PasswordRecoveryModalInputComponent = styled.div`
   display: flex;
   position: relative;
   margin-top: ${pxIntoRem(6)};
-  height: ${pxIntoRem(42)} !important;
+  height: ${pxIntoRem(42)};
   padding: 1px;
   border-radius: ${pxIntoRem(10)};
   background: linear-gradient(180deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%);
@@ -119,7 +101,17 @@ const PasswordRecoveryModalInputBackgroundLayer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  height: ${pxIntoRem(40)} !important;
+  align-items: center;
+  height: ${pxIntoRem(40)};
+`;
+
+const PasswordRecoveryModalInputActiveField = styled.div`
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: ${pxIntoRem(10)};
+  border: 1px solid rgba(57, 57, 75, 1);
 `;
 
 const PasswordRecoveryModalInputField = styled.input`
@@ -138,6 +130,12 @@ const PasswordRecoveryModalInputField = styled.input`
   &:-webkit-autofill,
   &:-webkit-autofill:focus {
     transition: background-color 600000s 0s, color 600000s 0s;
+  }
+  &:focus-visible + ${PasswordRecoveryModalInputActiveField} {
+    display: block;
+  }
+  @media (max-width: 500px) {
+    font-size: ${pxIntoRem(16)};
   }
 `;
 
@@ -173,12 +171,11 @@ const PasswordRecoveryModalInputButtonIcon = styled.svg`
 `;
 
 const PasswordRecoveryModalInputButton = styled.button`
-  position: relative;
+  position: absolute;
   width: ${pxIntoRem(20)};
   heigth: ${pxIntoRem(20)};
   background: transparent;
-  margin-left: auto;
-  margin-right: ${pxIntoRem(16)};
+  right: ${pxIntoRem(16)};
   z-index: 9999;
   align-items: center;
   justify-content: center;
@@ -191,38 +188,15 @@ const PasswordRecoveryModalInputButton = styled.button`
   & > * {
     pointer-events: none;
   }
+  &:focus-visible {
+    border-radius: ${pxIntoRem(4)};
+    outline: 1px solid rgba(22, 131, 226, 1);
+    outline-offset: -1px;
+  }
 `;
 
 const PasswordRecoveryModalMainButton = styled.button`
-  display: flex;
-  position: relative;
-  width: ${pxIntoRem(386)};
-  height: ${pxIntoRem(42)};
-  padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
-  justify-content: center;
-  align-items: center;
-  border-radius: ${pxIntoRem(8)};
-  background: #1683E2;
-  margin: ${pxIntoRem(24)} ${pxIntoRem(32)} ${pxIntoRem(32)} ${pxIntoRem(32)};
-  color: #FFF;
-  font-family: Mulish;
-  font-size: ${pxIntoRem(14)};
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  cursor: pointer;
-  transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
-  }
-  &:disabled {
-    border: 1px solid #2D3042;
-    color: #2D3042;
-    background: transparent;
-    pointer-events: none;
-  }
+  ${MainButtonStyles}
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});
@@ -242,28 +216,6 @@ const PasswordRecoveryModalLoginLink = styled.p`
   margin-bottom: ${pxIntoRem(32)};
   a {
     color: #FFF;
-  }
-`;
-
-const PasswordRecoveryModalClose = styled.button`
-  position: absolute;
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  top: ${pxIntoRem(16)};
-  right: ${pxIntoRem(16)};
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
-const PasswordRecoveryModalCloseIcon = styled.svg`
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  stroke: #79768B;
-  transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
   }
 `;
 
@@ -292,12 +244,6 @@ const PasswordRecoveryModalInputError = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  &.passwordError {
-    position: absolute;
-    top: ${pxIntoRem(68)};
-    right: 0;
-    margin: 0;
-  }
 `;
 
 const PasswordRecoveryModalPasswordStrength = styled.div`
@@ -309,18 +255,15 @@ const PasswordRecoveryModalPasswordStrength = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-left: ${pxIntoRem(6)};
-  &.StrongPassword {
+  &.pass_strong {
     color: green;
   }
-  &.RepeatPassword {
+  &.pass_not_match {
+    color: rgba(255, 21, 21, 0.8);
+  }
+  &.pass_match {
     color: green;
   }
-`;
-
-const PasswordRecoveryModalTooltipIcon = styled.svg`
-  width: ${pxIntoRem(18)};
-  height: ${pxIntoRem(18)};
-  fill: #1B1D2C;
 `;
 
 const PasswordRecoveryModalTooltipButton = styled.button`
@@ -334,7 +277,11 @@ const PasswordRecoveryModalTooltipButton = styled.button`
   margin-left: ${pxIntoRem(6)};
   z-index: 9999;
   transition: 0.3s;
-  &:hover ${PasswordRecoveryModalTooltipIcon} {
+  &:hover ${TooltipIcon} {
+    transition: 0.3s;
+    fill: #1683E2;
+  }
+  &:focus-visible ${TooltipIcon} {
     transition: 0.3s;
     fill: #1683E2;
   }
@@ -398,9 +345,7 @@ const PasswordRecoveryModalTooltipBlockText = styled.p`
 `;
 
 export {
-  PasswordRecoveryModalBlock,
   PasswordRecoveryModalContent,
-  PasswordRecoveryModalBackgroundLayer,
   PasswordRecoveryModalTitle,
   PasswordRecoveryModalInstruction,
   PasswordRecoveryModalInputBlock,
@@ -409,18 +354,16 @@ export {
   PasswordRecoveryModalInputComponent,
   PasswordRecoveryModalInputBackgroundLayer,
   PasswordRecoveryModalInputField,
+  PasswordRecoveryModalInputActiveField,
   PasswordRecoveryModalInputButtonIcon,
   PasswordRecoveryModalInputButton,
   PasswordRecoveryModalMainButton,
   PasswordRecoveryModalLoginLink,
-  PasswordRecoveryModalClose,
-  PasswordRecoveryModalCloseIcon,
   PasswordRecoveryModalBottomError,
   PasswordRecoveryModalInputError,
   PasswordRecoveryModalPasswordStrength,
   PasswordRecoveryModalShowPassword,
   PasswordRecoveryModalTooltipButton,
-  PasswordRecoveryModalTooltipIcon,
   PasswordRecoveryModalTooltipBlock,
   PasswordRecoveryModalTooltipBlockText
 };

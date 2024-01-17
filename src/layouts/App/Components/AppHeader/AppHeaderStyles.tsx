@@ -42,7 +42,7 @@ const AppHeaderSectionTitleBlock = styled.div`
   @media (max-width: 500px) {
     display: none;
   }
-  &.mobileTitleBlock {
+  &.mobile_title_block {
     display: none;
     @media (max-width: 500px) {
         display: flex;
@@ -59,7 +59,7 @@ const AppHeaderSectionTitle = styled.h1`
   font-weight: 600;
   line-height: normal;
   margin-left: ${pxIntoRem(40)};
-  &.mobileTitle {
+  &.mobile_title_block__section {
     @media (max-width: 500px) {
         display: flex;
         margin: ${pxIntoRem(24)} ${pxIntoRem(0)} ${pxIntoRem(24)} ${pxIntoRem(15)};

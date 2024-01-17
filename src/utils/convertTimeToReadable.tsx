@@ -1,9 +1,8 @@
 export function convertTimeToReadable(time: number): string {
-    var value: number;
-    var noun: string;
+    let value: number;
+    let noun: string;
     if (time < 60) {
-        value = Math.round(time);
-        noun = getNoun(value, "секунда", "секунды", "секунд");
+        return "< 1 минуты";
     } else {
         value = Math.round(time / 60);
         noun = getNoun(value, "минута", "минуты", "минут");
@@ -18,7 +17,7 @@ function getNoun(number: number, one: string, two: string, plural: string) {
       return plural;
     }
     n %= 10;
-    if (n == 1) {
+    if (n === 1) {
       return one;
     }
     if (n >= 2 && n <= 4) {

@@ -166,19 +166,11 @@ const AppHeaderBurgerActiveBlock = styled.div`
   display: none;
 `;
 
-const AppHeaderBurgerSectionExpandIconClosed = styled.img`
+const AppHeaderBurgerSectionExpandIcon = styled.img`
   margin: ${pxIntoRem(2)} ${pxIntoRem(15)} 0 auto;
   width: ${pxIntoRem(19)};
   height: ${pxIntoRem(19)};
-  z-index: 999999999999;
-`;
-
-const AppHeaderBurgerSectionExpandIconOpened = styled.img`
-  display: none;
-  margin: ${pxIntoRem(2)} ${pxIntoRem(15)} 0 auto;
-  width: ${pxIntoRem(19)};
-  height: ${pxIntoRem(19)};
-  z-index: 999999999999;
+  z-index: 999;
 `;
 
 const AppHeaderBurgerSectionExpandWrapper = styled.div`
@@ -216,16 +208,10 @@ const AppHeaderBurgerSectionLinkButton = styled.button`
   flex-direction: row;
   align-items: center;
   background: transparent;
-  &.foldersMenuActive {
+  &.folders_menu_active {
     pointer-events: none;
   }
-  &.foldersMenuActive ~ ${AppHeaderBurgerSectionExpandIconOpened} {
-    display: flex;
-  }
-  &.foldersMenuActive ~ ${AppHeaderBurgerSectionExpandIconClosed} {
-    display: none;
-  }
-  &.foldersMenuActive ~ ${AppHeaderBurgerSectionExpandWrapper} {
+  &.folders_menu_active ~ ${AppHeaderBurgerSectionExpandWrapper} {
     display: flex;
   }
   &:hover ${AppHeaderBurgerSectionTitle} {
@@ -234,13 +220,13 @@ const AppHeaderBurgerSectionLinkButton = styled.button`
   &:hover ${AppHeaderBurgerSectionIcon} {
     stroke: #1683E2;
   }
-  &.foldersMenuActive ${AppHeaderBurgerSectionTitle} {
+  &.folders_menu_active ${AppHeaderBurgerSectionTitle} {
     color: #FFF;
   }
-  &.foldersMenuActive ${AppHeaderBurgerSectionIcon} {
+  &.folders_menu_active ${AppHeaderBurgerSectionIcon} {
     stroke: #1683E2;
   }
-  &.foldersMenuActive ${AppHeaderBurgerActiveBlock} {
+  &.folders_menu_active ${AppHeaderBurgerActiveBlock} {
     display: flex;
   }
 `;
@@ -479,8 +465,7 @@ export {
   AppHeaderBurgerActiveBlock,
   AppHeaderBurgerSectionIcon,
   AppHeaderBurgerSectionTitle,
-  AppHeaderBurgerSectionExpandIconClosed,
-  AppHeaderBurgerSectionExpandIconOpened,
+  AppHeaderBurgerSectionExpandIcon,
   AppHeaderBurgerBalanceBackgroundLayer,
   AppHeaderBurgerSectionExpandWrapper,
   AppHeaderBurgerContactsLinkBlock,

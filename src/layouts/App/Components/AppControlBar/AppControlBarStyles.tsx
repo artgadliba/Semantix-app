@@ -73,6 +73,9 @@ const AppControlBarSearchInput = styled.input`
   background: transparent;
   text-overflow: ellipsis;
   overflow: hidden;
+  @media (max-width: 500px) {
+    font-size: ${pxIntoRem(16)};
+  }
 `;
 
 const AppControlBarSearchInputIcon = styled.img`
@@ -147,7 +150,7 @@ const AppControlBarFilterButtonMobile = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${pxIntoRem(42)} !important;
+  width: ${pxIntoRem(42)};
   height: ${pxIntoRem(42)};
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #2D3042;

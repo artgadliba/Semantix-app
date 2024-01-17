@@ -33,17 +33,16 @@ interface IFileEdit {
     }
 }
 
-interface IText {
-    text: string;
-    start: number;
-}
-
 const FileEdit: FC<IFileEdit> = ({playerRef, setIsPlaying, data}) => {
     const [groupedSegments, setGroupedSegments] = useState([]);
 
+    useEffect(() => {
+        groupSegments(10);
+    }, []);
+
     const groupSegments = (n: number) => {
-        var group: any = [];
-        for (var i = 0, j = 0; i < data.segments.length; i++) {
+        let group: any = [];
+        for (let i = 0, j = 0; i < data.segments.length; i++) {
             if (i >= n && i % n === 0) {
                 group[j] = group[j].flat();
                 j++;
@@ -67,9 +66,9 @@ const FileEdit: FC<IFileEdit> = ({playerRef, setIsPlaying, data}) => {
     }
 
     const groupText = (segment): string => {
-        var text: string = "";
+        let text: string = "";
         for (let i = 0; i < segment.length; i ++) {
-            var textSegment = segment[i].text;
+            let textSegment = segment[i].text;
             if (i === 0) {
                 textSegment = textSegment.trimStart();
             }
@@ -79,10 +78,6 @@ const FileEdit: FC<IFileEdit> = ({playerRef, setIsPlaying, data}) => {
             }
         }
     }
-
-    useEffect(() => {
-        groupSegments(10);
-    }, []);
 
     if (groupedSegments) {
         return (

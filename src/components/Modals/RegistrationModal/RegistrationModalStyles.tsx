@@ -1,18 +1,7 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import pxIntoRem from "../../../utils/pxIntoRem";
-
-const RegistrationModalBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.70);
-`;
+import { MainButtonStyles, TooltipIcon, InputButtonIcon } from "components/Mixins/Mixins";
 
 const RegistrationModalContent = styled.div`
   display: flex;
@@ -28,12 +17,6 @@ const RegistrationModalContent = styled.div`
     width: 90vw;
     height: auto;
   }
-`; 
-
-const RegistrationModalBackgroundLayer = styled.div`
-  border-radius: ${pxIntoRem(12)};
-  background: #16161F;
-  width: 100%;
 `;
 
 const RegistrationModalTitle = styled.h1`
@@ -105,6 +88,20 @@ const RegistrationModalInputBackgroundLayer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  align-items: center;
+`;
+
+const RegistrationModalInputActiveField = styled.div`
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: ${pxIntoRem(10)};
+  border: 1px solid rgba(57, 57, 75, 1);
 `;
 
 const RegistrationModalInputField = styled.input`
@@ -123,6 +120,12 @@ const RegistrationModalInputField = styled.input`
   &:-webkit-autofill,
   &:-webkit-autofill:focus {
     transition: background-color 600000s 0s, color 600000s 0s;
+  }
+  &:focus-visible + ${RegistrationModalInputActiveField} {
+    display: block;
+  }
+  @media (max-width: 500px) {
+    font-size: ${pxIntoRem(16)};
   }
 `;
 
@@ -153,6 +156,9 @@ const RegistrationModalCheckboxInput = styled.input`
     background: url("/images/checkbox-active.svg");
     background-position: center;
   }
+  &:focus-visible {
+    border: 1px solid rgba(22, 131, 226, 1);
+  }
 `;
 
 const RegistrationModalCheckboxText = styled.p`
@@ -165,43 +171,26 @@ const RegistrationModalCheckboxText = styled.p`
   font-weight: 400;
   line-height: 150%;
   margin-left: ${pxIntoRem(8)};
-  a {
-    color: #FFF;
-    text-decoration-line: underline;
+`;
+
+const RegistrationModalCheckboxLink = styled(Link)`
+  position: relative;
+  width: ${pxIntoRem(358)};
+  color: #FFF;
+  text-decoration-line: underline;
+  font-family: Mulish;
+  font-size: ${pxIntoRem(12)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  margin-left: ${pxIntoRem(8)};
+  &:focus-visible {
+    color: rgba(22, 131, 226, 1);
   }
 `;
 
 const RegistrationModalMainButton = styled.button`
-  display: flex;
-  position: relative;
-  width: ${pxIntoRem(386)};
-  height: ${pxIntoRem(42)};
-  padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
-  justify-content: center;
-  align-items: center;
-  border-radius: ${pxIntoRem(8)};
-  background: #1683E2;
-  margin-top: ${pxIntoRem(20)};
-  margin-left: ${pxIntoRem(32)};
-  color: #FFF;
-  font-family: Mulish;
-  font-size: ${pxIntoRem(14)};
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  cursor: pointer;
-  transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
-  }
-  &:disabled {
-    border: 1px solid #2D3042;
-    color: #2D3042;
-    background: transparent;
-    pointer-events: none;
-  }
+  ${MainButtonStyles}
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} 0 ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});
@@ -219,9 +208,6 @@ const RegistrationModalLoginLink = styled.p`
   line-height: 150%;
   margin-top: ${pxIntoRem(24)};
   margin-bottom: ${pxIntoRem(32)};
-  a {
-    color: #FFF;
-  }
   @media (max-width: 500px) {
     margin-top: ${pxIntoRem(20)};
     margin-bottom: ${pxIntoRem(20)};
@@ -239,37 +225,8 @@ const RegistrationModalLoginButton = styled.button`
   line-height: 150%;
   background: transparent;
   margin-left: ${pxIntoRem(4)};
-`;
-
-const RegistrationModalClose = styled.button`
-  position: absolute;
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  top: ${pxIntoRem(16)};
-  right: ${pxIntoRem(16)};
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
-const RegistrationModalCloseIcon = styled.svg`
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  stroke: #79768B;
-  transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
-  } 
-`;
-
-const RegistrationModalInputButtonIcon = styled.svg`
-  display: flex;
-  width: ${pxIntoRem(20)};
-  heigth: ${pxIntoRem(20)};
-  stroke: #393952;
-  &:hover {
-    stroke: #FFF;
+  &:focus-visible {
+    color: rgba(22, 131, 226, 1);
   }
 `;
 
@@ -295,16 +252,16 @@ const RegistrationModalShowPassword = styled.div`
 `;
 
 const RegistrationModalInputButton = styled.button`
-  position: relative;
+  position: absolute;
+  display: block;
   width: ${pxIntoRem(20)};
   heigth: ${pxIntoRem(20)};
   background: transparent;
-  margin-left: auto;
-  margin-right: ${pxIntoRem(16)};
+  right: ${pxIntoRem(16)};
   z-index: 9999;
   align-items: center;
   justify-content: center;
-  &:hover ${RegistrationModalInputButtonIcon} {
+  &:hover ${InputButtonIcon} {
     stroke: #FFF;
   }
   &:hover + ${RegistrationModalShowPassword} {
@@ -312,6 +269,11 @@ const RegistrationModalInputButton = styled.button`
   }
   & > * {
     pointer-events: none;
+  }
+  &:focus-visible {
+    border-radius: ${pxIntoRem(4)};
+    outline: 1px solid rgba(22, 131, 226, 1);
+    outline-offset: -1px;
   }
 `;
 
@@ -336,18 +298,15 @@ const RegistrationModalPasswordStrength = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-left: ${pxIntoRem(6)};
-  &.StrongPassword {
+  &.pass_strong {
     color: green;
   }
-  &.RepeatPassword {
+  &.pass_not_match {
+    color: rgba(255, 21, 21, 0.8);
+  }
+  &.pass_match {
     color: green;
   }
-`;
-
-const RegistrationModalTooltipIcon = styled.svg`
-  width: ${pxIntoRem(18)};
-  height: ${pxIntoRem(18)};
-  fill: #1B1D2C;
 `;
 
 const RegistrationModalTooltipButton = styled.button`
@@ -361,7 +320,11 @@ const RegistrationModalTooltipButton = styled.button`
   margin-left: ${pxIntoRem(6)};
   z-index: 9999;
   transition: 0.3s;
-  &:hover ${RegistrationModalTooltipIcon} {
+  &:hover ${TooltipIcon} {
+    transition: 0.3s;
+    fill: #1683E2;
+  }
+  &:focus-visible ${TooltipIcon} {
     transition: 0.3s;
     fill: #1683E2;
   }
@@ -425,9 +388,7 @@ const RegistrationModalTooltipBlockText = styled.p`
 `;
 
 export {
-  RegistrationModalBlock,
   RegistrationModalContent,
-  RegistrationModalBackgroundLayer,
   RegistrationModalTitle,
   RegistrationModalInputBlock,
   RegistrationModalInputLabel,
@@ -435,21 +396,19 @@ export {
   RegistrationModalInputComponent,
   RegistrationModalInputBackgroundLayer,
   RegistrationModalInputField,
+  RegistrationModalInputActiveField,
   RegistrationModalCheckboxBlock,
   RegistrationModalCheckboxInput,
   RegistrationModalCheckboxText,
+  RegistrationModalCheckboxLink,
   RegistrationModalMainButton,
   RegistrationModalLoginLink,
   RegistrationModalLoginButton,
-  RegistrationModalClose,
-  RegistrationModalCloseIcon,
   RegistrationModalInputButton,
-  RegistrationModalInputButtonIcon,
   RegistrationModalInputError,
   RegistrationModalPasswordStrength,
   RegistrationModalShowPassword,
   RegistrationModalTooltipButton,
-  RegistrationModalTooltipIcon,
   RegistrationModalTooltipBlock,
   RegistrationModalTooltipBlockText
 };

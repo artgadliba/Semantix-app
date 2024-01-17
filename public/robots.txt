@@ -1,3 +1,20 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: */images/*.svg
+Allow: */images/*.png
+Allow: */images/*.webp
+Allow: */images/*.svg
+Allow: */js/*.js
+Allow: */css/*.css
+Disallow: /app
+Disallow: /*.pdf
+Disallow: /*.xls
+Disallow: /*.doc
+Disallow: /*.ppt
+Disallow: /*.txt
+Disallow: /*utm
+Disallow: /*clid=
+Disallow: /*openstat
+Disallow: /*from
+
+Sitemap: https://semantix.one/sitemap.xml

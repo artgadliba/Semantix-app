@@ -15,7 +15,7 @@ import {
     AudioPlayerVolumeControlBlock,
     AudioPlayerVolumeControlBlockBackgroundLayer
 } from "./AudioPlayerStyles";
-// import track from "../../assets/Python.mp3";
+import track from "../../assets/Python.mp3";
 
 interface IAudioPlayer {
     setPlayerRef: (ref: React.MutableRefObject<any>) => void;
@@ -38,20 +38,23 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
     const [outputFormatDuration, setOutputFormatDuration] = useState<string>("");
     const [currTime, setCurrTime] = useState<ICurrentTime>();
 
-    const { innerWidth: width} = window;
     const audioRef = useRef(null);
     const progressRef = useRef(null);
     
     useEffect(() => {
-        audioRef.current.addEventListener('loadedmetadata', () => {
-            setDuration(audioRef.current.duration);
+        const ref = audioRef.current;
+        ref.addEventListener("loadedmetadata", () => {
+            setDuration(ref.duration);
         });
-        if (audioRef.current.readyState >= 2 && duration === 0) {
-            setDuration(audioRef.current.duration);
+        if (ref.readyState >= 2 && duration === 0) {
+            setDuration(ref.duration);
         }
         setPlayerRef(audioRef);
         setProgressRef(progressRef);
-    },[audioRef]);
+        return () => ref.removeEventListener("loadedmetadata", () => {
+            setDuration(ref.duration);
+        });
+    },[]);
 
     useEffect(() => {
         audioRef.current.volume = volumeValue / 100;
@@ -64,7 +67,7 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
             const hour = Math.floor(min / 60);
             const minRemain = Math.floor(min % 60);
             const secRemain = Math.floor(sec % 60);
-            const formattedTime = `${hour}:${minRemain.toLocaleString('en-US', {minimumIntegerDigits: 2})}:${secRemain.toLocaleString('en-US', {minimumIntegerDigits: 2})}`;
+            const formattedTime = `${hour}:${minRemain.toLocaleString("en-US", {minimumIntegerDigits: 2})}:${secRemain.toLocaleString('en-US', {minimumIntegerDigits: 2})}`;
             setOutputFormatDuration(formattedTime);
         }
     },[duration]);
@@ -75,8 +78,8 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
             const hour = String(Math.floor(audioRef.current.currentTime / 3600));
             const rawMin = Math.floor(audioRef.current.currentTime / 60) - 60 * Number(hour);
             const rawSec = Math.floor(audioRef.current.currentTime % 60);
-            const min = rawMin.toLocaleString('en-US', {minimumIntegerDigits: 2});
-            const sec = rawSec.toLocaleString('en-US', {minimumIntegerDigits: 2});
+            const min = rawMin.toLocaleString("en-US", {minimumIntegerDigits: 2});
+            const sec = rawSec.toLocaleString("en-US", {minimumIntegerDigits: 2});
             setCurrTime({
                 hour,
                 min,
@@ -85,6 +88,8 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
         }, 1000);
         return () => clearInterval(interval);
     }, []);
+
+    const { innerWidth: width} = window;
     
     const playingButton = () => {
         if (isPlaying) {
@@ -110,7 +115,7 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
         ref.style.background = 'linear-gradient(to right, #1683E2 0%, #1683E2 ' + ratio + '%, #1B1D2C ' + ratio + '%, #1B1D2C 100%)';
     }
 
-    var timeout: ReturnType<typeof setTimeout>;
+    let timeout: ReturnType<typeof setTimeout>;
 
     const showVolumeControl = () => {
         clearInterval(timeout);
@@ -130,9 +135,9 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
                 <AudioPlayerVolumeControlArea onMouseEnter={showVolumeControl} onMouseLeave={hideVolumeControl}>
                     <AudioPlayerVolumeControlBlock>
                         <AudioPlayerVolumeControlBlockBackgroundLayer>
-                            <AudioPlayerTimeScalePseudo className="volumeControl">
+                            <AudioPlayerTimeScalePseudo className="volume_control">
                                 <AudioPlayerTimeScale 
-                                    className="volumeControl" 
+                                    className="volume_control" 
                                     type="range" 
                                     min="0" 
                                     max="100" 
@@ -165,7 +170,7 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
                     ) : (
                         <AudioPlayerTimecode>0:00:00 / 0:00:00</AudioPlayerTimecode>
                     )}
-                    <audio preload="metadata" src="" controls={false} ref={audioRef} />
+                    <audio preload="metadata" src={track} controls={false} ref={audioRef} />
                     <AudioPlayerTimeScalePseudo>
                         <AudioPlayerTimeScale
                             type="range"
@@ -190,7 +195,7 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
                     </AudioPlayerVolumeButton>
                 </AudioPlayerMobileRowWrapper>
                 {width < 501 && (
-                    <AudioPlayerTimeScalePseudo className="mobilePlayer">
+                    <AudioPlayerTimeScalePseudo className="mobile_player">
                         <AudioPlayerTimeScale 
                             type="range"
                             min="0"

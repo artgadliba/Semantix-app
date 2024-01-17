@@ -6,8 +6,8 @@ const updateFolderListSlice = createSlice({
       value: false
     },
     reducers: {
-      setUpdateFolderList: (state, action) => {
-        state.value = action.payload;
+      setUpdateFolderList: (state) => {
+        state.value = !state.value;
       }
     }
 })

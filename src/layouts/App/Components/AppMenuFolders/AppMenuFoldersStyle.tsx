@@ -6,6 +6,7 @@ const AppMenuFoldersBlock = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  z-index: 9;
 `;
 
 const AppMenuFoldersAddNewFolderIcon = styled.svg`
@@ -56,7 +57,7 @@ const AppMenuFoldersContent = styled.div`
   flex-direction: column;
   width: 100%;
   height: auto;
-  max-height: ${pxIntoRem(262)};
+  max-height: ${pxIntoRem(156)};
   overflow: auto;
 `;
 

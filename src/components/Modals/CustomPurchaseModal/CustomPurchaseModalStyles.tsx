@@ -1,18 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-
-const CustomPurchaseModalBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.70);
-`;
+import { MainButtonStyles, TooltipIcon } from "components/Mixins/Mixins";
 
 const CustomPurchaseModalContent = styled.div`
   display: flex;
@@ -26,13 +14,6 @@ const CustomPurchaseModalContent = styled.div`
     width: 90vw;
     height: auto;
   }
-`;
-
-const CustomPurchaseModalBackgroundLayer = styled.div`
-  border-radius: ${pxIntoRem(12)};
-  background: #16161F;
-  width: 100%;
-  height: 100%;
 `;
 
 const CustomPurchaseModalTitle = styled.h1`
@@ -95,7 +76,7 @@ const CustomPurchaseModalOptionValue = styled.div`
   span {
     color: #FFF;
   }
-  &.mobile-break {
+  &.mobile_break {
     display: none;
     @media (max-width: 500px) {
         display: flex;
@@ -115,67 +96,18 @@ const CustomPurchaseModalOptionPrice = styled.div`
   @media (max-width: 500px) {
     margin-top: auto;
     margin-bottom: 0;
-    &.lowerPriceBlock {
+    &.lower_price_block {
         display: none;
     }
   }
 `;
 
 const CustomPurchaseModalMainButton = styled.button`
-  position: relative;
-  width: ${pxIntoRem(386)};
-  height: ${pxIntoRem(42)};
-  padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
-  justify-content: center;
-  align-items: center;
-  border-radius: ${pxIntoRem(8)};
-  background: #1683E2;
-  margin: ${pxIntoRem(24)} ${pxIntoRem(32)} ${pxIntoRem(32)} ${pxIntoRem(32)};
-  color: #FFF;
-  font-family: Mulish;
-  font-size: ${pxIntoRem(14)};
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  cursor: pointer;
-  transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
-  }
-  &:disabled {
-    border: 1px solid #2D3042;
-    color: #2D3042;
-    background: transparent;
-    pointer-events: none;
-  }
+  ${MainButtonStyles}
   @media (max-width: 500px) {
     margin: ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});
   }
-`;
-
-const CustomPurchaseModalClose = styled.button`
-  position: absolute;
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  top: ${pxIntoRem(16)};
-  right: ${pxIntoRem(16)};
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
-const CustomPurchaseModalCloseIcon = styled.svg`
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  stroke: #79768B;
-  transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
-  } 
 `;
 
 const CustomPurchaseModalSelectBlock = styled.div`
@@ -194,13 +126,13 @@ const CustomPurchaseModalSelectRowBlock = styled.div`
   width: 100%;
   align-items: center;
   margin-top: ${pxIntoRem(10)};
-  &.mobileBlock {
+  &.mobile_block {
     display: none;
   }
   @media (max-width: 500px) {
     flex-direction: column;
     align-items: start;
-    &.mobileBlock {
+    &.mobile_block {
         flex-direction: row;
         display: flex;
         margin-top: ${pxIntoRem(16)};
@@ -234,7 +166,7 @@ const CustomPurchaseModalSelectTitleTotal = styled.h2`
   margin-right: 0;
   @media (max-width: 500px) {
     display: none;
-    &.mobileTotal {
+    &.mobile_total {
         display: flex;
         margin-left: 0;
     }
@@ -257,9 +189,22 @@ const CustomPurchaseModalSelectComponent = styled.div`
   }
 `;
 
+const CustomPurchaseModalInputActiveField = styled.div`
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: ${pxIntoRem(10)};
+  border: 1px solid rgba(57, 57, 75, 1);
+`;
+
 const CustomPurchaseModalInputField = styled.input`
   position: relative;
-  color: var(--white, #FFF);
+  color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
   font-style: normal;
@@ -272,6 +217,12 @@ const CustomPurchaseModalInputField = styled.input`
   overflow: hidden;
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
+  }
+  &:focus-visible + ${CustomPurchaseModalInputActiveField} {
+    display: block;
+  }
+  @media (max-width: 500px) {
+    font-size: ${pxIntoRem(16)};
   }
 `;
 
@@ -299,6 +250,15 @@ const CustomPurchaseModalSelectUpperButtonBlock = styled.button`
     fill: #FFF;
     transition: 0.3s;
   }
+  &:focus-visible {
+    border-radius: ${pxIntoRem(2)};
+    outline: 1px solid rgba(22, 131, 226, 1);
+    outline-offset: -1px;
+  }
+  &:focus-visible ${CustomPurchaseModalSelectButtonIcon} {
+    fill: #FFF;
+    transition: 0.3s;
+  }
 `;
 
 const CustomPurchaseModalSelectLowerButtonBlock = styled.button`
@@ -312,12 +272,15 @@ const CustomPurchaseModalSelectLowerButtonBlock = styled.button`
     fill: #FFF;
     transition: 0.3s;
   }
-`;
-
-const CustomPurchaseModalTooltipIcon = styled.svg`
-  width: ${pxIntoRem(18)};
-  height: ${pxIntoRem(18)};
-  fill: #1B1D2C;
+  &:focus-visible {
+    border-radius: ${pxIntoRem(2)};
+    outline: 1px solid rgba(22, 131, 226, 1);
+    outline-offset: -1px;
+  }
+  &:focus-visible ${CustomPurchaseModalSelectButtonIcon} {
+    fill: #FFF;
+    transition: 0.3s;
+  }
 `;
 
 const CustomPurchaseModalTooltipButton = styled.button`
@@ -331,7 +294,11 @@ const CustomPurchaseModalTooltipButton = styled.button`
   margin-left: ${pxIntoRem(6)};
   z-index: 9999;
   transition: 0.3s;
-  &:hover ${CustomPurchaseModalTooltipIcon} {
+  &:hover ${TooltipIcon} {
+    transition: 0.3s;
+    fill: #1683E2;
+  }
+  &:focus-visible ${TooltipIcon} {
     transition: 0.3s;
     fill: #1683E2;
   }
@@ -352,8 +319,8 @@ const CustomPurchaseModalTooltipBlock = styled.div<ITooltipBlockPositionType>`
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #202230;
   top: ${({$type}) =>
-    $type === "Базовый" && `${pxIntoRem(193)}` ||
-    $type === "Продвинутый" && `${pxIntoRem(184)}`
+    ($type === "Базовый" && `${pxIntoRem(193)}`) ||
+    ($type === "Продвинутый" && `${pxIntoRem(184)}`)
   };
   left: ${pxIntoRem(194)};
   z-index: 99999999;
@@ -387,8 +354,8 @@ const CustomPurchaseModalTooltipBlock = styled.div<ITooltipBlockPositionType>`
   @media (max-width: 500px) {
     width: ${pxIntoRem(144)};
     top: ${({$type}) =>
-      $type === "Базовый" && `${pxIntoRem(165)}` ||
-      $type === "Продвинутый" && `${pxIntoRem(156)}`
+      ($type === "Базовый" && `${pxIntoRem(165)}`) ||
+      ($type === "Продвинутый" && `${pxIntoRem(156)}`)
     };
     left: ${pxIntoRem(182)};
   }
@@ -405,9 +372,7 @@ const CustomPurchaseModalTooltipBlockText = styled.p`
 `;
 
 export {
-  CustomPurchaseModalBlock,
   CustomPurchaseModalContent,
-  CustomPurchaseModalBackgroundLayer,
   CustomPurchaseModalTitle,
   CustomPurchaseModalLine,
   CustomPurchaseModalRateType,
@@ -415,8 +380,6 @@ export {
   CustomPurchaseModalOptionValue,
   CustomPurchaseModalOptionPrice,
   CustomPurchaseModalMainButton,
-  CustomPurchaseModalClose,
-  CustomPurchaseModalCloseIcon,
   CustomPurchaseModalSelectBlock,
   CustomPurchaseModalSelectRowBlock,
   CustomPurchaseModalSelectLabelMinutes,
@@ -424,12 +387,12 @@ export {
   CustomPurchaseModalSelectTitleTotal,
   CustomPurchaseModalSelectComponent,
   CustomPurchaseModalInputField,
+  CustomPurchaseModalInputActiveField,
   CustomPurchaseModalSelectBackgroundLayer,
   CustomPurchaseModalSelectUpperButtonBlock,
   CustomPurchaseModalSelectLowerButtonBlock,
   CustomPurchaseModalSelectButtonIcon,
   CustomPurchaseModalTooltipButton,
-  CustomPurchaseModalTooltipIcon,
   CustomPurchaseModalTooltipBlock,
   CustomPurchaseModalTooltipBlockText
 };

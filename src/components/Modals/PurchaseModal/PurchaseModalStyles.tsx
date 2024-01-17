@@ -1,18 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-
-const PurchaseModalBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.70);
-`;
+import { MainButtonStyles } from "components/Mixins/Mixins";
 
 const PurchaseModalContent = styled.div`
   display: flex;
@@ -27,13 +15,6 @@ const PurchaseModalContent = styled.div`
     width: 90vw;
     height: auto;
   }
-`;
-
-const PurchaseModalBackgroundLayer = styled.div`
-  border-radius: ${pxIntoRem(12)};
-  background: #16161F;
-  width: 100%;
-  height: 100%;
 `;
 
 const PurchaseModalTitle = styled.h1`
@@ -111,68 +92,20 @@ const PurchaseModalOptionPrice = styled.div`
 `;
 
 const PurchaseModalMainButton = styled.button`
-  position: relative;
-  width: ${pxIntoRem(386)};
-  height: ${pxIntoRem(42)};
-  padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
-  justify-content: center;
-  align-items: center;
-  border-radius: ${pxIntoRem(8)};
-  background: #1683E2;
-  margin-top: ${pxIntoRem(24)};
-  margin-left: ${pxIntoRem(32)};
-  color: #FFF;
-  font-family: Mulish;
-  font-size: ${pxIntoRem(14)};
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  cursor: pointer;
-  transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
-  }
+  ${MainButtonStyles}
   @media (max-width: 500px) {
-    margin: ${pxIntoRem(20)} !important;
+    margin: ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});
   }
 `;
 
-const PurchaseModalClose = styled.button`
-  position: absolute;
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  top: ${pxIntoRem(16)};
-  right: ${pxIntoRem(16)};
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
-const PurchaseModalCloseIcon = styled.svg`
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  stroke: #79768B;
-  transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
-  } 
-`;
-
 export {
-  PurchaseModalBlock,
   PurchaseModalContent,
-  PurchaseModalBackgroundLayer,
   PurchaseModalTitle,
   PurchaseModalLine,
   PurchaseModalRateType,
   PurchaseModalOptionBlock,
   PurchaseModalOptionValue,
   PurchaseModalOptionPrice,
-  PurchaseModalMainButton,
-  PurchaseModalClose,
-  PurchaseModalCloseIcon
+  PurchaseModalMainButton
 };

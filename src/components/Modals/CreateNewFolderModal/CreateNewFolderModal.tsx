@@ -1,8 +1,6 @@
 import { FC, useState } from "react";
-import { 
-    CreateNewFolderModalBlock,
+import {
     CreateNewFolderModalContent,
-    CreateNewFolderModalBackgroundLayer,
     CreateNewFolderModalTitle,
     CreateNewFolderModalInputBlock,
     CreateNewFolderModalInputLabel,
@@ -10,19 +8,20 @@ import {
     CreateNewFolderModalInputComponent,
     CreateNewFolderModalInputBackgroundLayer,
     CreateNewFolderModalInputField,
+    CreateNewFolderModalInputActiveField,
     CreateNewFolderModalMainButton,
-    CreateNewFolderModalClose,
-    CreateNewFolderModalCloseIcon,
     CreateNewFolderModalTooltipButton,
-    CreateNewFolderModalTooltipIcon,
     CreateNewFolderModalTooltipBlock,
     CreateNewFolderModalTooltipBlockText,
     CreateNewFolderModalBottomError
 } from "./CreateNewFolderModalStyles";
-import ModalOutsideClose from "../ModalOutsideCloseBlockStyles";
+import { ModalCloseComponent } from "components/ModalCloseComponent/ModalCloseComponent";
+import { ModalOutsideClose, ModalExternalBlock, ModalBackgroundLayer } from "components/Mixins/Mixins";
+import { TooltipIconSVG } from "components/SvgComponents/TooltipIconSVG";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUpdateFolderList } from "slices/updateFolderListSlice";
+import FocusTrap from "focus-trap-react";
 
 interface ICreateNewFolderModal {
     onClose(): any;
@@ -37,11 +36,18 @@ const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose, setCurrentFo
     
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputData(event.target.value.trim());
-    }
+    };
+
+    const showTipOnClick = () => {
+        setTooltipActive(true);
+        setTimeout(() => {
+            hideTip();
+        }, 5000);
+    };
 
     const showTip = () => {
         setTooltipActive(true);
-      };
+    };
     
     const hideTip = () => {
         setTooltipActive(false);
@@ -49,10 +55,6 @@ const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose, setCurrentFo
 
     const handleCreateFolder = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        var folders = JSON.parse(localStorage.getItem("folders"));
-        if (!folders) {
-            folders = [];
-        }
         axios.post("/api/folders/new", {
             id: 0,
             name: inputData
@@ -65,12 +67,10 @@ const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose, setCurrentFo
             if (res.headers && "jwt-tokens" in res.headers) {
                 localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
             }
-            folders.push(res.data);
-            localStorage.setItem("folders", JSON.stringify(folders));
             if (setCurrentFolderName) {
                 setCurrentFolderName(inputData);
             }
-            dispatch(setUpdateFolderList(true));
+            dispatch(setUpdateFolderList());
             onClose();
         })
         .catch((err) => {
@@ -105,7 +105,7 @@ const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose, setCurrentFo
                     }
                 })
                 .then((res) => {
-                    var folders = JSON.parse(localStorage.getItem("folders"));
+                    let folders = JSON.parse(localStorage.getItem("folders"));
                     if (res.headers && "jwt-tokens" in res.headers) {
                         localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
                     }
@@ -130,62 +130,58 @@ const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose, setCurrentFo
     }
 
     return (
-        <CreateNewFolderModalBlock>
-            <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
-            <CreateNewFolderModalContent>
-                {tooltipActive === true && (
-                    <CreateNewFolderModalTooltipBlock>
-                        <CreateNewFolderModalTooltipBlockText>
-                            Имя папки должно быть длинной от 1 до 50 символов
-                        </CreateNewFolderModalTooltipBlockText>
-                    </CreateNewFolderModalTooltipBlock>
-                )}
-                <CreateNewFolderModalClose onClick={onClose}>
-                    <CreateNewFolderModalCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
-                    </CreateNewFolderModalCloseIcon>
-                </CreateNewFolderModalClose>
-                <CreateNewFolderModalBackgroundLayer>
-                    <CreateNewFolderModalTitle>Новая папка</CreateNewFolderModalTitle>
-                    <form onSubmit={(e) => { handleCreateFolder(e); }}>
-                        <CreateNewFolderModalInputBlock>
-                            <CreateNewFolderModalInputLabelRowWrapper>
-                                <CreateNewFolderModalInputLabel htmlFor="NewFolderInput">Имя папки</CreateNewFolderModalInputLabel>
-                                <CreateNewFolderModalTooltipButton 
-                                    onMouseEnter={showTip} 
-                                    onMouseLeave={hideTip}
-                                    onClick={(e) => { e.preventDefault(); }}
-                                >
-                                    <CreateNewFolderModalTooltipIcon width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="9" cy="9" r="9" />
-                                        <path d="M8.492 13.484V7.116H9.52v6.368H8.492ZM8.365 5.67V4.516h1.269V5.67H8.365Z" fill="#fff"/>
-                                    </CreateNewFolderModalTooltipIcon>
-                                </CreateNewFolderModalTooltipButton>
-                            </CreateNewFolderModalInputLabelRowWrapper>
-                            <CreateNewFolderModalInputComponent>
-                                <CreateNewFolderModalInputBackgroundLayer>
-                                    <CreateNewFolderModalInputField 
-                                        type="text" 
-                                        id="NewFolderInput"
-                                        autoComplete="off"
-                                        onChange={(e) => {handleInput(e)}} 
-                                    />
-                                </CreateNewFolderModalInputBackgroundLayer>
-                            </CreateNewFolderModalInputComponent>
-                        </CreateNewFolderModalInputBlock>
-                        <CreateNewFolderModalMainButton 
-                            disabled={!inputData}
-                            type="submit"
-                        >
-                            Добавить
-                        </CreateNewFolderModalMainButton>
-                    </form>
-                    {errorMessage && (
-                        <CreateNewFolderModalBottomError>{errorMessage}</CreateNewFolderModalBottomError>
+        <FocusTrap focusTrapOptions={{ initialFocus: false }}>
+            <ModalExternalBlock>
+                <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
+                <CreateNewFolderModalContent>
+                    {tooltipActive === true && (
+                        <CreateNewFolderModalTooltipBlock>
+                            <CreateNewFolderModalTooltipBlockText>
+                                Имя папки должно быть длинной от 1 до 50 символов
+                            </CreateNewFolderModalTooltipBlockText>
+                        </CreateNewFolderModalTooltipBlock>
                     )}
-                </CreateNewFolderModalBackgroundLayer>
-            </CreateNewFolderModalContent>
-        </CreateNewFolderModalBlock>
+                    <ModalBackgroundLayer>
+                        <CreateNewFolderModalTitle>Новая папка</CreateNewFolderModalTitle>
+                        <form onSubmit={(e) => { handleCreateFolder(e); }}>
+                            <CreateNewFolderModalInputBlock>
+                                <CreateNewFolderModalInputLabelRowWrapper>
+                                    <CreateNewFolderModalInputLabel htmlFor="new_folder_input">Имя папки</CreateNewFolderModalInputLabel>
+                                    <CreateNewFolderModalTooltipButton 
+                                        onMouseEnter={showTip} 
+                                        onMouseLeave={hideTip}
+                                        onClick={(e) => { e.preventDefault(); showTipOnClick(); }}
+                                    >
+                                        <TooltipIconSVG />
+                                    </CreateNewFolderModalTooltipButton>
+                                </CreateNewFolderModalInputLabelRowWrapper>
+                                <CreateNewFolderModalInputComponent>
+                                    <CreateNewFolderModalInputBackgroundLayer>
+                                        <CreateNewFolderModalInputField 
+                                            type="text" 
+                                            id="new_folder_input"
+                                            autoComplete="off"
+                                            onChange={(e) => { handleInput(e); }} 
+                                        />
+                                        <CreateNewFolderModalInputActiveField />
+                                    </CreateNewFolderModalInputBackgroundLayer>
+                                </CreateNewFolderModalInputComponent>
+                            </CreateNewFolderModalInputBlock>
+                            <CreateNewFolderModalMainButton 
+                                disabled={!inputData}
+                                type="submit"
+                            >
+                                Добавить
+                            </CreateNewFolderModalMainButton>
+                        </form>
+                        {errorMessage && (
+                            <CreateNewFolderModalBottomError>{errorMessage}</CreateNewFolderModalBottomError>
+                        )}
+                    </ModalBackgroundLayer>
+                    <ModalCloseComponent onClose={onClose} />
+                </CreateNewFolderModalContent>
+            </ModalExternalBlock>
+        </FocusTrap>
     );
 }
 

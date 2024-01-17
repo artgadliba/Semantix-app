@@ -58,7 +58,7 @@ const LargeComboBoxBackgroundLayer = styled.div<IAddFolder>`
   ${props => props.$addFolderActive === true && css`
     max-height: ${pxIntoRem(242)}; 
   `}
-  &.empty-content {
+  &.empty_content {
     padding: 0;
   }
 `;
@@ -103,6 +103,9 @@ const LargeComboBoxOptionButton= styled.button`
   &:hover + ${LargeComboBoxOptionActiveBackground} {
     display: flex;
   }
+  &:focus + ${LargeComboBoxOptionActiveBackground} {
+    display: flex;
+  }
 `;
 
 const LargeComboBoxOptionAddFolderBlock = styled.div`
@@ -110,7 +113,7 @@ const LargeComboBoxOptionAddFolderBlock = styled.div`
   width: auto;
   height: ${pxIntoRem(43)};
   margin-top: ${pxIntoRem(10)};
-  &.empty-content-block {
+  &.empty_content__block {
     margin-top: 0;
   }
 `;
@@ -148,7 +151,20 @@ const LargeComboBoxOptionAddFolderButtonBlock = styled.button`
     color: #1668E2;
     transition: 0.3s;
   }
-  &.empty-content-button {
+  &:focus ${LargeComboBoxOptionAddFolderButtonIcon} {
+    stroke: rgba(22, 131, 226, 1);
+    transition: 0.3s;
+  }
+  &:focus ${LargeComboBoxOptionAddFolderButtonTitle} {
+    color: rgba(22, 131, 226, 1);
+    transition: 0.3s;
+  }
+  &:focus {
+    border-radius: ${pxIntoRem(4)};
+    outline: 1px solid rgba(22, 131, 226, 1);
+    outline-offset: -1px;
+  }
+  &.empty_content__block__button {
     margin-top: 0;
     height: 100%;
   }

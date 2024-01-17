@@ -1,18 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-
-const UploadNewFileModalBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.70);
-`;
+import { MainButtonStyles } from "components/Mixins/Mixins";
 
 const UploadNewFileModalContent = styled.div`
   width: ${pxIntoRem(672)};
@@ -90,11 +78,15 @@ const UploadNewFileModalInputFileButton = styled.button`
     transition: 0.3s;
     border: 1px solid #FFF;
   }
-  &.mobile-upload {
+  &:focus-visible {
+    transition: 0.3s;
+    border: 1px solid #FFF;
+  }
+  &.mobile_upload {
     display: none;
   }
   @media (max-width: 500px) {
-    &.mobile-upload {
+    &.mobile_upload {
       display: flex;
       margin: ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(16)} ${pxIntoRem(20)};
       width: 80vw;
@@ -105,20 +97,20 @@ const UploadNewFileModalInputFileButton = styled.button`
 const UploadNewFileModalInputFileLimitText = styled.p`
   postion: relative;
   margin-top: ${pxIntoRem(39)};
-  color: var(--Secondary-text, #79768B);
+  color: #79768B;
   font-family: Mulish;
   font-size: ${pxIntoRem(12)};
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  &.mobileText {
+  &.mobile_text {
     display: none;
   }
   span {
     color: #FFF;
   }
   @media (max-width: 500px) {
-    &.mobileText {
+    &.mobile_text {
       display: block;
       margin: 0 ${pxIntoRem(20)} auto ${pxIntoRem(20)};
       z-index: 999999;
@@ -192,6 +184,9 @@ const UploadNewFileModalCheckboxInput = styled.input`
     background: url("/images/checkbox-active.svg");
     background-position: center;
   }
+  &:focus-visible {
+    border: 1px solid rgba(22, 131, 226, 1);
+  }
   @media (max-width: 500px) {
     margin-left: ${pxIntoRem(20)};
   }
@@ -209,35 +204,8 @@ const UploadNewFileModalCheckboxLabel = styled.label`
 `;
 
 const UploadNewFileModalMainButton = styled.button`
-  display: flex;
-  position: relative;
+  ${MainButtonStyles}
   width: ${pxIntoRem(608)};
-  height: ${pxIntoRem(42)};
-  padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
-  justify-content: center;
-  align-items: center;
-  border-radius: ${pxIntoRem(8)};
-  background: #1683E2;
-  margin: ${pxIntoRem(32)};
-  color: #FFF;
-  font-family: Mulish;
-  font-size: ${pxIntoRem(14)};
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  cursor: pointer;
-  transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
-  }
-  &:disabled {
-    border: 1px solid #2D3042;
-    color: #2D3042;
-    background: transparent;
-    pointer-events: none;
-  }
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});
@@ -251,28 +219,6 @@ const UploadNewFileModalLine = styled.div`
   background: #1D2132;
   z-index: 999999999;
   margin-top: ${pxIntoRem(24)};
-`;
-
-const UploadNewFileModalClose = styled.button`
-  position: absolute;
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  top: ${pxIntoRem(16)};
-  right: ${pxIntoRem(16)};
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
-const UploadNewFileModalCloseIcon = styled.svg`
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  stroke: #79768B;
-  transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
-  } 
 `;
 
 const UploadNewFileModalFilesBlock= styled.div`
@@ -386,6 +332,10 @@ const UploadNewFileModalActionButton = styled.button`
     border: 1px solid #FFF;
     transition: 0.3s;
   }
+  &:focus-visible {
+    border: 1px solid #FFF;
+    transition: 0.3s;
+  }
   @media (max-width: 500px) {
     margin: auto auto 0 auto;
     width: calc(100% - ${pxIntoRem(40)});
@@ -422,7 +372,6 @@ const UploadNewFileModalFilesError = styled.div`
 `;
 
 export {
-  UploadNewFileModalBlock,
   UploadNewFileModalContent,
   UploadNewFileModalBackgroundLayer,
   UploadNewFileModalTitle,
@@ -437,8 +386,6 @@ export {
   UploadNewFileModalCheckboxLabel,
   UploadNewFileModalMainButton,
   UploadNewFileModalLine,
-  UploadNewFileModalClose,
-  UploadNewFileModalCloseIcon,
   UploadNewFileModalFilesBlock,
   UploadNewFileModalFile,
   UploadNewFileModalFilesShortcut,

@@ -126,7 +126,7 @@ const AppBalancePageRatesTable = styled.div`
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
-  &.bottomBlock {
+  &.bottom_block {
     flex-basis: auto;
     width: calc(50% - ${pxIntoRem(12)});
   }
@@ -143,12 +143,12 @@ const AppBalancePageRatesTable = styled.div`
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
-  &.bottomBlock {
+  &.bottom_block {
     margin-bottom: ${pxIntoRem(32)};
   }
   @media (max-width: 500px) {
     width: auto;
-    &.bottomBlock {
+    &.bottom_block {
         width: auto;
     }
   }
@@ -230,7 +230,7 @@ const AppBalancePageRatesTableOptionsBlock = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: ${pxIntoRem(256)} !important;
+  max-height: ${pxIntoRem(256)};
   margin: ${pxIntoRem(16)} auto ${pxIntoRem(24)} ${pxIntoRem(25)};
   border-radius: ${pxIntoRem(16)};
   overflow: hidden;
@@ -252,7 +252,7 @@ const AppBalancePageRatesTableOptionsBlock = styled.div`
   }
   @media (max-width: 500px) {
     margin: ${pxIntoRem(16)} auto ${pxIntoRem(19)} ${pxIntoRem(20)};
-    max-height: ${pxIntoRem(353)} !important;
+    max-height: ${pxIntoRem(353)};
   }
 `;
 
@@ -293,7 +293,7 @@ const AppBalancePageRatesTableOptionBlock = styled.button`
   display: flex;
   flex-direction: row;
   width: 100%;
-  min-height: ${pxIntoRem(56)} !important;
+  min-height: ${pxIntoRem(56)};
   width: 100%;
   align-items: center;
   background: transparent;
@@ -307,7 +307,7 @@ const AppBalancePageRatesTableOptionBlock = styled.button`
     background: #181A2B;
   }
   @media (max-width: 500px) {
-    min-height: ${pxIntoRem(78)} !important;
+    min-height: ${pxIntoRem(78)};
     flex-direction: column;
     align-items: start;
   }
@@ -319,7 +319,7 @@ const AppBalancePageRatesTableOptionBlockHidden = styled.div`
   width: 100%;
   height: 100%;
   background: linear-gradient(182deg, rgba(18, 19, 30, 0.50) 24.37%, #12131E 136.53%);
-  &.activeHidden {
+  &.active_hidden {
     display: flex;
   }
 `;

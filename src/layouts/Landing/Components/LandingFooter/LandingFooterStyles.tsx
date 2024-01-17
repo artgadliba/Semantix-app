@@ -6,7 +6,7 @@ const LandingFooterBlock = styled.footer`
   position: relative;
   width: 100%;
   height: ${pxIntoRem(69)};
-  z-index: 999999;
+  z-index: 9;
   margin-top: auto;
   @media (max-width: 500px) {
     height: auto;
@@ -34,6 +34,13 @@ const LandingFooterTop = styled.div`
   width: 100%;
   height: ${pxIntoRem(1)};
   background: linear-gradient(270deg, rgba(23, 26, 39, 0.00) 0%, #171A27 50.01%, rgba(23, 26, 39, 0.00) 100%);
+`;
+
+const LandingFooterStampWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: ${pxIntoRem(10)};
 `;
 
 const LandingFooterStamp = styled.div`
@@ -178,6 +185,7 @@ export {
     LandingFooterBlock,
     LandingFooterBody,
     LandingFooterTop,
+    LandingFooterStampWrapper,
     LandingFooterStamp,
     LandingFooterDocumentsNavigation,
     LandingFooterDocumentLink,

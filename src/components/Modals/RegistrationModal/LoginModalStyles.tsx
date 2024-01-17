@@ -1,19 +1,7 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
 import { RegistrationModalShowPassword } from "./RegistrationModalStyles";
-
-const LoginModalBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.70);
-`;
+import { MainButtonStyles, InputButtonIcon } from "components/Mixins/Mixins";
 
 const LoginModalContent = styled.div`
   display: flex;
@@ -29,12 +17,6 @@ const LoginModalContent = styled.div`
     width: 90vw;
     height: auto;
   }
-`;
-
-const LoginModalBackgroundLayer = styled.div`
-  border-radius: ${pxIntoRem(12)};
-  background: #16161F;
-  width: 100%;
 `;
 
 const LoginModalTitle = styled.h1`
@@ -86,7 +68,7 @@ const LoginModalInputComponent = styled.div`
   display: flex;
   position: relative;
   margin-top: ${pxIntoRem(6)};
-  height: ${pxIntoRem(42)} !important;
+  height: ${pxIntoRem(42)};
   padding: 1px;
   border-radius: ${pxIntoRem(10)};
   background: linear-gradient(180deg, rgba(45, 48, 66, 0.7) 5.42%, rgba(23, 24, 40, 1) 101.71%);
@@ -98,10 +80,22 @@ const LoginModalInputBackgroundLayer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  height: ${pxIntoRem(40)} !important;
+  align-items: center;
+  height: ${pxIntoRem(40)};
 `;
 
-
+const LoginModalInputActiveField = styled.div`
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: ${pxIntoRem(10)};
+  border: 1px solid rgba(57, 57, 75, 1);
+`;
 
 const LoginModalInputField = styled.input`
   position: relative;
@@ -120,38 +114,16 @@ const LoginModalInputField = styled.input`
   &:-webkit-autofill:focus {
     transition: background-color 600000s 0s, color 600000s 0s;
   }
+  &:focus-visible + ${LoginModalInputActiveField} {
+    display: block;
+  }
+  @media (max-width: 500px) {
+    font-size: ${pxIntoRem(16)};
+  }
 `;
 
 const LoginModalMainButton = styled.button`
-  display: flex;
-  position: relative;
-  width: ${pxIntoRem(386)};
-  height: ${pxIntoRem(42)};
-  padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
-  justify-content: center;
-  align-items: center;
-  border-radius: ${pxIntoRem(8)};
-  background: #1683E2;
-  margin: ${pxIntoRem(24)} ${pxIntoRem(32)} auto ${pxIntoRem(32)};
-  color: #FFF;
-  font-family: Mulish;
-  font-size: ${pxIntoRem(14)};
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  cursor: pointer;
-  transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
-  }
-  &:disabled {
-    border: 1px solid #2D3042;
-    color: #2D3042;
-    background: transparent;
-    pointer-events: none;
-  }
+  ${MainButtonStyles}
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} auto ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});
@@ -189,27 +161,8 @@ const LoginModalLoginLinkButton = styled.button`
   line-height: 150%;
   background: transparent;
   margin-left: ${pxIntoRem(4)};
-`;
-
-const LoginModalClose = styled.button`
-  position: absolute;
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  top: ${pxIntoRem(16)};
-  right: ${pxIntoRem(16)};
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
-const LoginModalCloseIcon = styled.svg`
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  stroke: #79768B;
-  transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
+  &:focus-visible {
+    color: rgba(22, 131, 226, 1);
   }
 `;
 
@@ -241,26 +194,21 @@ const LoginModalForgotPasswordButton = styled.button`
     color: #FFF;
     transition: 0.3s;
   }
-`;
-
-const LoginModalInputButtonIcon = styled.svg`
-  display: flex;
-  width: ${pxIntoRem(20)};
-  heigth: ${pxIntoRem(20)};
-  stroke: #393952;
+  &:focus-visible {
+    color: rgba(22, 131, 226, 1);
+  }
 `;
 
 const LoginModalInputButton = styled.button`
-  position: relative;
+  position: absolute;
   width: ${pxIntoRem(20)};
   heigth: ${pxIntoRem(20)};
   background: transparent;
-  margin-left: auto;
-  margin-right: ${pxIntoRem(16)};
+  right: ${pxIntoRem(16)};
   z-index: 9999;
   align-items: center;
   justify-content: center;
-  &:hover ${LoginModalInputButtonIcon} {
+  &:hover ${InputButtonIcon} {
     stroke: #FFF;
   }
   &:hover + ${RegistrationModalShowPassword} {
@@ -268,6 +216,11 @@ const LoginModalInputButton = styled.button`
   }
   & > * {
     pointer-events: none;
+  }
+  &:focus-visible {
+    border-radius: ${pxIntoRem(4)};
+    outline: 1px solid rgba(22, 131, 226, 1);
+    outline-offset: -1px;
   }
 `;
 
@@ -288,23 +241,19 @@ const LoginModalBottomError = styled.div`
 `;
 
 export {
-  LoginModalBlock,
   LoginModalContent,
-  LoginModalBackgroundLayer,
   LoginModalTitle,
   LoginModalInputBlock,
   LoginModalInputLabel,
   LoginModalInputComponent,
   LoginModalInputBackgroundLayer,
   LoginModalInputField,
+  LoginModalInputActiveField,
   LoginModalMainButton,
   LoginModalLoginLink,
   LoginModalLoginLinkButton,
-  LoginModalClose,
-  LoginModalCloseIcon,
   LoginModalForgotPasswordButtonBlock,
   LoginModalForgotPasswordButton,
   LoginModalInputButton,
-  LoginModalInputButtonIcon,
   LoginModalBottomError
 };

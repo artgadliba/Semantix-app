@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import AppInterface from "layouts/App/AppInterface";
 import { 
@@ -22,6 +22,7 @@ import useModal from "hooks/useModal";
 import ExportModal from "components/Modals/ExportModal/ExportModal";
 import FileDeletePopup from "components/Popups/FileDeletePopup/FileDeletePopup";
 import sliceLongFoldername from "utils/sliceLongFoldername";
+import axios from "axios";
 import * as data from "../../assets/Python.json";
 
 interface IAppFile {
@@ -40,12 +41,10 @@ const AppFile: FC<IAppFile> = ({folderName, fileName}) => {
     };
 
     const {
-        closeModal: closeExportModal,
         openModal: openExportModal,
         modal: exportModal
     } = useModal(ExportModal, {fileName});
     const {
-        closeModal: closeFileDeletePopup,
         openModal: openFileDeletePopup,
         modal: fileDeletePopup
     } = useModal(FileDeletePopup, {fileName});
@@ -65,38 +64,38 @@ const AppFile: FC<IAppFile> = ({folderName, fileName}) => {
             />
             {editFilePage ? (
                 <>
-                <AppFileEditControlBlock>
-                    <AppFileEditControlButtonSave>Сохранить изменения</AppFileEditControlButtonSave>
-                    <AppFileEditControlButtonCancel onClick={handleEditFile}>Отменить</AppFileEditControlButtonCancel>
-                </AppFileEditControlBlock>
-                <FileEdit
-                    data={data} 
-                    playerRef={playerRef}
-                    setIsPlaying={setIsPlaying}
-                />
+                    <AppFileEditControlBlock>
+                        <AppFileEditControlButtonSave>Сохранить изменения</AppFileEditControlButtonSave>
+                        <AppFileEditControlButtonCancel onClick={handleEditFile}>Отменить</AppFileEditControlButtonCancel>
+                    </AppFileEditControlBlock>
+                    <FileEdit
+                        data={data} 
+                        playerRef={playerRef}
+                        setIsPlaying={setIsPlaying}
+                    />
                 </>
             ) : (
                 <>
-                <AppFilePageControlBlock>
-                    <AppFilePageControlButton onClick={handleEditFile}>Изменить</AppFilePageControlButton>
-                    <AppFilePageControlButton onClick={openExportModal}>Выгрузить</AppFilePageControlButton>
-                    <AppFilePageControlButton className="left-button" onClick={openFileDeletePopup}>Удалить</AppFilePageControlButton>
-                    <AppFilePageControlButtonMobile onClick={handleEditFile}>
-                        <AppFilePageControlButtonMobileIcon alt="edit" src="/images/edit-icon.svg" />
-                    </AppFilePageControlButtonMobile>
-                    <AppFilePageControlButtonMobile onClick={openExportModal}>
-                        <AppFilePageControlButtonMobileIcon alt="export" src="/images/export-icon.svg" />
-                    </AppFilePageControlButtonMobile>
-                    <AppFilePageControlButtonMobile onClick={openFileDeletePopup}>
-                        <AppFilePageControlButtonMobileIcon alt="delete" src="/images/delete-icon.svg" />
-                    </AppFilePageControlButtonMobile>
-                </AppFilePageControlBlock>
-                <FileView 
-                    data={data} 
-                    playerRef={playerRef}
-                    progressRef={progressRef}
-                    setIsPlaying={setIsPlaying}
-                />
+                    <AppFilePageControlBlock>
+                        <AppFilePageControlButton onClick={handleEditFile}>Изменить</AppFilePageControlButton>
+                        <AppFilePageControlButton onClick={openExportModal}>Выгрузить</AppFilePageControlButton>
+                        <AppFilePageControlButton className="left_button" onClick={openFileDeletePopup}>Удалить</AppFilePageControlButton>
+                        <AppFilePageControlButtonMobile onClick={handleEditFile}>
+                            <AppFilePageControlButtonMobileIcon alt="edit" src="/images/edit-icon.svg" />
+                        </AppFilePageControlButtonMobile>
+                        <AppFilePageControlButtonMobile onClick={openExportModal}>
+                            <AppFilePageControlButtonMobileIcon alt="export" src="/images/export-icon.svg" />
+                        </AppFilePageControlButtonMobile>
+                        <AppFilePageControlButtonMobile onClick={openFileDeletePopup}>
+                            <AppFilePageControlButtonMobileIcon alt="delete" src="/images/delete-icon.svg" />
+                        </AppFilePageControlButtonMobile>
+                    </AppFilePageControlBlock>
+                    <FileView 
+                        data={data} 
+                        playerRef={playerRef}
+                        progressRef={progressRef}
+                        setIsPlaying={setIsPlaying}
+                    />
                 </>
             )}
             {exportModal}
@@ -106,16 +105,44 @@ const AppFile: FC<IAppFile> = ({folderName, fileName}) => {
 }
 
 const AppFilePage: FC = () => {
-    const { folderName, fileName } = useParams();
+    const [folderName, setFolderName] = useState<string>(null);
+    const { id, fileName } = useParams();
+    
+    useEffect(() => {
+        if (localStorage.getItem("jwt-tokens")) {
+            axios.get(`/api/folders/${id}`, {
+                headers: {
+                    "jwt-tokens": localStorage.getItem("jwt-tokens")
+                }
+            })
+            .then((res) => {
+                if (res.headers && "jwt-tokens" in res.headers) {
+                    localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
+                }
+                setFolderName(res.data.name);
+            })
+            .catch((err) => {
+                if (err.headers && "jwt-tokens" in err.headers) {
+                    localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
+                }
+                console.log(err);
+                window.location.href = "/#login";
+            })
+        } else {
+            window.location.href = "/#login";
+        }
+    }, [id]);
 
-    return (
-        <AppInterface headerTitle={fileName} controlBar={false}>
-            <AppFile 
-                folderName={folderName} 
-                fileName={fileName}
-            />
-        </AppInterface>
-    );
+    if (folderName) {
+        return (
+            <AppInterface headerTitle="python_lesson.mp3" controlBar={false}>
+                <AppFile 
+                    folderName={folderName} 
+                    fileName="python_lesson.mp3"
+                />
+            </AppInterface>
+        );
+    }
 }
 
 export default AppFilePage;

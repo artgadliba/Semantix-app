@@ -1,23 +1,9 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
 
-const FileUploadPopupBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.70);
-`;
-
 const FileUploadPopupContent = styled.div`
   display: flex;
   width: ${pxIntoRem(450)};
-  height:  ${pxIntoRem(245)};
   z-index: 9999;
   position: relative;
   padding: 1px;
@@ -67,14 +53,8 @@ const FileUploadPopupMessage = styled.p`
   span {
     color: #FFF;
   }
-  .mobile-break {
-    display: none;
-  }
   @media (max-width: 500px) {
     width: 80vw;
-    .mobile-break {
-      display: flex;
-    }
   }
 `;
 
@@ -110,7 +90,8 @@ const FileUploadPopupCancelButton = styled.button`
   border-radius: ${pxIntoRem(8)};
   background: transparent;
   border: 1px solid #2D3042;
-  margin-top: ${pxIntoRem(32)};
+  margin-top: ${pxIntoRem(24)};
+  margin-bottom: ${pxIntoRem(32)};
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -123,42 +104,21 @@ const FileUploadPopupCancelButton = styled.button`
     border: 1px solid #FFF;
     transition: 0.3s;
   }
+  &:focus-visible {
+    border: 1px solid #FFF;
+    transition: 0.3s;
+  }
   @media (max-width: 500px) {
     margin: auto ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
     width: 80vw;
   }
 `;
 
-const FileUploadPopupClose = styled.button`
-  position: absolute;
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  top: ${pxIntoRem(16)};
-  right: ${pxIntoRem(16)};
-  background: transparent;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
-const FileUploadPopupCloseIcon = styled.svg`
-  width: ${pxIntoRem(24)};
-  height: ${pxIntoRem(24)};
-  stroke: #79768B;
-  transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
-  } 
-`;
-
 export {
-  FileUploadPopupBlock,
   FileUploadPopupContent,
   FileUploadPopupBackgroundLayer,
   FileUploadPopupTitle,
   FileUploadPopupMessage,
   FileUploadPopupProgressBar,
-  FileUploadPopupCancelButton,
-  FileUploadPopupClose,
-  FileUploadPopupCloseIcon
+  FileUploadPopupCancelButton
 };

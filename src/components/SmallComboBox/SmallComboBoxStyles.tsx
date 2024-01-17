@@ -9,30 +9,30 @@ const SmallComboBoxBlock = styled.div<ISmallComboBoxBlock>`
   position: absolute;
   width: ${pxIntoRem(173)};
   height: ${pxIntoRem(102)};
-  ${props => props.className === 'filelist-box' && css`
+  ${props => props.className === 'filelist_box' && css`
     top: ${pxIntoRem(82)};
     right: ${pxIntoRem(22)};
   `}
-  ${props => props.className === 'header-box' && css`
+  ${props => props.className === 'header_box' && css`
     top: ${pxIntoRem(71)};
     right: ${pxIntoRem(39)};
   `}
-  ${props => props.className === 'filter-box' && css`
+  ${props => props.className === 'filter_box' && css`
     top: ${pxIntoRem(82)};
     left: ${pxIntoRem(282)};
     width: ${pxIntoRem(228)};
     height: ${pxIntoRem(184)};
   `}
   @media (max-width: 500px) {
-    ${props => props.className === 'filelist-box' && css`
+    ${props => props.className === 'filelist_box' && css`
       top: ${pxIntoRem(132)};
       right: ${pxIntoRem(20)};
     `}
-    ${props => props.className === 'header-box' && css`
+    ${props => props.className === 'header_box' && css`
       top: ${pxIntoRem(62)};
       right: ${pxIntoRem(60)};
     `}
-    ${props => props.className === 'filter-box' && css`
+    ${props => props.className === 'filter_box' && css`
       top: ${pxIntoRem(50)};
       left: auto;
       right: ${pxIntoRem(0)};
@@ -106,6 +106,9 @@ const SmallComboBoxOptionButton= styled.button`
   cursor: pointer;
   margin-left: ${pxIntoRem(16)};
   &:hover + ${SmallComboBoxOptionActiveBackground} {
+    display: flex;
+  }
+  &:focus + ${SmallComboBoxOptionActiveBackground} {
     display: flex;
   }
 `;

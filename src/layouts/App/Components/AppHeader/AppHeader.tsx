@@ -17,6 +17,7 @@ import {
     AppHeaderMobileLogoBlock,
     AppHeaderMobileLogo
 } from "./AppHeaderStyles";
+import { accountMenuOptions } from "content/AccountMenuOptions";
 import AppHeaderBurger from "../AppHeaderBurger/AppHeaderBurger";
 import SmallComboBox from "components/SmallComboBox/SmallComboBox";
 import axios from "axios";
@@ -34,22 +35,33 @@ const AppHeader: FC<IAppHeader> = ({title, fileEdited}) => {
     const [username, setUsername] = useState<string>("");
     const [userMenuActive, setUserMenuActive] = useState<boolean>(false);
     const [option, setOption] = useState<string>("");
-    const options = [
-        {
-            name: "Сменить пароль"
-        },
-        {
-            name: "Выйти"
+
+    useEffect(() => {
+        if (option === "Сменить пароль") {
+            openPassModal();
+            setOption(null);
+        } else if (option === "Выйти") {
+            handleLogout();
+            setOption(null);
         }
-    ];
+    },[option]);
+
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem("username"));
+        if (data) {
+            if ("login" in data) {
+                setUsername(data.login);
+            }
+        } else {
+            setUsername("Username"); // delete in prod
+        }
+    }, []);
 
     const {
-        closeModal: closeMessageModal,
         openModal: openMessageModal,
         modal: messageModal
     } = useModal(MessageModal, { modalType: "passwordChanged" });
     const {
-        closeModal: closePassModal,
         openModal: openPassModal,
         modal: passwordRecoveryModal
     } = useModal(PasswordRecoveryModal, { openMessageModal, modalType: "resetPassword" });
@@ -76,28 +88,7 @@ const AppHeader: FC<IAppHeader> = ({title, fileEdited}) => {
             window.location.href = "/";
             console.log(err);
         })
-    }   
-
-    useEffect(() => {
-        if (option === "Сменить пароль") {
-            openPassModal();
-            setOption(null);
-        } else if (option === "Выйти") {
-            handleLogout();
-            setOption(null);
-        }
-    },[option]);
-
-    useEffect(() => {
-        const data = JSON.parse(localStorage.getItem("username"));
-        if (data) {
-            if ("login" in data) {
-                setUsername(data.login);
-            }
-        } else {
-            setUsername("Username"); // delete in prod
-        }
-    }, []);
+    }
     
     return (
         <AppHeaderBody>
@@ -124,8 +115,13 @@ const AppHeader: FC<IAppHeader> = ({title, fileEdited}) => {
                                 <AppHeaderMenuButtonIcon alt="open" src="/images/folders-closed.svg" />
                             </AppHeaderMenuButton>
                         </AppHeaderUsernameButtonWrapper>
-                        {userMenuActive == true && (
-                            <SmallComboBox className="header-box" setMenuActive={setUserMenuActive} setOption={setOption} options={options} />
+                        {userMenuActive === true && (
+                            <SmallComboBox 
+                                className="header_box" 
+                                setMenuActive={setUserMenuActive} 
+                                setOption={setOption} 
+                                options={accountMenuOptions} 
+                            />
                         )}
                     </AppHeaderUsernameBlock>
                     <AppHeaderBottomLineBlock>
@@ -134,8 +130,10 @@ const AppHeader: FC<IAppHeader> = ({title, fileEdited}) => {
                     <AppHeaderBurger />
                 </AppHeaderContent>
             </AppHeaderBlock>
-            <AppHeaderSectionTitleBlock className="mobileTitleBlock">
-                <AppHeaderSectionTitle className="mobileTitle">{sliceLongFoldername(title, "headerMobile")}</AppHeaderSectionTitle>
+            <AppHeaderSectionTitleBlock className="mobile_title_block">
+                <AppHeaderSectionTitle className="mobile_title_block__section">
+                    {sliceLongFoldername(title, "headerMobile")}
+                </AppHeaderSectionTitle>
                 {fileEdited === true && (
                     <AppHeaderSectionTitleEdited alt="edited" src="/images/file-edited.svg" />
                 )}

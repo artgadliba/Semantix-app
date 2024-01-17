@@ -1,16 +1,22 @@
 import styled from "styled-components";
-import React, { Suspense, useEffect } from "react";
-import { Route } from "react-router";
-import { Routes } from "react-router-dom";
+import React, { Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import AppFolderPage from "pages/AppFolderPage/AppFolderPage";
+import AppMainPage from "pages/AppMainPage/AppMainPage";
+import Index from "pages/Index/Index";
+import AppFilePage from "pages/AppFilePage/AppFilePage";
+import AppBalancePage from "pages/AppBalancePage/AppBalancePage";
+import AppFaqPage from "pages/AppFaqPage/AppFaqPage";
+import LandingFaqPage from "pages/LandingFaqPage/LandingFaqPage";
 
-const Folder = React.lazy(() => import("./pages/AppFolderPage/AppFolderPage"));
-const Main = React.lazy(() => import("./pages/AppMainPage/AppMainPage"));
-const Index = React.lazy(() => import("./pages/Index/Index"));
-const File = React.lazy(() => import("./pages/AppFilePage/AppFilePage"));
-const Balance = React.lazy(() => import("./pages/AppBalancePage/AppBalancePage"));
-const AppFAQ = React.lazy(() => import("./pages/AppFaqPage/AppFaqPage"));
-const LandingFAQ = React.lazy(() => import("./pages/LandingFaqPage/LandingFaqPage"));
+// const Folder = React.lazy(() => import("./pages/AppFolderPage/AppFolderPage"));
+// const Main = React.lazy(() => import("./pages/AppMainPage/AppMainPage"));
+// const Index = React.lazy(() => import("./pages/Index/Index"));
+// const File = React.lazy(() => import("./pages/AppFilePage/AppFilePage"));
+// const Balance = React.lazy(() => import("./pages/AppBalancePage/AppBalancePage"));
+// const AppFAQ = React.lazy(() => import("./pages/AppFaqPage/AppFaqPage"));
+// const LandingFAQ = React.lazy(() => import("./pages/LandingFaqPage/LandingFaqPage"));
 
 const AppBlock = styled.div`
   display: flex;
@@ -21,23 +27,39 @@ const AppBlock = styled.div`
 `;
 
 function App() {
+    const organisation = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Semantix",
+        "url": "https://semantix.one",
+        "logo": "https://semantix.one/images/main-logo.svg",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "email": "hello@semantix.one"
+        },
+        "sameAs": "https://t.me/semantix_one"
+    };
+    
     return (
         <AppBlock>
             <Helmet>
-                <title>Semantix - распознавание речи и конвертация в текст онлайн</title>
-                <meta name="description" content="Транскрибация аудио и видео в текст. Расшифровка речи, расстановка знаков препинания, редактирование в браузере, экспорт в *.docx, *.srt"></meta>
-                <meta name="keywords" content="транскрибация, транскрибировать текст, транскрибировать текст онлайн, перевод аудио файлов в текст, транскрибировать онлайн, перевод видео в текст, транскрибация цены, перевод аудио файлов в текст онлайн, переводчик аудио в текст"></meta>
+                <script className="structured-data-list" type="application/ld+json">
+                    {JSON.stringify(organisation)}
+                </script>
             </Helmet>
             <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-                <Route index element={<Index />} />
-                <Route path="/app/main" element={<Main />} />
-                <Route path="/app/folders/:folderName" element={<Folder />} />
-                <Route path="/app/folders/:folderName/:fileName" element={<File />} />
-                <Route path="/app/balance" element={<Balance />} />
-                <Route path="/app/faq" element={<AppFAQ />} />
-                <Route path="/faq" element={<LandingFAQ />} />
-            </Routes>
+                <BrowserRouter>
+                    <Routes>
+                        <Route index element={<Index />} />
+                        <Route path="/app/main" element={<AppMainPage />} />
+                        <Route path="/app/folders/:id" element={<AppFolderPage />} />
+                        <Route path="/app/folders/:id/:fileName" element={<AppFilePage />} />
+                        <Route path="/app/balance" element={<AppBalancePage />} />
+                        <Route path="/app/faq" element={<AppFaqPage />} />
+                        <Route path="/faq" element={<LandingFaqPage />} />
+                    </Routes>
+                </BrowserRouter>
             </Suspense>
         </AppBlock>
     );
