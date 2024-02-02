@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from "react";
+import React, { FC, useEffect, useLayoutEffect, useState, useRef } from "react";
 import Landing from "layouts/Landing/Landing";
 import { 
     LandingFaqPageBlock,
@@ -94,9 +94,9 @@ const LandingFaqPageItem: FC<ILandingFaqPageItem> = ({searchInput, item}) => {
 }
 
 const LandingFaqPage = () => {
+    const [mobileView, setMobileView] = useState<boolean>(false);
     const [searchInput, setSeacrhInput] = useState<string>("");
     const [currentSection, setCurrentSection] = useState<string>("Общие вопросы");
-    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [faqContent, setFaqContent] = useState<Array<IFaqContent>>(null);
 
     useLayoutEffect(() => {
@@ -110,12 +110,19 @@ const LandingFaqPage = () => {
     }, [currentSection]);
 
     useEffect(() => {
+        if (window.innerWidth <= 500) {
+            setMobileView(true);
+        }
         window.addEventListener("resize", () => {
-            setWindowWidth(window.innerWidth);
+            if (window.innerWidth <= 500) {
+                setMobileView(true);
+            }
         });
         return () => {
             window.removeEventListener("resize", () => {
-                setWindowWidth(window.innerWidth);
+                if (window.innerWidth <= 500) {
+                    setMobileView(true);
+                }
             });
         }
     }, []);
@@ -145,13 +152,15 @@ const LandingFaqPage = () => {
 
     const handleSection = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const element = e.currentTarget as HTMLElement;
-        if (currentSection === element.innerText && windowWidth < 501) {
-            setCurrentSection(null);
-        } else {
-            setCurrentSection(element.innerText);
+        if (mobileView) {
+            if (currentSection === element.innerText) {
+                setCurrentSection(null);
+            } else {
+                setCurrentSection(element.innerText);
+            }
         }
     }
-
+    
     return (
         <Landing>
             <Helmet>
@@ -193,7 +202,7 @@ const LandingFaqPage = () => {
                             <LandingFaqSearchInputIcon alt="search" src="/images/search.svg" />
                         )}
                     </LandingFaqSearchInputBlock>
-                    {windowWidth > 500 ? (
+                    {!mobileView ? (
                         <LandingFaqMainBlock>
                             <LandingFaqNavigationBlock>
                                 <LandingFaqNavigationBlockTitle>Разделы</LandingFaqNavigationBlockTitle>

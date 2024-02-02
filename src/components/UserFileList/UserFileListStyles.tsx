@@ -34,17 +34,20 @@ const UserFileListItem = styled.div`
   height: ${pxIntoRem(114)};
   margin-top: ${pxIntoRem(16)};
   &:before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: ${pxIntoRem(12)};
-      border: 2px solid transparent;
-      background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
-      -webkit-mask:
-          linear-gradient(#fff 0 0) padding-box, 
-          linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-              mask-composite: exclude;
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: ${pxIntoRem(12)};
+    border: 2px solid transparent;
+    background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
+    -webkit-mask:
+            linear-gradient(#fff 0 0) padding-box, 
+            linear-gradient(#fff 0 0);
+            mask:
+            linear-gradient(#fff 0 0) padding-box, 
+            linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
   }
   @media (max-width: 500px) {
     height: auto;
@@ -253,7 +256,6 @@ const UserFileListItemOpenButton = styled(Link)`
   line-height: normal;
   margin-left: auto;
   margin: ${pxIntoRem(38)} 0 ${pxIntoRem(38)} auto;
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     background: rgba(22, 131, 226, 0.10);
@@ -291,7 +293,6 @@ const UserFileListItemOptionsButton = styled.button`
   margin: ${pxIntoRem(38)} 0 ${pxIntoRem(38)} ${pxIntoRem(12)};
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   transition: 0.3s;
   &:hover ${UserFileListItemOptionsButtonIcon} {
     transition: 0.3s;

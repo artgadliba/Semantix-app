@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-import { MainButtonStyles } from "components/Mixins/Mixins";
+import { ModalMainButtonStyles } from "components/Mixins/Mixins";
 
 const UploadNewFileModalContent = styled.div`
   width: ${pxIntoRem(672)};
@@ -72,7 +72,6 @@ const UploadNewFileModalInputFileButton = styled.button`
   font-weight: 500;
   line-height: normal;
   margin-top: ${pxIntoRem(16)};
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     transition: 0.3s;
@@ -95,7 +94,6 @@ const UploadNewFileModalInputFileButton = styled.button`
 `;
 
 const UploadNewFileModalInputFileLimitText = styled.p`
-  postion: relative;
   margin-top: ${pxIntoRem(39)};
   color: #79768B;
   font-family: Mulish;
@@ -113,7 +111,7 @@ const UploadNewFileModalInputFileLimitText = styled.p`
     &.mobile_text {
       display: block;
       margin: 0 ${pxIntoRem(20)} auto ${pxIntoRem(20)};
-      z-index: 999999;
+      z-index: 999;
       text-align: start;
     }
     text-align: center;
@@ -142,7 +140,6 @@ const UploadNewFileModalTitle = styled.h1`
 `;
 
 const UploadNewFileModalAdjustmentsText = styled.p`
-  postion: relative;
   color: #79768B;
   font-family: Mulish;
   font-size: ${pxIntoRem(14)};
@@ -168,6 +165,12 @@ const UploadNewFileModalCheckboxBlock = styled. div`
     flex-direction: column;
     gap: ${pxIntoRem(18)};
   }
+`;
+
+const UploadNewFileModalLabelWrapper = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 `;
 
 const UploadNewFileModalCheckboxInput = styled.input`
@@ -199,12 +202,11 @@ const UploadNewFileModalCheckboxLabel = styled.label`
   font-style: normal;
   font-weight: 400;
   line-height: 150%;
-  margin-left: ${pxIntoRem(10)};
   white-space: nowrap;
 `;
 
 const UploadNewFileModalMainButton = styled.button`
-  ${MainButtonStyles}
+  ${ModalMainButtonStyles}
   width: ${pxIntoRem(608)};
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
@@ -213,7 +215,7 @@ const UploadNewFileModalMainButton = styled.button`
 `;
 
 const UploadNewFileModalLine = styled.div`
-  postion: absolute;
+  position: relative;
   width: 100%;
   height: 1px;
   background: #1D2132;
@@ -326,7 +328,6 @@ const UploadNewFileModalActionButton = styled.button`
   font-weight: 500;
   line-height: normal;
   white-space: nowrap;
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     border: 1px solid #FFF;
@@ -382,6 +383,7 @@ export {
   UploadNewFileModalInputFileField,
   UploadNewFileModalAdjustmentsText,
   UploadNewFileModalCheckboxBlock,
+  UploadNewFileModalLabelWrapper,
   UploadNewFileModalCheckboxInput,
   UploadNewFileModalCheckboxLabel,
   UploadNewFileModalMainButton,

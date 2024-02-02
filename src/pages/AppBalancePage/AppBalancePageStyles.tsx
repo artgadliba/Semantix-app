@@ -47,8 +47,11 @@ const AppBalancePageCurrentBalanceWidget = styled.div`
     border: 2px solid transparent;
     background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
@@ -138,8 +141,11 @@ const AppBalancePageRatesTable = styled.div`
     border: 1px solid transparent;
     background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
@@ -242,8 +248,11 @@ const AppBalancePageRatesTableOptionsBlock = styled.div`
     border: 1px solid transparent;
     background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
@@ -263,6 +272,8 @@ const AppBalancePageRatesTableOptionsContent = styled.div`
   position: relative;
   width: 100%;
   overflow: auto;
+  border-radius: inherit;
+  z-index: 99999;
 `;
 
 const AppBalancePageRatesTableOptionsBackgroundLayer = styled.div`
@@ -288,15 +299,15 @@ const AppBalancePageRatesTableOptionIcon = styled.svg`
   }
 `;
 
-const AppBalancePageRatesTableOptionBlock = styled.button`
+const AppBalancePageRatesTableOptionButton = styled.button`
   position: relative;
   display: flex;
   flex-direction: row;
   width: 100%;
   min-height: ${pxIntoRem(56)};
-  width: 100%;
   align-items: center;
   background: transparent;
+  border-radius: inherit;
   &:hover ${AppBalancePageRatesTableOptionIcon} {
     stroke: #1683E2;
   }
@@ -318,7 +329,7 @@ const AppBalancePageRatesTableOptionBlockHidden = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  background: linear-gradient(182deg, rgba(18, 19, 30, 0.50) 24.37%, #12131E 136.53%);
+  background: linear-gradient(182deg, rgba(18, 19, 30, 0.7) 24.37%, #12131E 136.53%);
   &.active_hidden {
     display: flex;
   }
@@ -515,7 +526,7 @@ export {
   AppBalancePageRatesTableOptionBlockHidden,
   AppBalancePageRatesTableOptionsContent,
   AppBalancePageRatesTableOptionsBackgroundLayer,
-  AppBalancePageRatesTableOptionBlock,
+  AppBalancePageRatesTableOptionButton,
   AppBalancePageRatesTableOptionValue,
   AppBalancePageRatesTableOptionPrice,
   AppBalancePageRatesTableOptionLine,

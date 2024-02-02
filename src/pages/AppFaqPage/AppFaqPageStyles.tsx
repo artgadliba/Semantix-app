@@ -19,7 +19,7 @@ const AppFaqPageContentBlock = styled.div`
 `;
 
 const AppFaqNavigationBlock = styled.div`
-  postion: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -92,7 +92,7 @@ const AppFaqNavigationMobileExpandIcon = styled.img`
 `;
 
 const AppFaqMainBlock = styled.div`
-  postion: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   margin-left: ${pxIntoRem(40)};
@@ -194,8 +194,11 @@ const AppFaqMainBlockQuestionElement = styled.button`
     border: 2px solid transparent;
     background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask: 
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }

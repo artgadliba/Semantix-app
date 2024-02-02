@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-import { MainButtonStyles } from "components/Mixins/Mixins";
+import { ModalMainButtonStyles } from "components/Mixins/Mixins";
 
 const NewFileFolderModalContent = styled.div`
   display: flex;
@@ -94,7 +94,7 @@ const NewFileFolderModalSelectBackgroundLayer = styled.div`
 `;
 
 const NewFileFolderModalMainButton = styled.button`
-  ${MainButtonStyles}
+  ${ModalMainButtonStyles}
   width: ${pxIntoRem(608)};
   @media (max-width: 500px) {
     margin: auto ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
@@ -136,7 +136,7 @@ const NewFileFolderModalMenuButton = styled.button`
 const NewFileFolderModalMenuButtonIcon = styled.img`
   display: flex;
   width: ${pxIntoRem(20)};
-  heigth: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
   margin-left: auto;
   margin-right: ${pxIntoRem(16)};
 `;

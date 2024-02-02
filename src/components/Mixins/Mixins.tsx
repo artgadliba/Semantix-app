@@ -134,11 +134,11 @@ const TooltipIcon = styled.svg`
 const InputButtonIcon = styled.svg`
   display: flex;
   width: ${pxIntoRem(20)};
-  heigth: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
   stroke: #393952;
 `;
 
-const MainButtonStyles = `
+const ModalMainButtonStyles = `
   display: flex;
   position: relative;
   width: ${pxIntoRem(386)};
@@ -155,7 +155,6 @@ const MainButtonStyles = `
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     background: #1668E2;
@@ -175,6 +174,34 @@ const MainButtonStyles = `
   }
 `;
 
+const IndexMainButton = styled.button`
+  display: flex;
+  position: relative;
+  width: ${pxIntoRem(251)};
+  height: ${pxIntoRem(46)};
+  background-color: #1683E2;
+  border-radius: ${pxIntoRem(8)};
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 600;
+  font-size: ${pxIntoRem(16)};
+  line-height: normal;
+  color: #FFF;
+  margin: ${pxIntoRem(24)};
+  align-items: center;
+  gap: ${pxIntoRem(10)};
+  justify-content: center;
+  transition: 0.3s;
+  &:hover {
+    background: #1668E2;
+    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
+    transition: 0.3s;
+  }
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+`;
+
 export {
     LoadingAnimation,
     LoadingIcon,
@@ -186,5 +213,6 @@ export {
     ModalBackgroundLayer, 
     TooltipIcon,
     InputButtonIcon,
-    MainButtonStyles
+    ModalMainButtonStyles,
+    IndexMainButton
 };

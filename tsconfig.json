@@ -15,7 +15,8 @@
         "noEmit": false,
         "downlevelIteration": true,
         "jsx": "react-jsx",
-        "baseUrl": "src"
+        "baseUrl": "src",
+        "typeRoots": ["./node_modules/@types", "./src/types"]
     },
     "include": ["src"]
 }

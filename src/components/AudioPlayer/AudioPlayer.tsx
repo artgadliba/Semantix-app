@@ -15,7 +15,6 @@ import {
     AudioPlayerVolumeControlBlock,
     AudioPlayerVolumeControlBlockBackgroundLayer
 } from "./AudioPlayerStyles";
-import track from "../../assets/Python.mp3";
 
 interface IAudioPlayer {
     setPlayerRef: (ref: React.MutableRefObject<any>) => void;
@@ -37,6 +36,7 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
     const [duration, setDuration] = useState<number>(0);
     const [outputFormatDuration, setOutputFormatDuration] = useState<string>("");
     const [currTime, setCurrTime] = useState<ICurrentTime>();
+    const [audioFile, setAudioFile] = useState(null);
 
     const audioRef = useRef(null);
     const progressRef = useRef(null);
@@ -112,7 +112,8 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
     const handleProgressColor = (value: number) => {
         const ref = progressRef.current;
         const ratio = value / ref.max * 100;
-        ref.style.background = 'linear-gradient(to right, #1683E2 0%, #1683E2 ' + ratio + '%, #1B1D2C ' + ratio + '%, #1B1D2C 100%)';
+        ref.style.background = 'linear-gradient(to right, #1683E2 0%, #1683E2 ' 
+            + ratio + '%, #1B1D2C ' + ratio + '%, #1B1D2C 100%)';
     }
 
     let timeout: ReturnType<typeof setTimeout>;
@@ -170,7 +171,7 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
                     ) : (
                         <AudioPlayerTimecode>0:00:00 / 0:00:00</AudioPlayerTimecode>
                     )}
-                    <audio preload="metadata" src={track} controls={false} ref={audioRef} />
+                    <audio preload="metadata" src={audioFile} controls={false} ref={audioRef} />
                     <AudioPlayerTimeScalePseudo>
                         <AudioPlayerTimeScale
                             type="range"

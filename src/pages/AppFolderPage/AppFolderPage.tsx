@@ -42,7 +42,7 @@ const AppFolder: FC<IAppFolder> = ({id}) => {
     const sortType = useSelector((state: RootState) => state.sortType.value);
     const sortByField = useSelector((state: RootState) => state.sortByField.value);
     const updateFilelist = useSelector((state: RootState) => state.updateFileList.value);
-    const [items, setItems] = useState<Array<IFile>>(null);
+    const [items, setItems] = useState<Array<IFile>>([]);
     const [processingList, setProcessingList] = useState<Array<IFile>>(null);
     const [readyList, setReadyList] = useState<Array<IFile>>(null);
 
@@ -127,7 +127,7 @@ const AppFolder: FC<IAppFolder> = ({id}) => {
                             <span>Загрузите первый файл для начала работы с приложением</span>
                         </AppFolderPageEmptyOutputText>
                         <AppFolderPageEmptyOutputText className="additional_text_field">
-                        В текущем разделе будут отображены загруженные вам файлы для обработки
+                        В текущем разделе будут отображены загруженные вами файлы для обработки
                         </AppFolderPageEmptyOutputText>
                     </AppFolderPageEmptyOutputBlock>
                 </AppFolderPageEmptyContent>

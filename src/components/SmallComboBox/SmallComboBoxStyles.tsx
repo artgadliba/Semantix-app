@@ -103,12 +103,8 @@ const SmallComboBoxOptionButton= styled.button`
   text-align: left;
   white-space: nowrap;
   background: transparent;
-  cursor: pointer;
   margin-left: ${pxIntoRem(16)};
   &:hover + ${SmallComboBoxOptionActiveBackground} {
-    display: flex;
-  }
-  &:focus + ${SmallComboBoxOptionActiveBackground} {
     display: flex;
   }
 `;

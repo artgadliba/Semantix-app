@@ -133,16 +133,14 @@ const AppMenu = () => {
                 if (res.headers && "jwt-tokens" in res.headers) {
                     localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
                 }
-                const list = res.data;
-                if (list) {
-                    setFolderList(list);
+                if (res.data) {
+                    setFolderList(res.data);
                 }
             })
             .catch((err) => {
                 if (err.headers && "jwt-tokens" in err.headers) {
                     localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
                 }
-                
                 console.log(err);
             })
         }
@@ -190,7 +188,8 @@ const AppMenu = () => {
                             <AppMenuSectionTitle>Мои файлы</AppMenuSectionTitle>
                             <AppMenuSectionExpandIcon 
                                 alt="icon" 
-                                src={filesButtonActive ? "/images/folders-closed.svg" : "/images/folders-opened.svg"} 
+                                src={filesButtonActive ? 
+                                    "/images/folders-closed.svg" : "/images/folders-opened.svg"} 
                             />
                         </AppMenuSectionFilesLinkButton>
                         <AppMenuSectionExpandWrapper className="expanding_menu">

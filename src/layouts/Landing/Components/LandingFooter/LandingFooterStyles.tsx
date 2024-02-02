@@ -78,7 +78,6 @@ const LandingFooterDocumentLink = styled(Link)`
   font-style: normal;
   font-weight: 400;
   line-height: 150%;
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     color: #FFF;
@@ -122,7 +121,6 @@ const LandingFooterContactTelegramBlock = styled(Link)`
   display: flex;
   flex-direction: row;
   gap: ${pxIntoRem(10)};
-  cursor: pointer;
   transition: 0.3s;
   &:hover ${LandingFooterTelegramIcon} {
     fill: #1683E2;
@@ -161,7 +159,6 @@ const LandingFooterContactEmailBlock = styled(Link)`
   display: flex;
   flex-direction: row;
   gap: ${pxIntoRem(10)};
-  cursor: pointer;
   transition: 0.3s;
   &:hover ${LandingFooterEmailIcon} {
     fill: #1683E2;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-import { MainButtonStyles, TooltipIcon } from "components/Mixins/Mixins";
+import { ModalMainButtonStyles, TooltipIcon } from "components/Mixins/Mixins";
 
 const CreateNewFolderModalContent = styled.div`
   display: flex;
@@ -114,7 +114,7 @@ const CreateNewFolderModalInputField = styled.input`
 `;
 
 const CreateNewFolderModalMainButton = styled.button`
-  ${MainButtonStyles}
+  ${ModalMainButtonStyles}
   @media (max-width: 500px) {
     margin: auto ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});
@@ -211,6 +211,7 @@ const CreateNewFolderModalBottomError = styled.div`
   @media (max-width: 500px) {
     margin-top: ${pxIntoRem(-10)};
     margin-bottom: ${pxIntoRem(20)};
+  }
 `;
 
 export {

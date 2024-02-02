@@ -28,10 +28,13 @@ const AppMenuBackgroundBlock = styled.div`
     border-radius: 0px ${pxIntoRem(24)} ${pxIntoRem(24)} 0px;
     border: 1px solid transparent;
     border-left: none;
-    background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%); border-box;
+    background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
@@ -43,8 +46,7 @@ const AppMenuBackgroundLayer = styled.div`
   height: calc(100% - 1px);
   margin-top: 1px;
   border-radius: 0px ${pxIntoRem(24)} ${pxIntoRem(24)} 0px;
-  backdrop-filter: blur(102px);
-  -webkit-transform: translate3d(0, 0, 0);
+  backdrop-filter: blur(${pxIntoRem(102)});
   background: linear-gradient(245deg, rgba(36, 37, 46, 0.30) 0%, rgba(36, 36, 36, 0.13) 100%);
   z-index: 1;
 `;
@@ -121,8 +123,11 @@ const AppMenuActiveBlock = styled.div`
     border: ${pxIntoRem(1)} solid transparent;
     background: linear-gradient(181deg, rgba(32, 34, 48, 1) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
@@ -145,7 +150,7 @@ const AppMenuSectionLinkBlock = styled(Link)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: fit-content;
+  width: 100%;
   margin-left: ${pxIntoRem(16)};
   &.active {
     pointer-events: none;
@@ -171,7 +176,7 @@ const AppMenuSectionFilesLinkButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: fit-content;
+  width: 100%;
   margin-left: ${pxIntoRem(16)};
   background: transparent;
   &.folders_menu_active {
@@ -214,7 +219,7 @@ const AppMenuActiveBlurredCircle = styled.div`
   height: ${pxIntoRem(21)};
   border-radius: 50%;
   background: linear-gradient(90deg, #2499FF 0%, #7124FF 100%);
-  filter: blur(23px);
+  filter: blur(${pxIntoRem(23)});
   z-index: 99;
 `;
 
@@ -259,8 +264,11 @@ const AppMenuBalanceBackground = styled.div`
     border: ${pxIntoRem(1)} solid transparent;
     background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
@@ -283,14 +291,9 @@ const AppMenuBalanceBlurredCircle = styled.div`
   background: linear-gradient(90deg, #2499FF 0%, #7124FF 100%);
   top: ${pxIntoRem(11)};
   left: ${pxIntoRem(10)};
-  filter: blur(21.5px);
-  -webkit-transform: translate3d(0, 0, 0);
+  filter: blur(${pxIntoRem(21.5)});
   margin-top: ${pxIntoRem(3)};
   margin-left: ${pxIntoRem(4)};
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
   z-index: -1;
 `;
 
@@ -355,7 +358,6 @@ const AppMenuBalanceAddButton = styled(Link)`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     background: rgba(22, 131, 226, 0.10);

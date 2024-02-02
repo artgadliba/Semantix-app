@@ -9,7 +9,7 @@ import {
   AppHeaderBurgerContentLogoBlock,
   AppHeaderBurgerContentLogoIcon,
   AppHeaderBurgerIcon,
-  AppHeaderBurgerUsernameBlock,
+  AppHeaderBurgerUsernameButton,
   AppHeaderBurgerUsernameIcon,
   AppHeaderBurgerMenuButton,
   AppHeaderBurgerMenuButtonIcon,
@@ -42,24 +42,47 @@ import {
   AppHeaderBurgerEmailLinkBlock
 } from "./AppHeaderBurgerStyles";
 import AppMenuFolders from "layouts/App/Components/AppMenuFolders/AppMenuFolders";
+import SmallComboBox from "components/SmallComboBox/SmallComboBox";
 import useModal from "hooks/useModal";
 import CreateNewFolderModal from "components/Modals/CreateNewFolderModal/CreateNewFolderModal";
+import MessageModal from "components/Modals/MessageModal/MessageModal";
+import PasswordRecoveryModal from "components/Modals/PasswordRecoveryModal/PasswordRecoveryModal";
 import { numberWithCommas } from "utils/numberWithCommas";
 import { useSelector } from "react-redux";
 import { RootState } from "slices";
 import BaseRateIcon from "../../../../assets/base-rate-icon.svg";
 import ProRateIcon from "../../../../assets/pro-rate-icon.svg";
 import BusinessRateIcon from "../../../../assets/business-rate-icon.svg";
+import { accountMenuOptions } from "content/AccountMenuOptions";
 import axios from "axios";
 
 const AppHeaderBurger = () => {
     const { pathname } = useLocation();
     const rate = useSelector((state: RootState) => state.rate.value);
+    const updateFolderlist = useSelector((state: RootState) => state.updateFolderList.value);
     const [folderList, setFolderList] = useState([]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [filesButtonActive, setFilesButtonActive] = useState<boolean>(false);
+    const [userMenuActive, setUserMenuActive] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("");
+    const [option, setOption] = useState<string>("");
     const RATE_ICON = rate === "Бизнес" ? BusinessRateIcon : (rate === "Продвинутый" ? ProRateIcon : BaseRateIcon);
+
+    useEffect(() => {
+        if (option === "Сменить пароль") {
+            openPassModal();
+            setOption(null);
+        } else if (option === "Выйти") {
+            handleLogout();
+            setOption(null);
+        }
+    },[option]);
+
+    useEffect(() => {
+        if (filesButtonActive || updateFolderlist) {
+            handleRequestUserFolders();
+        }
+    },[filesButtonActive, updateFolderlist]);
 
     useEffect(() => {
         if (pathname.includes("/app/folders/")) {
@@ -107,7 +130,15 @@ const AppHeaderBurger = () => {
     const {
         openModal: openModal,
         modal: createNewFolderModalModal
-    } = useModal(CreateNewFolderModal, {}); 
+    } = useModal(CreateNewFolderModal, {});
+    const {
+        openModal: openMessageModal,
+        modal: messageModal
+    } = useModal(MessageModal, { modalType: "passwordChanged" });
+    const {
+        openModal: openPassModal,
+        modal: passwordRecoveryModal
+    } = useModal(PasswordRecoveryModal, { openMessageModal, modalType: "resetPassword" });
 
     const handleRequestUserFolders = () => {
         if (localStorage.getItem("jwt-tokens")) {
@@ -120,8 +151,9 @@ const AppHeaderBurger = () => {
                 if (res.headers && "jwt-tokens" in res.headers) {
                     localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
                 }
-                const list = res.data;
-                localStorage.setItem("folders", JSON.stringify(list));
+                if (res.data) {
+                    setFolderList(res.data);
+                }
             })
             .catch((err) => {
                 if (err.headers && "jwt-tokens" in err.headers) {
@@ -132,6 +164,30 @@ const AppHeaderBurger = () => {
         }
     }
 
+    const handleLogout = () => {
+        axios.delete("/api/users/current/logout", {
+            headers: {
+                "jwt-tokens": localStorage.getItem("jwt-tokens")
+            }
+        })
+        .then(() => {
+            localStorage.clear();
+            window.location.href = "/";
+        })
+        .catch((err) => {
+            window.location.href = "/";
+            console.log(err);
+        })
+    }
+
+    const toggleUserMenu = () => {
+        if (userMenuActive == true) {
+            setUserMenuActive(false);
+        } else {
+            setUserMenuActive(true);
+        }
+    }
+    
     return (
         <div>
             <AppHeaderBurgerBlock onClick={() => setIsOpen(true)}>
@@ -144,7 +200,7 @@ const AppHeaderBurger = () => {
                         <AppHeaderBurgerContentLogoBlock>
                         <AppHeaderBurgerContentLogoIcon alt="logo" src="/images/main-logo.svg" />
                         </AppHeaderBurgerContentLogoBlock>
-                        <AppHeaderBurgerUsernameBlock>
+                        <AppHeaderBurgerUsernameButton onClick={toggleUserMenu}>
                             {username && (
                                 <AppHeaderBurgerUsernameIcon>
                                     {username.slice(0, 1).toUpperCase()}
@@ -153,7 +209,15 @@ const AppHeaderBurger = () => {
                             <AppHeaderBurgerMenuButton>
                                 <AppHeaderBurgerMenuButtonIcon alt="open" src="/images/folders-closed.svg" />
                             </AppHeaderBurgerMenuButton>
-                        </AppHeaderBurgerUsernameBlock>
+                        </AppHeaderBurgerUsernameButton>
+                        {userMenuActive === true && (
+                            <SmallComboBox 
+                                className="header_box" 
+                                setMenuActive={setUserMenuActive} 
+                                setOption={setOption} 
+                                options={accountMenuOptions} 
+                            />
+                        )}
                         <AppHeaderBurgerContentClose onClick={() => setIsOpen(false)}>
                         <AppHeaderBurgerContentCloseImage alt="close" src="/images/header-close.svg" />
                         </AppHeaderBurgerContentClose>
@@ -192,11 +256,16 @@ const AppHeaderBurger = () => {
                             <AppHeaderBurgerSectionTitle>Мои файлы</AppHeaderBurgerSectionTitle>
                             <AppHeaderBurgerSectionExpandIcon 
                                 alt="closed" 
-                                src={filesButtonActive ? "/images/folders-opened.svg" : "/images/folders-closed.svg"}
+                                src={filesButtonActive ? 
+                                    "/images/folders-opened.svg" : "/images/folders-closed.svg"}
                             />
                         </AppHeaderBurgerSectionLinkButton>
                         <AppHeaderBurgerSectionExpandWrapper className="expanding_menu">
-                            <AppMenuFolders openModal={openModal} setIsOpen={setIsOpen} folderList={folderList} />
+                            <AppMenuFolders 
+                                openModal={openModal} 
+                                setIsOpen={setIsOpen} 
+                                folderList={folderList} 
+                            />
                         </AppHeaderBurgerSectionExpandWrapper>
                         <AppHeaderBurgerSectionLinkBlock 
                             to="/app/balance"

@@ -98,12 +98,8 @@ const LargeComboBoxOptionButton= styled.button`
   width: 100%;
   text-align: left;
   background: transparent;
-  cursor: pointer;
   margin-left: ${pxIntoRem(16)};
   &:hover + ${LargeComboBoxOptionActiveBackground} {
-    display: flex;
-  }
-  &:focus + ${LargeComboBoxOptionActiveBackground} {
     display: flex;
   }
 `;
@@ -149,14 +145,6 @@ const LargeComboBoxOptionAddFolderButtonBlock = styled.button`
   }
   &:hover ${LargeComboBoxOptionAddFolderButtonTitle} {
     color: #1668E2;
-    transition: 0.3s;
-  }
-  &:focus ${LargeComboBoxOptionAddFolderButtonIcon} {
-    stroke: rgba(22, 131, 226, 1);
-    transition: 0.3s;
-  }
-  &:focus ${LargeComboBoxOptionAddFolderButtonTitle} {
-    color: rgba(22, 131, 226, 1);
     transition: 0.3s;
   }
   &:focus {

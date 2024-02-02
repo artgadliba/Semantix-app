@@ -7,6 +7,7 @@ const AppMenuFoldersBlock = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 9;
+  width: 100%;
 `;
 
 const AppMenuFoldersAddNewFolderIcon = styled.svg`
@@ -29,9 +30,7 @@ const AppMenuFoldersAddNewFolderButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: fit-content;
-  margin-left: ${pxIntoRem(17.5)};
-  margin-bottom: ${pxIntoRem(17)};
+  margin: 0 ${pxIntoRem(17.5)} ${pxIntoRem(17)} ${pxIntoRem(17.5)};
   background: transparent;
   &:hover ${AppMenuFoldersAddNewFolderIcon} {
     stroke: #1668E2;
@@ -81,7 +80,7 @@ const AppMenuFoldersContentFolderTitle = styled.h1`
 const AppMenuFoldersContentFolderBlock = styled(NavLink)`
   display: flex;
   flex-direction: row;
-  width: fit-content;
+  width: 100%;
   align-items: center;
   margin-left: ${pxIntoRem(30)};
   height: ${pxIntoRem(19)};

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-import { MainButtonStyles } from "components/Mixins/Mixins";
+import { ModalMainButtonStyles } from "components/Mixins/Mixins";
 
 const MessageModalContent = styled.div`
   display: flex;
@@ -68,7 +68,7 @@ const MessageModalText = styled.p`
 `;
 
 const MessageModalMainButton = styled.button`
-  ${MainButtonStyles}
+  ${ModalMainButtonStyles}
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});

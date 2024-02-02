@@ -57,7 +57,7 @@ const AudioPlayerControlsButton = styled.button`
 const AudioControlsIcon = styled.img`
   display: flex;
   width: 100%;
-  heigh: 100%;
+  height: 100%;
 `;
 
 const AudioPlayerTimecode = styled.div`
@@ -101,6 +101,7 @@ const ProgressStyles = `
 
 const AudioPlayerTimeScale = styled.input`
   -webkit-appearance: none;
+  appearance: none;
   position: absolute;
   width: 100%;
   height: ${pxIntoRem(8)};

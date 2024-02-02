@@ -34,6 +34,7 @@ interface INewFileFolderModal {
 
 const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderModal, openNewFileModal}) => {
     const dispatch = useDispatch();
+    const updateFolderlist = useSelector((state: RootState) => state.updateFolderList.value);
     const [folderList, setFolderList] = useState<Array<IAppFolderObj>>([]);
     const [menuActive, setMenuActive] = useState<boolean>(false);
     const folder = useSelector((state: RootState) => state.uploadFolder.value);
@@ -45,8 +46,11 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderMod
     }, [folder]);
 
     useEffect(() => {
-        handleRequestUserFolders();
-    },[]);
+        handleRequestUserFolders(); //initial request
+        if (updateFolderlist) {
+            handleRequestUserFolders(); //request on update
+        }
+    },[updateFolderlist]);
 
     const toggleMenuActive = () => {
         setMenuActive(current => !current);
@@ -121,7 +125,6 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderMod
                                 )}
                             </NewFileFolderModalSelectBlock>
                             <NewFileFolderModalMainButton 
-                                disabled={!folder}
                                 type="submit"
                             >
                                 Далее

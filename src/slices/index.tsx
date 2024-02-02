@@ -11,6 +11,7 @@ import sortByFieldSlice from './sortByFieldSlice';
 import updateFileListSlice from './updateFileListSlice';
 import updateFolderListSlice from './updateFolderListSlice';
 import uploadFolderSlice from './uploadFolderSlice';
+import widgetFileSlice from './widgetFileSlice';
 
 export const store = configureStore({
     reducer: {
@@ -25,7 +26,8 @@ export const store = configureStore({
         sortByField: sortByFieldSlice,
         updateFileList: updateFileListSlice,
         updateFolderList: updateFolderListSlice, 
-        uploadFolder: uploadFolderSlice
+        uploadFolder: uploadFolderSlice,
+        widgetFile: widgetFileSlice
     }
 });
 

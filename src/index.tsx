@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { App } from "./App";
+import App from "App";
 import pxIntoRem from "utils/pxIntoRem";
 import { hydrate, render } from "react-dom";
 import { Provider } from "react-redux";
@@ -12,8 +12,7 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     text-decoration: none;
     outline: none;
-    box-sizing: border-box!important;
-    font-family: 'Mulish', sans-serif !important;
+    box-sizing: border-box;
     &::-webkit-scrollbar {
       width: ${pxIntoRem(8)};
     }
@@ -28,7 +27,6 @@ const GlobalStyle = createGlobalStyle`
       height: ${pxIntoRem(50)};
       width: ${pxIntoRem(8)};
       border-radius: ${pxIntoRem(4)};
-      transform: translate3d(0px, 750px, 0px);
     }
   }
 
@@ -38,8 +36,8 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     font-size: 16px;
     scroll-behavior: auto;
+    -webkit-overflow-scrolling: touch;
     background-color: #040512;
-
     @media(max-width: 1450px) {
       font-size: 14.5px;
     }
@@ -113,8 +111,8 @@ const GlobalStyle = createGlobalStyle`
 
   #root > div {
     display: flex;
-    width: 100%;
-    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
   }
 
   a, button {
@@ -163,12 +161,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const route = (
-    <div>
+    <>
         <GlobalStyle />
         <Provider store={store}>
             <App />
         </Provider>
-    </div>
+    </>
 );
 
 const rootElement = document.getElementById("root") as HTMLElement;

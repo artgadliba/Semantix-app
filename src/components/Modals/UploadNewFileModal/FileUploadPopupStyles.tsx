@@ -98,7 +98,6 @@ const FileUploadPopupCancelButton = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     border: 1px solid #FFF;

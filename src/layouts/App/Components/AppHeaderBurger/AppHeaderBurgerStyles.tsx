@@ -9,7 +9,6 @@ const AppHeaderBurgerBlock = styled.button`
   align-items: center;
   width: ${pxIntoRem(21)};
   height: ${pxIntoRem(16)};
-  cursor: pointer;
   background: transparent;
   @media (max-width: 500px) {
     display: flex;
@@ -66,21 +65,21 @@ const AppHeaderBurgerContentClose = styled.button`
   width: ${pxIntoRem(16.263)};
   height: ${pxIntoRem(16.263)};
   background: transparent;
-  cursor: pointer;
   margin-left: ${pxIntoRem(0)};
   margin-right: ${pxIntoRem(17.37)};
 `;
 
 const AppHeaderBurgerContentCloseImage = styled.img`
-  width: ${pxIntoRem(16.263)}
+  width: ${pxIntoRem(16.263)};
   height: ${pxIntoRem(16.263)};
 `;
 
-const AppHeaderBurgerUsernameBlock = styled.div`
+const AppHeaderBurgerUsernameButton = styled.button`
   display: flex;
   margin-left: auto;
   margin-right: ${pxIntoRem(26.37)};
   align-items: center;
+  background: transparent;
 `;
 
 const AppHeaderBurgerUsernameIcon = styled.div`
@@ -158,8 +157,11 @@ const AppHeaderBurgerActiveBlock = styled.div`
     border: ${pxIntoRem(1)} solid transparent;
     background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
@@ -237,7 +239,7 @@ const AppHeaderBurgerActiveBackgroundLayer = styled.div`
   height: 100%;
   border-radius: ${pxIntoRem(12)};
   background: rgba(28, 29, 40, 0.40);
-  backdrop-filter: blur(47px);
+  backdrop-filter: blur(${pxIntoRem(47)});
   overflow: hidden;
 `;
 
@@ -249,7 +251,7 @@ const AppHeaderBurgerActiveBlurredCircle = styled.div`
   height: ${pxIntoRem(19)};
   border-radius: 50%;
   background: linear-gradient(90deg, #2499FF 0%, #7124FF 100%);
-  filter: blur(26px);
+  filter: blur(${pxIntoRem(26)});
   z-index: -1;
 `;
 
@@ -272,8 +274,11 @@ const AppHeaderBurgerBalanceBackground = styled.div`
     border: ${pxIntoRem(1)} solid transparent;
     background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
@@ -288,7 +293,7 @@ const AppHeaderBurgerBalanceBackgroundLayer = styled.div`
   height: 100%;
   border-radius: ${pxIntoRem(12)};
   background: rgba(28, 29, 40, 0.40);
-  backdrop-filter: blur(42px);
+  backdrop-filter: blur(${pxIntoRem(42)});
   overflow: hidden;
 `;
 
@@ -298,7 +303,7 @@ const AppHeaderBurgerBalanceBlurredCircle = styled.div`
   height: ${pxIntoRem(28)};
   border-radius: 50%;
   background: linear-gradient(90deg, #2499FF 0%, #7124FF 100%);
-  filter: blur(25.5px);
+  filter: blur(${pxIntoRem(25.5)});
   margin-top: ${pxIntoRem(3)};
   margin-left: ${pxIntoRem(4)};
   z-index: -1;
@@ -364,7 +369,6 @@ const AppHeaderBurgerBalanceAddButton = styled(Link)`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     background: rgba(22, 131, 226, 0.10);
@@ -442,7 +446,7 @@ export {
   AppHeaderBurgerContentCloseImage,
   AppHeaderBurgerContentLogoBlock,
   AppHeaderBurgerContentLogoIcon,
-  AppHeaderBurgerUsernameBlock,
+  AppHeaderBurgerUsernameButton,
   AppHeaderBurgerUsernameIcon,
   AppHeaderBurgerMenuButton,
   AppHeaderBurgerMenuButtonIcon,

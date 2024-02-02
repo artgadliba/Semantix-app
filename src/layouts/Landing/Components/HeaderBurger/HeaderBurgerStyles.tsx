@@ -7,10 +7,9 @@ const HeaderBurgerBlock = styled.button`
   flex-direction: column;
   width: ${pxIntoRem(21)};
   height: ${pxIntoRem(16)};
-  cursor: pointer;
   background: transparent;
   @media (max-width: 500px) {
-    display: flex;
+    display: block;
     margin-right: ${pxIntoRem(15)};
   }
 `;
@@ -63,9 +62,8 @@ const HeaderBurgerContentClose = styled.button`
   width: ${pxIntoRem(16.263)};
   height: ${pxIntoRem(16.263)};
   background: transparent;
-  cursor: pointer;
   margin-left: 0;
-  margin-right: ${pxIntoRem(17.37)};
+  margin-right: ${pxIntoRem(25)};
 `;
 
 const LandingHeaderBlurredCircle = styled.div`
@@ -73,18 +71,18 @@ const LandingHeaderBlurredCircle = styled.div`
   border-radius: 50%;
   opacity: 0.6;
   background: linear-gradient(44deg, #0781FE 0%, #00C7B4 100%);
-  filter: blur(197px);
+  filter: blur(${pxIntoRem(197)});
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
     height: ${pxIntoRem(80)};
     top: ${pxIntoRem(77)};
     left: ${pxIntoRem(-40)};
-    filter: blur(176.5px);
+    filter: blur(${pxIntoRem(176.5)});
   }
 `;
 
 const HeaderBurgerContentCloseImage = styled.img`
-  width: ${pxIntoRem(16.263)}
+  width: ${pxIntoRem(16.263)};
   height: ${pxIntoRem(16.263)};
 `;
 
@@ -167,14 +165,12 @@ const HeaderBurgerButton = styled(Link)`
   background-color: transparent;
   padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
   width: ${pxIntoRem(116)};
-  gap: ${pxIntoRem(10)};
   font-family: "Mulish";
   font-style: normal;
   font-weight: 600;
   font-size: ${pxIntoRem(14)};
   line-height: normal;
   color: #ffffff;
-  cursor: pointer;
   transition: 0.5s;
   &:hover {
     background: rgba(22, 131, 226, 0.10);

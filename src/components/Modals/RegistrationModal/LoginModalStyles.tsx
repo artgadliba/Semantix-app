@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
 import { RegistrationModalShowPassword } from "./RegistrationModalStyles";
-import { MainButtonStyles, InputButtonIcon } from "components/Mixins/Mixins";
+import { ModalMainButtonStyles, InputButtonIcon } from "components/Mixins/Mixins";
 
 const LoginModalContent = styled.div`
   display: flex;
@@ -123,7 +123,7 @@ const LoginModalInputField = styled.input`
 `;
 
 const LoginModalMainButton = styled.button`
-  ${MainButtonStyles}
+  ${ModalMainButtonStyles}
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} auto ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});
@@ -202,7 +202,7 @@ const LoginModalForgotPasswordButton = styled.button`
 const LoginModalInputButton = styled.button`
   position: absolute;
   width: ${pxIntoRem(20)};
-  heigth: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
   background: transparent;
   right: ${pxIntoRem(16)};
   z-index: 9999;

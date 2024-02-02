@@ -50,6 +50,7 @@ const PaymentModalOptionsBlock = styled.div`
   gap: ${pxIntoRem(12)};
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
+  }
 `;
 
 const PaymentModalOptionElementArrow = styled.svg`

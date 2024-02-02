@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-import { MainButtonStyles, TooltipIcon } from "components/Mixins/Mixins";
+import { ModalMainButtonStyles, TooltipIcon } from "components/Mixins/Mixins";
 
 const PasswordRecoveryModalContent = styled.div`
   display: flex;
@@ -163,7 +163,7 @@ const PasswordRecoveryModalShowPassword = styled.div`
 const PasswordRecoveryModalInputButtonIcon = styled.svg`
   display: flex;
   width: ${pxIntoRem(20)};
-  heigth: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
   stroke: #393952;
   &:hover {
     stroke: #FFF;
@@ -173,7 +173,7 @@ const PasswordRecoveryModalInputButtonIcon = styled.svg`
 const PasswordRecoveryModalInputButton = styled.button`
   position: absolute;
   width: ${pxIntoRem(20)};
-  heigth: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
   background: transparent;
   right: ${pxIntoRem(16)};
   z-index: 9999;
@@ -196,7 +196,7 @@ const PasswordRecoveryModalInputButton = styled.button`
 `;
 
 const PasswordRecoveryModalMainButton = styled.button`
-  ${MainButtonStyles}
+  ${ModalMainButtonStyles}
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import pxIntoRem from "../../../utils/pxIntoRem";
-import { MainButtonStyles } from "components/Mixins/Mixins";
+import { ModalMainButtonStyles } from "components/Mixins/Mixins";
 
 const PurchaseModalContent = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ const PurchaseModalTitle = styled.h1`
 `;
 
 const PurchaseModalLine = styled.div`
-  postion: relative;
+  position: relative;
   width: 100%;
   height: 1px;
   background: #1D2132;
@@ -92,7 +92,7 @@ const PurchaseModalOptionPrice = styled.div`
 `;
 
 const PurchaseModalMainButton = styled.button`
-  ${MainButtonStyles}
+  ${ModalMainButtonStyles}
   @media (max-width: 500px) {
     margin: ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});

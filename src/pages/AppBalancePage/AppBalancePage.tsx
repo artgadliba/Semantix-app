@@ -23,7 +23,7 @@ import {
     AppBalancePageRatesTableOptionBlockHidden,
     AppBalancePageRatesTableOptionsContent,
     AppBalancePageRatesTableOptionsBackgroundLayer,
-    AppBalancePageRatesTableOptionBlock,
+    AppBalancePageRatesTableOptionButton,
     AppBalancePageRatesTableOptionValue,
     AppBalancePageRatesTableOptionPrice,
     AppBalancePageRatesTableOptionLine,
@@ -61,7 +61,10 @@ const AppBalancePage = () => {
     const balance = useSelector((state: RootState) => state.balance.value);
     const rate = useSelector((state: RootState) => state.rate.value);
 
-    useEffect(() => { 
+    useEffect(() => {
+        const elemFirst = document.getElementById("base_options_content");
+        const elemSecond = document.getElementById("pro_options_content");
+
         const optionHeight = document.getElementById("option_block").offsetHeight;
         const trackHeight = document.getElementById("scrollbar_track").offsetHeight;
         const visibleHeight = document.getElementById("visible_base_block").offsetHeight;
@@ -74,51 +77,20 @@ const AppBalancePage = () => {
         document.getElementById("options_thumb_first").style.height = `${thumbHeightFirst}px`;
         document.getElementById("options_thumb_second").style.height = `${thumbHeightSecond}px`;
 
-        const elemFirst = document.getElementById("base_options_content");
-        const elemSecond = document.getElementById("pro_options_content");
-        const optionBase = document.getElementsByClassName("option_base_element");
-        const optionPro = document.getElementsByClassName("option_pro_element");
-
         function handleLeftHiddenBlocks() {
             const value = elemFirst.scrollTop / (baseHeight / trackHeight);
             document.getElementById("options_thumb_first").style.transform = `translate3d(0px, ${value}px, 0px`;
-            for (let i = 0; i < optionBase.length; i ++) {
-                const optionBottom = optionBase[i].getBoundingClientRect();
-                const visibleBlock = document.getElementById("visible_base_block").getBoundingClientRect();
-                const hiddenBlocks = document.getElementsByClassName("hidden_base_block");
-                if (optionBottom.bottom >= visibleBlock.bottom) {
-                    hiddenBlocks[i].classList.add("active_hidden");
-                } else if (optionBottom.bottom <= visibleBlock.bottom) {
-                    hiddenBlocks[i].classList.remove("active_hidden");
-                }
-                if (i === optionBase.length - 1) {
-                    if (optionBottom.bottom === visibleBlock.bottom) {
-                        hiddenBlocks[i].classList.remove("active_hidden");
-                    }
-                }
-            }
+            handleLeftBottomBlockHidden();
         }
         function handleRightHiddenBlocks() {
             const value = elemSecond.scrollTop / (proHeight / trackHeight);
             document.getElementById("options_thumb_second").style.transform = `translate3d(0px, ${value}px, 0px`;
-            for (let i = 0; i < optionPro.length; i ++) {
-                const optionBottom = optionPro[i].getBoundingClientRect();
-                const visibleBlock = document.getElementById("visible_pro_block").getBoundingClientRect();
-                const hiddenBlocks = document.getElementsByClassName("hidden_pro_block");
-                if (optionBottom.bottom >= visibleBlock.bottom) {
-                    hiddenBlocks[i].classList.add("active_hidden");
-                } else if (optionBottom.bottom <= visibleBlock.bottom) {
-                    hiddenBlocks[i].classList.remove("active_hidden");
-                }
-                if (i === optionPro.length - 1) {
-                    if (optionBottom.bottom === visibleBlock.bottom) {
-                        hiddenBlocks[i].classList.remove("active_hidden");
-                    }
-                }
-            }
+            handleRightBottomBlockHidden();
         }
+        
         elemFirst.addEventListener("scroll", handleLeftHiddenBlocks);
         elemSecond.addEventListener("scroll", handleRightHiddenBlocks);
+
         return () => {
             elemFirst.removeEventListener("scroll", handleLeftHiddenBlocks);
             elemSecond.removeEventListener("scroll", handleRightHiddenBlocks);
@@ -135,28 +107,8 @@ const AppBalancePage = () => {
     }, []);
 
     useEffect(() => {
-        const optionBase = document.getElementsByClassName("option_base_element");
-        for (let i = 0; i < optionBase.length; i ++) {
-            const optionBottom = optionBase[i].getBoundingClientRect();
-            const visibleBlock = document.getElementById("visible_base_block").getBoundingClientRect();
-            const hiddenBlocks = document.getElementsByClassName("hidden_base_block");
-            if (optionBottom.bottom >= visibleBlock.bottom) {
-                hiddenBlocks[i].classList.add("active_hidden");
-            } else {
-                hiddenBlocks[i].classList.remove("active_hidden");
-            }
-        }
-        const optionPro = document.getElementsByClassName("option_pro_element");
-        for (let i = 0; i < optionPro.length; i ++) {
-            const optionBottom = optionPro[i].getBoundingClientRect();
-            const visibleBlock = document.getElementById("visible_pro_block").getBoundingClientRect();
-            const hiddenBlocks = document.getElementsByClassName("hidden_pro_block");
-            if (optionBottom.bottom >= visibleBlock.bottom) {
-                hiddenBlocks[i].classList.add("active_hidden");
-            } else {
-                hiddenBlocks[i].classList.remove("active_hidden");
-            }
-        }
+        handleLeftBottomBlockHidden();
+        handleRightBottomBlockHidden();
     },[]);
 
     useEffect(() => {
@@ -194,6 +146,44 @@ const AppBalancePage = () => {
         openModal: openCustomPurchaseModal,
         modal: customPurchaseModal
     } = useModal(CustomPurchaseModal, { openPayModal, purchaseOption });
+
+    const handleLeftBottomBlockHidden = () => {
+        const optionBase = document.getElementsByClassName("option_base_element");
+        for (let i = 0; i < optionBase.length; i ++) {
+            const optionBottom = optionBase[i].getBoundingClientRect();
+            const visibleBlock = document.getElementById("visible_base_block").getBoundingClientRect();
+            const hiddenBlocks = document.getElementsByClassName("hidden_base_block");
+            if (optionBottom.bottom >= visibleBlock.bottom) {
+                hiddenBlocks[i].classList.add("active_hidden");
+            } else {
+                hiddenBlocks[i].classList.remove("active_hidden");
+            }
+            if (i === optionBase.length - 1) {
+                if (optionBottom.bottom === visibleBlock.bottom) {
+                    hiddenBlocks[i].classList.remove("active_hidden");
+                }
+            }
+        }
+    }
+
+    const handleRightBottomBlockHidden = () => {
+        const optionPro = document.getElementsByClassName("option_pro_element");
+        for (let i = 0; i < optionPro.length; i ++) {
+            const optionBottom = optionPro[i].getBoundingClientRect();
+            const visibleBlock = document.getElementById("visible_pro_block").getBoundingClientRect();
+            const hiddenBlocks = document.getElementsByClassName("hidden_pro_block");
+            if (optionBottom.bottom >= visibleBlock.bottom) {
+                hiddenBlocks[i].classList.add("active_hidden");
+            } else {
+                hiddenBlocks[i].classList.remove("active_hidden");
+            }
+            if (i === optionPro.length - 1) {
+                if (optionBottom.bottom === visibleBlock.bottom) {
+                    hiddenBlocks[i].classList.remove("active_hidden");
+                }
+            }
+        }
+    }
 
     const handlePurchase = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         let rate: string;
@@ -244,7 +234,7 @@ const AppBalancePage = () => {
                                     <AppBalancePageRatesTableOptionsContent id="base_options_content">
                                         {basePackages.map((pack, idx) => {
                                             return (
-                                                <AppBalancePageRatesTableOptionBlock 
+                                                <AppBalancePageRatesTableOptionButton 
                                                     className="option_base_element" 
                                                     id="option_block" 
                                                     key={idx}
@@ -260,7 +250,7 @@ const AppBalancePage = () => {
                                                         <rect x="1" y="1" width="28" height="28" rx="8" />
                                                     </AppBalancePageRatesTableOptionIcon>
                                                     <AppBalancePageRatesTableOptionBlockHidden className="hidden_base_block" />
-                                                </AppBalancePageRatesTableOptionBlock>
+                                                </AppBalancePageRatesTableOptionButton>
                                             );
                                         })}
                                     </AppBalancePageRatesTableOptionsContent>
@@ -298,7 +288,7 @@ const AppBalancePage = () => {
                                     <AppBalancePageRatesTableOptionsContent id="pro_options_content">
                                         {proPackages.map((pack, idx) => {
                                             return (
-                                                <AppBalancePageRatesTableOptionBlock 
+                                                <AppBalancePageRatesTableOptionButton 
                                                     className="option_pro_element" 
                                                     id="option_block" 
                                                     key={idx}
@@ -314,7 +304,7 @@ const AppBalancePage = () => {
                                                         <rect x="1" y="1" width="28" height="28" rx="8" />
                                                     </AppBalancePageRatesTableOptionIcon>
                                                     <AppBalancePageRatesTableOptionBlockHidden className="hidden_pro_block" />
-                                                </AppBalancePageRatesTableOptionBlock>
+                                                </AppBalancePageRatesTableOptionButton>
                                             );
                                         })}
                                     </AppBalancePageRatesTableOptionsContent>

@@ -127,7 +127,7 @@ const AppFileEditControlBlock = styled.div`
   }
 `;
 
-const AppFileEditControlButtonSave = styled.div`
+const AppFileEditControlButtonSave = styled.button`
   display: flex;
   width: ${pxIntoRem(183)};
   padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
@@ -142,7 +142,6 @@ const AppFileEditControlButtonSave = styled.div`
   font-weight: 500;
   line-height: normal;
   white-space: nowrap;
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     background: #1668E2;
@@ -154,7 +153,7 @@ const AppFileEditControlButtonSave = styled.div`
   }
 `; 
 
-const AppFileEditControlButtonCancel = styled.div`
+const AppFileEditControlButtonCancel = styled.button`
   display: flex;
   width: ${pxIntoRem(125)};
   height: ${pxIntoRem(38)};
@@ -172,7 +171,6 @@ const AppFileEditControlButtonCancel = styled.div`
   line-height: normal;
   margin-left: auto;
   margin-right: ${pxIntoRem(0)};
-  cursor: pointer;
   transition: 0.3s;
   &:hover {
     transition: 0.3s;
@@ -201,8 +199,11 @@ const AppFilePageTranscriptionBlock = styled.div`
     border: 2px solid transparent;
     background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }

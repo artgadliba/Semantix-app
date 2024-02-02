@@ -37,37 +37,37 @@ const AppMain: FC = () => {
     const sortType = useSelector((state: RootState) => state.sortType.value);
     const sortByField = useSelector((state: RootState) => state.sortByField.value);
     const updateFilelist = useSelector((state: RootState) => state.updateFileList.value);
-    const [items, setItems] = useState<Array<IFile>>(null);
+    const [items, setItems] = useState<Array<IFile>>([]);
     const [fileList, setFileList] = useState<Array<IFile>>(null);
 
-    useEffect(() => {
-        if (localStorage.getItem("jwt-tokens")) {
-            axios.get("/api/users/current/files/0,10", {
-                headers: {
-                    "jwt-tokens": localStorage.getItem("jwt-tokens")
-                }
-            })
-            .then((res) => {
-                if (res.headers && "jwt-tokens" in res.headers) {
-                    localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
-                }
-                if (res.data) {
-                    setItems(res.data);
-                } else {
-                    setItems([]);
-                }
-            })
-            .catch((err) => {
-                if (err.headers && "jwt-tokens" in err.headers) {
-                    localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
-                }
-                console.log(err);
-                window.location.href = "/#login";
-            })
-        } else {
-            window.location.href = "/#login";
-        }
-    },[updateFilelist]);
+    // useEffect(() => {
+    //     if (localStorage.getItem("jwt-tokens")) {
+    //         axios.get("/api/users/current/files/0,10", {
+    //             headers: {
+    //                 "jwt-tokens": localStorage.getItem("jwt-tokens")
+    //             }
+    //         })
+    //         .then((res) => {
+    //             if (res.headers && "jwt-tokens" in res.headers) {
+    //                 localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
+    //             }
+    //             if (res.data) {
+    //                 setItems(res.data);
+    //             } else {
+    //                 setItems([]);
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             if (err.headers && "jwt-tokens" in err.headers) {
+    //                 localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
+    //             }
+    //             console.log(err);
+    //             window.location.href = "/#login";
+    //         })
+    //     } else {
+    //         window.location.href = "/#login";
+    //     }
+    // },[updateFilelist]);
     
     useEffect(() => {
         if (items) {

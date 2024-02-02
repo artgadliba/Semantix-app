@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import pxIntoRem from "../../../utils/pxIntoRem";
-import { MainButtonStyles, TooltipIcon, InputButtonIcon } from "components/Mixins/Mixins";
+import { ModalMainButtonStyles, TooltipIcon, InputButtonIcon } from "components/Mixins/Mixins";
 
 const RegistrationModalContent = styled.div`
   display: flex;
@@ -183,14 +183,15 @@ const RegistrationModalCheckboxLink = styled(Link)`
   font-style: normal;
   font-weight: 400;
   line-height: 150%;
-  margin-left: ${pxIntoRem(8)};
+  margin-left: ${pxIntoRem(6)};
+  margin-right: ${pxIntoRem(6)};
   &:focus-visible {
     color: rgba(22, 131, 226, 1);
   }
 `;
 
 const RegistrationModalMainButton = styled.button`
-  ${MainButtonStyles}
+  ${ModalMainButtonStyles}
   @media (max-width: 500px) {
     margin: ${pxIntoRem(24)} ${pxIntoRem(20)} 0 ${pxIntoRem(20)};
     width: calc(100% - ${pxIntoRem(40)});
@@ -255,7 +256,7 @@ const RegistrationModalInputButton = styled.button`
   position: absolute;
   display: block;
   width: ${pxIntoRem(20)};
-  heigth: ${pxIntoRem(20)};
+  height: ${pxIntoRem(20)};
   background: transparent;
   right: ${pxIntoRem(16)};
   z-index: 9999;

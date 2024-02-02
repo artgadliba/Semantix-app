@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useEffect, useState } from "react";
+import React, { FC, useLayoutEffect, useEffect, useState, useRef } from "react";
 import { 
     AppFaqPageBlock,
     AppFaqPageContentBlock,
@@ -87,9 +87,9 @@ const AppFaqPageItem: FC<IAppFaqPageItem> = ({searchInput, item}) => {
 }
 
 const AppFaqPage = () => {
+    const [mobileView, setMobileView] = useState<boolean>(false);
     const [searchInput, setSeacrhInput] = useState<string>("");
     const [currentSection, setCurrentSection] = useState<string>("Общие вопросы");
-    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [faqContent, setFaqContent] = useState<Array<IFaqContent>>(null);
 
     useLayoutEffect(() => {
@@ -103,12 +103,19 @@ const AppFaqPage = () => {
     }, [currentSection]);
 
     useEffect(() => {
+        if (window.innerWidth <= 500) {
+            setMobileView(true);
+        }
         window.addEventListener("resize", () => {
-            setWindowWidth(window.innerWidth);
+            if (window.innerWidth <= 500) {
+                setMobileView(true);
+            }
         });
         return () => {
             window.removeEventListener("resize", () => {
-                setWindowWidth(window.innerWidth);
+                if (window.innerWidth <= 500) {
+                    setMobileView(true);
+                }
             });
         }
     }, []);
@@ -145,17 +152,19 @@ const AppFaqPage = () => {
 
     const handleSection = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const element = e.currentTarget as HTMLElement;
-        if (currentSection === element.innerText && windowWidth < 501) {
-            setCurrentSection(null);
-        } else {
-            setCurrentSection(element.innerText);
+        if (mobileView) {
+            if (currentSection === element.innerText) {
+                setCurrentSection(null);
+            } else {
+                setCurrentSection(element.innerText);
+            }
         }
     }
 
     return (
         <AppInterface headerTitle="FAQ" controlBar={false}>
             <AppFaqPageBlock>
-                {windowWidth > 500 ? (
+                {!mobileView ? (
                     <AppFaqPageContentBlock>
                         <AppFaqNavigationBlock>
                             <AppFaqNavigationBlockTitle>Разделы</AppFaqNavigationBlockTitle>

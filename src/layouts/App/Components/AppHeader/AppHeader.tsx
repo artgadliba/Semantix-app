@@ -67,7 +67,7 @@ const AppHeader: FC<IAppHeader> = ({title, fileEdited}) => {
     } = useModal(PasswordRecoveryModal, { openMessageModal, modalType: "resetPassword" });
     
     const toggleUserMenu = () => {
-        if (userMenuActive == true) {
+        if (userMenuActive) {
             setUserMenuActive(false);
         } else {
             setUserMenuActive(true);

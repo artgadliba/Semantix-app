@@ -10,6 +10,7 @@ import {
     UploadNewFileModalInputFileField,
     UploadNewFileModalAdjustmentsText,
     UploadNewFileModalCheckboxBlock,
+    UploadNewFileModalLabelWrapper,
     UploadNewFileModalCheckboxInput,
     UploadNewFileModalCheckboxLabel,
     UploadNewFileModalMainButton,
@@ -249,7 +250,7 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
             setKey(1);
         }
     }
-   
+    console.log(data)
     if (uploadProcess === false) {
         return (
             <FocusTrap key={key} focusTrapOptions={{ initialFocus: initialFocus, clickOutsideDeactivates: true }}>
@@ -259,7 +260,7 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                         <UploadNewFileModalBackgroundLayer>
                             <form onSubmit={(e) => { handleFileUpload(e); }}>
                                 <UploadNewFileModalTitle>Новый файл</UploadNewFileModalTitle>
-                                {data.length == 0 ? (
+                                {data.length === 0 ? (
                                     <UploadNewFileModalInputFileBlock 
                                         id="input_file"
                                         onSubmit={(e) => e.preventDefault()}
@@ -380,36 +381,42 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                                 )}
                                 <UploadNewFileModalLine />
                                 <UploadNewFileModalAdjustmentsText>
-                                    Какой-то текст про настройки
+                                    Фильтры для работы с файлами низкого качества
                                 </UploadNewFileModalAdjustmentsText>
                                 <UploadNewFileModalCheckboxBlock>
-                                    <UploadNewFileModalCheckboxInput 
-                                        type="checkbox" 
-                                        id="checkbox_first" 
-                                        defaultChecked={checkboxNoise} 
-                                        onClick={() => {setCheckboxNoise(current => !current)}}
-                                    />
-                                    <UploadNewFileModalCheckboxLabel htmlFor="checkbox_first">
-                                        Шумоподавление
-                                    </UploadNewFileModalCheckboxLabel>
-                                    <UploadNewFileModalCheckboxInput 
-                                        type="checkbox"
-                                        id="checkbox_second"
-                                        defaultChecked={checkboxVoiceNorm} 
-                                        onClick={() => {setCheckboxVoiceNorm(current => !current)}} 
-                                    />
-                                    <UploadNewFileModalCheckboxLabel htmlFor="checkbox_second">
-                                        Нормализация голоса
-                                    </UploadNewFileModalCheckboxLabel>
-                                    <UploadNewFileModalCheckboxInput 
-                                        type="checkbox"
-                                        id="checkbox_third"
-                                        defaultChecked={checkboxFrequency} 
-                                        onClick={() => {setCheckboxFrequency(current => !current)}}
-                                    />
-                                    <UploadNewFileModalCheckboxLabel htmlFor="checkbox_third">
-                                        Частотный фильтр
-                                    </UploadNewFileModalCheckboxLabel>
+                                    <UploadNewFileModalLabelWrapper>
+                                        <UploadNewFileModalCheckboxInput 
+                                            type="checkbox" 
+                                            id="checkbox_first" 
+                                            defaultChecked={checkboxNoise} 
+                                            onClick={() => {setCheckboxNoise(current => !current)}}
+                                        />
+                                        <UploadNewFileModalCheckboxLabel htmlFor="checkbox_first">
+                                            Шумоподавление
+                                        </UploadNewFileModalCheckboxLabel>
+                                    </UploadNewFileModalLabelWrapper>
+                                    <UploadNewFileModalLabelWrapper>
+                                        <UploadNewFileModalCheckboxInput 
+                                            type="checkbox"
+                                            id="checkbox_second"
+                                            defaultChecked={checkboxVoiceNorm} 
+                                            onClick={() => {setCheckboxVoiceNorm(current => !current)}} 
+                                        />
+                                        <UploadNewFileModalCheckboxLabel htmlFor="checkbox_second">
+                                            Нормализация голоса
+                                        </UploadNewFileModalCheckboxLabel>
+                                    </UploadNewFileModalLabelWrapper>
+                                    <UploadNewFileModalLabelWrapper>
+                                        <UploadNewFileModalCheckboxInput 
+                                            type="checkbox"
+                                            id="checkbox_third"
+                                            defaultChecked={checkboxFrequency} 
+                                            onClick={() => {setCheckboxFrequency(current => !current)}}
+                                        />
+                                        <UploadNewFileModalCheckboxLabel htmlFor="checkbox_third">
+                                            Частотный фильтр
+                                        </UploadNewFileModalCheckboxLabel>
+                                    </UploadNewFileModalLabelWrapper>
                                 </UploadNewFileModalCheckboxBlock>
                                 <UploadNewFileModalLine />
                                 <UploadNewFileModalMainButton disabled={data.length === 0} type="submit">
