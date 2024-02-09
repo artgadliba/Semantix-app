@@ -99,13 +99,15 @@ const FileUploadPopupCancelButton = styled.button`
   font-weight: 500;
   line-height: normal;
   transition: 0.3s;
-  &:hover {
-    border: 1px solid #FFF;
-    transition: 0.3s;
-  }
   &:focus-visible {
     border: 1px solid #FFF;
     transition: 0.3s;
+  }
+  @media (min-width: 501px) {
+    &:hover {
+      border: 1px solid #FFF;
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     margin: auto ${pxIntoRem(20)} ${pxIntoRem(20)} ${pxIntoRem(20)};

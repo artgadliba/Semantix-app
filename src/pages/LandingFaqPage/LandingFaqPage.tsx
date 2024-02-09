@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useState, useRef } from "react";
+import React, { FC, useEffect, useLayoutEffect, useState } from "react";
 import Landing from "layouts/Landing/Landing";
 import { 
     LandingFaqPageBlock,
@@ -61,7 +61,7 @@ const LandingFaqPageItem: FC<ILandingFaqPageItem> = ({searchInput, item}) => {
         setIsOpen(false);
     }, [item]);
 
-    function getHighlightedText(text: string, searchInput: string) {
+    function getHighlightedText(text: string, searchInput: string): JSX.Element[] {
         const parts = text.split(new RegExp(`(${searchInput})`, "gi"));
         return parts.map((part, index) => (
           <React.Fragment key={index}>
@@ -79,7 +79,7 @@ const LandingFaqPageItem: FC<ILandingFaqPageItem> = ({searchInput, item}) => {
             <LandingFaqQuestionElementBackgroundLayer />
             <LandingFaqQuestionElementIcon width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="1" y="1" width="32" height="32" rx="8" />
-                <path d="M17 11.1665V22.8332M11.1667 16.9998H22.8333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M17 11.1665V22.8332M11.1667 16.9998H22.8333" strokeLinecap="round" strokeLinejoin="round"/>
             </LandingFaqQuestionElementIcon>
             <LandingFaqQuestionElementTitle>{getHighlightedText(item.question, searchInput)}</LandingFaqQuestionElementTitle>
             <LandingFaqQuestionElementText className={isOpen === true ? "visible_text" : ""}>
@@ -97,31 +97,25 @@ const LandingFaqPage = () => {
     const [mobileView, setMobileView] = useState<boolean>(false);
     const [searchInput, setSeacrhInput] = useState<string>("");
     const [currentSection, setCurrentSection] = useState<string>("Общие вопросы");
-    const [faqContent, setFaqContent] = useState<Array<IFaqContent>>(null);
+    const [faqContent, setFaqContent] = useState<Array<IFaqContent>>(faqCommon);
 
     useLayoutEffect(() => {
-        if (currentSection === "Общие вопросы") {
-            setFaqContent(faqCommon);
-        } else if (currentSection === "Расшифровка") {
-            setFaqContent(faqTranscription);
-        } else if (currentSection === "Оплата") {
-            setFaqContent(faqPayments);
-        }
-    }, [currentSection]);
-
-    useEffect(() => {
         if (window.innerWidth <= 500) {
             setMobileView(true);
         }
         window.addEventListener("resize", () => {
             if (window.innerWidth <= 500) {
                 setMobileView(true);
+            } else {
+                setMobileView(false);
             }
         });
         return () => {
             window.removeEventListener("resize", () => {
                 if (window.innerWidth <= 500) {
                     setMobileView(true);
+                } else {
+                    setMobileView(false);
                 }
             });
         }
@@ -151,16 +145,23 @@ const LandingFaqPage = () => {
     };
 
     const handleSection = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
         const element = e.currentTarget as HTMLElement;
-        if (mobileView) {
-            if (currentSection === element.innerText) {
-                setCurrentSection(null);
-            } else {
-                setCurrentSection(element.innerText);
+        const innerText = element.innerText.trim();
+        if (currentSection === innerText) {
+            setCurrentSection(null);
+        } else if (!currentSection || currentSection !== innerText) {
+            setCurrentSection(innerText);
+            if (innerText === "Общие вопросы") {
+                setFaqContent(faqCommon);
+            } else if (innerText === "Расшифровка") {
+                setFaqContent(faqTranscription);
+            } else if (innerText === "Оплата") {
+                setFaqContent(faqPayments);
             }
         }
     }
-    
+
     return (
         <Landing>
             <Helmet>
@@ -221,7 +222,13 @@ const LandingFaqPage = () => {
                             <LandingFaqQuestionsBlock>
                                 <LandingFaqQuestionsBlockTitle>{currentSection}</LandingFaqQuestionsBlockTitle>
                                 {faqContent && faqContent.map((faq, idx) => {
-                                    return <LandingFaqPageItem key={idx} searchInput={searchInput} item={faq} />
+                                    return (
+                                        <LandingFaqPageItem 
+                                            key={idx} 
+                                            searchInput={searchInput} 
+                                            item={faq}
+                                        />
+                                    );
                                 })}
                             </LandingFaqQuestionsBlock>
                         </LandingFaqMainBlock>

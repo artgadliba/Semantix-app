@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import AppInterface from "layouts/App/AppInterface";
 import { 
     AppBalancePageBlock,
+    AppBalanceUpperBlockWrapper,
     AppBalancePageCurrentBalanceBlock,
     AppBalancePageCurrentBalanceTitle,
     AppBalancePageCurrentBalanceWidget,
@@ -35,6 +36,7 @@ import {
     AppBalancePageTelegramLinkBlock,
     AppBalancePageEmailLinkIcon,
     AppBalancePageEmailLinkBlock,
+    AppBalanceFeatureContent,
     AppBalancePageFeaturesBlock,
     AppBalancePageFeaturesBullet,
     AppBalancePageFeaturesTitle
@@ -55,11 +57,134 @@ interface IPurchase {
     price: string;
 }
 
+interface IAppBalanceOptionComponent {
+    type: string;
+    setPurchaseOption: (obj: IPurchase) => void;
+    openPurchaseModal: () => void;
+    openCustomPurchaseModal: () => void;
+}
+
+const AppBalanceOptionComponent: FC<IAppBalanceOptionComponent> = (props) => {
+    const {type, setPurchaseOption, openPurchaseModal, openCustomPurchaseModal} = props;
+
+    const handlePurchase = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        let rate: string;
+        if (e.currentTarget.classList[2] === "option_base_element") {
+            rate = "Базовый";
+        } else if (e.currentTarget.classList[2] === "option_pro_element") {
+            rate = "Продвинутый";
+        }
+        setPurchaseOption({
+            rate: rate,
+            value: e.currentTarget.children[0].textContent.slice(0, -5),
+            price: e.currentTarget.children[1].textContent
+        });
+        if (e.currentTarget.children[0].textContent === "Любое кол-во минут") {
+            openCustomPurchaseModal();
+        } else {
+            openPurchaseModal();
+        }
+    };
+
+    if (type === "base") {
+        return (
+            <AppBalancePageRatesTableOptionsWrapper id="base_options_wrapper">
+                <AppBalancePageRatesTableOptionsBlock id="visible_base_block">
+                    <AppBalancePageRatesTableOptionsBackgroundLayer />
+                    <AppBalancePageRatesTableOptionsContent id="base_options_content">
+                        {basePackages.map((pack, idx) => {
+                            return (
+                                <AppBalancePageRatesTableOptionButton 
+                                    className="option_base_element" 
+                                    id="option_block" 
+                                    key={idx}
+                                    onClick={(e) => {handlePurchase(e)}}
+                                >
+                                    <AppBalancePageRatesTableOptionValue>{pack.value}<span> минут</span></AppBalancePageRatesTableOptionValue>
+                                    <AppBalancePageRatesTableOptionPrice>{(pack.price)}</AppBalancePageRatesTableOptionPrice>
+                                    {idx < basePackages.length - 1 && (
+                                        <AppBalancePageRatesTableOptionLine />
+                                    )}
+                                    <AppBalancePageRatesTableOptionIcon width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19.6667 15L10.3333 15M19.6667 15L15.6667 19M19.6667 15L15.6667 11" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <rect x="1" y="1" width="28" height="28" rx="8" />
+                                    </AppBalancePageRatesTableOptionIcon>
+                                    <AppBalancePageRatesTableOptionBlockHidden className="hidden_base_block" />
+                                </AppBalancePageRatesTableOptionButton>
+                            );
+                        })}
+                    </AppBalancePageRatesTableOptionsContent>
+                </AppBalancePageRatesTableOptionsBlock>
+                <AppBalancePageRatesTableScrollbarTrack id="scrollbar_track">
+                    <AppBalancePageRatesTableScrollbarThumb id="options_thumb_first" />
+                </AppBalancePageRatesTableScrollbarTrack>
+            </AppBalancePageRatesTableOptionsWrapper>
+        );
+    } else if (type === "pro") {
+        return (
+            <AppBalancePageRatesTableOptionsWrapper id="pro_options_wrapper">
+                <AppBalancePageRatesTableOptionsBlock id="visible_pro_block">
+                    <AppBalancePageRatesTableOptionsBackgroundLayer />
+                    <AppBalancePageRatesTableOptionsContent id="pro_options_content">
+                        {proPackages.map((pack, idx) => {
+                            return (
+                                <AppBalancePageRatesTableOptionButton 
+                                    className="option_pro_element" 
+                                    id="option_block" 
+                                    key={idx}
+                                    onClick={(e) => {handlePurchase(e)}}
+                                >
+                                    <AppBalancePageRatesTableOptionValue>{pack.value}<span> минут</span></AppBalancePageRatesTableOptionValue>
+                                    <AppBalancePageRatesTableOptionPrice>{pack.price}</AppBalancePageRatesTableOptionPrice>
+                                    {idx < basePackages.length - 1 && (
+                                        <AppBalancePageRatesTableOptionLine />
+                                    )}
+                                    <AppBalancePageRatesTableOptionIcon width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19.6667 15L10.3333 15M19.6667 15L15.6667 19M19.6667 15L15.6667 11" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <rect x="1" y="1" width="28" height="28" rx="8" />
+                                    </AppBalancePageRatesTableOptionIcon>
+                                    <AppBalancePageRatesTableOptionBlockHidden className="hidden_pro_block" />
+                                </AppBalancePageRatesTableOptionButton>
+                            );
+                        })}
+                    </AppBalancePageRatesTableOptionsContent>
+                </AppBalancePageRatesTableOptionsBlock>
+                <AppBalancePageRatesTableScrollbarTrack id="scrollbar_track" className="pro_rate_scrollbar">
+                    <AppBalancePageRatesTableScrollbarThumb id="options_thumb_second" />
+                </AppBalancePageRatesTableScrollbarTrack>
+            </AppBalancePageRatesTableOptionsWrapper>
+        );
+    }
+}
+
 const AppBalancePage = () => {
     const [windowWidth, setWindowWidth] = useState<number>(null);
     const [purchaseOption, setPurchaseOption] = useState<IPurchase>(null);
     const balance = useSelector((state: RootState) => state.balance.value);
     const rate = useSelector((state: RootState) => state.rate.value);
+
+    useEffect(() => {
+        if (localStorage.getItem("jwt-tokens")) {
+            axios.get("/api/users/current", {
+                headers: {
+                    "jwt-tokens": localStorage.getItem("jwt-tokens")
+                }
+            })
+            .then(res => {
+                if (res.headers && "jwt-tokens" in res.headers) {
+                    localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
+                }
+            })
+            .catch(err => {
+                if (err.headers && "jwt-tokens" in err.headers) {
+                    localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
+                }
+                window.location.href = "/#login";
+            })
+        }  else {
+            window.location.href = "/#login";
+        }
+    }, []);
 
     useEffect(() => {
         const elemFirst = document.getElementById("base_options_content");
@@ -77,12 +202,13 @@ const AppBalancePage = () => {
         document.getElementById("options_thumb_first").style.height = `${thumbHeightFirst}px`;
         document.getElementById("options_thumb_second").style.height = `${thumbHeightSecond}px`;
 
-        function handleLeftHiddenBlocks() {
+        function handleLeftHiddenBlocks(): void {
             const value = elemFirst.scrollTop / (baseHeight / trackHeight);
             document.getElementById("options_thumb_first").style.transform = `translate3d(0px, ${value}px, 0px`;
             handleLeftBottomBlockHidden();
         }
-        function handleRightHiddenBlocks() {
+    
+        function handleRightHiddenBlocks(): void {
             const value = elemSecond.scrollTop / (proHeight / trackHeight);
             document.getElementById("options_thumb_second").style.transform = `translate3d(0px, ${value}px, 0px`;
             handleRightBottomBlockHidden();
@@ -110,29 +236,6 @@ const AppBalancePage = () => {
         handleLeftBottomBlockHidden();
         handleRightBottomBlockHidden();
     },[]);
-
-    useEffect(() => {
-        if (localStorage.getItem("jwt-tokens")) {
-            axios.get("/api/users/current", {
-                headers: {
-                    "jwt-tokens": localStorage.getItem("jwt-tokens")
-                }
-            })
-            .then(res => {
-                if (res.headers && "jwt-tokens" in res.headers) {
-                    localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
-                }
-            })
-            .catch(err => {
-                if (err.headers && "jwt-tokens" in err.headers) {
-                    localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
-                }
-                window.location.href = "/#login";
-            })
-        } else {
-            window.location.href = "/#login";
-        }
-    }, []);
 
     const {
         openModal: openPayModal,
@@ -184,37 +287,34 @@ const AppBalancePage = () => {
             }
         }
     }
-
-    const handlePurchase = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        let rate: string;
-        if (e.currentTarget.classList[2] === "option_base_element") {
-            rate = "Базовый";
-        } else if (e.currentTarget.classList[2] === "option_pro_element") {
-            rate = "Продвинутый";
-        }
-        setPurchaseOption({
-            rate: rate,
-            value: e.currentTarget.children[0].textContent.slice(0, -5),
-            price: e.currentTarget.children[1].textContent
-        });
-        if (e.currentTarget.children[0].textContent === "Любое кол-во минут") {
-            openCustomPurchaseModal();
-        } else {
-            openPurchaseModal();
-        }
-    };
     
     return (
         <AppInterface headerTitle="Баланс" controlBar={false}>
             <AppBalancePageBlock>
-                <AppBalancePageCurrentBalanceBlock>
-                    <AppBalancePageCurrentBalanceTitle>Текущий тариф: <span>{rate}</span></AppBalancePageCurrentBalanceTitle>
-                    <AppBalancePageCurrentBalanceWidget>
-                        <AppBalancePageCurrentBalanceWidgetBackgroundLayer />
-                        <AppBalancePageCurrentBalanceWidgetText>Осталось:</AppBalancePageCurrentBalanceWidgetText>
-                        <AppBalancePageCurrentBalanceWidgetMinutes>{numberWithCommas(balance)+" мин"}</AppBalancePageCurrentBalanceWidgetMinutes>
-                    </AppBalancePageCurrentBalanceWidget>
-                </AppBalancePageCurrentBalanceBlock>
+                <AppBalanceUpperBlockWrapper>
+                    <AppBalancePageCurrentBalanceBlock>
+                        <AppBalancePageCurrentBalanceTitle>Текущий тариф: <span>{rate}</span></AppBalancePageCurrentBalanceTitle>
+                        <AppBalancePageCurrentBalanceWidget>
+                            <AppBalancePageCurrentBalanceWidgetBackgroundLayer />
+                            <AppBalancePageCurrentBalanceWidgetText>Осталось:</AppBalancePageCurrentBalanceWidgetText>
+                            <AppBalancePageCurrentBalanceWidgetMinutes>{numberWithCommas(balance)+" мин"}</AppBalancePageCurrentBalanceWidgetMinutes>
+                        </AppBalancePageCurrentBalanceWidget>
+                    </AppBalancePageCurrentBalanceBlock>
+                    <AppBalanceFeatureContent>
+                        <AppBalancePageFeaturesBlock>
+                            <AppBalancePageFeaturesBullet />
+                            <AppBalancePageFeaturesTitle>
+                                Затраченное количество минут на расшифровку файла рассчитывается исходя из <span>фактического времени</span> звучания речи. 
+                            </AppBalancePageFeaturesTitle>
+                        </AppBalancePageFeaturesBlock>
+                        <AppBalancePageFeaturesBlock>
+                            <AppBalancePageFeaturesBullet />
+                            <AppBalancePageFeaturesTitle>
+                                Оплаченные минуты сохраняются на балансе <span>бессрочно</span>
+                            </AppBalancePageFeaturesTitle>
+                        </AppBalancePageFeaturesBlock>
+                    </AppBalanceFeatureContent>
+                </AppBalanceUpperBlockWrapper>
                 <AppBalancePageRatesBlock>
                     <AppBalancePageRatesTitle>Основные тарифы</AppBalancePageRatesTitle>
                     <AppBalancePageRatesTablesBlock>
@@ -225,94 +325,32 @@ const AppBalancePage = () => {
                                 <AppBalancePageRatesTableTitleText>Базовый</AppBalancePageRatesTableTitleText>
                             </AppBalancePageRatesTableTitleBlock>
                             <AppBalancePageRatesTableOverview>
-                                Стартовый тариф для обработки небольших объемов данных. Цена действительна при приобретении до 10,000 минут включительно.
+                                Стартовый тариф для обработки небольших объемов данных. Цена действительна при приобретении до 100,000 минут включительно.
                             </AppBalancePageRatesTableOverview>
                             <AppBalancePageRatesTableCallToAction>Выберите подходящий пакет</AppBalancePageRatesTableCallToAction>
-                            <AppBalancePageRatesTableOptionsWrapper>
-                                <AppBalancePageRatesTableOptionsBlock id="visible_base_block">
-                                    <AppBalancePageRatesTableOptionsBackgroundLayer />
-                                    <AppBalancePageRatesTableOptionsContent id="base_options_content">
-                                        {basePackages.map((pack, idx) => {
-                                            return (
-                                                <AppBalancePageRatesTableOptionButton 
-                                                    className="option_base_element" 
-                                                    id="option_block" 
-                                                    key={idx}
-                                                    onClick={(e) => {handlePurchase(e)}}
-                                                >
-                                                    <AppBalancePageRatesTableOptionValue>{pack.value}<span> минут</span></AppBalancePageRatesTableOptionValue>
-                                                    <AppBalancePageRatesTableOptionPrice>{(pack.price)}</AppBalancePageRatesTableOptionPrice>
-                                                    {idx < basePackages.length - 1 && (
-                                                        <AppBalancePageRatesTableOptionLine />
-                                                    )}
-                                                    <AppBalancePageRatesTableOptionIcon width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M19.6667 15L10.3333 15M19.6667 15L15.6667 19M19.6667 15L15.6667 11" stroke-linecap="round" stroke-linejoin="round"/>
-                                                        <rect x="1" y="1" width="28" height="28" rx="8" />
-                                                    </AppBalancePageRatesTableOptionIcon>
-                                                    <AppBalancePageRatesTableOptionBlockHidden className="hidden_base_block" />
-                                                </AppBalancePageRatesTableOptionButton>
-                                            );
-                                        })}
-                                    </AppBalancePageRatesTableOptionsContent>
-                                </AppBalancePageRatesTableOptionsBlock>
-                                <AppBalancePageRatesTableScrollbarTrack id="scrollbar_track">
-                                    <AppBalancePageRatesTableScrollbarThumb id="options_thumb_first" />
-                                </AppBalancePageRatesTableScrollbarTrack>
-                            </AppBalancePageRatesTableOptionsWrapper>
+                            <AppBalanceOptionComponent 
+                                type="base"
+                                setPurchaseOption={setPurchaseOption}
+                                openPurchaseModal={openPurchaseModal}
+                                openCustomPurchaseModal={openCustomPurchaseModal}
+                            />
                         </AppBalancePageRatesTable>
                         <AppBalancePageRatesTable>
-                            <AppBalancePageFeaturesBlock>
-                                <AppBalancePageFeaturesBullet />
-                                <AppBalancePageFeaturesTitle>
-                                    Затраченное количество минут на расшифровку файла рассчитывается исходя из <span>фактического времени</span> звучания речи. 
-                                </AppBalancePageFeaturesTitle>
-                            </AppBalancePageFeaturesBlock>
-                            <AppBalancePageFeaturesBlock>
-                                <AppBalancePageFeaturesBullet />
-                                <AppBalancePageFeaturesTitle>
-                                    Оплаченные минуты сохраняются на балансе <span>бессрочно</span>
-                                </AppBalancePageFeaturesTitle>
-                            </AppBalancePageFeaturesBlock>
                             <AppBalancePageRatesTableBackgroundLayer />
                             <AppBalancePageRatesTableTitleBlock>
                                 <AppBalancePageRatesTableTitleIcon alt="pro" src="/images/pro-rate-icon.svg" />
                                 <AppBalancePageRatesTableTitleText>Продвинутый</AppBalancePageRatesTableTitleText>
                             </AppBalancePageRatesTableTitleBlock>
                             <AppBalancePageRatesTableOverview>
-                                Основной тариф для обработки средних объемов данных. Цена действительна при приобретении свыше 10,000 минут.
+                                Основной тариф для обработки средних объемов данных. Цена действительна при приобретении свыше 100,000 минут.
                             </AppBalancePageRatesTableOverview>
                             <AppBalancePageRatesTableCallToAction>Выберите подходящий пакет</AppBalancePageRatesTableCallToAction>
-                            <AppBalancePageRatesTableOptionsWrapper>
-                                <AppBalancePageRatesTableOptionsBlock id="visible_pro_block">
-                                    <AppBalancePageRatesTableOptionsBackgroundLayer />
-                                    <AppBalancePageRatesTableOptionsContent id="pro_options_content">
-                                        {proPackages.map((pack, idx) => {
-                                            return (
-                                                <AppBalancePageRatesTableOptionButton 
-                                                    className="option_pro_element" 
-                                                    id="option_block" 
-                                                    key={idx}
-                                                    onClick={(e) => {handlePurchase(e)}}
-                                                >
-                                                    <AppBalancePageRatesTableOptionValue>{pack.value}<span> минут</span></AppBalancePageRatesTableOptionValue>
-                                                    <AppBalancePageRatesTableOptionPrice>{pack.price}</AppBalancePageRatesTableOptionPrice>
-                                                    {idx < basePackages.length - 1 && (
-                                                        <AppBalancePageRatesTableOptionLine />
-                                                    )}
-                                                    <AppBalancePageRatesTableOptionIcon width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M19.6667 15L10.3333 15M19.6667 15L15.6667 19M19.6667 15L15.6667 11" stroke-linecap="round" stroke-linejoin="round"/>
-                                                        <rect x="1" y="1" width="28" height="28" rx="8" />
-                                                    </AppBalancePageRatesTableOptionIcon>
-                                                    <AppBalancePageRatesTableOptionBlockHidden className="hidden_pro_block" />
-                                                </AppBalancePageRatesTableOptionButton>
-                                            );
-                                        })}
-                                    </AppBalancePageRatesTableOptionsContent>
-                                </AppBalancePageRatesTableOptionsBlock>
-                                <AppBalancePageRatesTableScrollbarTrack id="scrollbar_track" className="pro_rate_scrollbar">
-                                    <AppBalancePageRatesTableScrollbarThumb id="options_thumb_second" />
-                                </AppBalancePageRatesTableScrollbarTrack>
-                            </AppBalancePageRatesTableOptionsWrapper>
+                            <AppBalanceOptionComponent 
+                                type="pro"
+                                setPurchaseOption={setPurchaseOption}
+                                openPurchaseModal={openPurchaseModal}
+                                openCustomPurchaseModal={openCustomPurchaseModal}
+                            />
                         </AppBalancePageRatesTable>
                     </AppBalancePageRatesTablesBlock>
                 </AppBalancePageRatesBlock>

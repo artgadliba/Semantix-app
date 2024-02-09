@@ -197,8 +197,10 @@ const UserFileListItemFolderName = styled(Link)`
   line-height: normal;
   white-space: nowrap;
   margin-left: ${pxIntoRem(12)};
-  &:hover {
-    color: #FFF;
+  @media (min-width: 501px) {
+    &:hover {
+      color: #FFF;
+    }
   }
   @media (max-width: 500px) {
     display: none;
@@ -221,8 +223,10 @@ const UserFileListItemMobileFolderName = styled(Link)`
   font-weight: 400;
   line-height: normal;
   margin: ${pxIntoRem(16)} auto ${pxIntoRem(16)} ${pxIntoRem(16)};
-  &:hover {
-    color: #FFF;
+  @media (min-width: 501px) {
+    &:hover {
+      color: #FFF;
+    }
   }
   @media (max-width: 500px) {
     display: inline-flex;
@@ -257,14 +261,16 @@ const UserFileListItemOpenButton = styled(Link)`
   margin-left: auto;
   margin: ${pxIntoRem(38)} 0 ${pxIntoRem(38)} auto;
   transition: 0.3s;
-  &:hover {
-    background: rgba(22, 131, 226, 0.10);
-    box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
-    transition: 0.3s;
-  }
   &.is_processing {
     border: 1px solid #2D3042;
     pointer-events: none;
+  }
+  @media (min-width: 501px) {
+    &:hover {
+      background: rgba(22, 131, 226, 0.10);
+      box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: auto;
@@ -294,17 +300,6 @@ const UserFileListItemOptionsButton = styled.button`
   align-items: center;
   justify-content: center;
   transition: 0.3s;
-  &:hover ${UserFileListItemOptionsButtonIcon} {
-    transition: 0.3s;
-    &.circle {
-      fill: #FFF;
-      stroke: none;
-    }
-  }
-  &:hover {
-    transition: 0.3s;
-    border: 1px solid #1683E2;
-  }
   &:active {
     transition: 0.3s;
     border: 1px solid #1683E2;
@@ -314,6 +309,19 @@ const UserFileListItemOptionsButton = styled.button`
   }
   &.is_uploading {
     pointer-events: none;
+  }
+  @media (min-width: 501px) {
+    &:hover ${UserFileListItemOptionsButtonIcon} {
+      transition: 0.3s;
+      &.circle {
+        fill: #FFF;
+        stroke: none;
+      }
+    }
+    &:hover {
+      transition: 0.3s;
+      border: 1px solid #1683E2;
+    }
   }
   @media (max-width: 500px) {
     margin: 0 0 0 ${pxIntoRem(12)};

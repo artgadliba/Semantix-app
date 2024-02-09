@@ -79,9 +79,11 @@ const LandingFooterDocumentLink = styled(Link)`
   font-weight: 400;
   line-height: 150%;
   transition: 0.3s;
-  &:hover {
-    color: #FFF;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      color: #FFF;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -122,14 +124,6 @@ const LandingFooterContactTelegramBlock = styled(Link)`
   flex-direction: row;
   gap: ${pxIntoRem(10)};
   transition: 0.3s;
-  &:hover ${LandingFooterTelegramIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
-  }
-  &:hover ${LandingFooterTelegramTitle} {
-    color: #1683E2;
-    transition: 0.3s;
-  }
   &:active ${LandingFooterTelegramIcon} {
     fill: #1683E2;
     transition: 0.3s;
@@ -137,6 +131,16 @@ const LandingFooterContactTelegramBlock = styled(Link)`
   &:active ${LandingFooterTelegramTitle} {
     color: #1683E2;
     transition: 0.3s;
+  }
+  @media (min-width: 501px) {
+    &:hover ${LandingFooterTelegramIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
+    &:hover ${LandingFooterTelegramTitle} {
+      color: #1683E2;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -160,14 +164,6 @@ const LandingFooterContactEmailBlock = styled(Link)`
   flex-direction: row;
   gap: ${pxIntoRem(10)};
   transition: 0.3s;
-  &:hover ${LandingFooterEmailIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
-  }
-  &:hover ${LandingFooterEmailTitle} {
-    color: #1683E2;
-    transition: 0.3s;
-  }
   &:active ${LandingFooterEmailIcon} {
     fill: #1683E2;
     transition: 0.3s;
@@ -175,6 +171,16 @@ const LandingFooterContactEmailBlock = styled(Link)`
   &:active ${LandingFooterEmailTitle} {
     color: #1683E2;
     transition: 0.3s;
+  }
+  @media (min-width: 501px) {
+    &:hover ${LandingFooterEmailIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
+    &:hover ${LandingFooterEmailTitle} {
+      color: #1683E2;
+      transition: 0.3s;
+    }
   }
 `;
 

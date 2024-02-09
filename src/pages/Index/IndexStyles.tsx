@@ -2,8 +2,8 @@ import styled from "styled-components";
 import pxIntoRem from "../../utils/pxIntoRem";
 
 const IndexBlock = styled.div`
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  display: block;
   width: 100%;
   height: 100%;
 `;
@@ -20,30 +20,29 @@ const IndexMainBlock = styled.div`
 
 const IndexBlurredRectangle = styled.div`
   position: absolute;
-  bottom: ${pxIntoRem(-28)};
+  bottom: ${pxIntoRem(-38)};
   width: ${pxIntoRem(1916)};
   height: ${pxIntoRem(254)};
   background: #030512;
   filter: blur(${pxIntoRem(32)});
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 99;
   @media (max-width: 500px) {
-    width: ${pxIntoRem(700)};
-    height: ${pxIntoRem(131)};
-    bottom: ${pxIntoRem(-40)};
+    display: none;
   }
 `;
 
 const IndexUpperBackgroundBlock = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 100%;
   margin-top: ${pxIntoRem(-29)};
   @media (max-width: 500px) {
-    margin-top: ${pxIntoRem(77)};
+    margin-top: ${pxIntoRem(143)};
     height: auto;
   }
 `;
@@ -51,7 +50,7 @@ const IndexUpperBackgroundBlock = styled.div`
 const IndexUpperBackgroundPicture = styled.picture`
   position: absolute;
   width: 100%;
-  z-index: 99;
+  z-index: 999999;
   padding: 0 ${pxIntoRem(35)};
   filter: drop-shadow(0px 24px 234px rgba(0, 0, 0, 0.20));
   @media (max-width: 500px) {
@@ -74,13 +73,11 @@ const IndexUpperBlurredCircle = styled.div`
   border-radius: 50%;
   background: #1683E2;
   filter: blur(${pxIntoRem(176.5)});
-  z-index: 9999;
-  @supports (-moz-appearance:none) {
-    position: absolute;
-    top: 17%;
-    right: ${pxIntoRem(-50)};
-    background-image: url(/images/blurred-circle-small.svg);
-    display: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  z-index: 999999;
+  @supports (-moz-appearance: none) {
+    opacity: 0.05;
   }
 `;
 
@@ -99,9 +96,9 @@ const IndexLowerBackgroundBlock = styled.div`
 `;
 
 const IndexLowerBackgroundPicture = styled.picture`
+  position: absolute;
   width: 100%;
   height: ${pxIntoRem(805)};
-  position: absolute;
   padding-left: ${pxIntoRem(35)};
   padding-right: ${pxIntoRem(35)};
   z-index: 99;
@@ -128,12 +125,10 @@ const IndexLowerBlurredCircle = styled.div`
   border-radius: 50%;
   background: #1683E2;
   filter: blur(${pxIntoRem(176.5)});
-  @supports (-moz-appearance:none) {
-    position: absolute;
-    top: 52%;
-    right: ${pxIntoRem(-50)};
-    background-image: url(/images/blurred-circle-small.svg);
-    display: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  @supports (-moz-appearance: none) {
+    opacity: 0.05;
   }
 `;
 
@@ -146,12 +141,10 @@ const IndexMiddleBlurredCircle = styled.div`
   border-radius: 50%;
   background: #1683E2;
   filter: blur(${pxIntoRem(176.5)});
-  @supports (-moz-appearance:none) {
-    position: absolute;
-    top: ${pxIntoRem(1300)};
-    left: 33%;
-    background-image: url(/images/blurred-circle-small.svg);
-    display: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  @supports (-moz-appearance: none) {
+    opacity: 0.05;
   }
 `;
 
@@ -164,19 +157,16 @@ const IndexBottomLeftBlurredCircle = styled.div`
   border-radius: 50%;
   background: #1683E2;
   filter: blur(${pxIntoRem(176.5)});
-  @supports (-moz-appearance:none) {
-    position: absolute;
-    top: 91%;
-    left: ${pxIntoRem(-50)};
-    background-image: url(/images/blurred-circle-small.svg);
-    display: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  @supports (-moz-appearance: none) {
+    opacity: 0.05;
   }
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
     height: ${pxIntoRem(80)};
     top: ${pxIntoRem(1630)};
     left: ${pxIntoRem(-40)};
-    filter: blur(${pxIntoRem(176.5)});
   }
 `;
 
@@ -189,19 +179,16 @@ const IndexBottomRightBlurredCircle = styled.div`
   border-radius: 50%;
   background: #1683E2;
   filter: blur(${pxIntoRem(176.5)});
-  @supports (-moz-appearance:none) {
-    position: absolute;
-    top: 92%;
-    right: ${pxIntoRem(-50)};
-    background-image: url(/images/blurred-circle-small.svg);
-    display: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden; 
+  @supports (-moz-appearance: none) {
+    opacity: 0.05;
   }
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
     height: ${pxIntoRem(80)};
     top: ${pxIntoRem(1630)};
     right: ${pxIntoRem(-40)};
-    filter: blur(${pxIntoRem(176.5)});
   }
 `;
 

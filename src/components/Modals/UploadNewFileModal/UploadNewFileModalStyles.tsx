@@ -10,7 +10,7 @@ const UploadNewFileModalContent = styled.div`
   border-radius: ${pxIntoRem(12)};
   background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
-    width: 90vw;
+    width: calc(100% - ${pxIntoRem(30)});
     height: auto;
   }
 `;
@@ -37,6 +37,7 @@ const UploadNewFileModalInputFileBlock = styled.div`
   border: 1px dashed #2D3042;
   margin-left: ${pxIntoRem(32)};
   margin-top: ${pxIntoRem(24)};
+  background: transparent;
   @media (max-width: 500px) {
     display: none;
   }
@@ -73,16 +74,18 @@ const UploadNewFileModalInputFileButton = styled.button`
   line-height: normal;
   margin-top: ${pxIntoRem(16)};
   transition: 0.3s;
-  &:hover {
-    transition: 0.3s;
-    border: 1px solid #FFF;
-  }
   &:focus-visible {
     transition: 0.3s;
     border: 1px solid #FFF;
   }
   &.mobile_upload {
     display: none;
+  }
+  @media (min-width: 501px) {
+    &:hover {
+      transition: 0.3s;
+      border: 1px solid #FFF;
+    }
   }
   @media (max-width: 500px) {
     &.mobile_upload {
@@ -151,6 +154,7 @@ const UploadNewFileModalAdjustmentsText = styled.p`
   z-index: 9999999;
   @media (max-width: 500px) {
     margin-left: ${pxIntoRem(20)};
+    font-size: ${pxIntoRem(12)};
   }
 `;
 
@@ -329,13 +333,15 @@ const UploadNewFileModalActionButton = styled.button`
   line-height: normal;
   white-space: nowrap;
   transition: 0.3s;
-  &:hover {
-    border: 1px solid #FFF;
-    transition: 0.3s;
-  }
   &:focus-visible {
     border: 1px solid #FFF;
     transition: 0.3s;
+  }
+  @media (min-width: 501px) {
+    &:hover {
+      border: 1px solid #FFF;
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     margin: auto auto 0 auto;
@@ -355,8 +361,10 @@ const UploadNewFileModalFilesMobileBlock = styled.div`
 const UploadNewFileModalFilesMobileWrapper = styled.div`
   display: none;
   @media (max-width: 500px) {
+    position: relative;
     display: flex;
     flex-direction: column;
+    height: fit-content;
   }
 `;
 
@@ -370,6 +378,11 @@ const UploadNewFileModalFilesError = styled.div`
   font-weight: 400;
   line-height: normal;
   top: ${pxIntoRem(16)};
+  @media (max-width: 500px) {
+    position: unset;
+    text-align: start;
+    margin: ${pxIntoRem(16)} ${pxIntoRem(20)} 0 ${pxIntoRem(20)};
+  }
 `;
 
 export {

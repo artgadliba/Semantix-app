@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const openRegModalSlice = createSlice({
     name: 'openRegModal',
@@ -6,7 +6,7 @@ const openRegModalSlice = createSlice({
       value: null
     },
     reducers: {
-      setRegModalSlice: (state, action) => {
+      setRegModalSlice: (state, action: PayloadAction<() => void>) => {
         state.value = action.payload;
       }
     }

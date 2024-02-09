@@ -4,12 +4,11 @@ import { TooltipIcon } from "components/Mixins/Mixins";
 
 const IndexFeaturesContent = styled.div`
   position: relative;
-  z-index: 99;
+  z-index: 999999;
   width: 100%;
 `;
 
 const IndexFeaturesBody = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,23 +26,21 @@ const IndexFeaturesTitle = styled.h2`
   text-align: center;
   color: #ffffff;
   margin-top: ${pxIntoRem(150)};
-  z-index: 9999;
   @media (max-width: 500px) {
     margin-top: 22%;
     font-size: ${pxIntoRem(24)};
   }
 `;
 
-const IndexFeaturesTables = styled.div`
+const IndexFeaturesGrid = styled.div`
   position: relative;
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-template-rows: auto;
+  grid-template-rows: auto auto auto;
   grid-auto-flow: row;
-  gap: ${pxIntoRem(20)};
+  gap: ${pxIntoRem(20)} ${pxIntoRem(20)};
   width: ${pxIntoRem(1300)};
-  justify-items: center;
-  align-items: center;
+  justify-items: start;
   margin-top: ${pxIntoRem(20)};
   @media (max-width: 500px) {
     display: flex;
@@ -54,15 +51,21 @@ const IndexFeaturesTables = styled.div`
   }
 `;
 
-const IndexFeaturesTableSide = styled.div`
+const IndexFeaturesCard = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
   box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(54)} 0px rgba(0, 0, 0, 0.2);
   width: ${pxIntoRem(420)};
   height: ${pxIntoRem(272)};
   overflow: hidden;
   border-radius: ${pxIntoRem(20)};
+  &.raised_card {
+    margin-top: ${pxIntoRem(-104)};
+  }
+  &.lowered_card {
+    margin-top: ${pxIntoRem(104)};
+  }
   &:before {
     content: "";
     position: absolute;
@@ -82,10 +85,16 @@ const IndexFeaturesTableSide = styled.div`
   @media (max-width: 500px) {
     width: 100%;
     height: auto;
+    &.raised_card {
+      margin-top: 0;
+    }
+    &.lowered_card {
+      margin-top: 0;
+    }
   }
 `;
 
-const IndexFeaturesTableBackground = styled.div`
+const IndexFeaturesCardBackground = styled.div`
   position: absolute;
   margin: 0 auto;
   width: 100%;
@@ -94,46 +103,14 @@ const IndexFeaturesTableBackground = styled.div`
   background: rgba(28, 29, 40, 0.25);
 `;
 
-const IndexFeaturesTableCenter = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(54)} 0px rgba(0, 0, 0, 0.2);
-  width: ${pxIntoRem(420)};
-  height: ${pxIntoRem(272)};
-  top: ${pxIntoRem(104)};
-  overflow: hidden;
-  &:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${pxIntoRem(20)};
-    border: 1px solid transparent;
-    background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
-    -webkit-mask:
-                linear-gradient(#fff 0 0) padding-box, 
-                linear-gradient(#fff 0 0);
-            mask:
-                linear-gradient(#fff 0 0) padding-box, 
-                linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-  }
-  @media (max-width: 500px) {
-    width: 100%;
-    height: auto;
-    top: ${pxIntoRem(0)};
-  }
-`;
-
-const IndexFeaturesTablePattern = styled.img`
+const IndexFeaturesCardPattern = styled.img`
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
 
-const IndexFeaturesTablePicture = styled.picture`
+const IndexFeaturesCardPicture = styled.picture`
   display: flex;
   width: ${pxIntoRem(40)};
   height: ${pxIntoRem(40)};
@@ -148,12 +125,12 @@ const IndexFeaturesTablePicture = styled.picture`
   }
 `;
 
-const IndexFeaturesTableIcon = styled.img`
+const IndexFeaturesCardIcon = styled.img`
   width: 100%;
   height: 100%;
 `;
 
-const IndexFeaturesTableTitle = styled.h3`
+const IndexFeaturesCardTitle = styled.h3`
   margin: ${pxIntoRem(16)} ${pxIntoRem(24)};
   color: #FFF;
   font-family: Mulish;
@@ -177,7 +154,7 @@ const IndexFeaturesTableTitle = styled.h3`
   }
 `;
 
-const IndexFeaturesTableText = styled.p`
+const IndexFeaturesCardText = styled.p`
   margin: ${pxIntoRem(0)} ${pxIntoRem(24)};
   color: #848097;
   font-family: Mulish;
@@ -220,9 +197,11 @@ const IndexFeaturesTooltipButton = styled.button`
   left: ${pxIntoRem(155)};
   z-index: 9999;
   transition: 0.3s;
-  &:hover ${TooltipIcon} {
-    transition: 0.3s;
-    fill: #1683E2;
+  @media (min-width: 501px) {
+    &:hover ${TooltipIcon} {
+      transition: 0.3s;
+      fill: #1683E2;
+    }
   }
   @media (max-width: 500px) {
     top: ${pxIntoRem(110)};
@@ -292,15 +271,14 @@ export {
   IndexFeaturesContent,
   IndexFeaturesTitle,
   IndexFeaturesBody,
-  IndexFeaturesTables,
-  IndexFeaturesTableSide,
-  IndexFeaturesTableCenter,
-  IndexFeaturesTableBackground,
-  IndexFeaturesTablePattern,
-  IndexFeaturesTablePicture,
-  IndexFeaturesTableIcon,
-  IndexFeaturesTableTitle,
-  IndexFeaturesTableText,
+  IndexFeaturesGrid,
+  IndexFeaturesCard,
+  IndexFeaturesCardBackground,
+  IndexFeaturesCardPattern,
+  IndexFeaturesCardPicture,
+  IndexFeaturesCardIcon,
+  IndexFeaturesCardTitle,
+  IndexFeaturesCardText,
   IndexFeaturesTooltipButton,
   IndexFeaturesTooltipBlock,
   IndexFeaturesTooltipBlockText

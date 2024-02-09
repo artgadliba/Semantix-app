@@ -3,9 +3,6 @@ import pxIntoRem from "utils/pxIntoRem";
 
 const IndexCallToActionBackgroundBlock = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
   width: 100%;
   height: ${pxIntoRem(523)};
   overflow: hidden;
@@ -38,7 +35,6 @@ const IndexCallToAction = styled.section`
 `;
 
 const IndexCallToActionBody = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;

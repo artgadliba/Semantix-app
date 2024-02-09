@@ -11,7 +11,7 @@ const CustomPurchaseModalContent = styled.div`
   border-radius: ${pxIntoRem(12)};
   background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
-    width: 90vw;
+    width: calc(100% - ${pxIntoRem(30)});
     height: auto;
   }
 `;
@@ -38,7 +38,7 @@ const CustomPurchaseModalLine = styled.div`
   width: 100%;
   height: 1px;
   background: #1D2132;
-  z-index: 999999999;
+  z-index: 999;
 `;
 
 const CustomPurchaseModalRateType = styled.h2`
@@ -246,10 +246,6 @@ const CustomPurchaseModalSelectUpperButtonBlock = styled.button`
   right: ${pxIntoRem(16)};
   background: transparent;
   transition: 0.3s;
-  &:hover ${CustomPurchaseModalSelectButtonIcon} {
-    fill: #FFF;
-    transition: 0.3s;
-  }
   &:focus-visible {
     border-radius: ${pxIntoRem(2)};
     outline: 1px solid rgba(22, 131, 226, 1);
@@ -258,6 +254,12 @@ const CustomPurchaseModalSelectUpperButtonBlock = styled.button`
   &:focus-visible ${CustomPurchaseModalSelectButtonIcon} {
     fill: #FFF;
     transition: 0.3s;
+  }
+  @media (min-width: 501px) {
+    &:hover ${CustomPurchaseModalSelectButtonIcon} {
+      fill: #FFF;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -268,10 +270,6 @@ const CustomPurchaseModalSelectLowerButtonBlock = styled.button`
   right: ${pxIntoRem(16)};
   background: transparent;
   transition: 0.3s;
-  &:hover ${CustomPurchaseModalSelectButtonIcon} {
-    fill: #FFF;
-    transition: 0.3s;
-  }
   &:focus-visible {
     border-radius: ${pxIntoRem(2)};
     outline: 1px solid rgba(22, 131, 226, 1);
@@ -280,6 +278,12 @@ const CustomPurchaseModalSelectLowerButtonBlock = styled.button`
   &:focus-visible ${CustomPurchaseModalSelectButtonIcon} {
     fill: #FFF;
     transition: 0.3s;
+  }
+  @media (min-width: 501px) {
+    &:hover ${CustomPurchaseModalSelectButtonIcon} {
+      fill: #FFF;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -294,13 +298,15 @@ const CustomPurchaseModalTooltipButton = styled.button`
   margin-left: ${pxIntoRem(6)};
   z-index: 9999;
   transition: 0.3s;
-  &:hover ${TooltipIcon} {
-    transition: 0.3s;
-    fill: #1683E2;
-  }
   &:focus-visible ${TooltipIcon} {
     transition: 0.3s;
     fill: #1683E2;
+  }
+  @media (min-width: 501px) {
+    &:hover ${TooltipIcon} {
+      transition: 0.3s;
+      fill: #1683E2;
+    }
   }
 `;
 

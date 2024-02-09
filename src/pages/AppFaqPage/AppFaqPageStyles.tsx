@@ -46,11 +46,13 @@ const AppFaqNavigationBlockSection = styled.button`
   background: transparent;
   transition: 0.3s;
   transition: 0.3s;
-  &:hover {
-    color: #1683E2;
-  }
   &.active_section {
     color: #1683E2;
+  }
+  @media (min-width: 501px) {
+    &:hover {
+      color: #1683E2;
+    }
   }
 `;
 
@@ -179,13 +181,6 @@ const AppFaqMainBlockQuestionElement = styled.button`
   padding: ${pxIntoRem(25)} ${pxIntoRem(24)};
   background: transparent;
   transition: 0.3s;
-  &:hover ${AppFaqMainBlockQuestionElementIcon} {
-    stroke: #1683E2;
-    path {
-        stroke: #1683E2;
-    }
-    transition: 0.3s;
-  }
   &:before {
     content: "";
     position: absolute;
@@ -201,6 +196,15 @@ const AppFaqMainBlockQuestionElement = styled.button`
                 linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
+  }
+  @media (min-width: 501px) {
+    &:hover ${AppFaqMainBlockQuestionElementIcon} {
+      stroke: #1683E2;
+      path {
+        stroke: #1683E2;
+      }
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: 100%;
@@ -260,8 +264,10 @@ const AppFaqMainBlockQuestionElementInnerLink = styled(Link)`
   margin-top: ${pxIntoRem(25)};
   text-align: start;
   z-index: 9;
-  &:hover {
-    color: #1683E2;
+  @media (min-width: 501px) {
+    &:hover {
+      color: #1683E2;
+    }
   }
 `;
 

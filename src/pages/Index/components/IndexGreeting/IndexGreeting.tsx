@@ -1,13 +1,11 @@
-import { FC } from "react";
 import {
     IndexGreetingBlock,
-    IndexGreetingBackground, 
     IndexGreeting,
+    IndexGreetingBackground,
     IndexGreetingContent,
     IndexGreetingTitle,
     IndexGreetingText,
-    IndexGreetingMainButton,
-    IndexGreetingBlurredCircle
+    IndexGreetingMainButton
 } from "./IndexGreetingStyles";
 import { useSelector } from "react-redux";
 import { RootState } from "slices";
@@ -34,12 +32,9 @@ const IndexGreetingComponent = () => {
 
     return (
         <IndexGreetingBlock>
-            <IndexGreetingBlurredCircle />
-            {window.innerWidth > 500 && (
-                <IndexGreetingBackground alt="background" src="/images/main-background.svg" />
-            )}
+            <IndexGreetingBackground alt="background" src="/images/main-background.svg" />
             <IndexGreeting>
-                <IndexGreetingContent>
+                <IndexGreetingContent id="greeting_content">
                     <IndexGreetingTitle>
                         Транскрибация<br />на базе <span>ИИ</span>
                     </IndexGreetingTitle>

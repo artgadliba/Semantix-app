@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import {
     NewFileFolderModalContent,
     NewFileFolderModalTitle,
@@ -27,17 +28,18 @@ interface IAppFolderObj {
 }
 
 interface INewFileFolderModal {
-    onClose(): any;
+    onClose: () => void;
     openNewFolderModal?: () => void;
     openNewFileModal(): any;
 }
 
 const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderModal, openNewFileModal}) => {
-    const dispatch = useDispatch();
     const updateFolderlist = useSelector((state: RootState) => state.updateFolderList.value);
     const [folderList, setFolderList] = useState<Array<IAppFolderObj>>([]);
     const [menuActive, setMenuActive] = useState<boolean>(false);
     const folder = useSelector((state: RootState) => state.uploadFolder.value);
+    const dispatch = useDispatch();
+    const { pathname } = useLocation();
 
     useEffect(() => {
         if (folder) {
@@ -52,11 +54,11 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderMod
         }
     },[updateFolderlist]);
 
-    const toggleMenuActive = () => {
+    const toggleMenuActive = (): void => {
         setMenuActive(current => !current);
     }
 
-    const handleRequestUserFolders = () => {
+    const handleRequestUserFolders = (): void => {
         if (localStorage.getItem("jwt-tokens")) {
             axios.get("/api/folders/0,0", {
                 headers: {
@@ -81,14 +83,22 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderMod
         }
     }
 
+    const handleModalClose = (): void => {
+        if (pathname.includes("/app/folders")) {
+            onClose();
+        } if (!pathname.includes("/app/folders")) {
+            dispatch(setUploadFolder(null)); 
+            onClose();
+        }
+    }
+
     return (
         <FocusTrap focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
             <ModalExternalBlock>
-                <ModalOutsideClose onClick={() => { dispatch(setUploadFolder(null)); onClose(); }}>
-                </ModalOutsideClose>
+                <ModalOutsideClose onClick={handleModalClose} />
                 <NewFileFolderModalContent>
                     <ModalBackgroundLayer>
-                        <form onSubmit={() => { onClose(); openNewFileModal(); }}>
+                        <form onSubmit={(e) => { e.preventDefault(); onClose(); openNewFileModal(); }}>
                             <NewFileFolderModalTitle>Новый файл</NewFileFolderModalTitle>
                             <NewFileFolderModalInstruction>
                                 Выберите папку, в которой будет храниться файл
@@ -126,12 +136,13 @@ const NewFileFolderModal: FC<INewFileFolderModal> =  ({onClose, openNewFolderMod
                             </NewFileFolderModalSelectBlock>
                             <NewFileFolderModalMainButton 
                                 type="submit"
+                                disabled={!folder}
                             >
                                 Далее
                             </NewFileFolderModalMainButton>
                         </form>
                     </ModalBackgroundLayer>
-                    <ModalCloseComponent onClose={onClose} />
+                    <ModalCloseComponent onClose={handleModalClose} />
                 </NewFileFolderModalContent>
             </ModalExternalBlock>
         </FocusTrap>

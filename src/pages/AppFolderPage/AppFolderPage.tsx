@@ -13,7 +13,8 @@ import {
     AppFolderPageEmptyOutputText
 } from "./AppFolderPageStyles";
 import UserFileList from "components/UserFileList/UserFileList";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setUploadFolder } from "slices/uploadFolderSlice";
 import { RootState } from "slices";
 import axios from "axios";
 
@@ -21,17 +22,19 @@ interface IAppFolder {
     id: number;
 }
 
-interface IFile {
+interface IMediaFile {
+    id: number;
     folder: {
         id: number;
         name: string;
     }
-    id: number;
     info: {
         creation_datetime: string;
     }
-    length: number;
-    name: string;
+    media: {
+        name: string;
+        lengthMs: number;
+    }
     status: {
         code: number;
     }
@@ -42,9 +45,9 @@ const AppFolder: FC<IAppFolder> = ({id}) => {
     const sortType = useSelector((state: RootState) => state.sortType.value);
     const sortByField = useSelector((state: RootState) => state.sortByField.value);
     const updateFilelist = useSelector((state: RootState) => state.updateFileList.value);
-    const [items, setItems] = useState<Array<IFile>>([]);
-    const [processingList, setProcessingList] = useState<Array<IFile>>(null);
-    const [readyList, setReadyList] = useState<Array<IFile>>(null);
+    const [items, setItems] = useState<Array<IMediaFile>>([]);
+    const [processingList, setProcessingList] = useState<Array<IMediaFile>>(null);
+    const [readyList, setReadyList] = useState<Array<IMediaFile>>(null);
 
     useEffect(() => {
         if (localStorage.getItem("jwt-tokens")) {
@@ -60,15 +63,15 @@ const AppFolder: FC<IAppFolder> = ({id}) => {
                 if (res.data) {
                     setItems(res.data);
                 } else {
-                    setItems([]);
+                    setProcessingList([]);
+                    setReadyList([]);
                 }
             })
             .catch((err) => {
                 if (err.headers && "jwt-tokens" in err.headers) {
                     localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
                 }
-                setItems([]);
-                console.log(err);
+                window.location.href = "/#login";
             })
         } else {
             window.location.href = "/#login";
@@ -76,11 +79,11 @@ const AppFolder: FC<IAppFolder> = ({id}) => {
     },[id, updateFilelist]);
 
     useEffect(() => {
-        if (items) {
+        if (items.length > 0) {
             let filteredList = [...items];
             if (query !== "") {
                 filteredList = items.filter((item) => { 
-                   return item.name.toLowerCase().startsWith(query)
+                   return item.media.name.toLowerCase().startsWith(query);
                 });
             }
             const processingFiles = filteredList.filter((item) => {
@@ -96,12 +99,21 @@ const AppFolder: FC<IAppFolder> = ({id}) => {
         }
     }, [items, query, sortType, sortByField]);
 
-    function sortFunc(results: IFile[], sortType: string, sortByField: string): IFile[] {
-        if (sortType === "ascending") {
-            results.sort((a, b) => a[sortByField].toLowerCase() < b[sortByField].toLowerCase() ? -1 : 1);
-        }
-        else if (sortType === "descending") {
-            results.sort((a, b) => b[sortByField].toLowerCase() > a[sortByField].toLowerCase() ? 1 : -1);
+    function sortFunc(results: IMediaFile[], sortType: string, sortByField: string): IMediaFile[] {
+        if (sortByField === "name") {
+            if (sortType === "ascending") {
+                results.sort((a, b) => a.media[sortByField].toLowerCase() < b.media[sortByField].toLowerCase() ? -1 : 1);
+            }
+            else if (sortType === "descending") {
+                results.sort((a, b) => b.media[sortByField].toLowerCase() > a.media[sortByField].toLowerCase() ? 1 : -1);
+            }
+        } else if (sortByField === "creation_datetime") {
+            if (sortType === "ascending") {
+                results.sort((a, b) => a.info[sortByField].toLowerCase() < b.info[sortByField].toLowerCase() ? -1 : 1);
+            }
+            else if (sortType === "descending") {
+                results.sort((a, b) => b.info[sortByField].toLowerCase() > a.info[sortByField].toLowerCase() ? 1 : -1);
+            }
         }
         return results;
     }
@@ -169,9 +181,19 @@ interface IFolder {
     }
 }
 
-const AppFolderPage: FC = () => {
+const AppFolderPage = () => {
     const {id} = useParams();
     const [folder, setFolder] = useState<IFolder>(null);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (folder) {
+            dispatch(setUploadFolder({
+                id: folder.id,
+                name: folder.name
+            }));
+        }
+    }, [folder]);
 
     useEffect(() => {
         if (localStorage.getItem("jwt-tokens")) {

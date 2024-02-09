@@ -21,7 +21,10 @@ const IndexHowItWorksComponent = () => {
                         <IndexHowItWorksTableBlock>
                             <IndexHowItWorksPicture>
                                 <source media="(max-width:500px)" srcSet="/images/upload-mobile.webp" />
-                                <IndexHowItWorksImage alt="upload" src="/images/upload.svg" />
+                                <IndexHowItWorksImage 
+                                    alt="upload" 
+                                    src="/images/upload.svg"
+                                />
                             </IndexHowItWorksPicture>
                             <IndexHowItWorksText>
                                 Загрузите один или несколько<br/>аудио или видео файлов
@@ -30,7 +33,10 @@ const IndexHowItWorksComponent = () => {
                         <IndexHowItWorksTableBlock>
                             <IndexHowItWorksPicture>
                                 <source media="(max-width:500px)" srcSet="/images/transcription-mobile.webp" />
-                                <IndexHowItWorksImage alt="upload" src="/images/transcription.svg" />
+                                <IndexHowItWorksImage 
+                                    alt="upload" 
+                                    src="/images/transcription.svg"
+                                />
                             </IndexHowItWorksPicture>
                             <IndexHowItWorksText>
                                 Semantix автоматически<br/>обработает файлы
@@ -39,7 +45,10 @@ const IndexHowItWorksComponent = () => {
                         <IndexHowItWorksTableBlock>
                             <IndexHowItWorksPicture>
                                 <source media="(max-width:500px)" srcSet="/images/export-mobile.webp" />
-                                <IndexHowItWorksImage alt="upload" src="/images/export.svg" />
+                                <IndexHowItWorksImage 
+                                    alt="upload" 
+                                    src="/images/export.svg"
+                                />
                             </IndexHowItWorksPicture>
                             <IndexHowItWorksText>
                                 Экспортируйте расшифровку<br/>в нужном формате

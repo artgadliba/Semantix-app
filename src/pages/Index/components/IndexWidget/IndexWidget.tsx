@@ -6,7 +6,7 @@ import {
     IndexWidgetBlockAnimationLine,
     IndexWidgetBackground,
     IndexWidgetPattern,
-    IndexWidgetForm,
+    IndexWidgetFormBlock,
     IndexWidgetInputFileField,
     IndexWidgetTitle,
     IndexWidgetMainButton,
@@ -36,7 +36,8 @@ import {
     IndexWidgetControlBar,
     IndexWidgetControlBarButton,
     IndexWidgetControlBarButtonIcon,
-    IndexWidgetBlurredRectangle
+    IndexWidgetMobileBlurredRectangle,
+    IndexWidgetError
 } from "./IndexWidgetStyles";
 import { parseFileLength } from "utils/parseFileLength";
 import { useDispatch } from "react-redux";
@@ -44,11 +45,8 @@ import { setWidgetFileState } from "slices/widgetFileSlice";
 import sliceLongFoldername from "utils/sliceLongFoldername";
 import Python from "../../../../assets/Python.json";
 
-interface IWords {
-    word: string;
-    start: number;
-    end: number;
-}
+const borderDefaultStyle = "linear-gradient(180deg, #111320 0%, rgba(9, 11, 23, 0.00) 93.1%) border-box";
+const borderFocusStyle = "linear-gradient(180deg, #1683E2 0%, #1683E200 93.1%) border-box";
 
 interface ISegment {
     start: number;
@@ -77,16 +75,17 @@ interface IIndexWidgetInterface {
     setControlBar:(state: boolean) => void;
 }
 
-const IndexWidgetInterface:FC <IIndexWidgetInterface> = ({setControlBar}) => {
-    const dispatch = useDispatch();
-    const inputRef = useRef(null);
-    const contentRef = useRef(null);
+const IndexWidgetInterface: FC<IIndexWidgetInterface> = ({setControlBar}) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
     const [data, setData] = useState<File>(null);
     const [inputValue, setInputValue] = useState<string>("");
     const [fileError, setFileError] = useState<string>(null);
     const [fileStatus, setFileStatus] = useState<string>(null);
+    const [inputBorderStyle, setInputBorderStyle] = useState<string>(borderDefaultStyle);
     const [checkboxActive, setCheckboxActive] = useState<boolean>(false);
     const [groupedSegments, setGroupedSegments] = useState<IGroupedSegment>([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!data) {
@@ -105,20 +104,9 @@ const IndexWidgetInterface:FC <IIndexWidgetInterface> = ({setControlBar}) => {
                 setControlBar(true);
             }
         }
-        if (fileStatus === "ready") {
-            dispatch(setWidgetFileState(fileStatus));
-        }
     }, [data, fileStatus]);
 
     useEffect(() => {
-        function handleLeftHiddenBlocks(
-            element: HTMLElement | Element, 
-            scrollHeight: number, 
-            trackHeight: number): void 
-        {
-            const value = element.scrollTop / (scrollHeight / trackHeight);
-            document.getElementById("scrollbar_thumb").style.transform = `translate3d(0px, ${value}px, 0px`;
-        }
         if (fileStatus === "ready") {
             const clippedHeight = document.getElementById("overflow_block").offsetHeight;
             const trackHeight = document.getElementById("scrollbar_track").offsetHeight;
@@ -128,11 +116,11 @@ const IndexWidgetInterface:FC <IIndexWidgetInterface> = ({setControlBar}) => {
             document.getElementById("scrollbar_thumb").style.height = `${thumbHeight}px`;
 
             contentBlock.addEventListener("scroll", function() {
-                handleLeftHiddenBlocks(contentBlock, contentBlock.scrollHeight, trackHeight);
+                handleWidgetScroll(contentBlock, contentBlock.scrollHeight, trackHeight);
             });
             return () => {
                 contentBlock.addEventListener("scroll", function() {
-                    handleLeftHiddenBlocks(contentBlock, contentBlock.scrollHeight, trackHeight);
+                    handleWidgetScroll(contentBlock, contentBlock.scrollHeight, trackHeight);
                 });
             }
         }
@@ -146,37 +134,61 @@ const IndexWidgetInterface:FC <IIndexWidgetInterface> = ({setControlBar}) => {
         }
     }, [groupedSegments]);
 
-    const handleDrop = function(e: React.DragEvent<HTMLDivElement>) {
+    useEffect(() => {
+        if (fileStatus === "ready" && window.innerWidth <= 500) {
+            const content = document.getElementById("greeting_content") as HTMLElement;
+            content.scrollIntoView({behavior: "smooth"});
+        }
+    }, [fileStatus]);
+
+    function handleWidgetScroll(
+        element: HTMLElement | Element, 
+        scrollHeight: number, 
+        trackHeight: number): void 
+    {
+        const value = element.scrollTop / (scrollHeight / trackHeight);
+        document.getElementById("scrollbar_thumb").style.transform = `translate3d(0px, ${value}px, 0px`;
+    }
+
+    const handleDrop = function(e: React.DragEvent<HTMLDivElement>): void {
         e.preventDefault();
         e.stopPropagation();
+        setInputBorderStyle(borderDefaultStyle);
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             if (e.dataTransfer.files[0].size === 0) {
-                setFileError("Файлы с нулевым размером не могут быть загружены");
+                setFileError("Обнаружен файл с нулевым размером, загрузка отменена");
+            } else if (!checkFileExt(e.dataTransfer.files[0])) {
+                setFileError("Обнаружен файл с недопустимым форматом, загрузка отменена");
+            } else if (e.dataTransfer.files[0].size > 500000000) {
+                setFileError("Превышен допустимый лимит размера файла.");
+            } else {
+                if (fileError) setFileError(null);
+                setData(e.dataTransfer.files[0]);
             }
-            if (!checkFileExt(e.dataTransfer.files[0])) {
-                setFileError("Файлы с недопустимым форматом не могут быть загружены");
-            }
-            setData(e.dataTransfer.files[0]);
         }
     };
 
-    const handleChange = function(e: React.ChangeEvent<HTMLInputElement>) {
+    const handleChange = function(e: React.ChangeEvent<HTMLInputElement>): void {
         e.preventDefault();
-        const target = (e.target as HTMLInputElement);
+        const target = (e.currentTarget as HTMLInputElement);
         if (target.files && target.files[0]) {
             if (target.files[0].size === 0) {
-                setFileError("Файлы с нулевым размером не могут быть загружены");
+                setFileError("Обнаружен файл с нулевым размером, загрузка отменена");
             }
             if (!checkFileExt(target.files[0])) {
-                setFileError("Файлы с недопустимым форматом не могут быть загружены");
+                setFileError("Обнаружен файл с недопустимым форматом, загрузка отменена");
+            } else if (target.files[0].size > 500000000) {
+                setFileError("Превышен допустимый лимит размера файла.");
+            } else {
+                if (fileError) setFileError(null);
+                setData(target.files[0]);
             }
-            setData(target.files[0]);
         }
     };
 
-    const checkFileExt = (file: File) => {
+    const checkFileExt = (file: File): boolean => {
         const ext = file.name.match(/\.([^\.]+)$/)[1];
-        switch (ext) {
+        switch (ext.toLowerCase()) {
             case 'mp3':
             case 'mpeg':
             case 'mpg':
@@ -202,16 +214,17 @@ const IndexWidgetInterface:FC <IIndexWidgetInterface> = ({setControlBar}) => {
         }
     }
 
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const input = e.currentTarget.value;
         setInputValue(input);
     }
 
-    const onButtonClick = () => {
+    const onButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e.preventDefault();
         inputRef.current.click();
     };
 
-    const groupSegments = (n: number) => {
+    const groupSegments = (n: number): void => {
         let group: IGroupedSegment = [];
         let segment: string[] = [];
         for (let i = 0, j = 0; i < Python.segments.length; i++) {
@@ -246,9 +259,9 @@ const IndexWidgetInterface:FC <IIndexWidgetInterface> = ({setControlBar}) => {
                         src="/images/transcription-file.svg"
                     />
                     <IndexWidgetProcessingIcon width="76" height="38" viewBox="0 0 76 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path className="firstArrow" d="m14.25 9.5 9.5 9.5-9.5 9.5" stroke-width="3.167" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path className="secondArrow" d="m33.25 9.5 9.5 9.5-9.5 9.5" stroke-width="3.167" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path className="thirdArrow" d="m52.25 9.5 9.5 9.5-9.5 9.5" stroke-width="3.167" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path className="firstArrow" d="m14.25 9.5 9.5 9.5-9.5 9.5" stroke-width="3.167" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path className="secondArrow" d="m33.25 9.5 9.5 9.5-9.5 9.5" stroke-width="3.167" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path className="thirdArrow" d="m52.25 9.5 9.5 9.5-9.5 9.5" stroke-width="3.167" strokeLinecap="round" strokeLinejoin="round"/>
                     </IndexWidgetProcessingIcon>
                     <IndexWidgetProcessingFileIcon 
                         alt="transcription" 
@@ -260,16 +273,13 @@ const IndexWidgetInterface:FC <IIndexWidgetInterface> = ({setControlBar}) => {
     } if (fileStatus === "ready" && groupedSegments) {
         return (
             <IndexWidgetBackground id="overflow_block">
-                <IndexWidgetPattern 
-                    alt="pattern" 
-                    src="/images/widget-pattern.webp"
-                />
+                <IndexWidgetPattern alt="pattern" src="/images/widget-pattern.webp" />
                 <IndexWidgetTrancriptionContent id="content_block" ref={contentRef}>
                     {groupedSegments.map((segment, idx) => {
                         return (
                             <IndexWidgetTranscriptionBlock id="transcript" key={idx}>
                                 <IndexWidgetTranscriptionTimestamp>
-                                    {parseFileLength(segment.start)}
+                                    {parseFileLength(segment.start, true)}
                                 </IndexWidgetTranscriptionTimestamp>
                                 <IndexWidgetTranscriptionParagraph>
                                     <IndexWidgetTranscriptionWord>
@@ -289,48 +299,55 @@ const IndexWidgetInterface:FC <IIndexWidgetInterface> = ({setControlBar}) => {
         return (
             <>
                 {!data ? (
-                    <IndexWidgetBackground
-                        id="input_file"
-                        onSubmit={(e) => e.preventDefault()}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={handleDrop}
-                    >
-                        <IndexWidgetPattern 
-                            alt="pattern" 
-                            src="/images/widget-pattern.webp"
-                        />
-                        <IndexWidgetForm>
-                            <IndexWidgetInputFileField 
-                                type="file"
-                                accept=".mp3,.mpeg,.mpg,.mov,.mkv,.mxf,.avi,.mts,.3gp,.amr,.wav,.flv,.mov,.wmv,.m4a,.ogg,.aac,.flac,.wma,.mp4"
-                                id="input_file_field" 
-                                multiple={false} 
-                                ref={inputRef}
-                                onChange={handleChange}
+                    <form>
+                        <IndexWidgetBackground
+                            id="input_file"
+                            onSubmit={(e) => e.preventDefault()}
+                            onDragOver={(e) => { e.preventDefault(); setInputBorderStyle(borderFocusStyle); }}
+                            onDragLeave={(e) => { e.preventDefault(); setInputBorderStyle(borderDefaultStyle); }}
+                            onDrop={handleDrop}
+                            $borderStyle={inputBorderStyle}
+                        >
+                            <IndexWidgetPattern 
+                                alt="pattern" 
+                                src="/images/widget-pattern.webp"
                             />
-                            <IndexWidgetTitle>
-                                Перетащите изображение в выделенную область, или нажимите “Выбрать файл”
-                            </IndexWidgetTitle>
-                            <IndexWidgetMainButton onClick={onButtonClick}>
-                                Выбрать файл
-                            </IndexWidgetMainButton>
-                            <IndexWidgetText>
-                                Или вставьте ссылку на файл
-                            </IndexWidgetText>
-                            <IndexWidgetInputBlock>
-                                <IndexWidgetInput 
-                                    type="text"
-                                    placeholder="Я.Диск, Google диск"
-                                    onChange={(e) => { handleInput(e); }}
+                            <IndexWidgetFormBlock>
+                                <IndexWidgetInputFileField 
+                                    type="file"
+                                    accept=".mp3,.mpeg,.mpg,.mov,.mkv,.mxf,.avi,.mts,.3gp,.amr,.wav,.flv,.mov,.wmv,.m4a,.ogg,.aac,.flac,.wma,.mp4"
+                                    id="input_file_field" 
+                                    multiple={false} 
+                                    ref={inputRef}
+                                    onChange={handleChange}
                                 />
-                                <IndexWidgetInputButton type="button" disabled={inputValue === ""}>
-                                    <IndexWidgetInputButtonIcon className={inputValue ? "active" : ""} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M10 15.8926V4.10744M10 4.10744L4.69672 9.41074M10 4.10744L15.3033 9.41074" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </IndexWidgetInputButtonIcon>
-                                </IndexWidgetInputButton>
-                            </IndexWidgetInputBlock>
-                        </IndexWidgetForm>
-                    </IndexWidgetBackground>
+                                <IndexWidgetTitle>
+                                    Перетащите изображение в выделенную область, или нажимите “Выбрать файл”
+                                </IndexWidgetTitle>
+                                <IndexWidgetMainButton onClick={(e) => { onButtonClick(e); }}>
+                                    Выбрать файл
+                                </IndexWidgetMainButton>
+                                <IndexWidgetText>
+                                    Или вставьте ссылку на файл
+                                </IndexWidgetText>
+                                <IndexWidgetInputBlock>
+                                    <IndexWidgetInput
+                                        type="text"
+                                        placeholder="Я.Диск, Google диск"
+                                        onChange={(e) => { handleInput(e); }}
+                                    />
+                                    <IndexWidgetInputButton type="button" disabled={inputValue === ""}>
+                                        <IndexWidgetInputButtonIcon className={inputValue ? "active" : ""} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 15.8926V4.10744M10 4.10744L4.69672 9.41074M10 4.10744L15.3033 9.41074" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </IndexWidgetInputButtonIcon>
+                                    </IndexWidgetInputButton>
+                                </IndexWidgetInputBlock>
+                                <IndexWidgetError>
+                                    {fileError}
+                                </IndexWidgetError>
+                            </IndexWidgetFormBlock>
+                        </IndexWidgetBackground>
+                    </form>
                 ) : (
                     <IndexWidgetBackground>
                         <IndexWidgetPattern 
@@ -388,17 +405,35 @@ const IndexWidgetComponent = () => {
     const [controlBar, setControlBar] = useState<boolean>(false);
 
     return (
-        <IndexWidgetBody>
-            <IndexWidgetBlock>
-                <IndexWidgetBlockAnimation>
-                    <IndexWidgetBlockAnimationLine />
-                    <IndexWidgetBlockAnimationLine className="second_line" />
-                </IndexWidgetBlockAnimation>
-                <IndexWidgetInterface setControlBar={setControlBar} />
-            </IndexWidgetBlock>
-            <IndexWidgetBlurredRectangle />
+        <>
+            <IndexWidgetBody>
+                <IndexWidgetBlock>
+                    <IndexWidgetBlockAnimation>
+                        <IndexWidgetBlockAnimationLine />
+                        <IndexWidgetBlockAnimationLine className="second_line" />
+                    </IndexWidgetBlockAnimation>
+                    <IndexWidgetInterface setControlBar={setControlBar} />
+                </IndexWidgetBlock>
+                <IndexWidgetMobileBlurredRectangle />
+                {controlBar && (
+                    <IndexWidgetControlBar>
+                        <IndexWidgetControlBarButton >
+                            <IndexWidgetControlBarButtonIcon 
+                                alt="export" 
+                                src="/images/export-icon.svg"
+                            />
+                        </IndexWidgetControlBarButton>
+                        <IndexWidgetControlBarButton >
+                            <IndexWidgetControlBarButtonIcon 
+                                alt="copy" 
+                                src="/images/copy-icon.svg"
+                            />
+                        </IndexWidgetControlBarButton>
+                    </IndexWidgetControlBar>
+                )}
+            </IndexWidgetBody>
             {controlBar && (
-                <IndexWidgetControlBar>
+                <IndexWidgetControlBar className="mobile_controls">
                     <IndexWidgetControlBarButton >
                         <IndexWidgetControlBarButtonIcon 
                             alt="export" 
@@ -413,7 +448,7 @@ const IndexWidgetComponent = () => {
                     </IndexWidgetControlBarButton>
                 </IndexWidgetControlBar>
             )}
-        </IndexWidgetBody>
+        </>
     );
 } 
 

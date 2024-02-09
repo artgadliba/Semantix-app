@@ -31,7 +31,7 @@ import { TooltipIconSVG } from "components/SvgComponents/TooltipIconSVG";
 import FocusTrap from "focus-trap-react";
 
 interface ICustomPurchase {
-    onClose(): any;
+    onClose: () => void;
     openPayModal(): any;
     purchaseOption: {
         rate: string;
@@ -68,29 +68,29 @@ const CustomPurchaseModal: FC<ICustomPurchase> = ({onClose, openPayModal, purcha
         setTotalPrice(formattedPrice);
     },[inputValue, purchaseOption]);
 
-    const handleIncreaseInput = () => {
+    const handleIncreaseInput = (): void => {
         if (inputValue + 1000 <= maxValue) {
             setInputValue(inputValue + 1000);
         }
     };
-    const handleDecreaseInput = () => {
+    const handleDecreaseInput = (): void => {
         if (inputValue - 1000 >= minValue) {
             setInputValue(inputValue - 1000);
         }
     };
 
-    const showTipOnClick = () => {
+    const showTipOnClick = (): void => {
         setTooltipActive(true);
         setTimeout(() => {
             hideTip();
         }, 5000);
     };
 
-    const showTip = () => {
+    const showTip = (): void => {
         setTooltipActive(true);
     };
     
-    const hideTip = () => {
+    const hideTip = (): void => {
         setTooltipActive(false);
     };
 

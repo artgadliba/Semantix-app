@@ -1,4 +1,5 @@
 import {
+    IndexPaymentBlock,
     IndexPaymentBackgroundBlock,
     IndexPaymentBackground,
     IndexPaymentBackgroundLayer,
@@ -44,91 +45,93 @@ const IndexPaymentComponent = () => {
     } = useModal(RegistrationModal, { openRecModal, openMessModal, modalType: "registration" });
 
     return (
-        <IndexPaymentBackgroundBlock id="payment">
-            <IndexPaymentMobileBackground 
-                alt="background"
-                src="/images/payment-mobile-bg.webp"
-            />
-            <IndexPaymentBackground>
-                <IndexPaymentBackgroundLayer>
-                    <IndexPaymentUpperBlurredEllipse />
-                    <IndexPaymentLowerBlurredEllipse />
-                    <IndexPaymentTopBackgroundImage 
-                        alt="background" 
-                        src="/images/payment-top-bg.svg"
-                    />
-                    <IndexPaymentBottomBackgroundImage 
-                        alt="background"
-                        src="/images/payment-bottom-bg.svg"
-                    />
-                </IndexPaymentBackgroundLayer>
-            </IndexPaymentBackground>
-            <IndexPaymentOptionContent>
-                <IndexPaymentOption>
-                    <IndexPaymentOptionTitle>
-                        Выберите подходящий тариф
-                    </IndexPaymentOptionTitle>
-                    <IndexPaymentOptionBody>
-                        <IndexPaymentOptionTables>
-                            <IndexPaymentOptionTable>
-                                <IndexPaymentOptionTableBackground>
-                                    <IndexPaymentBlurredEllipseLeft />
-                                    <IndexPaymentOptionTableName>
-                                        Базовый
-                                    </IndexPaymentOptionTableName>
-                                    <IndexPaymentOptionPrice>
-                                        2.5₽/мин
-                                    </IndexPaymentOptionPrice>
-                                    <IndexPaymentOptionPriceText>
-                                        До 10 000 минут
-                                    </IndexPaymentOptionPriceText>
-                                    <IndexPaymentOptionPurchaseButton onClick={openRegModal}>
-                                        Приобрести
-                                    </IndexPaymentOptionPurchaseButton>
-                                </IndexPaymentOptionTableBackground>
-                            </IndexPaymentOptionTable>
-                            <IndexPaymentOptionTable>
-                                <IndexPaymentOptionTableBackground>
-                                    <IndexPaymentBlurredEllipseMiddle />
-                                    <IndexPaymentOptionTableName>
-                                        <span className="advanced_type">Продвинутый</span>
-                                    </IndexPaymentOptionTableName>
-                                    <IndexPaymentOptionPrice>1.5₽/мин</IndexPaymentOptionPrice>
-                                    <IndexPaymentOptionPriceText>
-                                        От 100 000 минут
-                                    </IndexPaymentOptionPriceText>
-                                    <IndexPaymentOptionPurchaseButton onClick={openRegModal}>
-                                        Приобрести
-                                    </IndexPaymentOptionPurchaseButton>
-                                </IndexPaymentOptionTableBackground>
-                            </IndexPaymentOptionTable>
-                            <IndexPaymentOptionTable>
-                                <IndexPaymentOptionTableBackground>
-                                    <IndexPaymentBlurredEllipseRight />
-                                    <IndexPaymentOptionTableName>
-                                        <span className="business_type">Бизнес</span>
-                                    </IndexPaymentOptionTableName>
-                                    <IndexPaymentOptionText>
-                                        Отправьте заявку и мы<br/>предложим специальные условия<br/>под ваши задачи
-                                    </IndexPaymentOptionText>
-                                    <IndexPaymentOptionClaimButton 
-                                        onClick={(e) => { 
-                                            window.location.href="mailto:hello@semantix.one"; 
-                                            e.preventDefault(); 
-                                        }}
-                                    >
-                                        Оставить заявку
-                                    </IndexPaymentOptionClaimButton>
-                                </IndexPaymentOptionTableBackground>
-                            </IndexPaymentOptionTable>
-                        </IndexPaymentOptionTables>
-                    </IndexPaymentOptionBody>
-                </IndexPaymentOption>
-            </IndexPaymentOptionContent>
-            {registrationModal}
-            {passwordRecoveryModal}
-            {messageModal}
-        </IndexPaymentBackgroundBlock>
+        <IndexPaymentBlock>
+            <IndexPaymentBackgroundBlock id="payment">
+                <IndexPaymentMobileBackground 
+                    alt="background"
+                    src="/images/payment-mobile-bg.webp"
+                />
+                <IndexPaymentBackground>
+                    <IndexPaymentBackgroundLayer>
+                        <IndexPaymentUpperBlurredEllipse />
+                        <IndexPaymentLowerBlurredEllipse />
+                        <IndexPaymentTopBackgroundImage 
+                            alt="background" 
+                            src="/images/payment-top-bg.svg"
+                        />
+                        <IndexPaymentBottomBackgroundImage 
+                            alt="background"
+                            src="/images/payment-bottom-bg.svg"
+                        />
+                    </IndexPaymentBackgroundLayer>
+                </IndexPaymentBackground>
+                <IndexPaymentOptionContent>
+                    <IndexPaymentOption>
+                        <IndexPaymentOptionBody>
+                            <IndexPaymentOptionTitle>
+                                Выберите подходящий тариф
+                            </IndexPaymentOptionTitle>
+                            <IndexPaymentOptionTables>
+                                <IndexPaymentOptionTable>
+                                    <IndexPaymentOptionTableBackground>
+                                        <IndexPaymentBlurredEllipseLeft />
+                                        <IndexPaymentOptionTableName>
+                                            Базовый
+                                        </IndexPaymentOptionTableName>
+                                        <IndexPaymentOptionPrice>
+                                            2.5₽/мин
+                                        </IndexPaymentOptionPrice>
+                                        <IndexPaymentOptionPriceText>
+                                            До 10 000 минут
+                                        </IndexPaymentOptionPriceText>
+                                        <IndexPaymentOptionPurchaseButton onClick={openRegModal}>
+                                            Приобрести
+                                        </IndexPaymentOptionPurchaseButton>
+                                    </IndexPaymentOptionTableBackground>
+                                </IndexPaymentOptionTable>
+                                <IndexPaymentOptionTable>
+                                    <IndexPaymentOptionTableBackground>
+                                        <IndexPaymentBlurredEllipseMiddle />
+                                        <IndexPaymentOptionTableName>
+                                            <span className="advanced_type">Продвинутый</span>
+                                        </IndexPaymentOptionTableName>
+                                        <IndexPaymentOptionPrice>1.5₽/мин</IndexPaymentOptionPrice>
+                                        <IndexPaymentOptionPriceText>
+                                            От 100 000 минут
+                                        </IndexPaymentOptionPriceText>
+                                        <IndexPaymentOptionPurchaseButton onClick={openRegModal}>
+                                            Приобрести
+                                        </IndexPaymentOptionPurchaseButton>
+                                    </IndexPaymentOptionTableBackground>
+                                </IndexPaymentOptionTable>
+                                <IndexPaymentOptionTable>
+                                    <IndexPaymentOptionTableBackground>
+                                        <IndexPaymentBlurredEllipseRight />
+                                        <IndexPaymentOptionTableName>
+                                            <span className="business_type">Бизнес</span>
+                                        </IndexPaymentOptionTableName>
+                                        <IndexPaymentOptionText>
+                                            Отправьте заявку и мы<br/>предложим специальные условия<br/>под ваши задачи
+                                        </IndexPaymentOptionText>
+                                        <IndexPaymentOptionClaimButton 
+                                            onClick={(e) => { 
+                                                window.location.href="mailto:hello@semantix.one"; 
+                                                e.preventDefault(); 
+                                            }}
+                                        >
+                                            Оставить заявку
+                                        </IndexPaymentOptionClaimButton>
+                                    </IndexPaymentOptionTableBackground>
+                                </IndexPaymentOptionTable>
+                            </IndexPaymentOptionTables>
+                        </IndexPaymentOptionBody>
+                    </IndexPaymentOption>
+                </IndexPaymentOptionContent>
+                {registrationModal}
+                {passwordRecoveryModal}
+                {messageModal}
+            </IndexPaymentBackgroundBlock>
+        </IndexPaymentBlock>
     );
 }
 

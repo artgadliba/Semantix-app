@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const widgetFileStateSlice = createSlice({
     name: 'widgetFileState',
@@ -6,7 +6,7 @@ const widgetFileStateSlice = createSlice({
       value: null
     },
     reducers: {
-      setWidgetFileState: (state, action) => {
+      setWidgetFileState: (state, action: PayloadAction<string>) => {
         state.value = action.payload;
       }
     }

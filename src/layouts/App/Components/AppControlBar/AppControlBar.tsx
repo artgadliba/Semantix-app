@@ -27,10 +27,10 @@ import { setSortType } from "slices/sortTypeSlice";
 import { setSortByField } from "slices/sortByFieldSlice";
 
 const AppControlBar = () => {
-    const dispatch = useDispatch();
     const [filterMenuActive, setFilterMenuActive] = useState<boolean>(false);
     const [searchInput, setSeacrhInput] = useState<string>("");
     const [option, setOption] = useState<string>("Фильтр");
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (option === "По имени А-я") {
@@ -41,14 +41,14 @@ const AppControlBar = () => {
             dispatch(setSortByField("name"));
             dispatch(setSortType("descending"));
             setOption(option);
-        } else if (option === "По дате (сначала новые)") {
-            dispatch(setSortByField("length"));
+        } else if (option === "По дате (сначала старые)") {
+            dispatch(setSortByField("creation_datetime"));
             dispatch(setSortType("ascending"));
-            setOption("По дате (нов.)");
-        }else if (option === "По дате (сначала старые)") {
-            dispatch(setSortByField("length"));
-            dispatch(setSortType("descending"));
             setOption("По дате (стар.)");
+        } else if (option === "По дате (сначала новые)") {
+            dispatch(setSortByField("creation_datetime"));
+            dispatch(setSortType("descending"));
+            setOption("По дате (нов.)");
         }
     }, [option]);
 
@@ -69,7 +69,7 @@ const AppControlBar = () => {
         modal: newFileFolderModal
     } = useModal(NewFileFolderModal, { openNewFolderModal, openNewFileModal });
 
-    const toggleFilterMenu = () => {
+    const toggleFilterMenu = (): void => {
         if (filterMenuActive === true) {
             setFilterMenuActive(false);
         } else {
@@ -77,7 +77,7 @@ const AppControlBar = () => {
         }
     }
 
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         let lowerCase = event.target.value.toLowerCase();
         setSeacrhInput(lowerCase);
         dispatch(setQuery(lowerCase));
@@ -128,7 +128,7 @@ const AppControlBar = () => {
                     <AppControlBarFilterButtonMobile onClick={() => {toggleFilterMenu()}}>
                         <AppControlBarFilterIcon alt="filter" src="/images/filter.svg" />
                     </AppControlBarFilterButtonMobile>
-                    {window.innerWidth < 501 && filterMenuActive === true && (
+                    {window.innerWidth <= 500 && filterMenuActive === true && (
                         <SmallComboBox 
                             className="filter_box" 
                             setMenuActive={setFilterMenuActive} 

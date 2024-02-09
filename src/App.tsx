@@ -1,9 +1,9 @@
-import styled from "styled-components";
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RemoveTrailingSlash from "utils/RemoveTrailingSlash";
 import { Helmet } from "react-helmet";
 import Index from "./pages/Index/Index";
+import { AppBlock } from "index";
 
 const LandingFaqPage = React.lazy(() => import("./pages/LandingFaqPage/LandingFaqPage"));
 const AppFolderPage = React.lazy(() => import("./pages/AppFolderPage/AppFolderPage"));
@@ -11,14 +11,6 @@ const AppMainPage = React.lazy(() => import("./pages/AppMainPage/AppMainPage"));
 const AppFilePage = React.lazy(() => import("./pages/AppFilePage/AppFilePage"));
 const AppBalancePage = React.lazy(() => import("./pages/AppBalancePage/AppBalancePage"));
 const AppFaqPage = React.lazy(() => import("./pages/AppFaqPage/AppFaqPage"));
-
-
-const AppBlock = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-`;
 
 const App = () => {
     const organisation = {
@@ -36,7 +28,7 @@ const App = () => {
     };
     
     return (
-        <AppBlock>
+        <AppBlock id="app_block">
             <Helmet>
                 <script className="structured-data-list" type="application/ld+json">
                     {JSON.stringify(organisation)}

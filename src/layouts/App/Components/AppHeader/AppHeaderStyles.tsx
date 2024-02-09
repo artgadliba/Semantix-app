@@ -78,7 +78,7 @@ const AppHeaderUsernameBlock = styled.div`
   margin-right: ${pxIntoRem(40)};
   align-items: center;
   @media (max-width: 500px) {
-    margin-right: ${pxIntoRem(9)};
+    margin-right: ${pxIntoRem(15)};
   }
 `;
 
@@ -181,6 +181,26 @@ const AppHeaderMobileLogo = styled.img`
   height: ${pxIntoRem(27)};
 `;
 
+const AppHeaderBurgerButton = styled.button`
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: ${pxIntoRem(35)};
+  height: ${pxIntoRem(35)};
+  background: transparent;
+  @media (max-width: 500px) {
+    display: flex;
+    margin-left: 0;
+    margin-right: ${pxIntoRem(15)}; 
+  }
+`;
+
+const AppHeaderBurgerIcon = styled.img`
+  width: ${pxIntoRem(21)};
+  height: ${pxIntoRem(16)};
+`;
+
 export {
     AppHeaderBody,
     AppHeaderBlock,
@@ -197,5 +217,7 @@ export {
     AppHeaderBottomLineBlock,
     AppHeaderBottomLine,
     AppHeaderMobileLogoBlock,
-    AppHeaderMobileLogo
+    AppHeaderMobileLogo,
+    AppHeaderBurgerButton,
+    AppHeaderBurgerIcon
 };

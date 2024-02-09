@@ -12,69 +12,76 @@ import {
 } from "./AppMainPageStyles";
 import AppInterface from "../../layouts/App/AppInterface";
 import UserFileList from "components/UserFileList/UserFileList";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setUploadFolder } from "slices/uploadFolderSlice";
 import { RootState } from "slices";
 import axios from "axios";
 
-interface IFile {
+interface IMediaFile {
+    id: number;
     folder: {
         id: number;
         name: string;
     }
-    id: number;
     info: {
         creation_datetime: string;
     }
-    length: number;
-    name: string;
+    media: {
+        name: string;
+        lengthMs: number;
+    }
     status: {
         code: number;
     }
 }
 
-const AppMain: FC = () => {
+const AppMain = () => {
     const query = useSelector((state: RootState) => state.searchQuery.value);
     const sortType = useSelector((state: RootState) => state.sortType.value);
     const sortByField = useSelector((state: RootState) => state.sortByField.value);
     const updateFilelist = useSelector((state: RootState) => state.updateFileList.value);
-    const [items, setItems] = useState<Array<IFile>>([]);
-    const [fileList, setFileList] = useState<Array<IFile>>(null);
+    const [items, setItems] = useState<Array<IMediaFile>>([]);
+    const [fileList, setFileList] = useState<Array<IMediaFile>>(null);
+    const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     if (localStorage.getItem("jwt-tokens")) {
-    //         axios.get("/api/users/current/files/0,10", {
-    //             headers: {
-    //                 "jwt-tokens": localStorage.getItem("jwt-tokens")
-    //             }
-    //         })
-    //         .then((res) => {
-    //             if (res.headers && "jwt-tokens" in res.headers) {
-    //                 localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
-    //             }
-    //             if (res.data) {
-    //                 setItems(res.data);
-    //             } else {
-    //                 setItems([]);
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             if (err.headers && "jwt-tokens" in err.headers) {
-    //                 localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
-    //             }
-    //             console.log(err);
-    //             window.location.href = "/#login";
-    //         })
-    //     } else {
-    //         window.location.href = "/#login";
-    //     }
-    // },[updateFilelist]);
+    useEffect(() => {
+        dispatch(setUploadFolder(null));
+    }, []);
+
+    useEffect(() => {
+        if (localStorage.getItem("jwt-tokens")) {
+            axios.get("/api/users/current/files/0,10", {
+                headers: {
+                    "jwt-tokens": localStorage.getItem("jwt-tokens")
+                }
+            })
+            .then((res) => {
+                if (res.headers && "jwt-tokens" in res.headers) {
+                    localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
+                }
+                if (res.data) {
+                    setItems(res.data);
+                } else {
+                    setFileList([]);
+                }
+            })
+            .catch((err) => {
+                if (err.headers && "jwt-tokens" in err.headers) {
+                    localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
+                }
+                window.location.href = "/#login";
+            })
+        } else {
+            window.location.href = "/#login";
+        }
+    },[updateFilelist]);
     
     useEffect(() => {
-        if (items) {
+        if (items.length > 0) {
             let filteredList = [...items];
             if (query !== "") {
                 filteredList = items.filter((item) => { 
-                    return item.name.toLowerCase().startsWith(query)
+                    return item.media.name.toLowerCase().startsWith(query)
                 });
             }
             const filesData = sortFunc(filteredList, sortType, sortByField);
@@ -82,16 +89,25 @@ const AppMain: FC = () => {
         }
     }, [items, query, sortType, sortByField]);
 
-    function sortFunc(results: IFile[], sortType: string, sortByField: string): IFile[] {
-        if (sortType === "ascending") {
-            results.sort((a, b) => a[sortByField].toLowerCase() < b[sortByField].toLowerCase() ? -1 : 1);
-        }
-        else if (sortType === "descending") {
-            results.sort((a, b) => b[sortByField].toLowerCase() > a[sortByField].toLowerCase() ? 1 : -1);
+    function sortFunc(results: IMediaFile[], sortType: string, sortByField: string): IMediaFile[] {
+        if (sortByField === "name") {
+            if (sortType === "ascending") {
+                results.sort((a, b) => a.media[sortByField].toLowerCase() < b.media[sortByField].toLowerCase() ? -1 : 1);
+            }
+            else if (sortType === "descending") {
+                results.sort((a, b) => b.media[sortByField].toLowerCase() > a.media[sortByField].toLowerCase() ? 1 : -1);
+            }
+        } else if (sortByField === "creation_datetime") {
+            if (sortType === "ascending") {
+                results.sort((a, b) => a.info[sortByField].toLowerCase() < b.info[sortByField].toLowerCase() ? -1 : 1);
+            }
+            else if (sortType === "descending") {
+                results.sort((a, b) => b.info[sortByField].toLowerCase() > a.info[sortByField].toLowerCase() ? 1 : -1);
+            }
         }
         return results;
     }
-    
+
     if (items && fileList) {
         if (fileList.length === 0 && query !== "") {
             return (

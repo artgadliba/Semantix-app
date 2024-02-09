@@ -4,6 +4,15 @@ import pxIntoRem from "utils/pxIntoRem";
 import { hydrate, render } from "react-dom";
 import { Provider } from "react-redux";
 import { store } from "slices";
+import styled from "styled-components";
+import smoothscroll from "smoothscroll-polyfill";
+
+export const AppBlock = styled.div`
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+`;
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -13,8 +22,10 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     outline: none;
     box-sizing: border-box;
+    scrollbar-color: rgba(37, 38, 55) transparent;
     &::-webkit-scrollbar {
       width: ${pxIntoRem(8)};
+      z-index: 999999;
     }
     &::-webkit-scrollbar-track {
       background-color: transparent;
@@ -33,11 +44,13 @@ const GlobalStyle = createGlobalStyle`
   body, html, #root {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     font-size: 16px;
-    scroll-behavior: auto;
-    -webkit-overflow-scrolling: touch;
     background-color: #040512;
+    font-family: Mulish !important;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
     @media(max-width: 1450px) {
       font-size: 14.5px;
     }
@@ -67,6 +80,7 @@ const GlobalStyle = createGlobalStyle`
     }
     @media(max-width: 500px) {
       font-size: 16px;
+      -webkit-overflow-scrolling: touch;
     }
     @media(max-width: 950px) {
       font-size: 9.5px;
@@ -123,7 +137,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Mulish';
     src: local('Mulish'),
         url('/fonts/Mulish-Bold.ttf') format('truetype'),
-        url('/fonts/Mulish-Bold.woff') format('woff');
+        url('/fonts/Mulish-Bold.woff') format('woff'),
+        url('/fonts/Mulish-Bold.woff') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -133,7 +148,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Mulish';
     src: local('Mulish'),
         url('/fonts/Mulish-SemiBold.ttf') format('truetype'),
-        url('/fonts/Mulish-SemiBold.woff') format('woff');
+        url('/fonts/Mulish-SemiBold.woff') format('woff'),
+        url('/fonts/Mulish-SemiBold.woff2') format('woff2');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -143,7 +159,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Mulish';
     src: local('Mulish'),
         url('/fonts/Mulish-Medium.ttf') format('truetype'),
-        url('/fonts/Mulish-Medium.woff') format('woff');
+        url('/fonts/Mulish-Medium.woff') format('woff'),
+        url('/fonts/Mulish-Medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -153,7 +170,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Mulish';
     src: local('Mulish'),
         url('/fonts/Mulish-Regular.ttf') format('truetype'),
-        url('/fonts/Mulish-Regular.woff') format('woff');
+        url('/fonts/Mulish-Regular.woff') format('woff'),
+        url('/fonts/Mulish-Regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -170,6 +188,8 @@ const route = (
 );
 
 const rootElement = document.getElementById("root") as HTMLElement;
+
+smoothscroll.polyfill();
 
 if (rootElement.hasChildNodes()) {
     hydrate(route, rootElement);

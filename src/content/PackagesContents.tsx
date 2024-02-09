@@ -31,24 +31,24 @@ const proPackages = [
         price: "1.5₽/мин"
     },
     {
-        value: "15,000",
-        price: "22,500₽"
+        value: "100,000",
+        price: "150,000₽"
     },
     {
-        value: "20,000",
-        price: "30,000₽"
+        value: "125,000",
+        price: "187,500₽"
     },
     {
-        value: "25,000",
-        price: "37,500₽"
+        value: "150,000",
+        price: "225,000₽"
     },
     {
-        value: "30,000",
-        price: "45,000₽"
+        value: "175,000",
+        price: "262,500₽"
     },
     {
-        value: "35,000",
-        price: "52,500₽"
+        value: "200,000",
+        price: "300,000₽"
     }
 ];
 

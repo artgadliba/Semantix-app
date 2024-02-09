@@ -10,7 +10,7 @@ export function convertTimeToReadable(time: number): string {
     return String(value) + " " + noun;
 }
 
-function getNoun(number: number, one: string, two: string, plural: string) {
+function getNoun(number: number, one: string, two: string, plural: string): string {
     let n = Math.abs(number);
     n %= 100;
     if (n >= 5 && n <= 20) {

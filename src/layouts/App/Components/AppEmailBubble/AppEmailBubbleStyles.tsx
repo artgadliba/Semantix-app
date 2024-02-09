@@ -84,9 +84,11 @@ const AppEmailBubbleCloseIcon = styled.svg`
   height: ${pxIntoRem(24)};
   stroke: #79768B;
   transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
-  } 
+  @media (min-width: 501px) {
+    &:hover {
+      stroke: #FFF;
+    }
+  }
 `;
 
 export {

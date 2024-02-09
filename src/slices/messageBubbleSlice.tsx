@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const messageBubbleSlice = createSlice({
     name: 'messageBubble',
@@ -6,7 +6,7 @@ const messageBubbleSlice = createSlice({
       value: false
     },
     reducers: {
-      setMessageBubbleState: (state, action) => {
+      setMessageBubbleState: (state, action: PayloadAction<boolean>) => {
         state.value = action.payload;
       }
     }

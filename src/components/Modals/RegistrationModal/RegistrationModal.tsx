@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useEffect, useState, useRef } from "react";
+import { FC, SyntheticEvent, useEffect, useState } from "react";
 import {
     RegistrationModalContent,
     RegistrationModalTitle,
@@ -50,7 +50,7 @@ import axios from "axios";
 import FocusTrap from "focus-trap-react";
 
 interface IRegistrationModal {
-    onClose(): any;
+    onClose: () => void;
     openRecModal(): any;
     openMessModal(): any;
     modalType: string;
@@ -132,7 +132,7 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
         setActiveSecondButton(false);
     }, [modalTypeState]);
     
-    const togglePasswordVisibility = (e: SyntheticEvent<HTMLElement>) => {
+    const togglePasswordVisibility = (e: SyntheticEvent<HTMLElement>): void => {
         e.preventDefault();
         const button = e.target as Element;
         if (button.classList.contains("button_second") == true) {
@@ -148,7 +148,7 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
         }
     }
 
-    const handleValidateEmail = () => {
+    const handleValidateEmail = (): void => {
         setEmailInputChanged(true);
         if (!validateEmail(emailInput)) {
             setEmailError(true);
@@ -160,7 +160,7 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
         }
     }
 
-    const toggleModals = () => {
+    const toggleModals = (): void => {
         setPasswordInput(null);
         setPasswordStrength(null);
         if (modalTypeState === "registration") {
@@ -172,7 +172,7 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
         }
     }
 
-    const handleRegistration = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleRegistration = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         if (passwordError === false && emailError === false) {
             axios.post("/api/users/reg", {
@@ -205,7 +205,7 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
         }
     }
 
-    const handleAuth = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleAuth = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         if (loginInput && passwordInput) {
             const login = loginInput.trim();
@@ -258,7 +258,7 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
         }
     }
 
-    const handleOpenLoginModal = () => {
+    const handleOpenLoginModal = (): void => {
         if (localStorage.getItem("jwt-tokens")) {
             axios.get("/api/users/current", {
                 headers: {
@@ -290,26 +290,33 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
         }
     }
 
-    const showTipOnClick = () => {
+    const showTipOnClick = (): void => {
         setTooltipActive(true);
         setTimeout(() => {
             hideTip();
         }, 5000);
     };
 
-    const showTip = () => {
+    const showTip = (): void => {
         setTooltipActive(true);
     };
     
-    const hideTip = () => {
+    const hideTip = (): void => {
         setTooltipActive(false);
     };
+
+    const handleCloseModal = (): void => {
+        onClose();
+        if (window.location.href.indexOf("#login") > -1) {
+            window.history.pushState("", document.title, window.location.pathname);
+        }
+    }
     
     if (modalTypeState === "registration") {
         return (
             <FocusTrap key={key} focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
                 <ModalExternalBlock>
-                    <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
+                    <ModalOutsideClose onClick={handleCloseModal}></ModalOutsideClose>
                     <RegistrationModalContent>
                         {tooltipActive === true && (
                             <RegistrationModalTooltipBlock>
@@ -457,7 +464,7 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
                                 </RegistrationModalLoginLink>
                             </form>
                         </ModalBackgroundLayer>
-                        <ModalCloseComponent onClose={onClose} />
+                        <ModalCloseComponent onClose={handleCloseModal} />
                     </RegistrationModalContent>
                 </ModalExternalBlock>
             </FocusTrap>
@@ -466,7 +473,7 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
         return (
             <FocusTrap key={key} focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
                 <ModalExternalBlock>
-                    <ModalOutsideClose onClick={onClose}></ModalOutsideClose>
+                    <ModalOutsideClose onClick={handleCloseModal}></ModalOutsideClose>
                     <LoginModalContent>
                         <ModalBackgroundLayer>
                             <form onSubmit={(e) => { handleAuth(e); }}>
@@ -510,7 +517,10 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
                                     </LoginModalInputLabel>
                                 </LoginModalInputBlock>
                                 <LoginModalForgotPasswordButtonBlock>
-                                    <LoginModalForgotPasswordButton type="button" onClick={() => { openRecModal(); onClose(); }}>
+                                    <LoginModalForgotPasswordButton 
+                                        type="button" 
+                                        onClick={() => { openRecModal(); handleCloseModal(); }}
+                                    >
                                         Забыли пароль?
                                     </LoginModalForgotPasswordButton>
                                 </LoginModalForgotPasswordButtonBlock>
@@ -531,7 +541,7 @@ const RegistrationModal: FC<IRegistrationModal> =  ({onClose, openRecModal, open
                                 </LoginModalLoginLinkButton>
                             </LoginModalLoginLink>
                         </ModalBackgroundLayer>
-                        <ModalCloseComponent onClose={onClose} />
+                        <ModalCloseComponent onClose={handleCloseModal} />
                     </LoginModalContent>
                 </ModalExternalBlock>
             </FocusTrap>

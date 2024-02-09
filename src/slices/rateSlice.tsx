@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const rateSlice = createSlice({
     name: 'rate',
@@ -6,7 +6,7 @@ const rateSlice = createSlice({
       value: ""
     },
     reducers: {
-      setRate: (state, action) => {
+      setRate: (state, action: PayloadAction<string>) => {
         state.value = action.payload;
       }
     }

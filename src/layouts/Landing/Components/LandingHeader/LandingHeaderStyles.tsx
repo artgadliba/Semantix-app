@@ -15,7 +15,7 @@ const LandingHeaderBody = styled.div`
   height: ${pxIntoRem(74)};
 `;
 
-const LandingHeaderLogoBlock = styled(Link)`
+const LandingHeaderLogoLink = styled(Link)`
   width: ${pxIntoRem(138)};
   height: ${pxIntoRem(31)};
   margin: ${pxIntoRem(24)} 0 ${pxIntoRem(24)} ${pxIntoRem(30)};
@@ -46,12 +46,10 @@ const LandingHeaderBlurredCircle = styled.div`
   left: ${pxIntoRem(-70)};
   background: linear-gradient(44deg, #0781FE 0%, #00C7B4 100%);
   filter: blur(${pxIntoRem(197)});
-  @supports (-moz-appearance:none) {
-    position: absolute;
-    top: ${pxIntoRem(-64)};
-    left: ${pxIntoRem(-70)};
-    background-image: url(/images/blurred-circle-header.svg);
-    display: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden; 
+  @supports (-moz-appearance: none) {
+    opacity: 0.05;
   }
   @media (max-width: 500px) {
     width: ${pxIntoRem(80)};
@@ -59,6 +57,8 @@ const LandingHeaderBlurredCircle = styled.div`
     top: ${pxIntoRem(77)};
     left: ${pxIntoRem(-40)};
     filter: blur(${pxIntoRem(176.5)});
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden; 
   }
 `;
 
@@ -84,9 +84,11 @@ const LandingHeaderNavigationLink = styled(Link)`
   &:first-of-type {
     margin-left: 0px;
   }
-  &:hover {
-    color: #FFF;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      color: #FFF;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -107,16 +109,18 @@ const LandingHeaderButton = styled.button`
   line-height: normal;
   color: #ffffff;
   transition: 0.3s;
-  &:hover {
-    background: rgba(22, 131, 226, 0.10);
-    box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      background: rgba(22, 131, 226, 0.10);
+      box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: ${pxIntoRem(76)};
     height: ${pxIntoRem(32)};
     font-size: ${pxIntoRem(12)};
-    margin: ${pxIntoRem(22)} ${pxIntoRem(20)} ${pxIntoRem(22)} auto;
+    margin: ${pxIntoRem(22)} ${pxIntoRem(21)} ${pxIntoRem(22)} auto;
   }
 `;
 
@@ -140,13 +144,11 @@ const LandingHeaderTelegramIcon = styled.svg`
 const LandingHeaderContactTelegramBlock = styled(Link)`
   display: flex;
   transition: 0.3s;
-  &:hover ${LandingHeaderTelegramIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
-  }
-  &:active ${LandingHeaderTelegramIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover ${LandingHeaderTelegramIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -159,20 +161,38 @@ const LandingHeaderEmailIcon = styled.svg`
 const LandingHeaderContactEmailBlock = styled(Link)`
   display: flex;
   transition: 0.3s;
-  &:hover ${LandingHeaderEmailIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover ${LandingHeaderEmailIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
   }
-  &:active ${LandingHeaderEmailIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
+`;
+
+const HeaderBurgerButton = styled.button`
+  display: none;
+  flex-direction: column;
+  width: ${pxIntoRem(35)};
+  height: ${pxIntoRem(35)};
+  background: transparent;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 500px) {
+    display: flex;
+    margin-left: 0;
+    margin-right: ${pxIntoRem(15)};
   }
+`;
+
+const HeaderBurgerIcon = styled.img`
+  width: ${pxIntoRem(21)};
+  height: ${pxIntoRem(16)};
 `;
 
 export { 
   LandingHeaderBlock, 
   LandingHeaderBody, 
-  LandingHeaderLogoBlock, 
+  LandingHeaderLogoLink, 
   LandingHeaderLogo, 
   LandingHeaderBlurredCircle, 
   LandingHeaderNavigation, 
@@ -182,5 +202,7 @@ export {
   LandingHeaderContactTelegramBlock,
   LandingHeaderTelegramIcon,
   LandingHeaderContactEmailBlock,
-  LandingHeaderEmailIcon
+  LandingHeaderEmailIcon,
+  HeaderBurgerButton,
+  HeaderBurgerIcon
 };

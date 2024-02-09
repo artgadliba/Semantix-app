@@ -12,7 +12,7 @@ import { ModalCloseComponent } from "components/ModalCloseComponent/ModalCloseCo
 import FocusTrap from "focus-trap-react";
 
 interface IFileDeletePopup {
-    onClose(): any;
+    onClose: () => void;
     fileName: string;
 }
 

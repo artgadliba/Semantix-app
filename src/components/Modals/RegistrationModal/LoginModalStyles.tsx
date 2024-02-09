@@ -8,13 +8,12 @@ const LoginModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   width: ${pxIntoRem(450)};
-  z-index: 9999;
   position: relative;
   padding: 1px;
   border-radius: ${pxIntoRem(12)};
   background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
-    width: 90vw;
+    width: calc(100% - ${pxIntoRem(30)});
     height: auto;
   }
 `;
@@ -190,12 +189,14 @@ const LoginModalForgotPasswordButton = styled.button`
   line-height: 150%;
   background: transparent;
   transition: 0.3s;
-  &:hover {
-    color: #FFF;
-    transition: 0.3s;
-  }
   &:focus-visible {
     color: rgba(22, 131, 226, 1);
+  }
+  @media (min-width: 501px) {
+    &:hover {
+      color: #FFF;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -208,12 +209,6 @@ const LoginModalInputButton = styled.button`
   z-index: 9999;
   align-items: center;
   justify-content: center;
-  &:hover ${InputButtonIcon} {
-    stroke: #FFF;
-  }
-  &:hover + ${RegistrationModalShowPassword} {
-    display: flex;
-  }
   & > * {
     pointer-events: none;
   }
@@ -221,6 +216,14 @@ const LoginModalInputButton = styled.button`
     border-radius: ${pxIntoRem(4)};
     outline: 1px solid rgba(22, 131, 226, 1);
     outline-offset: -1px;
+  }
+  @media (min-width: 501px) {
+    &:hover ${InputButtonIcon} {
+      stroke: #FFF;
+    }
+    &:hover + ${RegistrationModalShowPassword} {
+      display: flex;
+    }
   }
 `;
 

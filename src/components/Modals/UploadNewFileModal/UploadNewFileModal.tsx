@@ -1,4 +1,5 @@
 import React, { FC, useRef, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import {
     UploadNewFileModalContent,
     UploadNewFileModalBackgroundLayer,
@@ -38,7 +39,6 @@ import { ModalOutsideClose, ModalExternalBlock } from "components/Mixins/Mixins"
 import { humanFileSize } from "utils/fileSizeToReadable";
 import axios from "axios";
 import { getItemsLength } from "utils/getItemsLength";
-import { convertTimeToReadable } from "utils/convertTimeToReadable";
 import { setUpdateFileList } from "slices/updateFileListSlice";
 import FocusTrap from "focus-trap-react";
 import { useSelector, useDispatch } from "react-redux";
@@ -46,26 +46,44 @@ import { RootState } from "slices";
 import { setUploadFolder } from "slices/uploadFolderSlice";
 
 interface IUploadNewFileModal {
-    onClose(): any;
+    onClose: () => void;
     openMessModal(): any;
 }
 
+interface IFilesSize {
+    rawSize: number;
+    readableSize: string;
+}
+
 const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) => {
-    const inputRef = useRef(null);
-    const dispatch = useDispatch();
+    const inputRef = useRef<HTMLInputElement>(null);
     const abortControllerRef = useRef<AbortController>(new AbortController());
     const [data, setData] = useState<Array<File>>([]);
     const [checkboxNoise, setCheckboxNoise] = useState<boolean>(false);
     const [checkboxVoiceNorm, setCheckboxVoiceNorm] = useState<boolean>(false);
     const [checkboxFrequency, setCheckboxFrequency] = useState<boolean>(false);
     const [uploadProcess, setUploadProcess] = useState<boolean>(false);
-    const [filesSize, setFilesSize] = useState<string>("");
+    const [filesSize, setFilesSize] = useState<IFilesSize>({ rawSize: 0, readableSize: "" });
     const [fileError, setFileError] = useState<string>(null);
     const [fileProgress, setFileProgress] = useState<number>(null);
-    const [remainingTime, setRemainingTime] = useState<number>(null);
     const [key, setKey] = useState<number>(0);
     const [initialFocus, setInitialFocus] = useState<any>(false);
     const folder = useSelector((state: RootState) => state.uploadFolder.value);
+    const dispatch = useDispatch();
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        let handler = null;
+        if (uploadProcess) {
+            handler = (e: BeforeUnloadEvent) => handleBeforeUnload(e);
+            window.addEventListener("beforeunload", handler);
+        }
+        return () => {
+            if (handler) {
+                window.removeEventListener("beforeunload", handler);
+            } 
+        }
+    }, [uploadProcess]);
 
     useEffect(() => {
         const controller = abortControllerRef.current;
@@ -74,15 +92,26 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
         };
     }, []);
 
-    const handleDrop = function(e: React.DragEvent<HTMLDivElement>) {
+    function handleBeforeUnload(e: BeforeUnloadEvent): void {
+        e.preventDefault();
+        e.returnValue = "";
+    }
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>): void => {
         e.preventDefault();
         e.stopPropagation();
+        setFileError(null);
         let fileBatchSize: number = 0;
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             const files: Array<File> = [];
-            for (let i = 0; i < e.dataTransfer.files.length; i ++) {
+            let numOfFiles = e.dataTransfer.files.length
+            if (numOfFiles > 50) {
+                setFileError("Превышен лимит количества загружаемых файлов. Будут загружены только 50 файлов.");
+                numOfFiles = 50;
+            }
+            for (let i = 0; i < numOfFiles; i ++) {
                 if (e.dataTransfer.files[i].size === 0) {
-                    setFileError("Часть файлов не была загружена из-за нулевого размера");
+                    setFileError("Обнаружены файлы с нулевым размером, которые не были загружены");
                     continue;
                 }
                 if (data.length > 0) {
@@ -98,27 +127,36 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                 files.push(e.dataTransfer.files[i]);
                 fileBatchSize += e.dataTransfer.files[i].size;
             }
-            setData((currentFiles) => [...currentFiles, ...files]);
-            setFilesSize(humanFileSize(fileBatchSize));
-            setInitialFocus("#upload_button");
-            setKey(current => current + 1);
+            if (fileBatchSize + filesSize.rawSize <= 2000000000) {
+                setData((currentFiles) => [...currentFiles, ...files]);
+                const newFileSize = {
+                    rawSize: filesSize.rawSize + fileBatchSize,
+                    readableSize: humanFileSize(filesSize.rawSize + fileBatchSize)
+                };
+                setFilesSize(newFileSize);
+                setInitialFocus("#upload_button");
+                setKey(current => current + 1);
+            } else {
+                setFileError("Превышен максимальный лимит общего веса файлов.");
+            }
         }
     };
 
-    const handleChange = function(e: React.ChangeEvent<HTMLInputElement>) {
+    const handleChange = function(e: React.ChangeEvent<HTMLInputElement>): void {
         e.preventDefault();
+        setFileError(null);
         let fileBatchSize: number = 0;
-        const target = (e.target as HTMLInputElement);
+        const target = (e.currentTarget as HTMLInputElement);
         if (target.files && target.files[0]) {
             const files: Array<File> = [];
             let numOfFiles = target.files.length
             if (numOfFiles > 50) {
-                setFileError("Превышен лимит количества загружаемых файлов. Будут загружены только первые 50 файлов.");
+                setFileError("Превышен лимит количества загружаемых файлов. Будут загружены только 50 файлов.");
                 numOfFiles = 50;
             }
             for (let i = 0; i < numOfFiles; i ++) {
                 if (target.files[i].size === 0) {
-                    setFileError("Часть файлов не будут загружены из-за нулевого размера");
+                    setFileError("Обнаружены файлы с нулевым размером, которые не были загружены");
                     continue;
                 }
                 if (data.length > 0) {
@@ -134,14 +172,23 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                 files.push(target.files[i]);
                 fileBatchSize += e.target.files[i].size;
             }
-            setData((currentFiles) => [...currentFiles, ...files]);
-            setFilesSize(humanFileSize(fileBatchSize));
-            setInitialFocus("#upload_button");
-            setKey(current => current + 1);
+            if (fileBatchSize + filesSize.rawSize <= 2000000000) {
+                setData((currentFiles) => [...currentFiles, ...files]);
+                const newFileSize = {
+                    rawSize: filesSize.rawSize + fileBatchSize,
+                    readableSize: humanFileSize(filesSize.rawSize + fileBatchSize)
+                };
+                setFilesSize(newFileSize);
+                setInitialFocus("#upload_button");
+                setKey(current => current + 1);
+            } else {
+                setFileError("Превышен максимальный лимит общего веса файлов.");
+            }
         }
     };
 
-    const onButtonClick = () => {
+    const onButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => { 
+        e.preventDefault();
         inputRef.current.click();
     };
 
@@ -162,15 +209,16 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
         setData(newData);
     }
 
-    const checkFileDuplicates = (file: File) => {
+    //check return type 
+    const checkFileDuplicates = (file: File): File => {
         return data.find(function(existingFile) {
             return existingFile.name === file.name;
         })
     }
 
-    const checkFileExt = (file: File) => {
+    const checkFileExt = (file: File): boolean => {
         const ext = file.name.match(/\.([^\.]+)$/)[1];
-        switch (ext) {
+        switch (ext.toLowerCase()) {
             case 'mp3':
             case 'mpeg':
             case 'mpg':
@@ -183,7 +231,6 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
             case 'amr':
             case 'wav':
             case 'flv':
-            case 'mov':
             case 'wmv':
             case 'm4a':
             case 'ogg':
@@ -197,9 +244,9 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
         }
     }
 
-    const handleFileUpload = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleFileUpload = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        if (data.length > 0 && localStorage.getItem("jwt-tokens") && folder) {
+        if (data.length > 0 && folder && localStorage.getItem("jwt-tokens")) {
             const config = {
                 folder: {
                     id: folder.id,
@@ -209,7 +256,6 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                 voiceNormalizationF: checkboxVoiceNorm,
                 frequencyF: checkboxFrequency
             };
-            const timeStarted = new Date();
             axios.post("/api/tasks/new", {
                 files: data,
                 inputValues: JSON.stringify(config)
@@ -220,9 +266,6 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                 },
                 onUploadProgress: data => {
                     setFileProgress(Math.round((100 * data.loaded) / data.total));
-                    const timeElapsed = Math.abs(new Date().getTime() - timeStarted.getTime());
-                    const uploadSpeed = data.loaded / (timeElapsed/1000);
-                    setRemainingTime((data.total - data.loaded) / uploadSpeed);
                 },
                 signal: abortControllerRef.current.signal
             })
@@ -231,12 +274,13 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                     localStorage.setItem("jwt-tokens", res.headers["jwt-tokens"]);
                 }
                 dispatch(setUpdateFileList());
-                onClose();
+                handleModalClose();
+                setUploadProcess(false);
                 openMessModal();
             })
             .catch(function(thrown) {
                 if (axios.isCancel(thrown)) {
-                    console.log('Request ', thrown.message);
+                    console.log('Request', thrown.message);
                 }
                 console.log(thrown);
             })
@@ -250,12 +294,31 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
             setKey(1);
         }
     }
-    console.log(data)
-    if (uploadProcess === false) {
+
+    const handleInputFocus = (): void => {
+        const input = document.getElementById("input_file") as HTMLElement;
+        input.style.border = "1px solid #1683E2";
+    }
+
+    const handleInputLeave = (): void => {
+        const input = document.getElementById("input_file") as HTMLElement;
+        input.style.border = "1px dashed #2D3042";
+    }
+
+    const handleModalClose = (): void => {
+        if (pathname.includes("/app/folders")) {
+            onClose();
+        } if (!pathname.includes("/app/folders")) {
+            dispatch(setUploadFolder(null)); 
+            onClose();
+        }
+    }
+
+    if (!uploadProcess) {
         return (
             <FocusTrap key={key} focusTrapOptions={{ initialFocus: initialFocus, clickOutsideDeactivates: true }}>
                 <ModalExternalBlock>
-                    <ModalOutsideClose onClick={() => { dispatch(setUploadFolder(null)); onClose(); }} />
+                    <ModalOutsideClose onClick={handleModalClose} />
                     <UploadNewFileModalContent>
                         <UploadNewFileModalBackgroundLayer>
                             <form onSubmit={(e) => { handleFileUpload(e); }}>
@@ -264,7 +327,8 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                                     <UploadNewFileModalInputFileBlock 
                                         id="input_file"
                                         onSubmit={(e) => e.preventDefault()}
-                                        onDragOver={(e) => e.preventDefault()}
+                                        onDragOver={(e) => { e.preventDefault(); handleInputFocus(); }}
+                                        onDragLeave={(e) => { e.preventDefault(); handleInputLeave(); }}
                                         onDrop={handleDrop}
                                     >
                                         {fileError && (
@@ -280,17 +344,25 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                                             ref={inputRef}
                                             onChange={handleChange}
                                         />
-                                        <UploadNewFileModalInputFileInstruction>Перетащите изображение в выделенную область или<br/> нажимите “Выбрать файл”</UploadNewFileModalInputFileInstruction>
-                                        <UploadNewFileModalInputFileButton type="button" onClick={onButtonClick}>
+                                        <UploadNewFileModalInputFileInstruction>
+                                            Перетащите изображение в выделенную область или<br/> нажимите “Выбрать файл”
+                                        </UploadNewFileModalInputFileInstruction>
+                                        <UploadNewFileModalInputFileButton 
+                                            type="button" 
+                                            onClick={(e) => { onButtonClick(e); }}
+                                        >
                                             Выбрать файл
                                         </UploadNewFileModalInputFileButton>
-                                        <UploadNewFileModalInputFileLimitText>Допускается отправка не более 50 файлов общим размером до 2Гб</UploadNewFileModalInputFileLimitText>
+                                        <UploadNewFileModalInputFileLimitText>
+                                            Допускается отправка не более 50 файлов общим размером до 2Гб
+                                        </UploadNewFileModalInputFileLimitText>
                                     </UploadNewFileModalInputFileBlock>
                                 ) : (
                                     <UploadNewFileModalInputFileBlock 
                                         id="input_file"
                                         onSubmit={(e) => e.preventDefault()}
-                                        onDragOver={(e) => e.preventDefault()}
+                                        onDragOver={(e) => { e.preventDefault(); handleInputFocus(); }}
+                                        onDragLeave={(e) => { e.preventDefault(); handleInputLeave(); }}
                                         onDrop={handleDrop}
                                     >   
                                         {fileError && (
@@ -323,15 +395,22 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                                             )}
                                         </UploadNewFileModalFilesBlock>
                                         <UploadNewFileModalButtonsBlock>
-                                            <UploadNewFileModalActionButton type="button" onClick={onButtonClick}>
+                                            <UploadNewFileModalActionButton 
+                                                type="button"
+                                                id="upload_button"
+                                                onClick={(e) => { onButtonClick(e); }}
+                                            >
                                                 Выбрать файл
                                             </UploadNewFileModalActionButton>
-                                            <UploadNewFileModalActionButton type="button" onClick={() => { setData([]); }}>
+                                            <UploadNewFileModalActionButton 
+                                                type="button" 
+                                                onClick={() => { setData([]); }}
+                                            >
                                                 Отменить
                                             </UploadNewFileModalActionButton>
                                         </UploadNewFileModalButtonsBlock>
                                         <UploadNewFileModalInputFileLimitText>
-                                            Использовано <span>{filesSize}</span> из <span>2GB</span>
+                                            Использовано <span>{filesSize.readableSize}</span> из <span>2Гб</span>
                                         </UploadNewFileModalInputFileLimitText>
                                     </UploadNewFileModalInputFileBlock>
                                 )}
@@ -354,30 +433,48 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                                             )}
                                         </UploadNewFileModalFilesMobileBlock>
                                         <UploadNewFileModalButtonsBlock>
-                                            <UploadNewFileModalActionButton id="upload_button" type="button" onClick={onButtonClick}>
+                                            <UploadNewFileModalActionButton 
+                                                id="upload_button" 
+                                                type="button" 
+                                                onClick={(e) => { onButtonClick(e); }}
+                                            >
                                                 Добавить файл
                                             </UploadNewFileModalActionButton>
-                                            <UploadNewFileModalActionButton type="button" onClick={onClose}>
+                                            <UploadNewFileModalActionButton 
+                                                type="button" 
+                                                onClick={() => { setData([]); }}
+                                            >
                                                 Отменить
                                             </UploadNewFileModalActionButton>
                                         </UploadNewFileModalButtonsBlock>
                                         <UploadNewFileModalInputFileLimitText className="mobile_text">
-                                            Использовано <span>{filesSize}</span> из <span>2GB</span>
+                                            Использовано <span>{filesSize.readableSize}</span> из <span>2Гб</span>
                                         </UploadNewFileModalInputFileLimitText>
+                                        {fileError && (
+                                            <UploadNewFileModalFilesError>
+                                                {fileError}
+                                            </UploadNewFileModalFilesError>
+                                        )} 
                                     </UploadNewFileModalFilesMobileWrapper>
                                 ) : (
-                                    <>
-                                    <UploadNewFileModalInputFileButton 
-                                        className="mobile_upload"
-                                        type="button"
-                                        onClick={onButtonClick}
-                                    >
-                                        Выбрать файл
-                                    </UploadNewFileModalInputFileButton>
-                                    <UploadNewFileModalInputFileLimitText className="mobile_text">
-                                        Максимальный размер файлов не более 2GB
-                                    </UploadNewFileModalInputFileLimitText>
-                                    </>
+                                    <UploadNewFileModalFilesMobileWrapper>
+                                        <UploadNewFileModalInputFileButton 
+                                            className="mobile_upload"
+                                            id="upload_button"
+                                            type="button"
+                                            onClick={(e) => { onButtonClick(e); }}
+                                        >
+                                            Выбрать файл
+                                        </UploadNewFileModalInputFileButton>
+                                        <UploadNewFileModalInputFileLimitText className="mobile_text">
+                                            Допускается отправка не более 50 файлов<br />общим размером до 2Гб
+                                        </UploadNewFileModalInputFileLimitText>
+                                        {fileError && (
+                                            <UploadNewFileModalFilesError>
+                                                {fileError}
+                                            </UploadNewFileModalFilesError>
+                                        )} 
+                                    </UploadNewFileModalFilesMobileWrapper>
                                 )}
                                 <UploadNewFileModalLine />
                                 <UploadNewFileModalAdjustmentsText>
@@ -424,31 +521,34 @@ const UploadNewFileModal: FC<IUploadNewFileModal> =  ({onClose, openMessModal}) 
                                 </UploadNewFileModalMainButton>
                             </form>
                         </UploadNewFileModalBackgroundLayer>
-                        <ModalCloseComponent onClose={onClose} />
+                        <ModalCloseComponent onClose={handleModalClose} />
                     </UploadNewFileModalContent>
                 </ModalExternalBlock>
             </FocusTrap>
         );
-    } else if (uploadProcess === true) {
+    } else if (uploadProcess) {
         return (
             <FocusTrap key={key} focusTrapOptions={{ initialFocus: false, clickOutsideDeactivates: true }}>
                 <ModalExternalBlock >
-                    <ModalOutsideClose onClick={() => { onClose(); abortControllerRef.current.abort(); }}>
+                    <ModalOutsideClose onClick={() => { handleModalClose(); abortControllerRef.current.abort(); }}>
                     </ModalOutsideClose>
                     <FileUploadPopupContent>
                         <FileUploadPopupBackgroundLayer>
                             <FileUploadPopupTitle>Загрузка файлов</FileUploadPopupTitle>
                             <FileUploadPopupMessage>
-                                Осталось до окончания загрузки: <br/><span> {convertTimeToReadable(remainingTime)}</span>
+                                Дождитесь окончания загрузки файлов
                             </FileUploadPopupMessage>
                             <FileUploadPopupProgressBar max="100" value={fileProgress}/>
-                            <form onSubmit={() => { onClose(); abortControllerRef.current.abort(); }}>
+                            <form onSubmit={() => { 
+                                handleModalClose(); 
+                                abortControllerRef.current.abort();
+                            }}>
                                 <FileUploadPopupCancelButton type="submit">
                                     Отменить
                                 </FileUploadPopupCancelButton>
                             </form>
                         </FileUploadPopupBackgroundLayer>
-                        <ModalCloseComponent onClose={onClose} />
+                        <ModalCloseComponent onClose={handleModalClose} />
                     </FileUploadPopupContent>
                 </ModalExternalBlock>
             </FocusTrap>

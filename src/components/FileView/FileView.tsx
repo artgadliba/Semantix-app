@@ -49,66 +49,58 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
     }, []);
 
     useEffect(() => {
-        const onTimeUpdate = () => {
-            const activeSegment = groupedSegments.findIndex((segment) => {
-                return segment[segment.length - 1].end > playerRef.current.currentTime;
-            })
-            if (groupedSegments[activeSegment]) {
-                const activeWordIndex = groupedSegments[activeSegment].findIndex((word) => {
-                    return word.end > playerRef.current.currentTime;
-                });
-                const activeRef = wordsRefs[activeSegment];
-                const wordElement = activeRef.childNodes[activeWordIndex] as HTMLElement;
-                if (wordElement) {
-                    wordElement.classList.add("active_word");
-                    wordElement.classList.add("active_text");
-                }
-                if (activeWordIndex > 0) {
-                    const prevWordElement = activeRef.childNodes[activeWordIndex - 1] as HTMLElement;
-                    if (!prevWordElement.className.includes("active_text")) {
-                        prevWordElement.classList.add("active_text");
-                    }
-                    const prevActiveWords = document.getElementsByClassName("active_word");
-                    for (let i = 0; i < prevActiveWords.length - 1; i ++) {
-                        prevActiveWords[i].classList.remove("active_word");
-                    }
-                }
-            }
-        };
         if (playerRef) {
             const ref = playerRef.current;
             ref.addEventListener("timeupdate", onTimeUpdate);
-            return () => ref.removeEventListener(
-                "timeupdate",
-                onTimeUpdate
-            );
+            ref.addEventListener("seeked", onSeeked);
+            return () => {
+                ref.removeEventListener("timeupdate", onTimeUpdate);
+                ref.removeEventListener("seeked", onSeeked);
+            }
         }
     }, [playerRef]);
 
-    useEffect(() => {
-        const onSeeked = () => {
-            const activeElements = document.getElementsByClassName("active_text");
-            for (let i = activeElements.length - 1; i >= 0; i --) {
-                activeElements[i].classList.remove("active_text");
+    const onSeeked = (): void => {
+        const activeElements = document.getElementsByClassName("active_text");
+        for (let i = activeElements.length - 1; i >= 0; i --) {
+            activeElements[i].classList.remove("active_text");
+        }
+        const currentWord = document.getElementsByClassName("active_word");
+        if (currentWord[0]) {
+            for (let i = currentWord.length - 1; i >= 0; i --) {
+                currentWord[i].classList.remove("active_word");
             }
-            const currentWord = document.getElementsByClassName("active_word");
-            if (currentWord[0]) {
-                for (let i = currentWord.length - 1; i >= 0; i --) {
-                    currentWord[i].classList.remove("active_word");
+        }
+    };
+
+    const onTimeUpdate = (): void => {
+        const activeSegment = groupedSegments.findIndex((segment) => {
+            return segment[segment.length - 1].end > playerRef.current.currentTime;
+        })
+        if (groupedSegments[activeSegment]) {
+            const activeWordIndex = groupedSegments[activeSegment].findIndex((word) => {
+                return word.end > playerRef.current.currentTime;
+            });
+            const activeRef = wordsRefs[activeSegment];
+            const wordElement = activeRef.childNodes[activeWordIndex] as HTMLElement;
+            if (wordElement) {
+                wordElement.classList.add("active_word");
+                wordElement.classList.add("active_text");
+            }
+            if (activeWordIndex > 0) {
+                const prevWordElement = activeRef.childNodes[activeWordIndex - 1] as HTMLElement;
+                if (!prevWordElement.className.includes("active_text")) {
+                    prevWordElement.classList.add("active_text");
+                }
+                const prevActiveWords = document.getElementsByClassName("active_word");
+                for (let i = 0; i < prevActiveWords.length - 1; i ++) {
+                    prevActiveWords[i].classList.remove("active_word");
                 }
             }
-        };
-        if (playerRef) {
-            const ref = playerRef.current;
-            ref.addEventListener("seeked", onSeeked);
-            return () => ref.removeEventListener(
-                "seeked",
-                onSeeked
-            );
         }
-    },[playerRef]);
+    };
 
-    const groupSegments = (n: number) => {
+    const groupSegments = (n: number): void => {
         let group: any = [];
         for (let i = 0, j = 0; i < data.segments.length; i++) {
             if (i >= n && i % n === 0) {
@@ -124,14 +116,14 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
         } 
     }
 
-    const handleSeek = (value: number) => {
+    const handleSeek = (value: number): void => {
         playerRef.current.currentTime = value;
         playerRef.current.play();
         setIsPlaying(true);
         handleProgressColor(value);
     }
 
-    const handleProgressColor = (value: number) => {
+    const handleProgressColor = (value: number): void => {
         const ref = progressRef.current;
         const ratio = value / ref.max * 100;
         ref.style.background = 'linear-gradient(to right, #1683E2 0%, #1683E2 ' + ratio + '%, #1B1D2C ' + ratio + '%, #1B1D2C 100%)';
@@ -148,7 +140,7 @@ const FileView: FC<IFileView> = ({playerRef, progressRef, setIsPlaying, data}) =
                                 <FileViewTranscriptionTextBlockTimestamp 
                                     onClick={() => {handleSeek(segment[0].start)}}
                                 >
-                                    {parseFileLength(segment[0].start)}
+                                    {parseFileLength(segment[0].start, true)}
                                 </FileViewTranscriptionTextBlockTimestamp>
                                 <FileViewTranscriptionTextBlockParagraph 
                                     ref={(ref) => { wordsRefs[idx] = ref; return true; }}

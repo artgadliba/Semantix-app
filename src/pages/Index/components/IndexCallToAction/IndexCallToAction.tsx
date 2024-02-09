@@ -26,7 +26,7 @@ const IndexCallToActionComponent = () => {
     const {
         openModal: openRegModal,
         modal: registrationModal
-    } = useModal(RegistrationModal, { openRecModal, openMessModal, modalType: "registration" });
+    } = useModal(RegistrationModal, { openRecModal, openMessModal, modalType: "login" });
 
     return (
         <IndexCallToActionBackgroundBlock>
@@ -44,7 +44,7 @@ const IndexCallToActionComponent = () => {
                             <IndexCallToActionContentText>
                                 Пройдите регистрацию и получите <span>тестовые минуты</span>
                             </IndexCallToActionContentText>
-                            <IndexMainButton id="bottom_button" onClick={openRegModal}>
+                            <IndexMainButton id="bottom_button" type="button" onClick={openRegModal}>
                                 Попробовать бесплатно
                             </IndexMainButton>
                         </IndexCallToActionBody>

@@ -4,7 +4,6 @@ import messageBubbleSlice from './messageBubbleSlice';
 import balanceSlice from './balanceSlice';
 import rateSlice from './rateSlice';
 import progressSlice from './progressSlice';
-import remainingTimeSlice from './remainingTimeSlice';
 import searchQuerySlice from './searchQuerySlice';
 import sortTypeSlice from './sortTypeSlice';
 import sortByFieldSlice from './sortByFieldSlice';
@@ -20,7 +19,6 @@ export const store = configureStore({
         balance: balanceSlice,
         rate: rateSlice,
         progress: progressSlice,
-        remainingTime: remainingTimeSlice,
         searchQuery: searchQuerySlice,
         sortType: sortTypeSlice,
         sortByField: sortByFieldSlice,

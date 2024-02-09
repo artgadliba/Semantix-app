@@ -48,9 +48,11 @@ const AudioPlayerControlsButton = styled.button`
   border-radius: ${pxIntoRem(8)};
   background: #1683E2;
   transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      background: #1668E2;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -179,9 +181,11 @@ const AudioPlayerVolumeButton = styled.button`
   margin-right: ${pxIntoRem(16)};
   background: transparent;
   transition: 0.3s;
-  &:hover ${AudioPlayerSymbolIcon} {
-    transition: 0.3s;
-    fill: #1683E2;
+  @media (min-width: 501px) {
+    &:hover ${AudioPlayerSymbolIcon} {
+      transition: 0.3s;
+      fill: #1683E2;
+    }
   }
   @media (max-width: 500px) {
     display: none;

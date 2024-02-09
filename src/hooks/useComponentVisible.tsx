@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 export default function useComponentVisible(initialState: boolean) {
     const [isComponentVisible, setIsComponentVisible] = useState(initialState);
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
@@ -11,8 +11,9 @@ export default function useComponentVisible(initialState: boolean) {
         };
     }, []);
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (ref.current && !ref.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent): void => {
+        const target = event.target as Node;
+        if (ref.current && !ref.current.contains(target)) {
             setIsComponentVisible(false);
         }
     };

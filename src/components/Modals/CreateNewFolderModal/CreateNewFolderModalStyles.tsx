@@ -11,7 +11,7 @@ const CreateNewFolderModalContent = styled.div`
   border-radius: ${pxIntoRem(12)};
   background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
-    width: 90vw;
+    width: calc(100% - ${pxIntoRem(30)});
     height: auto;
   }
 `;
@@ -132,13 +132,15 @@ const CreateNewFolderModalTooltipButton = styled.button`
   margin-left: ${pxIntoRem(6)};
   z-index: 9999;
   transition: 0.3s;
-  &:hover ${TooltipIcon} {
-    transition: 0.3s;
-    fill: #1683E2;
-  }
-  &:focus-visible ${TooltipIcon} {
-    transition: 0.3s;
-    fill: #1683E2;
+  @media (min-width: 501px) {
+    &:hover ${TooltipIcon} {
+      transition: 0.3s;
+      fill: #1683E2;
+    }
+    &:focus-visible ${TooltipIcon} {
+      transition: 0.3s;
+      fill: #1683E2;
+    }
   }
 `;
 

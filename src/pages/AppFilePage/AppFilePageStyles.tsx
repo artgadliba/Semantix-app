@@ -80,9 +80,11 @@ const AppFilePageControlButton = styled.button`
     margin-left: auto;
     margin-right: 0;
   }
-  &:hover {
-    transition: 0.3s;
-    border: 1px solid #FFF;
+  @media (min-width: 501px) {
+    &:hover {
+      transition: 0.3s;
+      border: 1px solid #FFF;
+    }
   }
   @media (max-width: 500px) {
     display: none;
@@ -143,10 +145,12 @@ const AppFileEditControlButtonSave = styled.button`
   line-height: normal;
   white-space: nowrap;
   transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      background: #1668E2;
+      box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: calc(100% - ${pxIntoRem(107)});
@@ -172,9 +176,11 @@ const AppFileEditControlButtonCancel = styled.button`
   margin-left: auto;
   margin-right: ${pxIntoRem(0)};
   transition: 0.3s;
-  &:hover {
-    transition: 0.3s;
-    border: 1px solid #FFF;
+  @media (min-width: 501px) {
+    &:hover {
+      transition: 0.3s;
+      border: 1px solid #FFF;
+    }
   }
   @media (max-width: 500px) {
     margin-left: auto;

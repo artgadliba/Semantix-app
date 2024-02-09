@@ -15,15 +15,17 @@ import {
     AppHeaderBottomLineBlock,
     AppHeaderBottomLine,
     AppHeaderMobileLogoBlock,
-    AppHeaderMobileLogo
+    AppHeaderMobileLogo,
+    AppHeaderBurgerButton,
+    AppHeaderBurgerIcon
 } from "./AppHeaderStyles";
 import { accountMenuOptions } from "content/AccountMenuOptions";
-import AppHeaderBurger from "../AppHeaderBurger/AppHeaderBurger";
 import SmallComboBox from "components/SmallComboBox/SmallComboBox";
 import axios from "axios";
 import sliceLongFoldername from "utils/sliceLongFoldername";
 import PasswordRecoveryModal from "components/Modals/PasswordRecoveryModal/PasswordRecoveryModal";
 import MessageModal from "components/Modals/MessageModal/MessageModal";
+import AppHeaderBurgerModal from "components/Modals/AppHeaderBurgerModal/AppHeaderBurgerModal";
 import useModal from "hooks/useModal";
 
 interface IAppHeader {
@@ -65,8 +67,12 @@ const AppHeader: FC<IAppHeader> = ({title, fileEdited}) => {
         openModal: openPassModal,
         modal: passwordRecoveryModal
     } = useModal(PasswordRecoveryModal, { openMessageModal, modalType: "resetPassword" });
+    const {
+        openModal: openBurgerModal,
+        modal: appHeaderBurgerModal
+    } = useModal(AppHeaderBurgerModal, {});
     
-    const toggleUserMenu = () => {
+    const toggleUserMenu = (): void => {
         if (userMenuActive) {
             setUserMenuActive(false);
         } else {
@@ -74,7 +80,7 @@ const AppHeader: FC<IAppHeader> = ({title, fileEdited}) => {
         }
     }
 
-    const handleLogout = () => {
+    const handleLogout = (): void => {
         axios.delete("/api/users/current/logout", {
             headers: {
                 "jwt-tokens": localStorage.getItem("jwt-tokens")
@@ -127,7 +133,9 @@ const AppHeader: FC<IAppHeader> = ({title, fileEdited}) => {
                     <AppHeaderBottomLineBlock>
                         <AppHeaderBottomLine />
                     </AppHeaderBottomLineBlock>
-                    <AppHeaderBurger />
+                    <AppHeaderBurgerButton onClick={openBurgerModal}>
+                        <AppHeaderBurgerIcon alt="menu" src="/images/burger.svg" />
+                    </AppHeaderBurgerButton>
                 </AppHeaderContent>
             </AppHeaderBlock>
             <AppHeaderSectionTitleBlock className="mobile_title_block">
@@ -140,6 +148,7 @@ const AppHeader: FC<IAppHeader> = ({title, fileEdited}) => {
             </AppHeaderSectionTitleBlock>
             {passwordRecoveryModal}
             {messageModal}
+            {appHeaderBurgerModal}
         </AppHeaderBody>
     );
 }

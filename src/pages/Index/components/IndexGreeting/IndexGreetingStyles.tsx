@@ -15,8 +15,18 @@ const IndexGreeting = styled.section`
   width: 100%;
 `;
 
+const IndexGreetingBackground = styled.img`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: ${pxIntoRem(782)};
+  height: ${pxIntoRem(478)};
+  @media (max-width: 500px) {
+    display: none;
+  }
+`;
+
 const IndexGreetingContent = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   z-index: 99;
@@ -29,14 +39,6 @@ const IndexGreetingContent = styled.div`
   }
 `;
 
-const IndexGreetingBackground = styled.img`
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: ${pxIntoRem(782)};
-  height: ${pxIntoRem(478)};
-`;
-
 const IndexGreetingTitle = styled.h1`
   position: relative;
   font-family: "Mulish";
@@ -47,7 +49,6 @@ const IndexGreetingTitle = styled.h1`
   text-align: start;
   color: #ffffff;
   margin-top: ${pxIntoRem(64)};
-  z-index: 99999;
   span {
     display: inline-block;
     width: ${pxIntoRem(105)};
@@ -59,6 +60,8 @@ const IndexGreetingTitle = styled.h1`
     background: #171828;
     color: #1683E2;
     backdrop-filter: blur(${pxIntoRem(3)});
+    -webkit-backdrop-filter: blur(${pxIntoRem(3)});
+    -webkit-transform: translate3d(0, 0, 0);
     border: 1px solid #202230;
     @media (max-width: 500px) {
         width: ${pxIntoRem(56)};
@@ -110,35 +113,24 @@ const IndexGreetingMainButton = styled.button`
   color: #FFF;
   margin-top: ${pxIntoRem(24)};
   transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      background: #1668E2;
+      box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: calc(100% - ${pxIntoRem(30)});
     margin-top: ${pxIntoRem(32)};
   }
 `;
-
-const IndexGreetingBlurredCircle = styled.div`
-  position: absolute;
-  width: ${pxIntoRem(80)};
-  height: ${pxIntoRem(80)};
-  top: ${pxIntoRem(3)};
-  left: ${pxIntoRem(-40)};
-  background: #1683E2;
-  border-radius: 50%;
-  filter: blur(${pxIntoRem(176.5)});
-`;
-
 export {
   IndexGreetingBlock,
-  IndexGreetingBackground, 
   IndexGreeting,
+  IndexGreetingBackground,
   IndexGreetingContent,
   IndexGreetingTitle,
   IndexGreetingText,
-  IndexGreetingMainButton,
-  IndexGreetingBlurredCircle
+  IndexGreetingMainButton
 };

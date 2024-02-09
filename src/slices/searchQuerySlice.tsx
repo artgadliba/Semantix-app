@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const searchQuerySlice = createSlice({
     name: 'balance',
@@ -6,7 +6,7 @@ const searchQuerySlice = createSlice({
       value: ""
     },
     reducers: {
-      setQuery: (state, action) => {
+      setQuery: (state, action: PayloadAction<string>) => {
         state.value = action.payload;
       }
     }

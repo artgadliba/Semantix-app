@@ -29,9 +29,6 @@ const LargeComboBoxBackground = styled.div`
     background: #1683E2;
     height: ${pxIntoRem(74)};
   }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #1668E2;
-  }
 `;
 
 const LargeComboBoxContent = styled.div`
@@ -139,14 +136,6 @@ const LargeComboBoxOptionAddFolderButtonBlock = styled.button`
   background: transparent;
   align-items: center;
   transition: 0.3s;
-  &:hover ${LargeComboBoxOptionAddFolderButtonIcon} {
-    stroke: #1668E2;
-    transition: 0.3s;
-  }
-  &:hover ${LargeComboBoxOptionAddFolderButtonTitle} {
-    color: #1668E2;
-    transition: 0.3s;
-  }
   &:focus {
     border-radius: ${pxIntoRem(4)};
     outline: 1px solid rgba(22, 131, 226, 1);
@@ -155,6 +144,14 @@ const LargeComboBoxOptionAddFolderButtonBlock = styled.button`
   &.empty_content__block__button {
     margin-top: 0;
     height: 100%;
+  }
+  &:hover ${LargeComboBoxOptionAddFolderButtonIcon} {
+    stroke: #1668E2;
+    transition: 0.3s;
+  }
+  &:hover ${LargeComboBoxOptionAddFolderButtonTitle} {
+    color: #1668E2;
+    transition: 0.3s;
   }
 `;
 

@@ -30,10 +30,11 @@ const AppEmailBubble = () => {
         }
     },[]);
 
-    const handleBubbleMessageClose = () => {
+    const handleBubbleMessageClose = (): void => {
         localStorage.setItem("bubbleMessage", "false");
         setBubbleMessageState(false);
     }
+    
     if (bubbleMessageState) {
         return (
             <AppEmailBubbleBlock>
@@ -45,7 +46,7 @@ const AppEmailBubble = () => {
                 
                 <AppEmailBubbleClose onClick={handleBubbleMessageClose}>
                     <AppEmailBubbleCloseIcon width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" stroke-linecap="round" strokeLinejoin="round"/>
+                        <path d="m16.95 7.05-9.9 9.9m0-9.9 9.9 9.9" strokeLinecap="round" strokeLinejoin="round"/>
                     </AppEmailBubbleCloseIcon>
                 </AppEmailBubbleClose>
             </AppEmailBubbleBlock>

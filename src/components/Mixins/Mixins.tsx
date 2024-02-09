@@ -90,9 +90,11 @@ const ModalCloseButtonIcon = styled.svg`
   height: ${pxIntoRem(24)};
   stroke: #79768B;
   transition: 0.3s;
-  &:hover {
-    stroke: #FFF;
-  } 
+  @media (min-width: 501px) {
+    &:hover {
+      stroke: #FFF;
+    }
+  }
 `;
 
 const ModalOutsideClose = styled.div`
@@ -114,7 +116,7 @@ const ModalExternalBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: 99999999999;
   background-color: rgba(0, 0, 0, 0.70);
 `;
 
@@ -156,21 +158,23 @@ const ModalMainButtonStyles = `
   font-weight: 500;
   line-height: normal;
   transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
-  }
-  &:focus-visible {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
-  }
   &:disabled {
     border: 1px solid #2D3042;
     color: #2D3042;
     background: transparent;
     pointer-events: none;
+  }
+  @media (min-width: 501px) {
+    &:hover {
+      background: #1668E2;
+      box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
+      transition: 0.3s;
+    }
+    &:focus-visible {
+      background: #1668E2;
+      box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -192,10 +196,13 @@ const IndexMainButton = styled.button`
   gap: ${pxIntoRem(10)};
   justify-content: center;
   transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
+  z-index: 999;
+  @media (min-width: 501px) {
+    &:hover {
+      background: #1668E2;
+      box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: 100%;

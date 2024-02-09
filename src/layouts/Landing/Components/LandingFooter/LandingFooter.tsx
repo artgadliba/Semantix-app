@@ -1,4 +1,3 @@
-import { FC } from "react";
 import {
     LandingFooterBlock,
     LandingFooterBody,
@@ -16,7 +15,7 @@ import {
     LandingFooterEmailTitle
 } from "./LandingFooterStyles";
 
-const LandingFooter: FC = () => {
+const LandingFooter = () => {
     return (
         <LandingFooterBlock itemScope itemType="http://schema.org/Organization">
             <LandingFooterTop />

@@ -1,12 +1,18 @@
 import styled from "styled-components";
 import pxIntoRem from "utils/pxIntoRem";
 
-const AppInterfaceBlock = styled.div`
+interface IAppInterfaceBlock {
+    $windowHeight?: number;
+}
+
+const AppInterfaceBlock = styled.div<IAppInterfaceBlock>`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  position: relative;
+  @media (max-width: 500px) {
+    height: ${({ $windowHeight }) => `${pxIntoRem($windowHeight)}`};
+  }
 `;
 
 const AppInterfaceContent = styled.main`
@@ -32,17 +38,13 @@ const AppInterfaceBlurredCircleBottomLeft = styled.div`
   opacity: 0.2;
   border-radius: 50%;
   filter: blur(${pxIntoRem(197)});
-  @supports (-moz-appearance:none) {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    background-image: url(/images/blurred-circle-big.svg);
-    display: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  @supports (-moz-appearance: none) {
+    opacity: 0.05;
   }
 `;
 
-
- 
 export {
   AppInterfaceBlock,
   AppInterfaceContent,

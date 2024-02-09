@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const sortTypeSlice = createSlice({
-    name: 'balance',
+    name: 'sortType',
     initialState: {
       value: "ascending"
     },
     reducers: {
-      setSortType: (state, action) => {
+      setSortType: (state, action: PayloadAction<string>) => {
         state.value = action.payload;
       }
     }

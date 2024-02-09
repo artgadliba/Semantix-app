@@ -47,6 +47,8 @@ const AppMenuBackgroundLayer = styled.div`
   margin-top: 1px;
   border-radius: 0px ${pxIntoRem(24)} ${pxIntoRem(24)} 0px;
   backdrop-filter: blur(${pxIntoRem(102)});
+  -webkit-backdrop-filter: blur(${pxIntoRem(102)});
+  -webkit-transform: translate3d(0, 0, 0);
   background: linear-gradient(245deg, rgba(36, 37, 46, 0.30) 0%, rgba(36, 36, 36, 0.13) 100%);
   z-index: 1;
 `;
@@ -155,12 +157,6 @@ const AppMenuSectionLinkBlock = styled(Link)`
   &.active {
     pointer-events: none;
   }
-  &:hover ${AppMenuSectionTitle} {
-    color: #FFF;
-  }
-  &:hover ${AppMenuSectionIcon} {
-    stroke: #1683E2;
-  }
   &.active ${AppMenuSectionTitle} {
     color: #FFF;
   }
@@ -169,6 +165,14 @@ const AppMenuSectionLinkBlock = styled(Link)`
   }
   &.active ${AppMenuActiveBlock} {
     display: flex;
+  }
+  @media (min-width: 501px) {
+    &:hover ${AppMenuSectionTitle} {
+      color: #FFF;
+    }
+    &:hover ${AppMenuSectionIcon} {
+      stroke: #1683E2;
+    }
   }
 `;
 
@@ -185,12 +189,6 @@ const AppMenuSectionFilesLinkButton = styled.button`
   &.folders_menu_active ~ ${AppMenuSectionExpandWrapper} {
     display: flex;
   }
-  &:hover ${AppMenuSectionTitle} {
-    color: #FFF;
-  }
-  &:hover ${AppMenuSectionIcon} {
-    stroke: #1683E2;
-  }
   &.folders_menu_active ${AppMenuSectionTitle} {
     color: #FFF;
   }
@@ -199,6 +197,14 @@ const AppMenuSectionFilesLinkButton = styled.button`
   }
   &.folders_menu_active ${AppMenuActiveBlock} {
     display: flex;
+  }
+  @media (min-width: 501px) {
+    &:hover ${AppMenuSectionTitle} {
+      color: #FFF;
+    }
+    &:hover ${AppMenuSectionIcon} {
+      stroke: #1683E2;
+    }
   }
 `;
 
@@ -220,6 +226,8 @@ const AppMenuActiveBlurredCircle = styled.div`
   border-radius: 50%;
   background: linear-gradient(90deg, #2499FF 0%, #7124FF 100%);
   filter: blur(${pxIntoRem(23)});
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden; 
   z-index: 99;
 `;
 
@@ -292,6 +300,8 @@ const AppMenuBalanceBlurredCircle = styled.div`
   top: ${pxIntoRem(11)};
   left: ${pxIntoRem(10)};
   filter: blur(${pxIntoRem(21.5)});
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden; 
   margin-top: ${pxIntoRem(3)};
   margin-left: ${pxIntoRem(4)};
   z-index: -1;
@@ -359,10 +369,12 @@ const AppMenuBalanceAddButton = styled(Link)`
   font-weight: 500;
   line-height: normal;
   transition: 0.3s;
-  &:hover {
-    background: rgba(22, 131, 226, 0.10);
-    box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      background: rgba(22, 131, 226, 0.10);
+      box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -409,9 +421,11 @@ const AppMenuTelegramLinkBlock = styled(Link)`
   background: #171828;
   z-index: 999999;
   transition: 0.3s;
-  &:hover ${AppMenuTelegramLinkIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover ${AppMenuTelegramLinkIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -432,9 +446,11 @@ const AppMenuEmailLinkBlock = styled(Link)`
   background: #171828;
   z-index: 999999;
   transition: 0.3s;
-  &:hover ${AppMenuEmailLinkIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover ${AppMenuEmailLinkIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
   }
 `;
 

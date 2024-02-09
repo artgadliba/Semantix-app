@@ -14,7 +14,7 @@ const RegistrationModalContent = styled.div`
   border-radius: ${pxIntoRem(12)};
   background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
-    width: 90vw;
+    width: calc(100% - ${pxIntoRem(30)});
     height: auto;
   }
 `;
@@ -262,12 +262,6 @@ const RegistrationModalInputButton = styled.button`
   z-index: 9999;
   align-items: center;
   justify-content: center;
-  &:hover ${InputButtonIcon} {
-    stroke: #FFF;
-  }
-  &:hover + ${RegistrationModalShowPassword} {
-    display: flex;
-  }
   & > * {
     pointer-events: none;
   }
@@ -275,6 +269,14 @@ const RegistrationModalInputButton = styled.button`
     border-radius: ${pxIntoRem(4)};
     outline: 1px solid rgba(22, 131, 226, 1);
     outline-offset: -1px;
+  }
+  @media (min-width: 501px) {
+    &:hover ${InputButtonIcon} {
+      stroke: #FFF;
+    }
+    &:hover + ${RegistrationModalShowPassword} {
+      display: flex;
+    }
   }
 `;
 
@@ -321,13 +323,15 @@ const RegistrationModalTooltipButton = styled.button`
   margin-left: ${pxIntoRem(6)};
   z-index: 9999;
   transition: 0.3s;
-  &:hover ${TooltipIcon} {
-    transition: 0.3s;
-    fill: #1683E2;
-  }
   &:focus-visible ${TooltipIcon} {
     transition: 0.3s;
     fill: #1683E2;
+  }
+  @media (min-width: 501px) {
+    &:hover ${TooltipIcon} {
+      transition: 0.3s;
+      fill: #1683E2;
+    }
   }
 `;
 

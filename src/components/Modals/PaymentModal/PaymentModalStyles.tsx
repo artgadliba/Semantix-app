@@ -10,7 +10,7 @@ const PaymentModalContent = styled.div`
   border-radius: ${pxIntoRem(12)};
   background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
-    width: 90vw;
+    width: calc(100% - ${pxIntoRem(30)});
     height: auto;
   }
 `;
@@ -71,14 +71,6 @@ const PaymentModalOptionButton = styled.button`
   background: #232335;
   padding: ${pxIntoRem(16)};
   transition: 0.3s;
-  &:hover ${PaymentModalOptionElementArrow} {
-    transition: 0.3s;
-    stroke: #1683E2;
-  }
-  &:hover {
-    transition: 0.3s;
-    background: #2F2F48;
-  }
   &:focus-visible ${PaymentModalOptionElementArrow} {
     transition: 0.3s;
     stroke: #1683E2;
@@ -86,6 +78,16 @@ const PaymentModalOptionButton = styled.button`
   &:focus-visible {
     transition: 0.3s;
     background: #2F2F48;
+  }
+  @media (min-width: 501px) {
+    &:hover ${PaymentModalOptionElementArrow} {
+      transition: 0.3s;
+      stroke: #1683E2;
+    }
+    &:hover {
+      transition: 0.3s;
+      background: #2F2F48;
+    }
   }
   @media (max-width: 500px) {
     width: auto;

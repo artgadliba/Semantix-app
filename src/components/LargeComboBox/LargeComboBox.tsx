@@ -30,9 +30,9 @@ interface ILargeComboBox {
 } 
 
 const LargeComboBox: FC<ILargeComboBox> = (props) => {
-    const dispatch = useDispatch();
     const {addFolderActive, setOption, setMenuActive, openNewFolderModal, items} = props;
     const[scrollable, setScrollable] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (items.length > 4) {
@@ -76,13 +76,13 @@ const LargeComboBox: FC<ILargeComboBox> = (props) => {
                                     );
                                 })}
                             </LargeComboBoxContent>
-                            {addFolderActive == true && (
+                            {addFolderActive && (
                                 <>
                                     <LargeComboBoxOptionAddFolderBlock>
                                         <LargeComboBoxOptionAddFolderButtonBlock type="button" onClick={openNewFolderModal}>
                                             <LargeComboBoxOptionAddFolderButtonIcon width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="1" y="1" width="17" height="17" rx="3.5"/>
-                                                <path d="M9.5 6v7M6 9.5h7" stroke-linecap="round" strokeLinejoin="round"/>
+                                                <path d="M9.5 6v7M6 9.5h7" strokeLinecap="round" strokeLinejoin="round"/>
                                             </LargeComboBoxOptionAddFolderButtonIcon>
                                             <LargeComboBoxOptionAddFolderButtonTitle>
                                                 Новая папка
@@ -116,7 +116,7 @@ const LargeComboBox: FC<ILargeComboBox> = (props) => {
                                         >
                                             <LargeComboBoxOptionAddFolderButtonIcon width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="1" y="1" width="17" height="17" rx="3.5"/>
-                                                <path d="M9.5 6v7M6 9.5h7" stroke-linecap="round" strokeLinejoin="round"/>
+                                                <path d="M9.5 6v7M6 9.5h7" strokeLinecap="round" strokeLinejoin="round"/>
                                             </LargeComboBoxOptionAddFolderButtonIcon>
                                             <LargeComboBoxOptionAddFolderButtonTitle>
                                                 Новая папка

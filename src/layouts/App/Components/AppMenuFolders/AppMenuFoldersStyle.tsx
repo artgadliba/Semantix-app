@@ -32,11 +32,13 @@ const AppMenuFoldersAddNewFolderButton = styled.button`
   align-items: center;
   margin: 0 ${pxIntoRem(17.5)} ${pxIntoRem(17)} ${pxIntoRem(17.5)};
   background: transparent;
-  &:hover ${AppMenuFoldersAddNewFolderIcon} {
-    stroke: #1668E2;
-  }
-  &:hover ${AppMenuFoldersAddNewFolderTitle} {
-    color: #1668E2;
+  @media (min-width: 501px) {
+    &:hover ${AppMenuFoldersAddNewFolderIcon} {
+      stroke: #1668E2;
+    }
+    &:hover ${AppMenuFoldersAddNewFolderTitle} {
+      color: #1668E2;
+    }
   }
 `;
 
@@ -57,7 +59,15 @@ const AppMenuFoldersContent = styled.div`
   width: 100%;
   height: auto;
   max-height: ${pxIntoRem(156)};
-  overflow: auto;
+  overflow: scroll;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  @media (max-width: 500px) {
+    max-height: ${pxIntoRem(120)};
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const AppMenuFoldersContentFolderIcon = styled.svg`
@@ -77,7 +87,7 @@ const AppMenuFoldersContentFolderTitle = styled.h1`
   white-space: nowrap;
 `;
 
-const AppMenuFoldersContentFolderBlock = styled(NavLink)`
+const AppMenuFoldersContentFolderLink = styled(NavLink)`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -85,12 +95,6 @@ const AppMenuFoldersContentFolderBlock = styled(NavLink)`
   margin-left: ${pxIntoRem(30)};
   height: ${pxIntoRem(19)};
   margin-top: ${pxIntoRem(16)};
-  &:hover ${AppMenuFoldersContentFolderTitle} {
-    color: #FFF;
-  }
-  &:hover ${AppMenuFoldersContentFolderIcon} {
-    fill: #1683E2;
-  }
   &.active ${AppMenuFoldersContentFolderTitle} {
     color: #FFF;
   }
@@ -98,8 +102,38 @@ const AppMenuFoldersContentFolderBlock = styled(NavLink)`
     fill: #1683E2;
   }
   &:last-of-type {
-    margin-bottom: ${pxIntoRem(17)};
+    margin-bottom: ${pxIntoRem(17.5)};
   }
+  @media (min-width: 501px) {
+    &:hover ${AppMenuFoldersContentFolderTitle} {
+      color: #FFF;
+    }
+    &:hover ${AppMenuFoldersContentFolderIcon} {
+      fill: #1683E2;
+    }
+  }
+`;
+
+const AppMenuFoldersScrollbarTrack = styled.div`
+  display: none;
+  position: absolute;
+  width: ${pxIntoRem(6)};
+  height: ${pxIntoRem(104)};
+  background: transparent;
+  bottom: ${pxIntoRem(8)};
+  right: ${pxIntoRem(6)};
+  border-radius: ${pxIntoRem(10)};
+  @media (max-width: 500px) {
+    display: unset;
+  }
+`;
+
+const AppMenuFoldersScrollbarThumb = styled.div`
+  position: relative;
+  width: ${pxIntoRem(6)};
+  background: rgba(37, 38, 55);
+  border-radius: ${pxIntoRem(10)};
+  transform: translate3d(0px, 0px, 0px);
 `;
 
 export {
@@ -109,7 +143,9 @@ export {
   AppMenuFoldersAddNewFolderTitle,
   AppMenuFoldersLine,
   AppMenuFoldersContent,
-  AppMenuFoldersContentFolderBlock,
+  AppMenuFoldersContentFolderLink,
   AppMenuFoldersContentFolderIcon,
   AppMenuFoldersContentFolderTitle,
+  AppMenuFoldersScrollbarTrack,
+  AppMenuFoldersScrollbarThumb
 };

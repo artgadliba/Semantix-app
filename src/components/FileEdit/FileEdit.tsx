@@ -12,23 +12,25 @@ import {
 } from "./FileEditStyles";
 import { parseFileLength } from "utils/parseFileLength";
 
+interface ISegment {
+    id: number;
+    text: string;
+    start: number;
+    end: number;
+    words: {
+        word: string;
+        start: number;
+        end: number;
+
+    }[];
+}
+
 interface IFileEdit {
     playerRef?: React.MutableRefObject<any>;
     setIsPlaying: (state: boolean) => void;
     data: {
         text: string;
-        segments: {
-            id: number;
-            text: string;
-            start: number;
-            end: number;
-            words: {
-                word: string;
-                start: number;
-                end: number;
-
-            }[];
-        }[];
+        segments: ISegment[];
         language: string;
     }
 }
@@ -40,7 +42,7 @@ const FileEdit: FC<IFileEdit> = ({playerRef, setIsPlaying, data}) => {
         groupSegments(10);
     }, []);
 
-    const groupSegments = (n: number) => {
+    const groupSegments = (n: number): void => {
         let group: any = [];
         for (let i = 0, j = 0; i < data.segments.length; i++) {
             if (i >= n && i % n === 0) {
@@ -59,21 +61,21 @@ const FileEdit: FC<IFileEdit> = ({playerRef, setIsPlaying, data}) => {
         } 
     }
 
-    const handleSeek = (value: number) => {
+    const handleSeek = (value: number): void => {
         playerRef.current.currentTime = value;
         playerRef.current.play();
         setIsPlaying(true);
     }
 
-    const groupText = (segment): string => {
+    const groupText = (segments: ISegment[]): string => {
         let text: string = "";
-        for (let i = 0; i < segment.length; i ++) {
-            let textSegment = segment[i].text;
+        for (let i = 0; i < segments.length; i ++) {
+            let textSegment = segments[i].text;
             if (i === 0) {
                 textSegment = textSegment.trimStart();
             }
             text = text.concat("", textSegment);
-            if (i === segment.length - 1) {
+            if (i === segments.length - 1) {
                 return text;
             }
         }
@@ -95,7 +97,7 @@ const FileEdit: FC<IFileEdit> = ({playerRef, setIsPlaying, data}) => {
                                 <FileEditTranscriptionBackgroundLayer />
                                         <FileEditTranscriptionTextBlock>
                                             <FileEditTranscriptionTextBlockTimestamp onClick={(e) => {handleSeek(segment[0].start)}}>
-                                                {parseFileLength(segment[0].start)}
+                                                {parseFileLength(segment[0].start, true)}
                                             </FileEditTranscriptionTextBlockTimestamp>
                                             <FileEditTranscriptionTextBlockParagraph contentEditable={true}>
                                                 {groupText(segment)}

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const balanceSlice = createSlice({
     name: 'balance',
@@ -6,7 +6,7 @@ const balanceSlice = createSlice({
       value: 0
     },
     reducers: {
-      setBalance: (state, action) => {
+      setBalance: (state, action: PayloadAction<number>) => {
         state.value = action.payload;
       }
     }

@@ -1,10 +1,10 @@
 import { useLocation } from "react-router-dom";
-import HeaderBurger from "../HeaderBurger/HeaderBurger";
+import { useEffect } from "react";
 import {
     LandingHeaderBlock,
     LandingHeaderBody,
     LandingHeaderButton,
-    LandingHeaderLogoBlock,
+    LandingHeaderLogoLink,
     LandingHeaderLogo,
     LandingHeaderBlurredCircle,
     LandingHeaderNavigation,
@@ -13,15 +13,16 @@ import {
     LandingHeaderContactTelegramBlock,
     LandingHeaderTelegramIcon,
     LandingHeaderContactEmailBlock,
-    LandingHeaderEmailIcon
+    LandingHeaderEmailIcon,
+    HeaderBurgerButton,
+    HeaderBurgerIcon
 } from "./LandingHeaderStyles";
-import MainLogo from "components/SvgComponents/MainLogo";
 import axios from "axios";
 import useModal from "hooks/useModal";
 import RegistrationModal from "components/Modals/RegistrationModal/RegistrationModal";
 import PasswordRecoveryModal from "components/Modals/PasswordRecoveryModal/PasswordRecoveryModal";
 import MessageModal from "components/Modals/MessageModal/MessageModal";
-import { useEffect } from "react";
+import HeaderBurgerModal from "components/Modals/HeaderBurgerModal/HeaderBurgerModal";
 
 const LandingHeader = () => {
     const location = useLocation();
@@ -33,13 +34,12 @@ const LandingHeader = () => {
                 elem.scrollIntoView({ behavior: "smooth" })
             }
         } else {
-        window.scrollTo({top: 0,left: 0, behavior: "auto"})
+            window.scrollTo({top: 0,left: 0, behavior: "auto"})
         }
     }, [location]);
 
     useEffect(() => {
         if (localStorage.getItem("jwt-tokens")) {
-            console.log('Fetching current user')
             axios.get("/api/users/current", {
                 headers: {
                     "jwt-tokens": localStorage.getItem("jwt-tokens")
@@ -84,28 +84,32 @@ const LandingHeader = () => {
         openModal: openRegModal,
         modal: registrationModal
     } = useModal(RegistrationModal, { openRecModal, openMessModal, modalType: "login" });
+    const {
+        openModal: openBurgerModal,
+        modal: headerBurgerModal,
+    } = useModal(HeaderBurgerModal, {});
 
     return (
         <LandingHeaderBlock>
             <LandingHeaderBody>
                 <LandingHeaderBlurredCircle />
-                <LandingHeaderLogoBlock to="/">
-                    <MainLogo />
-                </LandingHeaderLogoBlock>
+                <LandingHeaderLogoLink to="/">
+                    <LandingHeaderLogo alt="logo" src="/images/main-logo.svg" />
+                </LandingHeaderLogoLink>
                 <LandingHeaderNavigation>
-                    <LandingHeaderNavigationLink to={"/#features"} >
+                    <LandingHeaderNavigationLink to={"/#features"}>
                         Возможности
                     </LandingHeaderNavigationLink>
-                    <LandingHeaderNavigationLink to={"/#howitworks"} >
+                    <LandingHeaderNavigationLink to={"/#howitworks"}>
                         Как это работает
                     </LandingHeaderNavigationLink>
-                    <LandingHeaderNavigationLink to={"/#payment"} >
+                    <LandingHeaderNavigationLink to={"/#payment"}>
                         Стоимость
                     </LandingHeaderNavigationLink>
-                    <LandingHeaderNavigationLink to={"/faq"} >
+                    <LandingHeaderNavigationLink to={"/faq"}>
                         FAQ
                     </LandingHeaderNavigationLink>
-                    <LandingHeaderNavigationLink to={"/#contacts"} >
+                    <LandingHeaderNavigationLink to={"/#contacts"}>
                         Контакты
                     </LandingHeaderNavigationLink>
                 </LandingHeaderNavigation>
@@ -123,14 +127,17 @@ const LandingHeader = () => {
                         </LandingHeaderTelegramIcon>
                     </LandingHeaderContactTelegramBlock>
                 </LandingHeaderContactsBlock>
-                <LandingHeaderButton onClick={openRegModal}>
+                <LandingHeaderButton type="button" onClick={openRegModal}>
                     Войти
                 </LandingHeaderButton>
-                <HeaderBurger />
+                <HeaderBurgerButton onClick={openBurgerModal}>
+                    <HeaderBurgerIcon alt="menu" src="/images/burger.svg" />
+                </HeaderBurgerButton>
             </LandingHeaderBody>
             {registrationModal}
             {passwordRecoveryModal}
             {messageModal}
+            {headerBurgerModal}
         </LandingHeaderBlock>
     );
 }

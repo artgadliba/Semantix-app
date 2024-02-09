@@ -1,16 +1,18 @@
 import { FC, PropsWithChildren } from "react";
-import { LandingBlock } from "./LandingStyles";
+import { LandingBlock, LandingBody } from "./LandingStyles";
 import LandingHeader from "./Components/LandingHeader/LandingHeader";
 import LandingFooter from "./Components/LandingFooter/LandingFooter";
 
-const Landing:FC <PropsWithChildren> = ({ children }) => {
+const Landing: FC<PropsWithChildren> = ({ children }) => {
     return (
-        <LandingBlock>
-            <LandingHeader />
-            <main>
-                {children}
-            </main>
-            <LandingFooter />
+        <LandingBlock id="landing_block">
+            <LandingBody>
+                <LandingHeader />
+                <main>
+                    {children}
+                </main>
+                <LandingFooter />
+            </LandingBody>
         </LandingBlock>
     );
 }

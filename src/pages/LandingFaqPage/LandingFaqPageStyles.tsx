@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import pxIntoRem from "utils/pxIntoRem";
 
 const LandingFaqPageBlock = styled.div`
-  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -13,7 +12,6 @@ const LandingFaqPageBlock = styled.div`
 const LandingFaqPageContentBlock = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
   width: ${pxIntoRem(860)};
   margin-top: ${pxIntoRem(40)};
   margin-bottom: ${pxIntoRem(70)};
@@ -24,7 +22,6 @@ const LandingFaqPageContentBlock = styled.div`
 `;
 
 const LandingFaqNavigationBlock = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -51,11 +48,13 @@ const LandingFaqNavigationBlockSection = styled.button`
   margin-top: ${pxIntoRem(24)};
   background: transparent;
   transition: 0.3s;
-  &:hover {
-    color: #1683E2;
-  }
   &.active_section {
     color: #1683E2;
+  }
+  @media (min-width: 501px) {
+    &:hover {
+      color: #1683E2;
+    }
   }
 `;
 
@@ -97,7 +96,6 @@ const LandingFaqNavigationMobileExpandIcon = styled.img`
 `;
 
 const LandingFaqMainBlock = styled.div`
-  position: relative;
   display: flex;
   flex-direction: row;
   align-items: start;
@@ -107,7 +105,6 @@ const LandingFaqMainBlock = styled.div`
 `;
 
 const LandingFaqQuestionsBlock = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -119,7 +116,6 @@ const LandingFaqQuestionsBlock = styled.div`
 `;
 
 const LandingFaqSearchInputBlock = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -195,13 +191,6 @@ const LandingFaqQuestionElement = styled.button`
   padding: ${pxIntoRem(25)} ${pxIntoRem(24)};
   background: transparent;
   transition: 0.3s;
-  &:hover ${LandingFaqQuestionElementIcon} {
-    stroke: #1683E2;
-    path {
-        stroke: #1683E2;
-    }
-    transition: 0.3s;
-  }
   &:before {
     content: "";
     position: absolute;
@@ -210,10 +199,22 @@ const LandingFaqQuestionElement = styled.button`
     border: 1px solid transparent;
     background: linear-gradient(181deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
+  }
+  @media (min-width: 501px) {
+    &:hover ${LandingFaqQuestionElementIcon} {
+      stroke: #1683E2;
+      path {
+        stroke: #1683E2;
+      }
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: 100%;
@@ -277,13 +278,15 @@ const LandingFaqQuestionElementInnerLink = styled(Link)`
   margin-top: ${pxIntoRem(25)};
   text-align: start;
   z-index: 9;
-  &:hover {
-    color: #1683E2;
+  @media (min-width: 501px) {
+    &:hover {
+      color: #1683E2;
+    }
   }
 `;
 
 const LandingFaqGreetingBlock = styled.div`
-  postion: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -351,9 +354,11 @@ const LandingFaqTelegramLinkBlock = styled(Link)`
   background: #171828;
   z-index: 999999;
   transition: 0.3s;
-  &:hover ${LandingFaqTelegramLinkIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover ${LandingFaqTelegramLinkIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -374,9 +379,11 @@ const LandingFaqEmailLinkBlock = styled(Link)`
   background: #171828;
   z-index: 999999;
   transition: 0.3s;
-  &:hover ${LandingFaqEmailLinkIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover ${LandingFaqEmailLinkIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
   }
 `;
 

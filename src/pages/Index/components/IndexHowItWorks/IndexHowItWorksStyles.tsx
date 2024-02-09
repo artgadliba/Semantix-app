@@ -8,7 +8,6 @@ const IndexHowItWorksContent = styled.div`
 `;
 
 const IndexHowItWorksBody = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,13 +32,11 @@ const IndexHowItWorksTitle = styled.h2`
 `;
 
 const IndexHowItWorksTables = styled.div`
-  position: relative;
   display: flex;
   gap: ${pxIntoRem(20)};
   width: ${pxIntoRem(1300)};
   margin-top: ${pxIntoRem(59)};
   @media (max-width: 500px) {
-    display: flex;
     flex-direction: column;
     gap: ${pxIntoRem(0)};
     margin-top: ${pxIntoRem(0)};

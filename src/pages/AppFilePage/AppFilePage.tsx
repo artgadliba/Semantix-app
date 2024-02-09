@@ -36,7 +36,7 @@ const AppFile: FC<IAppFile> = ({folderName, fileName}) => {
     const [playerRef, setPlayerRef] = useState<React.MutableRefObject<any>>(null);
     const [progressRef, setProgressRef] = useState<React.MutableRefObject<any>>(null);
 
-    const handleEditFile = () => {
+    const handleEditFile = (): void => {
         setEditFilePage(current => !current);
     };
 
@@ -125,7 +125,6 @@ const AppFilePage: FC = () => {
                 if (err.headers && "jwt-tokens" in err.headers) {
                     localStorage.setItem("jwt-tokens", err.headers["jwt-tokens"]);
                 }
-                console.log(err);
                 window.location.href = "/#login";
             })
         } else {

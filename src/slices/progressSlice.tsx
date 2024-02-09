@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const progressSlice = createSlice({
     name: 'progress',
@@ -6,7 +6,7 @@ const progressSlice = createSlice({
       value: 0
     },
     reducers: {
-      setProgress: (state, action) => {
+      setProgress: (state, action: PayloadAction<number>) => {
         state.value = action.payload;
       }
     }

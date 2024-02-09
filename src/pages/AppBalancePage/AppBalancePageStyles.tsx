@@ -7,6 +7,18 @@ const AppBalancePageBlock = styled.div`
   width: 100%;
 `;
 
+const AppBalanceUpperBlockWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${pxIntoRem(224)};
+  @media (max-width: 500px) {
+    flex-direction: column;
+    margin: 0 ${pxIntoRem(15)};
+    width: auto;
+    gap: 0;
+  }
+`;
+
 const AppBalancePageCurrentBalanceBlock = styled.div`
   display: flex;
   flex-direction: column;
@@ -14,7 +26,7 @@ const AppBalancePageCurrentBalanceBlock = styled.div`
   margin-left: ${pxIntoRem(40)};
   width: ${pxIntoRem(352)};
   @media (max-width: 500px) {
-    margin: 0 ${pxIntoRem(15)} ${pxIntoRem(200)} ${pxIntoRem(15)};
+    margin: 0;
     width: auto;
   }
 `;
@@ -229,6 +241,11 @@ const AppBalancePageRatesTableOptionsWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
+  margin-top: ${pxIntoRem(16)};
+  margin-bottom: ${pxIntoRem(24)};
+  @media (max-width: 500px) {
+    margin-bottom: ${pxIntoRem(20)};
+  }
 `;
 
 const AppBalancePageRatesTableOptionsBlock = styled.div`
@@ -237,7 +254,7 @@ const AppBalancePageRatesTableOptionsBlock = styled.div`
   flex-direction: column;
   width: 100%;
   max-height: ${pxIntoRem(256)};
-  margin: ${pxIntoRem(16)} auto ${pxIntoRem(24)} ${pxIntoRem(25)};
+  margin: 0 auto 0 ${pxIntoRem(25)};
   border-radius: ${pxIntoRem(16)};
   overflow: hidden;
   &:before {
@@ -260,7 +277,7 @@ const AppBalancePageRatesTableOptionsBlock = styled.div`
     display: none;
   }
   @media (max-width: 500px) {
-    margin: ${pxIntoRem(16)} auto ${pxIntoRem(19)} ${pxIntoRem(20)};
+    margin: 0 auto 0 ${pxIntoRem(20)};
     max-height: ${pxIntoRem(353)};
   }
 `;
@@ -271,9 +288,11 @@ const AppBalancePageRatesTableOptionsContent = styled.div`
   z-index: 9999;
   position: relative;
   width: 100%;
-  overflow: auto;
+  overflow: scroll;
+  overscroll-behavior: contain;
   border-radius: inherit;
   z-index: 99999;
+  scrollbar-width: none;
 `;
 
 const AppBalancePageRatesTableOptionsBackgroundLayer = styled.div`
@@ -307,15 +326,16 @@ const AppBalancePageRatesTableOptionButton = styled.button`
   min-height: ${pxIntoRem(56)};
   align-items: center;
   background: transparent;
-  border-radius: inherit;
-  &:hover ${AppBalancePageRatesTableOptionIcon} {
-    stroke: #1683E2;
-  }
-  &:hover {
-    background: #181A2B;
-  }
   &:active {
     background: #181A2B;
+  }
+  @media (min-width: 501px) {
+    &:hover ${AppBalancePageRatesTableOptionIcon} {
+      stroke: #1683E2;
+    }
+    &:hover {
+      background: #181A2B;
+    }
   }
   @media (max-width: 500px) {
     min-height: ${pxIntoRem(78)};
@@ -381,14 +401,13 @@ const AppBalancePageRatesTableOptionLine = styled.div`
 
 const AppBalancePageRatesTableScrollbarTrack = styled.div`
   position: relative;
-  height: ${pxIntoRem(228)};
+  height: auto;
   width: ${pxIntoRem(6)};
   background: transparent;
-  margin: ${pxIntoRem(30)} ${pxIntoRem(15)} auto ${pxIntoRem(10)};
+  margin: ${pxIntoRem(14)} ${pxIntoRem(15)} ${pxIntoRem(14)} ${pxIntoRem(10)};
   border-radius: ${pxIntoRem(10)};
   @media (max-width: 500px) {
-    height: ${pxIntoRem(325)};
-    margin: ${pxIntoRem(30)} ${pxIntoRem(10)} auto ${pxIntoRem(10)};
+    margin: ${pxIntoRem(20)} ${pxIntoRem(10)} ${pxIntoRem(20)} ${pxIntoRem(10)};
   }
 `;
 
@@ -425,9 +444,11 @@ const AppBalancePageTelegramLinkBlock = styled(Link)`
   background: #171828;
   z-index: 999999;
   transition: 0.3s;
-  &:hover ${AppBalancePageTelegramLinkIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover ${AppBalancePageTelegramLinkIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
   }
 `;
 
@@ -448,27 +469,30 @@ const AppBalancePageEmailLinkBlock = styled(Link)`
   background: #171828;
   z-index: 999999;
   transition: 0.3s;
-  &:hover ${AppBalancePageEmailLinkIcon} {
-    fill: #1683E2;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover ${AppBalancePageEmailLinkIcon} {
+      fill: #1683E2;
+      transition: 0.3s;
+    }
   }
 `;
 
+const AppBalanceFeatureContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const AppBalancePageFeaturesBlock = styled.div`
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: row;
   width: ${pxIntoRem(548)};
   align-items: center;
-  top: ${pxIntoRem(-166)};
-  &:nth-of-type(2) {
-    top: ${pxIntoRem(-102)};
+  margin-top: ${pxIntoRem(40)};
+  &:last-of-type {
+    margin-top: ${pxIntoRem(16)};
   }
   @media (max-width: 500px) {
-    top: ${pxIntoRem(-776)};
-    &:nth-of-type(2) {
-        top: ${pxIntoRem(-696)};
-    }
     width: auto;
   }
 `;
@@ -505,6 +529,7 @@ const AppBalancePageFeaturesTitle = styled.h2`
 
 export {
   AppBalancePageBlock,
+  AppBalanceUpperBlockWrapper,
   AppBalancePageCurrentBalanceBlock,
   AppBalancePageCurrentBalanceTitle,
   AppBalancePageCurrentBalanceWidget,
@@ -538,6 +563,7 @@ export {
   AppBalancePageTelegramLinkBlock,
   AppBalancePageEmailLinkIcon,
   AppBalancePageEmailLinkBlock,
+  AppBalanceFeatureContent,
   AppBalancePageFeaturesBlock,
   AppBalancePageFeaturesBullet,
   AppBalancePageFeaturesTitle

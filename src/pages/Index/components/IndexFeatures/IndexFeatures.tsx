@@ -3,20 +3,200 @@ import {
     IndexFeaturesContent,
     IndexFeaturesTitle,
     IndexFeaturesBody,
-    IndexFeaturesTables,
-    IndexFeaturesTableSide,
-    IndexFeaturesTableCenter,
-    IndexFeaturesTableBackground,
-    IndexFeaturesTablePattern,
-    IndexFeaturesTablePicture,
-    IndexFeaturesTableIcon,
-    IndexFeaturesTableTitle,
-    IndexFeaturesTableText,
+    IndexFeaturesGrid,
+    IndexFeaturesCard,
+    IndexFeaturesCardBackground,
+    IndexFeaturesCardPattern,
+    IndexFeaturesCardPicture,
+    IndexFeaturesCardIcon,
+    IndexFeaturesCardTitle,
+    IndexFeaturesCardText,
     IndexFeaturesTooltipButton,
     IndexFeaturesTooltipBlock,
     IndexFeaturesTooltipBlockText
 } from "./IndexFeaturesStyles";
 import { TooltipIconSVG } from "components/SvgComponents/TooltipIconSVG";
+
+const IndexFeaturesCardsComponent = () => {
+    const [tooltipActive, setTooltipActive] = useState<boolean>(false);
+
+    const showTip = (): void => {
+        setTooltipActive(true);
+      };
+    
+    const hideTip = (): void => {
+        setTooltipActive(false);
+    };
+
+    return (
+        <IndexFeaturesGrid>
+            <IndexFeaturesCard>
+                <IndexFeaturesCardBackground />
+                <IndexFeaturesCardPicture>
+                    <source media="(max-width:500px)" srcSet="/images/feature-accuracy.webp" />
+                    <IndexFeaturesCardIcon alt="accurate" src="/images/feature-accuracy.svg" />
+                </IndexFeaturesCardPicture>
+                <IndexFeaturesCardPattern 
+                    alt="pattern" 
+                    src="/images/card-pattern.webp"
+                />
+                <IndexFeaturesCardTitle>
+                    Точность<br/>расшифровки <span>95%</span>
+                </IndexFeaturesCardTitle>
+                <IndexFeaturesCardText>
+                    Автоматическая нейтрализация посторонних шумов увеличивает точность результата. 
+                </IndexFeaturesCardText>
+            </IndexFeaturesCard>
+            <IndexFeaturesCard className="lowered_card">
+                <IndexFeaturesCardBackground />
+                <IndexFeaturesCardPicture>
+                    <source media="(max-width:500px)" srcSet="/images/feature-fast.webp" />
+                    <IndexFeaturesCardIcon alt="fast" src="/images/feature-fast.svg" />
+                </IndexFeaturesCardPicture>
+                <IndexFeaturesCardPattern 
+                    alt="pattern" 
+                    src="/images/card-pattern.webp"
+                />
+                <IndexFeaturesCardTitle>
+                    Обработка часовой<br className="mobile_break"></br> записи за <span>10 минут</span>
+                </IndexFeaturesCardTitle>
+                <IndexFeaturesCardText>
+                    При максимально высокой плотности речи в записи.
+                </IndexFeaturesCardText>
+            </IndexFeaturesCard>
+            <IndexFeaturesCard>
+                <IndexFeaturesCardBackground />
+                <IndexFeaturesCardPicture>
+                    <source media="(max-width:500px)" srcSet="/images/feature-punctuation.webp" />
+                    <IndexFeaturesCardIcon alt="punctuation" src="/images/feature-punctuation.svg" />
+                </IndexFeaturesCardPicture>
+                <IndexFeaturesCardPattern 
+                    alt="pattern" 
+                    src="/images/card-pattern.webp"
+                />
+                <IndexFeaturesCardTitle>
+                    Расстановка знаков<br/> препинания
+                </IndexFeaturesCardTitle>
+                <IndexFeaturesCardText>
+                    Значительно улучшает удобство восприятия текста
+                </IndexFeaturesCardText>
+            </IndexFeaturesCard>
+            <IndexFeaturesCard className="raised_card">
+                <IndexFeaturesCardBackground />
+                <IndexFeaturesCardPicture>
+                    <source media="(max-width:500px)" srcSet="/images/feature-formats.webp" />
+                    <IndexFeaturesCardIcon alt="formats" src="/images/feature-formats.svg" />
+                </IndexFeaturesCardPicture>
+                <IndexFeaturesCardPattern 
+                    alt="pattern" 
+                    src="/images/card-pattern.webp"
+                />
+                <IndexFeaturesCardTitle>
+                    Поддерживаемые<br/>форматы
+                </IndexFeaturesCardTitle>
+                <IndexFeaturesTooltipButton onMouseEnter={showTip} onMouseLeave={hideTip}>
+                    <TooltipIconSVG />
+                </IndexFeaturesTooltipButton>
+                {tooltipActive === true && (
+                    <IndexFeaturesTooltipBlock>
+                        <IndexFeaturesTooltipBlockText>
+                            Поддерживается большинство медиа форматов. По запросу добавим нужный формат.
+                        </IndexFeaturesTooltipBlockText>
+                    </IndexFeaturesTooltipBlock>
+                )}
+                <IndexFeaturesCardText>
+                    Видео: <span>MP4, MKV, FLV, AVI, MOV, WMV</span><br/>
+                    Аудио: <span>M4A, MP3, OGG, AAC, WAV, FLAC, WMA</span>
+                </IndexFeaturesCardText>
+            </IndexFeaturesCard>
+            <IndexFeaturesCard>
+                <IndexFeaturesCardBackground />
+                <IndexFeaturesCardPicture>
+                    <source media="(max-width:500px)" srcSet="/images/feature-export.webp" />
+                    <IndexFeaturesCardIcon alt="export" src="/images/feature-export.svg" />
+                </IndexFeaturesCardPicture>
+                <IndexFeaturesCardPattern 
+                    alt="pattern" 
+                    src="/images/card-pattern.webp"
+                />
+                <IndexFeaturesCardTitle>
+                    Экспорт в форматах<br/><span>docx, txt, srt</span>
+                </IndexFeaturesCardTitle>
+                <IndexFeaturesCardText>
+                    По запросу добавим удобный для вас формат
+                </IndexFeaturesCardText>
+            </IndexFeaturesCard>
+            <IndexFeaturesCard className="raised_card">
+                <IndexFeaturesCardBackground />
+                <IndexFeaturesCardPicture>
+                    <source media="(max-width:500px)" srcSet="/images/feature-security.webp" />
+                    <IndexFeaturesCardIcon alt="secure" src="/images/feature-security.svg" />
+                </IndexFeaturesCardPicture>
+                <IndexFeaturesCardPattern 
+                    alt="pattern" 
+                    src="/images/card-pattern.webp"
+                />
+                <IndexFeaturesCardTitle>
+                    Безопасность
+                </IndexFeaturesCardTitle>
+                <IndexFeaturesCardText>
+                    Мы дорожим безопасностью ваших данных. Все файлы шифруются как при хранении, так и при передаче в соответствии с лучшими практиками в индустрии.
+                </IndexFeaturesCardText>
+            </IndexFeaturesCard>
+            <IndexFeaturesCard className="raised_card">
+                <IndexFeaturesCardBackground />
+                <IndexFeaturesCardPicture>
+                    <source media="(max-width:500px)" srcSet="/images/feature-timecode.webp" />
+                    <IndexFeaturesCardIcon alt="timecodes" src="/images/feature-timecode.svg" />
+                </IndexFeaturesCardPicture>
+                <IndexFeaturesCardPattern 
+                    alt="pattern" 
+                    src="/images/card-pattern.webp"
+                />
+                <IndexFeaturesCardTitle>
+                    Таймкоды
+                </IndexFeaturesCardTitle>
+                <IndexFeaturesCardText>
+                    Указание временных кодов в тексте расшифровки для удобства ориентации
+                </IndexFeaturesCardText>
+            </IndexFeaturesCard>
+            <IndexFeaturesCard>
+                <IndexFeaturesCardBackground />
+                <IndexFeaturesCardPicture>
+                    <source media="(max-width:500px)" srcSet="/images/feature-edit.webp" />
+                    <IndexFeaturesCardIcon alt="ediCard" src="/images/feature-edit.svg" />
+                </IndexFeaturesCardPicture>
+                <IndexFeaturesCardPattern 
+                    alt="pattern" 
+                    src="/images/card-pattern.webp"
+                />
+                <IndexFeaturesCardTitle>
+                    Редактирование<br/>расшифровки
+                </IndexFeaturesCardTitle>
+                <IndexFeaturesCardText>
+                    Прослушивайте и редактируйте прямо в браузере
+                </IndexFeaturesCardText>
+            </IndexFeaturesCard>
+            <IndexFeaturesCard className="raised_card">
+                <IndexFeaturesCardBackground />
+                <IndexFeaturesCardPicture>
+                    <source media="(max-width:500px)" srcSet="/images/feature-tryfree.webp" />
+                    <IndexFeaturesCardIcon alt="try for free" src="/images/feature-tryfree.svg" />
+                </IndexFeaturesCardPicture>
+                <IndexFeaturesCardPattern 
+                    alt="pattern" 
+                    src="/images/card-pattern.webp"
+                />
+                <IndexFeaturesCardTitle>
+                    Оцените качество<br className="mobile_break"></br> расшифровки<br className="mobile_break"></br> <span>бесплатно</span>
+                </IndexFeaturesCardTitle>
+                <IndexFeaturesCardText>
+                    Не требуется платежных данных.
+                </IndexFeaturesCardText>
+            </IndexFeaturesCard>
+        </IndexFeaturesGrid>
+    );
+}
 
 const IndexFeaturesComponent = () => {
     const [tooltipActive, setTooltipActive] = useState<boolean>(false);
@@ -36,172 +216,7 @@ const IndexFeaturesComponent = () => {
                     Возможности<br/>Semantix
                 </IndexFeaturesTitle>
                 <IndexFeaturesBody>
-                    <IndexFeaturesTables>
-                        <IndexFeaturesTableSide>
-                            <IndexFeaturesTableBackground />
-                            <IndexFeaturesTablePicture>
-                                <source media="(max-width:500px)" srcSet="/images/feature-accuracy.webp" />
-                                <IndexFeaturesTableIcon alt="accurate" src="/images/feature-accuracy.svg" />
-                            </IndexFeaturesTablePicture>
-                            <IndexFeaturesTablePattern 
-                                alt="pattern" 
-                                src="/images/card-pattern.webp"
-                            />
-                            <IndexFeaturesTableTitle>
-                                Точность<br/>расшифровки <span>95%</span>
-                            </IndexFeaturesTableTitle>
-                            <IndexFeaturesTableText>
-                                Автоматическая нейтрализация посторонних шумов увеличивает точность результата. 
-                            </IndexFeaturesTableText>
-                        </IndexFeaturesTableSide>
-                        <IndexFeaturesTableCenter>
-                            <IndexFeaturesTableBackground />
-                            <IndexFeaturesTablePicture>
-                                <source media="(max-width:500px)" srcSet="/images/feature-fast.webp" />
-                                <IndexFeaturesTableIcon alt="fast" src="/images/feature-fast.svg" />
-                            </IndexFeaturesTablePicture>
-                            <IndexFeaturesTablePattern 
-                                alt="pattern" 
-                                src="/images/card-pattern.webp"
-                            />
-                            <IndexFeaturesTableTitle>
-                                Обработка часовой<br className="mobile_break"></br> записи за <span>10 минут</span>
-                            </IndexFeaturesTableTitle>
-                            <IndexFeaturesTableText>
-                                При максимально высокой плотности речи в записи.
-                            </IndexFeaturesTableText>
-                        </IndexFeaturesTableCenter>
-                        <IndexFeaturesTableSide>
-                            <IndexFeaturesTableBackground />
-                            <IndexFeaturesTablePicture>
-                                <source media="(max-width:500px)" srcSet="/images/feature-punctuation.webp" />
-                                <IndexFeaturesTableIcon alt="punctuation" src="/images/feature-punctuation.svg" />
-                            </IndexFeaturesTablePicture>
-                            <IndexFeaturesTablePattern 
-                                alt="pattern" 
-                                src="/images/card-pattern.webp"
-                            />
-                            <IndexFeaturesTableTitle>
-                                Расстановка знаков<br/> препинания
-                            </IndexFeaturesTableTitle>
-                            <IndexFeaturesTableText>
-                                Значительно улучшает удобство восприятия текста
-                            </IndexFeaturesTableText>
-                        </IndexFeaturesTableSide>
-                        <IndexFeaturesTableSide>
-                            <IndexFeaturesTableBackground />
-                            <IndexFeaturesTablePicture>
-                                <source media="(max-width:500px)" srcSet="/images/feature-formats.webp" />
-                                <IndexFeaturesTableIcon alt="formats" src="/images/feature-formats.svg" />
-                            </IndexFeaturesTablePicture>
-                            <IndexFeaturesTablePattern 
-                                alt="pattern" 
-                                src="/images/card-pattern.webp"
-                            />
-                            <IndexFeaturesTableTitle>
-                                Поддерживаемые<br/>форматы
-                            </IndexFeaturesTableTitle>
-                            <IndexFeaturesTooltipButton onMouseEnter={showTip} onMouseLeave={hideTip}>
-                                <TooltipIconSVG />
-                            </IndexFeaturesTooltipButton>
-                            {tooltipActive === true && (
-                                <IndexFeaturesTooltipBlock>
-                                    <IndexFeaturesTooltipBlockText>
-                                        Поддерживается большинство медиа форматов. По запросу добавим нужный формат.
-                                    </IndexFeaturesTooltipBlockText>
-                                </IndexFeaturesTooltipBlock>
-                            )}
-                            <IndexFeaturesTableText>
-                                Видео: <span>MP4, MKV, FLV, AVI, MOV, WMV</span><br/>
-                                Аудио: <span>M4A, MP3, OGG, AAC, WAV, FLAC, WMA</span>
-                            </IndexFeaturesTableText>
-                        </IndexFeaturesTableSide>
-                        <IndexFeaturesTableCenter>
-                            <IndexFeaturesTableBackground />
-                            <IndexFeaturesTablePicture>
-                                <source media="(max-width:500px)" srcSet="/images/feature-export.webp" />
-                                <IndexFeaturesTableIcon alt="export" src="/images/feature-export.svg" />
-                            </IndexFeaturesTablePicture>
-                            <IndexFeaturesTablePattern 
-                                alt="pattern" 
-                                src="/images/card-pattern.webp"
-                            />
-                            <IndexFeaturesTableTitle>
-                                Экспорт в форматах<br/><span>docx, txt, srt</span>
-                            </IndexFeaturesTableTitle>
-                            <IndexFeaturesTableText>
-                                По запросу добавим удобный для вас формат
-                            </IndexFeaturesTableText>
-                        </IndexFeaturesTableCenter>
-                        <IndexFeaturesTableSide>
-                            <IndexFeaturesTableBackground />
-                            <IndexFeaturesTablePicture>
-                                <source media="(max-width:500px)" srcSet="/images/feature-security.webp" />
-                                <IndexFeaturesTableIcon alt="secure" src="/images/feature-security.svg" />
-                            </IndexFeaturesTablePicture>
-                            <IndexFeaturesTablePattern 
-                                alt="pattern" 
-                                src="/images/card-pattern.webp"
-                            />
-                            <IndexFeaturesTableTitle>
-                                Безопасность
-                            </IndexFeaturesTableTitle>
-                            <IndexFeaturesTableText>
-                                Мы дорожим безопасностью ваших данных. Все файлы шифруются как при хранении, так и при передаче в соответствии с лучшими практиками в индустрии.
-                            </IndexFeaturesTableText>
-                        </IndexFeaturesTableSide>
-                        <IndexFeaturesTableSide>
-                            <IndexFeaturesTableBackground />
-                            <IndexFeaturesTablePicture>
-                                <source media="(max-width:500px)" srcSet="/images/feature-timecode.webp" />
-                                <IndexFeaturesTableIcon alt="timecodes" src="/images/feature-timecode.svg" />
-                            </IndexFeaturesTablePicture>
-                            <IndexFeaturesTablePattern 
-                                alt="pattern" 
-                                src="/images/card-pattern.webp"
-                            />
-                            <IndexFeaturesTableTitle>
-                                Таймкоды
-                            </IndexFeaturesTableTitle>
-                            <IndexFeaturesTableText>
-                                Указание временных кодов в тексте расшифровки для удобства ориентации
-                            </IndexFeaturesTableText>
-                        </IndexFeaturesTableSide>
-                        <IndexFeaturesTableCenter>
-                            <IndexFeaturesTableBackground />
-                            <IndexFeaturesTablePicture>
-                                <source media="(max-width:500px)" srcSet="/images/feature-edit.webp" />
-                                <IndexFeaturesTableIcon alt="editable" src="/images/feature-edit.svg" />
-                            </IndexFeaturesTablePicture>
-                            <IndexFeaturesTablePattern 
-                                alt="pattern" 
-                                src="/images/card-pattern.webp"
-                            />
-                            <IndexFeaturesTableTitle>
-                                Редактирование<br/>расшифровки
-                            </IndexFeaturesTableTitle>
-                            <IndexFeaturesTableText>
-                                Прослушивайте и редактируйте прямо в браузере
-                            </IndexFeaturesTableText>
-                        </IndexFeaturesTableCenter>
-                        <IndexFeaturesTableSide>
-                            <IndexFeaturesTableBackground />
-                            <IndexFeaturesTablePicture>
-                                <source media="(max-width:500px)" srcSet="/images/feature-tryfree.webp" />
-                                <IndexFeaturesTableIcon alt="try for free" src="/images/feature-tryfree.svg" />
-                            </IndexFeaturesTablePicture>
-                            <IndexFeaturesTablePattern 
-                                alt="pattern" 
-                                src="/images/card-pattern.webp"
-                            />
-                            <IndexFeaturesTableTitle>
-                                Оцените качество<br className="mobile_break"></br> расшифровки<br className="mobile_break"></br> <span>бесплатно</span>
-                            </IndexFeaturesTableTitle>
-                            <IndexFeaturesTableText>
-                                Не требуется платежных данных.
-                            </IndexFeaturesTableText>
-                        </IndexFeaturesTableSide>
-                    </IndexFeaturesTables>
+                    <IndexFeaturesCardsComponent />
                 </IndexFeaturesBody>
             </section>
         </IndexFeaturesContent>

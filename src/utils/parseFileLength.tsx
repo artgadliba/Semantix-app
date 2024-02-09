@@ -1,3 +1,7 @@
-export function parseFileLength(seconds: number): string {
-    return new Date(seconds * 1000).toISOString().slice(11, 19);
+export function parseFileLength(length: number, seconds: boolean = false): string {
+    let k = 1;
+    if (seconds) {
+        k = 1000;
+    }
+    return new Date(length * k).toISOString().slice(11, 19);
 }

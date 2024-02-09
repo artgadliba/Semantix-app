@@ -120,13 +120,13 @@ const AppMainPageEmptyOutputText = styled.p`
 `;
 
 export {
-    AppMainPageBlock,
-    AppMainPageTitle,
-    AppMainPageText,
-    AppMainPageBottomLineBlock,
-    AppMainPageBottomLine,
-    AppMainPageEmptyContent,
-    AppMainPageEmptyOutputBlock,
-    AppMainPageEmptyOutputIcon,
-    AppMainPageEmptyOutputText
+  AppMainPageBlock,
+  AppMainPageTitle,
+  AppMainPageText,
+  AppMainPageBottomLineBlock,
+  AppMainPageBottomLine,
+  AppMainPageEmptyContent,
+  AppMainPageEmptyOutputBlock,
+  AppMainPageEmptyOutputIcon,
+  AppMainPageEmptyOutputText
 };

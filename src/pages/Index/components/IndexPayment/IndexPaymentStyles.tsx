@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import pxIntoRem from "utils/pxIntoRem";
 
+const IndexPaymentBlock = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 const IndexPaymentBackgroundBlock = styled.div`
   position: relative;
   display: flex;
@@ -8,19 +13,21 @@ const IndexPaymentBackgroundBlock = styled.div`
   flex-direction: column;
   width: 100%;
   margin-top: ${pxIntoRem(40)};
-  padding: 0 ${pxIntoRem(35)};
+  padding-left: ${pxIntoRem(35)};
+  padding-right: ${pxIntoRem(35)};
   @media (max-width: 500px) {
     margin-top: ${pxIntoRem(40)};
-    padding: 0;
-    height: ${pxIntoRem(840)};
+    padding-left: ${pxIntoRem(0)};
+    padding-right: ${pxIntoRem(0)};
+    height: ${pxIntoRem(820)};
   }
 `;
 
 const IndexPaymentBackground = styled.div`
   width: 100%;
   height: ${pxIntoRem(598)};
-  filter: drop-shadow(0px ${pxIntoRem(24)} ${pxIntoRem(234)} rgba(0, 0, 0, 0.20));
-  box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(54)} 0px rgba(0, 0, 0, 0.20);
+  filter: drop-shadow(0px ${pxIntoRem(24)} ${pxIntoRem(234)} #00000033);
+  box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(54)} 0px #00000033;
   position: relative;
   &:before {
     content: "";
@@ -30,11 +37,8 @@ const IndexPaymentBackground = styled.div`
     border: 1px solid transparent;
     background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-            linear-gradient(#fff 0 0) padding-box, 
-            linear-gradient(#fff 0 0);
-            mask:
-            linear-gradient(#fff 0 0) padding-box, 
-            linear-gradient(#fff 0 0);
+      linear-gradient(#fff 0 0) padding-box, 
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
@@ -46,9 +50,9 @@ const IndexPaymentBackground = styled.div`
 const IndexPaymentMobileBackground = styled.img`
   display: none;
   @media (max-width: 500px) {
-    display: flex;
+    display: block;
     width: 100%;
-    filter: drop-shadow(0px ${pxIntoRem(24)} ${pxIntoRem(234)} rgba(0, 0, 0, 0.20));
+    filter: drop-shadow(0px ${pxIntoRem(24)} ${pxIntoRem(234)} #00000033);
     z-index: 99;
   }
 `;
@@ -75,7 +79,9 @@ const IndexPaymentUpperBlurredEllipse = styled.div`
   border-radius: ${pxIntoRem(1170)};
   opacity: 0.3;
   background: #1683E2;
-  filter: blur(${pxIntoRem(167)});
+  filter: blur(${pxIntoRem(176)});
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
   @media (max-width: 500px) {
     margin: ${pxIntoRem(-150)} auto;
   }
@@ -89,7 +95,9 @@ const IndexPaymentLowerBlurredEllipse = styled.div`
   border-radius: ${pxIntoRem(1170)};
   opacity: 0.2;
   background: #1683E2;
-  filter: blur(${pxIntoRem(167)});
+  filter: blur(${pxIntoRem(176)});
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden; 
   margin-top: ${pxIntoRem(770)};
   @media (max-width: 500px) {
     margin: ${pxIntoRem(990)} auto;
@@ -112,21 +120,8 @@ const IndexPaymentBottomBackgroundImage = styled.img`
   left: 0;
 `;
 
-const IndexPaymentOptionContent = styled.div`
-  position: absolute;
-  z-index: 99;
-  width: 100%;
-`;
-
 const IndexPaymentOption = styled.section`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  @media (max-width: 500px) {
-    margin: 0 ${pxIntoRem(15)};
-  }
+  width: 100%;
 `;
 
 const IndexPaymentOptionBody = styled.div`
@@ -139,16 +134,22 @@ const IndexPaymentOptionBody = styled.div`
   height: 100%;
 `;
 
+const IndexPaymentOptionContent = styled.div`
+  position: absolute;
+  z-index: 99;
+  width: 100vw;
+`;
+
 const IndexPaymentOptionTitle = styled.h2`
-  position: relative;
   font-family: "Mulish";
   font-style: normal;
   font-weight: 700;
   font-size: ${pxIntoRem(38)};
   line-height: 100%;
+  text-align: center;
   color: #ffffff;
   margin-top: ${pxIntoRem(95)};
-  z-index: 999;
+  z-index: 99999;
   @media (max-width: 500px) {
     font-size: ${pxIntoRem(24)};
     margin-top: ${pxIntoRem(40)};
@@ -156,30 +157,12 @@ const IndexPaymentOptionTitle = styled.h2`
   }
 `;
 
-const IndexPaymentOptionBonusTitle = styled.p`
-  color: #848097;
-  text-align: center;
-  font-family: Mulish;
-  font-size: ${pxIntoRem(16)};
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%;
-  width: ${pxIntoRem(419)};
-  margin: ${pxIntoRem(20)} auto;
-  span {
-    color: #FFF;
-  }
-  @media (max-width: 500px) {
-    font-size: ${pxIntoRem(14)};
-    margin-left: ${pxIntoRem(20)};
-    margin-right: ${pxIntoRem(20)};
-    width: auto;
-  }
-`;
-
 const IndexPaymentOptionTables = styled.div`
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto;
+  grid-auto-flow: row;
   gap: ${pxIntoRem(20)};
   width: ${pxIntoRem(976)};
   justify-items: center;
@@ -190,7 +173,6 @@ const IndexPaymentOptionTables = styled.div`
     flex-direction: column;
     margin-top: ${pxIntoRem(30)};
     gap: ${pxIntoRem(20)};
-    width: 100%;
   }
 `;
 
@@ -201,9 +183,10 @@ const IndexPaymentOptionTable = styled.div`
   height: ${pxIntoRem(280)};
   z-index: 999;
   position: relative;
-  box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(54)} 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px ${pxIntoRem(4)} ${pxIntoRem(54)} 0px #00000033;
   backdrop-filter: blur(${pxIntoRem(60)});
   -webkit-backdrop-filter: blur(${pxIntoRem(60)});
+  -webkit-transform: translate3d(0, 0, 0);
   border-radius: ${pxIntoRem(20)};
   &:before {
     content: "";
@@ -213,16 +196,16 @@ const IndexPaymentOptionTable = styled.div`
     border: 1px solid transparent;
     background: linear-gradient(185.64deg, rgba(32, 34, 48, 0.7) 1.02%, rgba(32, 33, 41, 0) 128.15%) border-box;
     -webkit-mask:
-            linear-gradient(#fff 0 0) padding-box, 
-            linear-gradient(#fff 0 0);
-            mask: 
-            linear-gradient(#fff 0 0) padding-box, 
-            linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
   }
   @media (max-width: 500px) {
-    width: 100%;
+    width: 90vw;
     height: ${pxIntoRem(227)};
   }
 `;
@@ -237,8 +220,10 @@ const IndexPaymentOptionTableBackground = styled.div`
   background: rgba(23, 24, 36, 0.25);
   overflow: hidden;
   backdrop-filter: blur(${pxIntoRem(60)});
+  -webkit-backdrop-filter: blur(${pxIntoRem(60)});
+  -webkit-transform: translate3d(0, 0, 0);
   @media (max-width: 500px) {
-    width: calc(100% - 2px);
+    width: calc(90vw - 2px);
     height: calc(${pxIntoRem(227)} - 2px);
   }
 `;
@@ -250,6 +235,8 @@ const IndexPaymentBlurredEllipseLeft = styled.div`
   margin-left: auto; 
   margin-right: auto; 
   filter: blur(${pxIntoRem(50)});
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
   width: ${pxIntoRem(172)};
   height: ${pxIntoRem(58)};
   border-radius: ${pxIntoRem(172)};
@@ -268,6 +255,8 @@ const IndexPaymentBlurredEllipseMiddle = styled.div`
   margin-left: auto; 
   margin-right: auto; 
   filter: blur(${pxIntoRem(50)});
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
   width: ${pxIntoRem(172)};
   height: ${pxIntoRem(58)};
   border-radius: ${pxIntoRem(172)};
@@ -286,6 +275,8 @@ const IndexPaymentBlurredEllipseRight = styled.div`
   margin-left: auto; 
   margin-right: auto; 
   filter: blur(${pxIntoRem(50)});
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
   width: ${pxIntoRem(172)};
   height: ${pxIntoRem(58)};
   border-radius: ${pxIntoRem(172)};
@@ -373,6 +364,8 @@ const IndexPaymentOptionPurchaseButton = styled.button`
   border: 1px solid #1683E2;
   background: rgba(22, 131, 226, 0.05);
   backdrop-filter: blur(${pxIntoRem(3)});
+  -webkit-backdrop-filter: blur(${pxIntoRem(3)});
+  -webkit-transform: translate3d(0, 0, 0);
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(16)};
@@ -380,19 +373,22 @@ const IndexPaymentOptionPurchaseButton = styled.button`
   font-weight: 600;
   line-height: normal;
   margin-top: ${pxIntoRem(42)};
+  cursor: pointer;
   transition: 0.3s;
-  &:hover {
-    background: rgba(22, 131, 226, 0.10);
-    box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      background: rgba(22, 131, 226, 0.10);
+      box-shadow: 0px 0px 9px 0px rgba(22, 131, 226, 0.50) inset;
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
-    width: calc(100% - ${pxIntoRem(48)});
-    margin: ${pxIntoRem(24)};
+    width: 80vw;
+    margin-top: ${pxIntoRem(24)};
   }
 `;
 
-const IndexPaymentOptionClaimButton = styled.button`
+const IndexPaymentOptionClaimButton = styled.div`
   display: flex;
   width: ${pxIntoRem(264)};
   height: ${pxIntoRem(46)};
@@ -404,7 +400,8 @@ const IndexPaymentOptionClaimButton = styled.button`
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #2D3042;
   backdrop-filter: blur(${pxIntoRem(3)});
-  background: transparent;
+  -webkit-backdrop-filter: blur(${pxIntoRem(3)});
+  -webkit-transform: translate3d(0, 0, 0);
   color: #FFF;
   font-family: Mulish;
   font-size: ${pxIntoRem(16)};
@@ -412,18 +409,23 @@ const IndexPaymentOptionClaimButton = styled.button`
   font-weight: 600;
   line-height: normal;
   margin-top: ${pxIntoRem(52)};
+  cursor: pointer;
   transition: 0.3s;
-  &:hover {
-    border: 1px solid #FFF;
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      border: 1px solid #FFF;
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
-    width: calc(100% - ${pxIntoRem(48)});
-    margin: ${pxIntoRem(24)};
+    width: 80vw;
+    margin-top: ${pxIntoRem(22)};
+    padding: 0px;
   }
 `;
 
 export {
+  IndexPaymentBlock,
   IndexPaymentBackgroundBlock,
   IndexPaymentBackground,
   IndexPaymentBackgroundLayer,

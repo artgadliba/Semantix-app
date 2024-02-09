@@ -15,7 +15,7 @@ import { ModalOutsideClose, ModalExternalBlock, ModalBackgroundLayer } from "com
 import FocusTrap from "focus-trap-react";
 
 interface IPaymentModal {
-    onClose(): any;
+    onClose: () => void;
 }
 
 const PaymentModal: FC<IPaymentModal> = ({onClose}) => {
@@ -32,14 +32,14 @@ const PaymentModal: FC<IPaymentModal> = ({onClose}) => {
                                 <PaymentModalOptionElementLogo alt="U-kassa" src="/images/u-kassa.svg" />
                                 <PaymentModalOptionElementTitle>ЮКасса</PaymentModalOptionElementTitle>
                                 <PaymentModalOptionElementArrow width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9 6L15 12L9 18" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 6L15 12L9 18" strokeLinecap="round" strokeLinejoin="round"/>
                                 </PaymentModalOptionElementArrow>
                             </PaymentModalOptionButton>
                             <PaymentModalOptionButton>
                                 <PaymentModalOptionElementLogo alt="Cloudpayments" src="/images/cloud-payments.svg" />
                                 <PaymentModalOptionElementTitle>Cloudpayments</PaymentModalOptionElementTitle>
                                 <PaymentModalOptionElementArrow width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9 6L15 12L9 18" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 6L15 12L9 18" strokeLinecap="round" strokeLinejoin="round"/>
                                 </PaymentModalOptionElementArrow>
                             </PaymentModalOptionButton>
                             <PaymentModalLine />
@@ -48,7 +48,7 @@ const PaymentModal: FC<IPaymentModal> = ({onClose}) => {
                                     Счет на оплату для ИП или юридических лиц
                                 </PaymentModalOptionElementTitle>
                                 <PaymentModalOptionElementArrow width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9 6L15 12L9 18" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 6L15 12L9 18" strokeLinecap="round" strokeLinejoin="round"/>
                                 </PaymentModalOptionElementArrow>
                             </PaymentModalOptionButton>
                         </PaymentModalOptionsBlock>

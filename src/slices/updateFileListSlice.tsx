@@ -6,7 +6,7 @@ const updateFileListSlice = createSlice({
       value: false
     },
     reducers: {
-      setUpdateFileList: (state) => {
+      setUpdateFileList: (state: {value: boolean}) => {
         state.value = !state.value;
       }
     }

@@ -177,10 +177,12 @@ const AppControlBarUploadButton = styled.button`
   justify-content: center;
   gap: ${pxIntoRem(10)};
   transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
+  @media (min-width: 501px) {
+    &:hover {
+      background: #1668E2;
+      box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: 100%;

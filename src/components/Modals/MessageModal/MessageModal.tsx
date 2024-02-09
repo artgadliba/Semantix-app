@@ -12,7 +12,7 @@ import { ModalOutsideClose, ModalExternalBlock } from "components/Mixins/Mixins"
 import FocusTrap from "focus-trap-react";
 
 interface IMessageModal {
-    onClose(): any;
+    onClose: () => void;
     modalType: string;
     message?: string;
 }

@@ -38,8 +38,8 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
     const [currTime, setCurrTime] = useState<ICurrentTime>();
     const [audioFile, setAudioFile] = useState(null);
 
-    const audioRef = useRef(null);
-    const progressRef = useRef(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const progressRef = useRef<HTMLInputElement>(null);
     
     useEffect(() => {
         const ref = audioRef.current;
@@ -89,9 +89,9 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
         return () => clearInterval(interval);
     }, []);
 
-    const { innerWidth: width} = window;
+    const { innerWidth: width } = window;
     
-    const playingButton = () => {
+    const playingButton = (): void => {
         if (isPlaying) {
             audioRef.current.pause();
             setIsPlaying(false);
@@ -101,7 +101,7 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
         }
     };
 
-    const handleSeek = (value: number) => {
+    const handleSeek = (value: number): void => {
         audioRef.current.currentTime = value;
         setSeconds(value);
         audioRef.current.play();
@@ -109,21 +109,21 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
         handleProgressColor(value);
     }
 
-    const handleProgressColor = (value: number) => {
+    const handleProgressColor = (value: number): void => {
         const ref = progressRef.current;
-        const ratio = value / ref.max * 100;
+        const ratio = value / Number(ref.max) * 100;
         ref.style.background = 'linear-gradient(to right, #1683E2 0%, #1683E2 ' 
             + ratio + '%, #1B1D2C ' + ratio + '%, #1B1D2C 100%)';
     }
 
     let timeout: ReturnType<typeof setTimeout>;
 
-    const showVolumeControl = () => {
+    const showVolumeControl = (): void => {
         clearInterval(timeout);
         setVolumeControlVisible(true);
       };
     
-    const hideVolumeControl = () => {
+    const hideVolumeControl = (): void => {
         clearInterval(timeout);
         timeout = setTimeout(() => {
             setVolumeControlVisible(false);
@@ -178,7 +178,7 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
                             min="0"
                             max={duration}
                             value={seconds}
-                            onChange={function(e){ handleSeek(Number(e.target.value)); }}
+                            onChange={(e) => { handleSeek(Number(e.target.value)); }}
                             ref={progressRef}
                         />
                     </AudioPlayerTimeScalePseudo>
@@ -195,14 +195,14 @@ const AudioPlayer: FC<IAudioPlayer> = ({setPlayerRef, setProgressRef, isPlaying,
                         </AudioPlayerSymbolIcon>
                     </AudioPlayerVolumeButton>
                 </AudioPlayerMobileRowWrapper>
-                {width < 501 && (
+                {width <= 500 && (
                     <AudioPlayerTimeScalePseudo className="mobile_player">
                         <AudioPlayerTimeScale 
                             type="range"
                             min="0"
                             max={duration}
                             value={seconds}
-                            onChange={function(e){ handleSeek(Number(e.target.value)); }}
+                            onChange={(e) => { handleSeek(Number(e.target.value)); }}
                             ref={progressRef}
                         />
                     </AudioPlayerTimeScalePseudo>

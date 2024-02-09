@@ -1,13 +1,10 @@
-export function humanFileSize(bytes, dp=1) {
-
+export function humanFileSize(bytes: number, dp: number = 1): string {
     if (Math.abs(bytes) < 1000) {
-      return bytes + 'B';
+      return bytes + 'Б';
     }
-  
-    const units = ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const units = ['Кб', 'Мб', 'Гб'];
     let u = -1;
     const r = 10**dp;
-  
     do {
       bytes /= 1000;
       ++u;

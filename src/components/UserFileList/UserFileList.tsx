@@ -35,16 +35,18 @@ import FileDeletePopup from "components/Popups/FileDeletePopup/FileDeletePopup";
 interface IFileList {
     className?: string;
     items: {
+        id: number;
         folder: {
             id: number;
             name: string;
         }
-        id: number;
         info: {
             creation_datetime: string;
         }
-        length: number;
-        name: string;
+        media: {
+            name: string;
+            lengthMs: number;
+        }
         status: {
             code: number;
         }
@@ -77,7 +79,7 @@ const UserFileList: FC<IFileList> = ({className, items}) => {
             setMenuActive(true);
         }
         setOptionMenuActive(idx);
-        setFileName(items[idx].name);
+        setFileName(items[idx].media.name);
     }
 
     const {
@@ -120,7 +122,7 @@ const UserFileList: FC<IFileList> = ({className, items}) => {
                                     )}
                                     <UserFileListItemInfoColumnWrapper>
                                         <UserFileListItemFilenameBlock>
-                                            <UserFileListItemFilename>{item.name.slice(0,-4)}</UserFileListItemFilename>
+                                            <UserFileListItemFilename>{item.media.name.slice(0,-4)}</UserFileListItemFilename>
                                             {/* {item.edited === true && (
                                                 <UserFileListItemFilenameEdited alt="edited" src="/images/file-edited.svg" />
                                             )} */}
@@ -131,7 +133,7 @@ const UserFileList: FC<IFileList> = ({className, items}) => {
                                             )}
                                         </UserFileListItemFilenameBlock>
                                         <UserFileListItemInfoRowWrapper>
-                                            <UserFileListItemFileLength>{parseFileLength(item.length)}</UserFileListItemFileLength>
+                                            <UserFileListItemFileLength>{parseFileLength(item.media.lengthMs)}</UserFileListItemFileLength>
                                             <UserFileListItemFileDate>
                                                 {parseDate(item.info.creation_datetime)}
                                             </UserFileListItemFileDate>

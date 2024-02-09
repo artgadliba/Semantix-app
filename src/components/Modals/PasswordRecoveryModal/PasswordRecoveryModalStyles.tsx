@@ -13,7 +13,7 @@ const PasswordRecoveryModalContent = styled.div`
   border-radius: ${pxIntoRem(12)};
   background: linear-gradient(180deg, rgba(26, 27, 37, 1) 5.42%, rgba(23, 24, 40, 1) 101.71%);
   @media (max-width: 500px) {
-    width: 90vw;
+    width: calc(100% - ${pxIntoRem(30)});
     height: auto;
   }
 `;
@@ -165,8 +165,10 @@ const PasswordRecoveryModalInputButtonIcon = styled.svg`
   width: ${pxIntoRem(20)};
   height: ${pxIntoRem(20)};
   stroke: #393952;
-  &:hover {
-    stroke: #FFF;
+  @media (min-width: 501px) {
+    &:hover {
+      stroke: #FFF;
+    }
   }
 `;
 
@@ -179,12 +181,7 @@ const PasswordRecoveryModalInputButton = styled.button`
   z-index: 9999;
   align-items: center;
   justify-content: center;
-  &:hover ${PasswordRecoveryModalInputButtonIcon} {
-    stroke: #FFF;
-  }
-  &:hover + ${PasswordRecoveryModalShowPassword} {
-    display: flex;
-  }
+  
   & > * {
     pointer-events: none;
   }
@@ -192,6 +189,14 @@ const PasswordRecoveryModalInputButton = styled.button`
     border-radius: ${pxIntoRem(4)};
     outline: 1px solid rgba(22, 131, 226, 1);
     outline-offset: -1px;
+  }
+  @media (min-width: 501px) {
+    &:hover ${PasswordRecoveryModalInputButtonIcon} {
+      stroke: #FFF;
+    }
+    &:hover + ${PasswordRecoveryModalShowPassword} {
+      display: flex;
+    }
   }
 `;
 
@@ -277,13 +282,16 @@ const PasswordRecoveryModalTooltipButton = styled.button`
   margin-left: ${pxIntoRem(6)};
   z-index: 9999;
   transition: 0.3s;
-  &:hover ${TooltipIcon} {
-    transition: 0.3s;
-    fill: #1683E2;
-  }
+  
   &:focus-visible ${TooltipIcon} {
     transition: 0.3s;
     fill: #1683E2;
+  }
+  @media (min-width: 501px) {
+    &:hover ${TooltipIcon} {
+      transition: 0.3s;
+      fill: #1683E2;
+    }
   }
 `;
 

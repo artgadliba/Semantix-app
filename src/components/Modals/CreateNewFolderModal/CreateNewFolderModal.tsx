@@ -24,7 +24,7 @@ import { setUpdateFolderList } from "slices/updateFolderListSlice";
 import FocusTrap from "focus-trap-react";
 
 interface ICreateNewFolderModal {
-    onClose(): any;
+    onClose: () => void;
     setCurrentFolderName?: (name: string) => void;
 }
 
@@ -38,22 +38,22 @@ const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose, setCurrentFo
         setInputData(event.target.value.trim());
     };
 
-    const showTipOnClick = () => {
+    const showTipOnClick = (): void => {
         setTooltipActive(true);
         setTimeout(() => {
             hideTip();
         }, 5000);
     };
 
-    const showTip = () => {
+    const showTip = (): void => {
         setTooltipActive(true);
     };
     
-    const hideTip = () => {
+    const hideTip = (): void => {
         setTooltipActive(false);
     };
 
-    const handleCreateFolder = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleCreateFolder = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         axios.post("/api/folders/new", {
             id: 0,
@@ -85,7 +85,7 @@ const CreateNewFolderModal: FC<ICreateNewFolderModal> =  ({onClose, setCurrentFo
         })
     }
 
-    const handleDeleteFolder = () => {
+    const handleDeleteFolder = (): void => {
         if (localStorage.getItem("jwt-tokens")) {
             axios.get("/api/folders/0,0", {
                 headers: {

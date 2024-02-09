@@ -1,36 +1,38 @@
-import React, { useState } from "react";
+import React, { ComponentType, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface IClosable {
-  onClose: () => any;
+    onClose: () => any;
 }
 
 function useModal<T extends IClosable>(modal: React.ComponentType<T>, props: Omit<T, "onClose">) {
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-  function closeModal() {
-    setIsOpen(false);
-    document.body.style.overflow = 'unset';
-  }
-
-  function openModal() {
-    setIsOpen(true);
-    if (typeof window != 'undefined' && window.document) {
-        document.body.style.overflow = 'hidden';
+    function closeModal(): void {
+        setIsOpen(false);
+        document.body.style.overflow = 'unset';
     }
-  }
 
-  const componentProps = { ...props, onClose: closeModal } as T;
+    function openModal(): void {
+        setIsOpen(true);
+        if (typeof window != 'undefined' && window.document) {
+            document.body.style.overflow = 'hidden';
+        }
+    }
 
-  const ModalComponent = modal;
+    const componentProps = { ...props, onClose: closeModal } as T;
 
-  const modalElement = createPortal(isOpen && <ModalComponent {...componentProps} />, document.querySelector(".modal") as HTMLElement);
+    const ModalComponent: ComponentType<T> = modal;
 
-  return {
-    closeModal,
-    openModal,
-    modal: modalElement,
-  };
+    const modalElement = createPortal(
+        isOpen && 
+        <ModalComponent {...componentProps} />, document.querySelector(".modal") as HTMLElement);
+
+    return {
+        closeModal,
+        openModal,
+        modal: modalElement,
+    };
 }
 
 export default useModal;

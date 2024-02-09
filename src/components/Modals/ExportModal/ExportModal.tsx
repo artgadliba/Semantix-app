@@ -19,7 +19,7 @@ import { ModalOutsideClose, ModalExternalBlock, ModalBackgroundLayer } from "com
 import FocusTrap from "focus-trap-react";
 
 interface IExportModal {
-    onClose(): any;
+    onClose: () => void;
     fileName: string;
 }
 
@@ -42,7 +42,7 @@ const ExportModal: FC<IExportModal> =  ({onClose, fileName}) => {
         }
     ];
 
-    const toggleMenuActive = () => {
+    const toggleMenuActive = (): void => {
         setMenuActive(current => !current);
     }
     

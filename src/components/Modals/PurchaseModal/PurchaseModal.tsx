@@ -14,7 +14,7 @@ import { ModalOutsideClose, ModalExternalBlock, ModalBackgroundLayer } from "com
 import FocusTrap from "focus-trap-react";
 
 interface IPurchaseModal {
-    onClose(): any;
+    onClose: () => void;
     openPayModal(): any;
     purchaseOption: {
         rate: string;

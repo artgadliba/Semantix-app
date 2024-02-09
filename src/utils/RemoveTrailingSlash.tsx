@@ -1,6 +1,6 @@
 import {Navigate, useLocation} from "react-router-dom";
 
-const RemoveTrailingSlash = ({...rest}) => {
+const RemoveTrailingSlash = ({...rest}): JSX.Element | null => {
     const location = useLocation();
 
     if (location.pathname.match('/.*/$')) {

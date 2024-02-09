@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const sortByFieldSlice = createSlice({
-    name: 'balance',
+    name: 'sortByField',
     initialState: {
       value: "name"
     },
     reducers: {
-      setSortByField: (state, action) => {
+      setSortByField: (state, action: PayloadAction<string>) => {
         state.value = action.payload;
       }
     }

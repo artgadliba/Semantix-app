@@ -6,11 +6,6 @@ const IndexWidgetBody = styled.div`
   position: relative;
   display: block;
   width: 100%;
-  @media (max-width: 500px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 `;
 
 const IndexWidgetBlock = styled.div`
@@ -21,6 +16,8 @@ const IndexWidgetBlock = styled.div`
   border: 1px solid #202230;
   background: linear-gradient(180deg, rgba(4, 6, 19, 0.00) 0%, rgba(9, 11, 23, 0.00) 93.94%);
   backdrop-filter: blur(${pxIntoRem(3)});
+  -webkit-backdrop-filter: blur(${pxIntoRem(3)});
+  -webkit-transform: translate3d(0, 0, 0);
   margin: ${pxIntoRem(70)} ${pxIntoRem(70)} auto auto;
   @media (max-width: 500px) {
     width: calc(100% - ${pxIntoRem(30)});
@@ -37,7 +34,6 @@ const IndexWidgetBlockAnimation = styled.div`
   -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
           mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-          mask-composite: xor;
           mask-composite: exclude;
   inset: 0;
   z-index: -1;
@@ -135,8 +131,11 @@ const IndexWidgetBlockAnimationLine = styled.div`
   }
 `;
 
-const IndexWidgetBackground = styled.div`
-  position: relative;
+interface IIndexWidgetBackground {
+    $borderStyle?: string;
+}
+
+const IndexWidgetBackground = styled.div<IIndexWidgetBackground>`
   display: flex;
   flex-direction: column;
   width: ${pxIntoRem(612)};
@@ -144,13 +143,31 @@ const IndexWidgetBackground = styled.div`
   border-radius: ${pxIntoRem(16)};
   background: linear-gradient(180deg, #111320 0%, rgba(9, 11, 23, 0.00) 93.1%);
   backdrop-filter: blur(${pxIntoRem(5)});
+  -webkit-backdrop-filter: blur(${pxIntoRem(5)});
+  -webkit-transform: translate3d(0, 0, 0);
   margin: ${pxIntoRem(15)} ${pxIntoRem(14)};
   align-items: center;
+  &:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: ${pxIntoRem(16)};
+    border: 1px solid transparent;
+    background: ${({ $borderStyle }) => `${$borderStyle}`};
+    -webkit-mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+  }
   @media (max-width: 500px) {
     width: auto;
     height: ${pxIntoRem(410)};
     margin: ${pxIntoRem(8)} ${pxIntoRem(8)} ${pxIntoRem(22)} ${pxIntoRem(8)};
-  }
+  } 
 `;
 
 const IndexWidgetPattern = styled.img`
@@ -164,7 +181,7 @@ const IndexWidgetPattern = styled.img`
   }
 `;
 
-const IndexWidgetForm = styled.form`
+const IndexWidgetFormBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -194,7 +211,6 @@ const IndexWidgetTitle = styled.p`
 
 const IndexWidgetMainButton = styled.button`
   display: flex;
-  position: relative;
   width: ${pxIntoRem(251)};
   height: ${pxIntoRem(46)};
   background-color: #1683E2;
@@ -208,17 +224,20 @@ const IndexWidgetMainButton = styled.button`
   margin-top: ${pxIntoRem(39)};
   align-items: center;
   justify-content: center;
+  z-index: 999;
   transition: 0.3s;
-  &:hover {
-    background: #1668E2;
-    box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
-    transition: 0.3s;
-  }
   &:disabled {
     border: 1px solid #2D3042;
     color: #2D3042;
     background: transparent;
     pointer-events: none;
+  }
+  @media (min-width: 501px) {
+    &:hover {
+      background: #1668E2;
+      box-shadow: 0px 0px ${pxIntoRem(24)} 0px rgba(22, 104, 226, 0.50);
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: calc(100% - ${pxIntoRem(40)});
@@ -264,7 +283,7 @@ const IndexWidgetInput = styled.input`
   text-overflow: ellipsis;
   color: var(--White, #FFF);
   font-family: Mulish;
-  font-size: ${pxIntoRem(14)};
+  font-size: ${pxIntoRem(16)};
   font-style: normal;
   font-weight: 400;
   line-height: 150%; 
@@ -280,7 +299,6 @@ const IndexWidgetInputButtonIcon = styled.svg`
 `;
 
 const IndexWidgetInputButton = styled.button`
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -289,11 +307,14 @@ const IndexWidgetInputButton = styled.button`
   margin-left: auto;
   margin-right: 0;
   background: transparent;
+  z-index: 999;
   &:disabled {
     pointer-events: none;
   }
-  &:hover ${IndexWidgetInputButtonIcon} {
-    stroke: #1683E2;
+  @media (min-width: 501px) {
+    &:hover ${IndexWidgetInputButtonIcon} {
+      stroke: #1683E2;
+    }
   }
 `;
 
@@ -329,7 +350,6 @@ const IndexWidgetDeleteButton = styled.button`
 
 const IndexWidgetMainDeleteButton = styled.button`
   display: flex;
-  position: relative;
   width: ${pxIntoRem(251)};
   height: ${pxIntoRem(46)};
   padding: ${pxIntoRem(10)} ${pxIntoRem(50)};
@@ -346,9 +366,12 @@ const IndexWidgetMainDeleteButton = styled.button`
   font-weight: 500;
   line-height: normal;
   transition: 0.3s;
-  &:hover {
-    border: 1px solid #FFF;
-    transition: 0.3s;
+  z-index: 999;
+  @media (min-width: 501px) {
+    &:hover {
+      border: 1px solid #FFF;
+      transition: 0.3s;
+    }
   }
   @media (max-width: 500px) {
     width: calc(100% - ${pxIntoRem(40)});
@@ -357,7 +380,6 @@ const IndexWidgetMainDeleteButton = styled.button`
 `;
 
 const IndexWidgetCheckboxBlock = styled.div`
-  position: relative;
   display: flex;
   flex-direction: row;
   margin-top: ${pxIntoRem(24)};
@@ -418,8 +440,10 @@ const IndexWidgetCheckboxLink = styled(Link)`
   &:focus-visible {
     color: rgba(22, 131, 226, 1);
   }
-  &:hover  {
-    color: rgba(22, 131, 226, 1);
+  @media (min-width: 501px) {
+    &:hover  {
+      color: rgba(22, 131, 226, 1);
+    }
   }
 `;
 
@@ -493,21 +517,20 @@ const IndexWidgetProcessingIcon = styled.svg`
 `;
 
 const IndexWidgetTrancriptionContent = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   align-items: start;
-  overflow: auto;
-  z-index: 9999999;
+  overflow: scroll;
+  overscroll-behavior: contain;
+  z-index: 999;
   &::-webkit-scrollbar {
     display: none;
   }
 `;
 
 const IndexWidgetTranscriptionBlock = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   margin: ${pxIntoRem(20)} ${pxIntoRem(32)} auto ${pxIntoRem(20)};
@@ -583,24 +606,28 @@ const IndexWidgetTranscriptionScrollbarThumb = styled.div`
 `;
 
 const IndexWidgetControlBar = styled.div`
-  position: relative;
   display: flex;
   flex-direction: row;
   gap: ${pxIntoRem(12)};
   width: fit-content;
   margin-left: auto;
-  margin-right: ${pxIntoRem(592)};
-  z-index: 99999;
+  margin: 0 ${pxIntoRem(591)} 0 auto;
+  &.mobile_controls {
+    display: none;
+  }
   @media (max-width: 500px) {
-    width: auto;
-    margin-left: 0;
-    margin-right: 0;
-    justify-content: center;
+    display: none;
+    &.mobile_controls {
+        display: flex;
+        width: auto;
+        margin-left: 0;
+        margin-right: 0;
+        justify-content: center;
+    }
   }
 `;
 
 const IndexWidgetControlBarButton = styled.button`
-  position: relative;
   display: flex;
   width: ${pxIntoRem(46)};
   height: ${pxIntoRem(46)};
@@ -609,9 +636,11 @@ const IndexWidgetControlBarButton = styled.button`
   border-radius: ${pxIntoRem(8)};
   border: 1px solid #2D304299;
   background: transparent;
-  z-index: 99999;
-  &:hover {
-    border: 1px solid #FFF;
+  z-index: 999999999;
+  @media (min-width: 501px) {
+    &:hover {
+      border: 1px solid #FFF;
+    }
   }
 `;
 
@@ -620,18 +649,36 @@ const IndexWidgetControlBarButtonIcon = styled.img`
   height: ${pxIntoRem(24)};
 `;
 
-const IndexWidgetBlurredRectangle = styled.div`
-  position: absolute;
-  bottom: ${pxIntoRem(140)};
-  width: 100%;
-  height: ${pxIntoRem(60)};
-  background: #030512;
-  filter: blur(${pxIntoRem(20)});
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 999;
+const IndexWidgetMobileBlurredRectangle = styled.div`
+  display: none;
   @media (max-width: 500px) {
-    display: none;
+    display: block;
+    position: absolute;
+    bottom: ${pxIntoRem(-20)};
+    width: 100%;
+    height: ${pxIntoRem(65)};
+    background: #030512;
+    filter: blur(${pxIntoRem(12)});
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 999999;
+  }
+`;
+
+const IndexWidgetError = styled.div`
+  color: rgba(255, 21, 21, 0.8);
+  font-family: Mulish;
+  font-size: ${pxIntoRem(14)};
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  text-align: center;
+  margin-top: ${pxIntoRem(16)};
+  width: ${pxIntoRem(251)};
+  @media (max-width: 500px) {
+    width: calc(100% - ${pxIntoRem(40)});
   }
 `;
 
@@ -642,7 +689,7 @@ export {
   IndexWidgetBlockAnimationLine,
   IndexWidgetBackground,
   IndexWidgetPattern,
-  IndexWidgetForm,
+  IndexWidgetFormBlock,
   IndexWidgetInputFileField,
   IndexWidgetTitle,
   IndexWidgetMainButton,
@@ -672,5 +719,6 @@ export {
   IndexWidgetControlBar,
   IndexWidgetControlBarButton,
   IndexWidgetControlBarButtonIcon,
-  IndexWidgetBlurredRectangle
+  IndexWidgetMobileBlurredRectangle,
+  IndexWidgetError
 };
